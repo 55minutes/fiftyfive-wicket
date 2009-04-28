@@ -1,0 +1,227 @@
+#set( $symbol_dollar = '$' )
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <!-- ==================================================================== -->
+  <!-- Core Project Information                                             -->
+  <!-- ==================================================================== -->
+  <groupId>${groupId}</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <packaging>war</packaging>
+  <version>${version}</version>
+
+
+
+  <!-- ==================================================================== -->
+  <!-- Project Description                                                  -->
+  <!-- ==================================================================== -->
+  <name>${project_name}</name>
+  <description>
+    TODO
+  </description>
+
+
+  <!-- ==================================================================== -->
+  <!-- Dependencies                                                         -->
+  <!-- ==================================================================== -->
+
+  <properties>
+    <slf4j.version>1.5.6</slf4j.version>
+    <spring.version>2.5.6</spring.version>
+  </properties>
+
+  <dependencies>
+
+    <!-- ==== Compile dependencies ======================================== -->
+    <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${symbol_dollar}{slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>annotation</artifactId>
+      <version>1.4-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- ==== Runtime dependencies ======================================== -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${symbol_dollar}{slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${symbol_dollar}{spring.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${symbol_dollar}{spring.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    
+    <!-- ==== Test dependencies =========================================== -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${symbol_dollar}{spring.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <!-- ==================================================================== -->
+  <!-- Build Configuration                                                  -->
+  <!-- ==================================================================== -->
+
+  <build>
+    <resources>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>jetty.xml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>utf-8</encoding>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>
+                true
+              </addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.14</version>
+        <configuration>
+          <jettyConfig>${symbol_dollar}{basedir}/src/main/resources/jetty.xml</jettyConfig>
+          <reload>manual</reload>
+          <webAppConfig>
+            <contextPath>/${symbol_dollar}{artifactId}</contextPath>
+          </webAppConfig>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <!-- ==================================================================== -->
+  <!-- Reporting Configuration                                              -->
+  <!-- ==================================================================== -->
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+            <link>http://wicket.apache.org/docs/1.4/</link>
+            <link>http://static.springframework.org/spring/docs/2.5.x/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+  <!-- ==================================================================== -->
+  <!-- Additional Repositories                                              -->
+  <!-- ==================================================================== -->
+
+  <repositories>
+    <repository>
+      <id>wicket-snaps</id>
+      <url>http://wicketstuff.org/maven/repository</url>
+      <snapshots><enabled>true</enabled></snapshots>
+      <releases><enabled>true</enabled></releases>
+    </repository>
+    <repository>
+      <id>fiftyfive-opensource</id>
+      <name>55 Minutes Open Source Maven Repository</name>
+      <url>http://opensource.55minutes.com/maven</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+  </repositories>
+
+</project>

@@ -1,0 +1,73 @@
+/*
+ * Copyright 2009 55 Minutes (http://www.55minutes.com)
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*------------------------------------------------------------------------------
+| BooleanQueryBuilder.css
+| 55 Minutes Wicket mini-project
+| Author: Richa Avasthi
+| Created: 2007-09-07
+|
+| CSS for BooleanQueryBuilder.
+------------------------------------------------------------------------------*/
+
+/*-----[ general ]--------------------------------------------------------------
+*/
+.reset
+{
+  clear: both;
+  margin: 0px;
+  padding: 0px;
+  height: 1px;
+  font-size: 0px;
+}
+
+.spacer-small
+{
+  margin: 0px;
+  padding: 0px;
+  height: 5px;
+  font-size: 0px;
+}
+
+
+/*-----[ plus-minus widget ]----------------------------------------------------
+*/
+div.plus-minus-widget
+{
+  margin-top: 2px;
+}
+
+div.plus-minus-widget img,
+div.plus-minus-widget span
+{
+  vertical-align: middle;
+}
+
+img.check-graphic
+{
+  cursor: pointer;
+}
+
+input.plus, input.minus
+{
+  display: none;
+}
+
+span.choice-name
+{
+  margin-left: 5px;
+}
+

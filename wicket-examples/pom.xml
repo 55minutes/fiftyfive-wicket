@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ - Copyright 2009 55 Minutes (http://www.55minutes.com)
+ - 
+ - Licensed under the Apache License, Version 2.0 (the "License");
+ - you may not use this file except in compliance with the License.
+ - You may obtain a copy of the License at
+ - 
+ -    http://www.apache.org/licenses/LICENSE-2.0
+ - 
+ - Unless required by applicable law or agreed to in writing, software
+ - distributed under the License is distributed on an "AS IS" BASIS,
+ - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ - See the License for the specific language governing permissions and
+ - limitations under the License.
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+
+  <!-- ==================================================================== -->
+  <!-- Core Project Information                                             -->
+  <!-- ==================================================================== -->
+  <parent>
+    <groupId>com.55minutes</groupId>
+    <artifactId>fiftyfive-wicket-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>com.55minutes</groupId>
+  <artifactId>fiftyfive-wicket-examples</artifactId>
+  <packaging>war</packaging>
+
+
+
+  <!-- ==================================================================== -->
+  <!-- Project Description                                                  -->
+  <!-- ==================================================================== -->
+  <name>55 Minutes Wicket Examples</name>
+  <description>
+    Sample application demonstrating the 55 Minutes Wicket-Plus
+    components and utilities
+  </description>
+
+
+  <!-- ==================================================================== -->
+  <!-- Dependencies                                                         -->
+  <!-- ==================================================================== -->
+
+  <dependencies>
+
+    <!-- ==== Compile dependencies ======================================== -->
+    <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>annotation</artifactId>
+      <version>1.4-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- ==== Runtime dependencies ======================================== -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    
+    <!-- ==== Test dependencies =========================================== -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+
+  <!-- ==================================================================== -->
+  <!-- Build Configuration                                                  -->
+  <!-- ==================================================================== -->
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>jetty.xml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <!--
+          - For some reason the latest version of maven-war-plugin bundled
+          - with maven 2.1.0 breaks the war packaging step in this project.
+          - Pin at an older version to work around. See:
+          - http://jira.codehaus.org/browse/MWAR-187
+        -->
+        <version>2.0.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.14</version>
+        <configuration>
+          <jettyConfig>${basedir}/src/main/resources/jetty.xml</jettyConfig>
+          <reload>manual</reload>
+          <webAppConfig>
+            <contextPath>/${artifactId}</contextPath>
+          </webAppConfig>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+  <!-- ==================================================================== -->
+  <!-- Additional Repositories                                              -->
+  <!-- ==================================================================== -->
+
+  <repositories>
+    <repository>
+      <id>wicket-snaps</id>
+      <url>http://wicketstuff.org/maven/repository</url>
+      <snapshots><enabled>true</enabled></snapshots>
+      <releases><enabled>true</enabled></releases>
+    </repository>
+  </repositories>
+  
+</project>

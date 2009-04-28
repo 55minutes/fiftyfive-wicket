@@ -1,0 +1,23 @@
+<wicket:panel>
+  <select wicket:id="recents"/>
+  <div class="reset">&nbsp;</div>
+  <div class="spacer-small">&nbsp;</div>
+  <div wicket:id="pm-choice-wrapper">
+    <div class="plus-minus-widget" wicket:id="pm-choice">
+      <img wicket:id="plus-image"
+           src="icon-add-grey.gif" 
+           class="check-graphic-plus"
+           onclick="toggleCheck(this);"
+           alt="+"/>
+      <input wicket:id="plus" class="plus" type="checkbox"/>
+      <img wicket:id="minus-image"
+           src="icon-remove-grey.gif" 
+           class="check-graphic-minus"
+           onclick="toggleCheck(this);"
+           alt="-"/>
+      <input wicket:id="minus" class="minus" type="checkbox"/>
+      <span wicket:id="choice-name" class="choice-name">Original</span>
+    </div> <!-- /pm-choice -->
+  </div> <!-- /pm-choice-wrapper -->
+</wicket:panel>
+

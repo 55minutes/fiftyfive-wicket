@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><archetype>
+  <id>fiftyfive-archetype-wicket</id>
+  <sources>
+    <source>src/main/java/BasePage.html</source>
+    <source>src/main/java/BasePage.java</source>
+    <source>src/main/java/home/HomePage.html</source>
+    <source>src/main/java/home/HomePage.java</source>
+    <source>src/main/java/MyApplication.java</source>
+    <source>src/main/java/MySession.java</source>
+    <source>src/test/java/BaseWicketTest.java</source>
+    <source>src/test/java/home/HomePageTest.java</source>
+  </sources>
+  <resources>
+    <resource>src/main/resources/jetty.xml</resource>
+    <resource>src/main/resources/log4j.properties</resource>
+    <resource>src/main/resources/settings-default.properties</resource>
+    <resource>src/main/webapp/WEB-INF/beans.xml</resource>
+    <resource>src/main/webapp/WEB-INF/configuration.xml</resource>
+    <resource>src/main/webapp/WEB-INF/web.xml</resource>
+  </resources>
+</archetype>

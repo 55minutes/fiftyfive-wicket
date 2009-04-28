@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
+
+  <display-name>fiftyfive-wicket-examples</display-name>
+
+
+  <!-- ==================================================================== -->
+  <!-- Spring                                                               -->
+  <!-- ==================================================================== -->
+
+  <listener>
+    <listener-class>
+      org.springframework.web.context.ContextLoaderListener
+    </listener-class>
+  </listener>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath:spring/configuration.xml
+      classpath:spring/beans.xml
+    </param-value>
+  </context-param>
+
+
+  <!-- ==================================================================== -->
+  <!-- Wicket                                                               -->
+  <!-- ==================================================================== -->
+
+  <filter>
+    <filter-name>wicket</filter-name>
+    <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+    <init-param>
+      <param-name>applicationClassName</param-name>
+      <param-value>fiftyfive.wicket.examples.ExampleApplication</param-value>
+    </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>wicket</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+</web-app>
