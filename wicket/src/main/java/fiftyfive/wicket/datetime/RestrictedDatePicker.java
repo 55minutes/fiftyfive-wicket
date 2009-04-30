@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.model.IModel;
 
@@ -80,6 +81,19 @@ public class RestrictedDatePicker extends DatePicker
         {
             _endDateModel = endDateModel;
         }
+    }
+    
+    /**
+     * Detaches the various initial, start and end date models
+     * that are associated with this picker.
+     */
+    @Override
+    public void detach(Component component)
+    {
+        super.detach(component);
+        if(_initialDateModel != null) _initialDateModel.detach();
+        if(_startDateModel != null) _startDateModel.detach();
+        if(_endDateModel != null) _endDateModel.detach();
     }
 
     /**
