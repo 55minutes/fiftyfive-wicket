@@ -17,8 +17,10 @@ package fiftyfive.wicket.list;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static fiftyfive.wicket.util.Shortcuts.label;
+import static fiftyfive.wicket.util.Shortcuts.prop;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -28,7 +30,13 @@ public class ConditionalListViewTestPage extends WebPage
     public ConditionalListViewTestPage()
     {
         super();
-        add(new ConditionalListView<String>("empty", Collections.EMPTY_LIST) {
+        add(new ConditionalListView<String>("empty", prop(this, "emptyList")) {
+            @Override protected void populateItem(ListItem<String> item)
+            {
+                // pass
+            }
+        });
+        add(new ConditionalListView<String>("null") {
             @Override protected void populateItem(ListItem<String> item)
             {
                 // pass
@@ -40,5 +48,10 @@ public class ConditionalListViewTestPage extends WebPage
                 item.add(label("label", item.getModel()));
             }
         });
+    }
+    
+    public List<String> getEmptyList()
+    {
+        return Collections.EMPTY_LIST;
     }
 }
