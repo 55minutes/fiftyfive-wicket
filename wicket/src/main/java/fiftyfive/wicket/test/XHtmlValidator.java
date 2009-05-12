@@ -54,11 +54,29 @@ import org.xml.sax.SAXParseException;
  */
 public class XHtmlValidator implements ErrorHandler
 {
+    private static final int DEF_NUM_LINES_CONTEXT = 10;
+    
     /**
      * Assert that the last rendered page has a content-type of text/html
      * and is valid XHTML markup.
+     *
+     * @param tester A WicketTester object that has just rendered a page.
      */
     public static void assertValidMarkup(WicketTester tester) 
+        throws IOException
+    {
+        assertValidMarkup(tester, DEF_NUM_LINES_CONTEXT);
+    }
+
+    /**
+     * Assert that the last rendered page has a content-type of text/html
+     * and is valid XHTML markup.
+     *
+     * @param tester A WicketTester object that has just rendered a page.
+     * @param linesContext The number of lines of context to include around
+     *                     each validation error.
+     */
+    public static void assertValidMarkup(WicketTester tester, int linesContext) 
         throws IOException
     {
         String type = tester.getServletResponse().getContentType();
@@ -69,6 +87,7 @@ public class XHtmlValidator implements ErrorHandler
         
         String document = tester.getServletResponse().getDocument();
         XHtmlValidator validator = new XHtmlValidator();
+        validator.setNumLinesContext(linesContext);
         validator.parse(document);
         
         if(!validator.isValid())
@@ -81,9 +100,26 @@ public class XHtmlValidator implements ErrorHandler
     }
     
     
+    private int     _numLinesContext = DEF_NUM_LINES_CONTEXT;
     private boolean _parsed = false;
     private String[] _lines = null;
     private List<String> _errors = new ArrayList();
+    
+    /**
+     * Sets the number of lines of context that will be listed along with
+     * the line that has the validation error. Must be positive.
+     * The default is 10.
+     */
+    public void setNumLinesContext(int newNumLinesContext)
+    {
+        if(newNumLinesContext < 0)
+        {
+            throw new IllegalArgumentException(
+                "numLinesContext cannot be zero or negative"
+            );
+        }
+        _numLinesContext = newNumLinesContext;
+    }
     
     /**
      * Parses an XHTML document provided as a String. To test whether the
@@ -182,7 +218,8 @@ public class XHtmlValidator implements ErrorHandler
         buf.append(ex.getMessage());
         buf.append("\n");
         
-        for(int offset = -2; offset <= 2; offset++)
+        final int ctx = _numLinesContext;
+        for(int offset = -1 * ctx/2; offset <= ctx/2; offset++)
         {
             int line = ex.getLineNumber() + offset;
             if(line >= 1 && line <= _lines.length)
