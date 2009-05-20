@@ -35,10 +35,13 @@ public class CalendarControlTest extends BaseWicketTest
     {
         _tester.startPage(CalendarControlTestPage.class);
         _tester.assertRenderedPage(CalendarControlTestPage.class);
-        
-        _tester.assertResultPage(
-            CalendarControlTestPage.class,
-            "CalendarControlTestPage-expected.html"
-        );
+
+        /*
+        ** Assert that the options for the minimimum, maximum and initial dates
+        ** are present in the generated javascript.
+        */
+        _tester.assertContains("calendarInit:\\s+\\{.*mindate:\"05/03/2009\".*\\},");
+        _tester.assertContains("calendarInit:\\s+\\{.*maxdate:\"06/14/2009\".*\\},");
+        _tester.assertContains("calendarInit:\\s+\\{.*pagedate:\"05/2009\".*\\},");
     }
 }
