@@ -35,7 +35,7 @@ import javax.servlet.ServletContext;
  * Usage:
  * <pre>
  * Version v = Version.ofJar(MyApplication.class);
- * v.getVersion() // "1.0-SNAPSHOT"
+ * v.getVersion() // "1.0.1-SNAPSHOT"
  * v.getModifiedDate() // Wed Feb 25 13:51:35 PST 2009
  * v.getHudsonBuildNumber() // 34 (assuming built with Hudson)
  * </pre>

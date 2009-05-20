@@ -16,10 +16,10 @@ echo "Generating sample project" && \
 mvn -q -B archetype:generate \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
-    -DarchetypeVersion=1.0-SNAPSHOT \
+    -DarchetypeVersion=1.0 \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
-    -Dversion=1.0-SNAPSHOT \
+    -Dversion=1.0 \
     -Dpackage=fiftyfive.test \
     -Dproject_name=Test \
     -Dproject_description=Test\ description \
