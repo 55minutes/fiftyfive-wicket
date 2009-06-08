@@ -2,8 +2,12 @@
   <requiredProperties>
     <requiredProperty key="project_name"/>
     <requiredProperty key="project_description"/>
-    <requiredProperty key="app_classname"/>
-    <requiredProperty key="session_classname"/>
+    <requiredProperty key="app_classname">
+      <defaultValue>WicketApplication</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="session_classname">
+      <defaultValue>WicketSession</defaultValue>
+    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
