@@ -19,7 +19,7 @@ mvn -q -B archetype:generate \
     -DarchetypeVersion=1.1-SNAPSHOT \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
-    -Dversion=1.0.1-SNAPSHOT \
+    -Dversion=999 \
     -Dpackage=fiftyfive.test \
     -Dproject_name=Test && \
 cd test-project && \
