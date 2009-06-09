@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><archetype-descriptor name="fiftyfive-wicket-sample">
   <requiredProperties>
     <requiredProperty key="project_name"/>
-    <requiredProperty key="project_description"/>
     <requiredProperty key="app_classname">
       <defaultValue>WicketApplication</defaultValue>
     </requiredProperty>
