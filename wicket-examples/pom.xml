@@ -110,6 +110,7 @@
   <build>
     <resources>
       <resource>
+        <filtering>false</filtering>
         <directory>src/main/resources</directory>
         <excludes>
           <exclude>jetty.xml</exclude>
@@ -125,6 +126,20 @@
         </excludes>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
