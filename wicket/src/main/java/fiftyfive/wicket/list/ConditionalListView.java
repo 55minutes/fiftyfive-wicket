@@ -49,12 +49,13 @@ public abstract class ConditionalListView<T> extends ListView<T>
         super(id);
     }
     
-    public ConditionalListView(String id, IModel<List<T>> model)
+    public ConditionalListView(String id,
+                               IModel<? extends List<? extends T>> model)
     {
         super(id, model);
     }
     
-    public ConditionalListView(String id, List<T> list)
+    public ConditionalListView(String id, List<? extends T> list)
     {
         super(id, list);
     }
