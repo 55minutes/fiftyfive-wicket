@@ -31,14 +31,14 @@ public class VersionTest
         Date now = new Date();
         Version v = Version.ofJar(org.apache.wicket.Component.class);
         
-        Assert.assertEquals("1.4-rc2", v.getVersion());
+        Assert.assertEquals("1.4-rc5", v.getVersion());
         Assert.assertEquals("Wicket", v.getTitle());
         Assert.assertTrue(v.getModifiedDate().before(now));
         
-        // Wicket 1.4-rc2 was built in February 2009
+        // Wicket 1.4-rc5 was built in June 2009
         Calendar expected = Calendar.getInstance();
         expected.set(Calendar.YEAR, 2009);
-        expected.set(Calendar.MONTH, 1);
+        expected.set(Calendar.MONTH, 5);
         expected.set(Calendar.DATE, 1);
         
         Calendar mod = Calendar.getInstance();
