@@ -58,10 +58,10 @@ public class HomePage extends BasePage
         
         Form form = new Form("form");
 
-        final List choices = 
+        final List<String> choices = 
             Arrays.asList(new String[] {"Alpha", "Bravo", "Charlie", 
                                         "Delta", "Echo"});
-        final List abbrevChoices = 
+        final List<String> abbrevChoices = 
             Arrays.asList(new String[] {"A", "B", "C", "D", "E"});
         
         IAbbrevChoiceRenderer renderer = new IAbbrevChoiceRenderer() {
@@ -84,8 +84,8 @@ public class HomePage extends BasePage
         final BooleanQueryBuilder bqb = 
             new BooleanQueryBuilder("boolean-query", 
                                     _queryModel,
-                                    Model.of(choices), renderer,
-                                    Model.of(_recentQueries));
+                                    Model.ofList(choices), renderer,
+                                    Model.ofList(_recentQueries));
         form.add(bqb);
         
         final Label result = label("result", this, "query");
