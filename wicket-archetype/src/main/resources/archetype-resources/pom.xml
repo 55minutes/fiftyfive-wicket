@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.wicketstuff</groupId>
       <artifactId>annotation</artifactId>
-      <version>1.4-rc7</version>
+      <version>1.4.1</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
