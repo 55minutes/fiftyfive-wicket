@@ -66,7 +66,7 @@
   <properties>
     <slf4j.version>1.5.8</slf4j.version>
     <spring.version>2.5.6</spring.version>
-    <wicket.version>1.4.1</wicket.version>
+    <wicket.version>1.4.2</wicket.version>
   </properties>
 
   <dependencyManagement>
