@@ -23,22 +23,22 @@ import org.junit.Test;
 public class VersionTest
 {
     /**
-     * Inspect the wicket jar and verify its version information.
+     * Inspect the slf4j-api jar and verify its version information.
      */
     @Test
     public void testVersionOfJar()
     {
         Date now = new Date();
-        Version v = Version.ofJar(org.apache.wicket.Component.class);
+        Version v = Version.ofJar(org.slf4j.Logger.class);
         
-        Assert.assertEquals("1.4.2", v.getVersion());
-        Assert.assertEquals("Wicket", v.getTitle());
+        Assert.assertEquals("1.5.8", v.getVersion());
+        Assert.assertEquals("slf4j-api", v.getTitle());
         Assert.assertTrue(v.getModifiedDate().before(now));
         
-        // Wicket 1.4.2 was built in September 2009
+        // slf4j-api 1.5.8 was built in June 2009
         Calendar expected = Calendar.getInstance();
         expected.set(Calendar.YEAR, 2009);
-        expected.set(Calendar.MONTH, 8);
+        expected.set(Calendar.MONTH, 5);
         expected.set(Calendar.DATE, 1);
         
         Calendar mod = Calendar.getInstance();
