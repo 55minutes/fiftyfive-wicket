@@ -16,6 +16,7 @@
 package fiftyfive.wicket.datetime;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -151,7 +152,10 @@ public class RestrictedDatePicker extends DatePicker
             Date id = (Date )_initialDateModel.getObject();
             if(id != null)
             {
-                widgetProperties.put("pagedate", FORMAT_PAGEDATE.format(id));
+                widgetProperties.put(
+                    "pagedate",
+                    new SimpleDateFormat(FORMAT_PAGEDATE).format(id)
+                );
             }
         }
 
@@ -160,7 +164,10 @@ public class RestrictedDatePicker extends DatePicker
             Date sd = (Date )_startDateModel.getObject();
             if(sd != null)
             {
-                widgetProperties.put("mindate", FORMAT_DATE.format(sd));
+                widgetProperties.put(
+                    "mindate",
+                    new SimpleDateFormat(FORMAT_DATE).format(sd)
+                );
             }
         }
 
@@ -169,7 +176,10 @@ public class RestrictedDatePicker extends DatePicker
             Date ed = (Date )_endDateModel.getObject();
             if(ed != null)
             {
-                widgetProperties.put("maxdate", FORMAT_DATE.format(ed));
+                widgetProperties.put(
+                    "maxdate",
+                    new SimpleDateFormat(FORMAT_DATE).format(ed)
+                );
             }
         }
     }
