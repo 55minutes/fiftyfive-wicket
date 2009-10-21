@@ -5,6 +5,7 @@ import fiftyfive.wicket.header.InternetExplorerCss;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -32,6 +33,7 @@ public abstract class BasePage extends WebPage
     public BasePage(PageParameters params)
     {
         super(params);
+        add(new DebugBar("debug"));
         addCssContributions();
         addJavascriptContributions();
 

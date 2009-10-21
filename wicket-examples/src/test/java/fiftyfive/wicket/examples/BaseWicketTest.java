@@ -39,6 +39,10 @@ public abstract class BaseWicketTest extends AbstractJUnit4SpringContextTests
     public void createTester()
     {
         _tester = new WicketTester(new ExampleApplication() {
+            @Override public String getConfigurationType()
+            {
+                return DEPLOYMENT;
+            }
             @Override protected ApplicationContext getApplicationContext()
             {
                 return applicationContext;

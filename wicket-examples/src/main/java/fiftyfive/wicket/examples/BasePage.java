@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
@@ -47,6 +48,7 @@ public abstract class BasePage extends WebPage
     public BasePage(PageParameters params)
     {
         super(params);
+        add(new DebugBar("debug"));
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
