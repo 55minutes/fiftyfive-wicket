@@ -56,6 +56,11 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>wicketstuff-merged-resources</artifactId>
+      <version>3.0-SNAPSHOT</version>
+    </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->
     <dependency>
@@ -172,9 +177,14 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.1.14</version>
+        <version>6.1.21</version>
         <configuration>
-          <jettyConfig>${symbol_dollar}{basedir}/src/main/resources/jetty.xml</jettyConfig>
+          <systemProperties>
+            <systemProperty>
+              <name>wicket.configuration</name>
+              <value>development</value>
+            </systemProperty>
+          </systemProperties>
           <reload>manual</reload>
           <webAppConfig>
             <contextPath>/${symbol_dollar}{artifactId}</contextPath>

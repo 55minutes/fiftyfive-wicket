@@ -1,10 +1,12 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
 package ${package};
 
 
+import fiftyfive.wicket.header.InternetExplorerCss;
+
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
@@ -30,6 +32,9 @@ public abstract class BasePage extends WebPage
     public BasePage(PageParameters params)
     {
         super(params);
+        addCssContributions();
+        addJavascriptContributions();
+
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
@@ -47,5 +52,30 @@ public abstract class BasePage extends WebPage
     public ${session_classname} get${session_classname}()
     {
         return (${session_classname}) super.getSession();
+    }
+
+    /**
+     * Specifies all the JavaScript files that should be included on this page.
+     */
+    private void addJavascriptContributions()
+    {
+        for(ResourceReference ref : get${app_classname}().getJsLibraryReferences())
+        {
+            add(JavascriptPackageResource.getHeaderContribution(ref));
+        }
+    }
+
+    /**
+     * Specifies all the CSS files that should be included on this page.
+     */
+    private void addCssContributions()
+    {
+        for(ResourceReference ref : get${app_classname}().getCssReferences())
+        {
+            add(CSSPackageResource.getHeaderContribution(ref));
+        }
+        add(InternetExplorerCss.getConditionalHeaderContribution(
+            "IE 7", get${app_classname}().getIE7CssReference()
+        ));
     }
 }

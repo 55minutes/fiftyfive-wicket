@@ -11,7 +11,6 @@
     <source>src/test/java/home/HomePageTest.java</source>
   </sources>
   <resources>
-    <resource>src/main/resources/jetty.xml</resource>
     <resource>src/main/resources/log4j.properties</resource>
     <resource>src/main/resources/settings-default.properties</resource>
     <resource>src/main/webapp/WEB-INF/beans.xml</resource>

@@ -34,62 +34,6 @@
     </param-value>
   </context-param>
 
-  <!-- CSS Servlet issues all CSS files in a single response -->
-  <servlet>
-    <servlet-name>Merged CSS</servlet-name>
-    <servlet-class>org.springframework.web.servlet.ResourceServlet</servlet-class>
-    <init-param>
-      <param-name>applyLastModified</param-name>
-      <param-value>true</param-value>
-    </init-param>
-    <init-param>
-      <param-name>contentType</param-name>
-      <param-value>text/css</param-value>
-    </init-param>
-    <init-param>
-      <param-name>defaultUrl</param-name>
-      <param-value>
-        /styles/reset.css
-        /styles/core.css
-        /styles/layout.css
-        /styles/content.css
-        /styles/forms.css
-        /styles/page-specific.css
-      </param-value>
-    </init-param>
-  </servlet>
-
-  <!-- JS Servlet issues all JS files in a single response -->
-  <servlet>
-    <servlet-name>Merged JS</servlet-name>
-    <servlet-class>org.springframework.web.servlet.ResourceServlet</servlet-class>
-    <init-param>
-      <param-name>applyLastModified</param-name>
-      <param-value>true</param-value>
-    </init-param>
-    <init-param>
-      <param-name>contentType</param-name>
-      <param-value>text/javascript</param-value>
-    </init-param>
-    <init-param>
-      <param-name>defaultUrl</param-name>
-      <param-value>
-        /scripts/lib/protoaculous.1.8.2.min.js
-        /scripts/global.js
-      </param-value>
-    </init-param>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>Merged CSS</servlet-name>
-    <url-pattern>/styles/all</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>Merged JS</servlet-name>
-    <url-pattern>/scripts/all</url-pattern>
-  </servlet-mapping>
-
 
   <!-- ==================================================================== -->
   <!-- Wicket                                                               -->
@@ -102,6 +46,11 @@
       <param-name>applicationClassName</param-name>
       <param-value>${package}.${app_classname}</param-value>
     </init-param>
+    <init-param>
+      <!-- This is overridden to be "development" when using jetty:run -->
+      <param-name>configuration</param-name>
+      <param-value>deployment</param-value>
+   </init-param>
   </filter>
 
   <filter-mapping>

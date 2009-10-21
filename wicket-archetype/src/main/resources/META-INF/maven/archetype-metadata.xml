@@ -13,7 +13,15 @@
       <directory>src/main/java</directory>
       <includes>
         <include>**/*.java</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="true" encoding="UTF-8">
+      <directory>src/main/java</directory>
+      <includes>
         <include>**/*.html</include>
+        <include>**/*.txt</include>
+        <include>**/*.css</include>
+        <include>**/*.js</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
@@ -36,11 +44,20 @@
         <include>**/*.xml</include>
       </includes>
     </fileSet>
-    <fileSet filtered="true" encoding="UTF-8">
+    <fileSet filtered="false" encoding="UTF-8">
       <directory>src/main/resources</directory>
       <includes>
         <include>**/*.xml</include>
         <include>**/*.properties</include>
+      </includes>
+      <excludes>
+        <exclude>log4j.properties</exclude>
+      </excludes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>log4j.properties</include>
       </includes>
     </fileSet>
   </fileSets>

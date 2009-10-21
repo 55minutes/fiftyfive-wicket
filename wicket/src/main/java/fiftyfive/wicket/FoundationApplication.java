@@ -49,9 +49,6 @@ import org.slf4j.LoggerFactory;
  * <li>Initializes the {@link SpringComponentInjector} for Spring integration</li>
  * <li>Removes Wicket tags, wicket:id attributes, and other cruft from
  *     generated markup to ensure XHTML compliance</li>
- * <li>Sets Wicket to development mode if the log level is DEBUG; otherwise
- *     sets Wicket to deployment mode (this is easier to manage than
- *     the Wicket's default system property/web.xml parameter approach)</li>
  * <li>In deployment mode, delegate to the servlet container for handling
  *     exceptions, rather than showing Wicket's useless "internal error"
  *     page; redirect to home page rather than showing "page expired"</li>
@@ -94,25 +91,6 @@ public abstract class FoundationApplication extends WebApplication
     public Date getStartupDate()
     {
         return _startupDate;
-    }
-    
-    /**
-     * Uses an slf4j logger to determine whether DEBUG-level logging is
-     * enabled for this application object. If DEBUG logging is enabled,
-     * returns Application.DEVELOPMENT. If DEBUG logging is not enabled,
-     * returns Application.DEPLOYMENT.
-     */
-    @Override
-    public String getConfigurationType()
-    {
-        // Check whether logging is set to DEBUG for <em>this</em> class
-        // (i.e. the subclass of FoundationApplication that is being
-        // initialized.)
-        if(LoggerFactory.getLogger(getClass()).isDebugEnabled())
-        {
-            return DEVELOPMENT;
-        }
-        return DEPLOYMENT;
     }
     
     /**
