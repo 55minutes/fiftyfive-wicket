@@ -1,5 +1,8 @@
 package ${package};
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fiftyfive.wicket.FoundationApplication;
 
 import ${package}.home.HomePage;
@@ -83,17 +86,30 @@ public class ${app_classname} extends FoundationApplication
      */
     public ResourceReference[] getJsLibraryReferences()
     {
-        // TODO: load list of JS libraries from a config file?
-        String ext = ".min.js";
+        List<String> libs = new ArrayList<String>();
+        
+        // Add all JS files we want to include in every page
+        libs.add("scripts/cookies.js");
+
+        // Add minified or normal js files as appropriate
         if(isDevelopmentMode())
         {
-            ext = ".js";
+            libs.add("scripts/lib/jquery-trunk/jquery.js");
         }
-        return new ResourceReference[] {
-            new ResourceReference(
-                ${app_classname}.class, "scripts/lib/jquery-trunk/jquery" + ext
-            )
-        };
+        else
+        {
+            libs.add("scripts/lib/jquery-trunk/jquery.min.js");
+        }
+
+        // Turn them into references
+        ResourceReference[] refs = new ResourceReference[libs.size()];
+        for(int i=0; i<refs.length; i++)
+        {
+            refs[i] = new ResourceReference(
+                ${app_classname}.class, libs.get(i)
+            );
+        }
+        return refs;
     }
 
     /**
