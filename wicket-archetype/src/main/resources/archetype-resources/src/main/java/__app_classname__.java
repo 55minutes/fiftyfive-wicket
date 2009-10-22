@@ -50,10 +50,10 @@ public class ${app_classname} extends FoundationApplication
         // Mount Wicket's ajax libs with aggressive caching.
         ResourceMount.mountWicketResources("wicket", this);
 
-        // Configure resources to be merged and compressed only in production.
+        // Configure resources to be merged only in production.
         ResourceMount mountConfig = new ResourceMount();
         mountConfig.setMerged(!isDevelopmentMode());
-        mountConfig.setCompressed(!isDevelopmentMode());
+        mountConfig.setCompressed(true);
         mountConfig.setMinifyCss(false);
         mountConfig.setMinifyJs(false);
         
@@ -83,6 +83,7 @@ public class ${app_classname} extends FoundationApplication
      */
     public ResourceReference[] getJsLibraryReferences()
     {
+        // TODO: load list of JS libraries from a config file?
         String ext = ".min.js";
         if(isDevelopmentMode())
         {
