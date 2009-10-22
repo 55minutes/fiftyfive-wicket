@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
  * <li>Provides a {@link #getStartupDate} method</li>
  * <li>Exposes version and build timestamp information</li>
  * <li>Initializes the {@link SpringComponentInjector} for Spring integration</li>
+ * <li>Enables timestamps and gzip for classpath resources</li>
  * <li>Removes Wicket tags, wicket:id attributes, and other cruft from
  *     generated markup to ensure XHTML compliance</li>
  * <li>In deployment mode, delegate to the servlet container for handling
@@ -151,7 +152,8 @@ public abstract class FoundationApplication extends WebApplication
      * <li>Executes the following regardles of configuration mode:<ul>
      *   <li>{@link #initSpring}</li>
      *   <li>{@link #initVersionInformation}</li>
-     *   <li>{@link #initCleanMarkup}</li></ul></li>
+     *   <li>{@link #initCleanMarkup}</li>
+     *   <li>{@link #initResources}</li></ul></li>
      * <li>Executes the following only if the application is in
      *     DEVELOPMENT mode:<ul>
      *   <li>{@link #initHtmlHotDeploy}</li>
@@ -272,6 +274,11 @@ public abstract class FoundationApplication extends WebApplication
         ));
     }
     
+    /**
+     * Enables gzip and the last modified timestamp on resource URLs. These
+     * are resources you've added to your page via things like
+     * JavascriptPackageResource and CssPackageResource.
+     */
     protected void initResources()
     {
         getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(true);
