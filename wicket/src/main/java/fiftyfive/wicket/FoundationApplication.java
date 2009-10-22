@@ -168,6 +168,7 @@ public abstract class FoundationApplication extends WebApplication
         initSpring();
         initVersionInformation();
         initCleanMarkup();
+        initResources();
         
         if(isDevelopmentMode())
         {
@@ -269,6 +270,12 @@ public abstract class FoundationApplication extends WebApplication
         addComponentInstantiationListener(new SpringComponentInjector(
             this, getApplicationContext()
         ));
+    }
+    
+    protected void initResources()
+    {
+        getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(true);
+        getResourceSettings().setDisableGZipCompression(false);
     }
     
     /**
