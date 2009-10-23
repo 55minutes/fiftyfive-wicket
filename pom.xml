@@ -192,14 +192,4 @@
   </reporting>
 
 
-  <!-- NOTE: remove this before tagging release! -->
-  <repositories>
-    <repository>
-      <id>wicket-1.4.3</id>
-      <url>http://people.apache.org/~ivaynberg/wicket-1.4.3/m2-repo</url>
-      <snapshots><enabled>false</enabled></snapshots>
-      <releases><enabled>true</enabled></releases>
-    </repository>
-  </repositories>
-
 </project>
