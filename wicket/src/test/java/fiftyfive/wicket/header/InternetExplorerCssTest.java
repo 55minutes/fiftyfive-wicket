@@ -30,4 +30,10 @@ public class InternetExplorerCssTest extends BaseWicketTest
             "InternetExplorerCssTestPage-expected.html"
         );
     }
+    
+    @Test
+    public void testMakeAbsolute()
+    {
+        // TODO: write test for makeAbsolute()
+    }
 }

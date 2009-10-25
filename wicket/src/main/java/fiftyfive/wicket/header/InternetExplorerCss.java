@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.IHeaderContributor;
@@ -44,13 +45,13 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * <pre>
  * // Add a &lt;link&gt; to the ie-7.css stylesheet for IE7 browsers only
  * add(InternetExplorerCss.getConditionalHeaderContribution(
- *     "IE 7", new ResourceReference(getClass(), "ie-7.css")
+ *     "IE 7", "styles/ie-7.css")
  * ));
  * </pre>
  * 
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms537512%28VS.85%29.aspx">MSDN Reference</a>
  */
-public class InternetExplorerCss
+public abstract class InternetExplorerCss implements IHeaderContributor
 {
     /**
      * Creates a Wicket HeaderContributor for the specified stylesheet.
@@ -94,30 +95,128 @@ public class InternetExplorerCss
         final String media
     )
     {
-        return new HeaderContributor(new IHeaderContributor() {
-            public void renderHead(IHeaderResponse response)
+        List<Serializable> token = Arrays.asList(
+            condition, cssReference, media
+        );
+        return new HeaderContributor(new InternetExplorerCss(condition, token) {
+            protected void doLinkRender(IHeaderResponse response)
             {
-                final List<Serializable> token = Arrays.asList(
-                    condition, cssReference, media
-                );
-                if(!response.wasRendered(token))
-                {
-                    response.getResponse().write("<!--[if ");
-                    response.getResponse().write(condition);
-                    response.getResponse().println("]>");
-                    response.renderCSSReference(cssReference, media);
-                    response.getResponse().println("<![endif]-->");
-                    response.markRendered(token);
-                }
+                response.renderCSSReference(cssReference, media);                
+            }
+        });
+    }
+    
+    
+    /**
+     * Creates a Wicket HeaderContributor for the specified stylesheet.
+     * The stylesheet will only load in Internet Explorer versions that
+     * meet the specified condition.
+     *
+     * @param condition    The IE version for which this stylesheet applies.
+     *                     Examples: "IE 7", "gte IE 7".
+     * @param contextRelativeUri The URI to the stylesheet. If starting with
+     *                           "/", "http:" or "https:", the URI will be
+     *                           emitted as-is. Otherwise the URI is prepended
+     *                           with the context path to make it absolute.
+     *
+     * @return A HeaderContributor that should be added to your page. Adding
+     *         it to the page will cause the appropriate markup to be
+     *         emitted in the HTML header.
+     */
+    public static HeaderContributor getConditionalHeaderContribution(
+        final String condition,
+        final String contextRelativeUri
+    )
+    {
+        return getConditionalHeaderContribution(
+            condition, contextRelativeUri, null
+        );
+    }
+    
+    /**
+     * Creates a Wicket HeaderContributor for the specified stylesheet and
+     * media type.
+     * The stylesheet will only load in Internet Explorer versions that
+     * meet the specified condition.
+     *
+     * @param condition    The IE version for which this stylesheet applies.
+     *                     Examples: "IE 7", "gte IE 7".
+     * @param contextRelativeUri The URI to the stylesheet. If starting with
+     *                           "/", "http:" or "https:", the URI will be
+     *                           emitted as-is. Otherwise the URI is prepended
+     *                           with the context path to make it absolute.
+     * @param media        The CSS media type, like "screen" or "print".
+     *
+     * @return A HeaderContributor that should be added to your page. Adding
+     *         it to the page will cause the appropriate markup to be
+     *         emitted in the HTML header.
+     */
+    public static HeaderContributor getConditionalHeaderContribution(
+        final String condition,
+        final String contextRelativeUri,
+        final String media
+    )
+    {
+        List<String> token = Arrays.asList(
+            condition, contextRelativeUri, media
+        );
+        return new HeaderContributor(new InternetExplorerCss(condition, token) {
+            protected void doLinkRender(IHeaderResponse response)
+            {
+                String absUri = makeAbsolute(contextRelativeUri);
+                response.renderCSSReference(absUri, media);                
             }
         });
     }
     
     /**
-     * Private constructor so this class cannot be instantiated in normal use.
+     * Prepends the context path to the given URI if it is not already
+     * absolute.
      */
-    private InternetExplorerCss()
+    static String makeAbsolute(String uri)
     {
-        super();
+        if(null == uri || uri.startsWith("/") ||
+           uri.startsWith("http:") || uri.startsWith("https:"))
+        {
+            return uri;
+        }
+        return RequestCycle.get().getProcessor().getRequestCodingStrategy()
+            .rewriteStaticRelativeUrl(uri);
     }
+
+
+    private String _condition;
+    private List<? extends Serializable> _token;
+    
+    /**
+     * Internal use only.
+     */
+    protected InternetExplorerCss(String condition,
+                                  List<? extends Serializable> token)
+    {
+        _condition = condition;
+        _token = token;
+    }
+    
+    /**
+     * Renders the conditional Internet Explorer comment, delegating to
+     * {@link #doLinkRender} to render the actual link element.
+     */
+    public void renderHead(IHeaderResponse response)
+    {
+        if(!response.wasRendered(_token))
+        {
+            response.getResponse().write("<!--[if ");
+            response.getResponse().write(_condition);
+            response.getResponse().println("]>");
+            doLinkRender(response);
+            response.getResponse().println("<![endif]-->");
+            response.markRendered(_token);
+        }
+    }
+    
+    /**
+     * Override to render the stylesheet link element.
+     */
+    protected abstract void doLinkRender(IHeaderResponse response);
 }
