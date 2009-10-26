@@ -28,6 +28,11 @@ public class InternetExplorerCssTestPage extends WebPage
         add(InternetExplorerCss.getConditionalHeaderContribution(
             "IE 7", new ResourceReference(getClass(), "ie-7-print.css"), "print"
         ));
-        // TODO: test context-relative URI contribution
+        add(InternetExplorerCss.getConditionalHeaderContribution(
+            "IE 7", "styles/ie-7.css"
+        ));
+        add(InternetExplorerCss.getConditionalHeaderContribution(
+            "IE 7", "styles/ie-7-print.css", "print"
+        ));
     }
 }

@@ -143,8 +143,9 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      *                     Examples: "IE 7", "gte IE 7".
      * @param contextRelativeUri The URI to the stylesheet. If starting with
      *                           "/", "http:" or "https:", the URI will be
-     *                           emitted as-is. Otherwise the URI is prepended
-     *                           with the context path to make it absolute.
+     *                           emitted as-is. Otherwise the URI is modified
+     *                           so that it resolves relative to the context
+     *                           path (/app-name).
      * @param media        The CSS media type, like "screen" or "print".
      *
      * @return A HeaderContributor that should be added to your page. Adding
@@ -163,17 +164,17 @@ public abstract class InternetExplorerCss implements IHeaderContributor
         return new HeaderContributor(new InternetExplorerCss(condition, token) {
             protected void doLinkRender(IHeaderResponse response)
             {
-                String absUri = makeAbsolute(contextRelativeUri);
+                String absUri = rewriteUri(contextRelativeUri);
                 response.renderCSSReference(absUri, media);                
             }
         });
     }
     
     /**
-     * Prepends the context path to the given URI if it is not already
-     * absolute.
+     * Modifes the given URI so it resolves relative to the context path
+     * if it is not already absolute.
      */
-    static String makeAbsolute(String uri)
+    static String rewriteUri(String uri)
     {
         if(null == uri || uri.startsWith("/") ||
            uri.startsWith("http:") || uri.startsWith("https:"))

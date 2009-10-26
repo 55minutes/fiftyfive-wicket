@@ -17,6 +17,7 @@ package fiftyfive.wicket.header;
 
 import fiftyfive.wicket.BaseWicketTest;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class InternetExplorerCssTest extends BaseWicketTest
 {
@@ -32,8 +33,37 @@ public class InternetExplorerCssTest extends BaseWicketTest
     }
     
     @Test
-    public void testMakeAbsolute()
+    public void testRewriteUri_null()
     {
-        // TODO: write test for makeAbsolute()
+        assertEquals(null, InternetExplorerCss.rewriteUri(null));
+    }
+
+    @Test
+    public void testRewriteUri_http()
+    {
+        final String url = "http://www.google.com";
+        assertEquals(url, InternetExplorerCss.rewriteUri(url));
+    }
+
+    @Test
+    public void testRewriteUri_https()
+    {
+        final String url = "https://www.google.com";
+        assertEquals(url, InternetExplorerCss.rewriteUri(url));
+    }
+
+    @Test
+    public void testRewriteUri_slash()
+    {
+        final String url = "/foo";
+        assertEquals(url, InternetExplorerCss.rewriteUri(url));
+    }
+
+    @Test
+    public void testRewriteUri_relative()
+    {
+        final String url = "foo/bar/baz";
+        _tester.startPage(InternetExplorerCssTestPage.class);
+        assertEquals("../" + url, InternetExplorerCss.rewriteUri(url));
     }
 }

@@ -45,6 +45,10 @@ public abstract class BaseWicketTest
             {
                 // disable for testing
             }
+            @Override protected void outputDevelopmentModeWarning()
+            {
+                // disable for testing
+            }
         });
     }
     

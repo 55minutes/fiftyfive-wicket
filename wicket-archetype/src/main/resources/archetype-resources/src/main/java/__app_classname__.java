@@ -55,6 +55,15 @@ public class ${app_classname} extends FoundationApplication
 
         // Configure resources to be merged only in production.
         ResourceMount mountConfig = new ResourceMount();
+        if(isDevelopmentMode())
+        {
+            // Discourage caching in development
+            mountConfig.setCacheDuration(0);
+        }
+        else
+        {
+            mountConfig.setDefaultAggressiveCacheDuration();
+        }
         mountConfig.setMerged(!isDevelopmentMode());
         mountConfig.setCompressed(true);
         mountConfig.setMinifyCss(false);
