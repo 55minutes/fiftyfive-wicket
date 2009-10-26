@@ -1,6 +1,3 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
 package ${package};
 
 
@@ -11,15 +8,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+import org.springframework.web.context.support.StaticWebApplicationContext;
 
 
-@ContextConfiguration(locations = {
-    "classpath:/spring/configuration.xml", 
-    "classpath:/spring/beans.xml"
-})
-public abstract class BaseWicketTest extends AbstractJUnit4SpringContextTests
+/**
+ * Base class for Wicket tests. Allows Wicket pages and components to be
+ * easily tested in isolation. For pages or components that rely on Spring
+ * dependency injection, consider overriding {@link #initSpringContext}.
+ */
+public abstract class BaseWicketTest
 {
     protected WicketTester _tester;
     
@@ -29,11 +26,17 @@ public abstract class BaseWicketTest extends AbstractJUnit4SpringContextTests
         _tester = new WicketTester(new ${app_classname}() {
             @Override public String getConfigurationType()
             {
+                // Don't test in development mode, since debug utilities
+                // can break XHTML compliance.
                 return DEPLOYMENT;
             }
             @Override protected ApplicationContext getApplicationContext()
             {
-                return applicationContext;
+                // Provide a static Spring context that can be configured
+                // with mock beans for testing purposes.
+                StaticWebApplicationContext c = new StaticWebApplicationContext();
+                initSpringContext(c);
+                return c;
             }
             @Override protected void outputDevelopmentModeWarning()
             {
@@ -46,5 +49,24 @@ public abstract class BaseWicketTest extends AbstractJUnit4SpringContextTests
     public void destroyTester()
     {
         _tester.destroy();
+    }
+    
+    /**
+     * Subclasses should override this method to register mock Spring beans
+     * in the Spring context. This will allow Wicket components that contain
+     * SpringBean annotations to use these mock beans during testing.
+     * The default implementation of this method is empty.
+     * Example usage:
+     * <pre>
+     * protected void initSpringContext(StaticWebApplicationContext ctx)
+     * {
+     *     MyService svc = // init mock service bean
+     *     ctx.getBeanFactory().registerSingleton("serviceBeanId", svc);
+     * }
+     * </pre>
+     */
+    protected void initSpringContext(StaticWebApplicationContext ctx)
+    {
+        // pass
     }
 }
