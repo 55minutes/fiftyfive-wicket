@@ -30,6 +30,7 @@
   <properties>
     <slf4j.version>1.5.8</slf4j.version>
     <spring.version>2.5.6</spring.version>
+    <wicket.version>1.4.3</wicket.version>
   </properties>
 
   <dependencies>
@@ -39,6 +40,31 @@
       <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket</artifactId>
       <version>1.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket</artifactId>
+      <version>${symbol_dollar}{wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-datetime</artifactId>
+      <version>${symbol_dollar}{wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-devutils</artifactId>
+      <version>${symbol_dollar}{wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-extensions</artifactId>
+      <version>${symbol_dollar}{wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-spring</artifactId>
+      <version>${symbol_dollar}{wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -81,24 +107,12 @@
       <version>${symbol_dollar}{spring.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${symbol_dollar}{spring.version}</version>
-      <scope>runtime</scope>
-    </dependency>
     
     <!-- ==== Test dependencies =========================================== -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.7</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${symbol_dollar}{spring.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -112,11 +126,7 @@
   <build>
     <resources>
       <resource>
-        <filtering>false</filtering>
         <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>jetty.xml</exclude>
-        </excludes>
       </resource>
       <resource>
         <directory>src/main/java</directory>
