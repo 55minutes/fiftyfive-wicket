@@ -277,12 +277,17 @@ public abstract class FoundationApplication extends WebApplication
     /**
      * Enables gzip and the last modified timestamp on resource URLs. These
      * are resources you've added to your page via things like
-     * JavascriptPackageResource and CssPackageResource.
+     * JavascriptPackageResource and CssPackageResource. Also set the
+     * cache duration for resources to zero if in development mode
+     * (discouraging browser cache), or 1 year if in deployment mode.
      */
     protected void initResources()
     {
         getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(true);
         getResourceSettings().setDisableGZipCompression(false);
+        getResourceSettings().setDefaultCacheDuration(
+            isDevelopmentMode() ? 0 : (int) Duration.days(365).seconds()
+        );
     }
     
     /**
