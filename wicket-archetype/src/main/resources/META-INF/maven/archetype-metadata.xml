@@ -31,34 +31,11 @@
         <include>**/*.html</include>
       </includes>
     </fileSet>
-    <fileSet filtered="false" encoding="UTF-8">
-      <directory>src/main/webapp</directory>
-      <includes>
-        <include>**/*.css</include>
-        <include>**/*.js</include>
-      </includes>
-    </fileSet>
     <fileSet filtered="true" encoding="UTF-8">
       <directory>src/main/webapp</directory>
-      <includes>
-        <include>**/*.xml</include>
-      </includes>
-    </fileSet>
-    <fileSet filtered="false" encoding="UTF-8">
-      <directory>src/main/resources</directory>
-      <includes>
-        <include>**/*.xml</include>
-        <include>**/*.properties</include>
-      </includes>
-      <excludes>
-        <exclude>log4j.properties</exclude>
-      </excludes>
     </fileSet>
     <fileSet filtered="true" encoding="UTF-8">
       <directory>src/main/resources</directory>
-      <includes>
-        <include>log4j.properties</include>
-      </includes>
     </fileSet>
   </fileSets>
 </archetype-descriptor>

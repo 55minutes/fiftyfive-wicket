@@ -1,0 +1,22 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+$symbol_pound Application properties and log4j settings for ${project_name}.
+
+jdbc.username = sample
+jdbc.password = sample
+jdbc.url = sample
+
+
+$symbol_pound Begin log4j settings
+
+log4j.rootLogger = WARN, logfile
+log4j.logger.${package} = DEBUG
+
+log4j.appender.logfile = org.apache.log4j.RollingFileAppender
+log4j.appender.logfile.Encoding = UTF-8
+log4j.appender.logfile.File = ${artifactId}.log
+log4j.appender.logfile.MaxFileSize = 10MB
+log4j.appender.logfile.MaxBackupIndex = 1
+log4j.appender.logfile.layout = org.apache.log4j.PatternLayout
+log4j.appender.Stdout.layout.conversionPattern = %d (%15.15t) [%-5p] %c{1} - %m%n
