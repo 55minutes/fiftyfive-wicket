@@ -196,7 +196,7 @@
             <configuration>
               <tasks>
                 <copy file="${symbol_dollar}{basedir}/src/main/resources/${artifactId}.properties.SAMPLE"
-                      tofile="${symbol_dollar}{basedir}/${artifactId}.properties"
+                      tofile="${symbol_dollar}{basedir}/${artifactId}.local.properties"
                       overwrite="false" />
               </tasks>
             </configuration>
@@ -215,7 +215,7 @@
             </systemProperty>
             <systemProperty>
               <name>${artifactId}.settings</name>
-              <value>${symbol_dollar}{basedir}/${artifactId}.properties</value>
+              <value>${symbol_dollar}{basedir}/${artifactId}.local.properties</value>
             </systemProperty>
           </systemProperties>
           <reload>manual</reload>
