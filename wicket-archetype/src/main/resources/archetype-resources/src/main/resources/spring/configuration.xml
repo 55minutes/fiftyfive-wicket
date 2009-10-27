@@ -14,14 +14,8 @@
   - Use a -D${artifactId}.settings= command line argument
   - when running the application. This happens automatically with jetty:run.
   -->
-  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="ignoreUnresolvablePlaceholders" value="false"/>
-    <property name="ignoreResourceNotFound" value="false"/>
-    <property name="locations">
-      <list>
-        <value>file:${symbol_dollar}{${artifactId}.settings}</value>
-      </list>
-    </property>
+  <bean class="fiftyfive.wicket.spring.ConfigurationPostProcessor">
+    <property name="key" value="${artifactId}.settings"/>
   </bean>
 
 </beans>

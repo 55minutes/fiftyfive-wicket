@@ -3,7 +3,7 @@ package ${package};
 import java.util.ArrayList;
 import java.util.List;
 
-import fiftyfive.wicket.FoundationApplication;
+import fiftyfive.wicket.spring.FoundationSpringApplication;
 
 import ${package}.home.HomePage;
 
@@ -17,12 +17,19 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 import org.wicketstuff.mergedresources.ResourceMount;
 import org.wicketstuff.mergedresources.versioning.SimpleResourceVersion;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Wicket framework configuration for ${project_name}.
  */
-public class ${app_classname} extends FoundationApplication
+public class ${app_classname} extends FoundationSpringApplication
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+        ${app_classname}.class
+    );
+    
     @Override
     public Class getHomePage()
     {
@@ -42,6 +49,8 @@ public class ${app_classname} extends FoundationApplication
         initMergedResources();
 
         // Custom initialization goes here
+        
+        LOGGER.info("Initialized!");
     }
     
     /**

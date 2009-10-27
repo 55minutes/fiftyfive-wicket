@@ -30,11 +30,7 @@ import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.request.IRequestCycleProcessor;
 import org.apache.wicket.request.target.coding.IndexedParamUrlCodingStrategy;
 import org.apache.wicket.request.target.coding.QueryStringUrlCodingStrategy;
-import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.time.Duration;
-
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +42,6 @@ import org.slf4j.LoggerFactory;
  * <ul>
  * <li>Provides a {@link #getStartupDate} method</li>
  * <li>Exposes version and build timestamp information</li>
- * <li>Initializes the {@link SpringComponentInjector} for Spring integration</li>
  * <li>Enables timestamps and gzip for classpath resources</li>
  * <li>Removes Wicket tags, wicket:id attributes, and other cruft from
  *     generated markup to ensure XHTML compliance</li>
@@ -150,7 +145,6 @@ public abstract class FoundationApplication extends WebApplication
      * <li>Sets the startupDate property to the current time.</li>
      * <li>Calls {@link WebApplication#init super.init()}.</li>
      * <li>Executes the following regardles of configuration mode:<ul>
-     *   <li>{@link #initSpring}</li>
      *   <li>{@link #initVersionInformation}</li>
      *   <li>{@link #initCleanMarkup}</li>
      *   <li>{@link #initResources}</li></ul></li>
@@ -167,7 +161,6 @@ public abstract class FoundationApplication extends WebApplication
 
         super.init();
 
-        initSpring();
         initVersionInformation();
         initCleanMarkup();
         initResources();
@@ -261,20 +254,6 @@ public abstract class FoundationApplication extends WebApplication
     }
     
     /**
-     * Initializes the {@link SpringComponentInjector}. This allows you to use
-     * SpringBean annotations in your Wicket pages and components, which is
-     * the easiest way to integrate Wicket and Spring.
-     *
-     * @see <a href="http://cwiki.apache.org/WICKET/spring.html#Spring-AnnotationbasedApproach">http://cwiki.apache.org/WICKET/spring.html#Spring-AnnotationbasedApproach</a>
-     */
-    protected void initSpring()
-    {
-        addComponentInstantiationListener(new SpringComponentInjector(
-            this, getApplicationContext()
-        ));
-    }
-    
-    /**
      * Enables gzip and the last modified timestamp on resource URLs. These
      * are resources you've added to your page via things like
      * JavascriptPackageResource and CssPackageResource. Also set the
@@ -287,17 +266,6 @@ public abstract class FoundationApplication extends WebApplication
         getResourceSettings().setDisableGZipCompression(false);
         getResourceSettings().setDefaultCacheDuration(
             isDevelopmentMode() ? 0 : (int) Duration.days(365).seconds()
-        );
-    }
-    
-    /**
-     * Provides access to the Spring context by calling
-     * {@link WebApplicationContextUtils#getRequiredWebApplicationContext}.
-     */
-    protected ApplicationContext getApplicationContext()
-    {
-        return WebApplicationContextUtils.getRequiredWebApplicationContext(
-            getServletContext()
         );
     }
 }

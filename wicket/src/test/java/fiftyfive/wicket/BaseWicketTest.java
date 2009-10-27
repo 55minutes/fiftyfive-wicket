@@ -41,10 +41,6 @@ public abstract class BaseWicketTest
                 super.init();
                 getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(false);
             }
-            @Override protected void initSpring()
-            {
-                // disable for testing
-            }
             @Override protected void outputDevelopmentModeWarning()
             {
                 // disable for testing

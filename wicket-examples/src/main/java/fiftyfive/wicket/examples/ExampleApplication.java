@@ -15,7 +15,7 @@
  */
 package fiftyfive.wicket.examples;
 
-import fiftyfive.wicket.FoundationApplication;
+import fiftyfive.wicket.spring.FoundationSpringApplication;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
@@ -25,7 +25,7 @@ import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 /**
  * Wicket framework configuration for 55 Minutes Wicket Examples.
  */
-public class ExampleApplication extends FoundationApplication
+public class ExampleApplication extends FoundationSpringApplication
 {
     @Override
     public Class getHomePage()

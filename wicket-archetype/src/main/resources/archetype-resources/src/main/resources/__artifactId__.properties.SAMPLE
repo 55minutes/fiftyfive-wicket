@@ -19,4 +19,4 @@ log4j.appender.logfile.File = ${artifactId}.log
 log4j.appender.logfile.MaxFileSize = 10MB
 log4j.appender.logfile.MaxBackupIndex = 1
 log4j.appender.logfile.layout = org.apache.log4j.PatternLayout
-log4j.appender.Stdout.layout.conversionPattern = %d (%15.15t) [%-5p] %c{1} - %m%n
+log4j.appender.logfile.layout.conversionPattern = %d (%15.15t) [%-5p] %c{1} - %m%n
