@@ -21,7 +21,20 @@ import org.springframework.web.context.support.ServletContextPropertyPlaceholder
  * Initializes log4j and replaces placeholders in the Spring context with
  * environment-specific values from an external properties file. Essentially
  * this is a drop-in replacement for 
- * {@link ServletContextPropertyPlaceholderConfigurer}, with log4j support.
+ * {@link ServletContextPropertyPlaceholderConfigurer}, with the added
+ * benefit that log4j configuration uses the same properties file. Use it like
+ * this, in your Spring context:
+ * <pre>
+ * &lt;bean class="fiftyfive.wicket.spring.ConfigurationPostProcessor"&gt;
+ *   &lt;property name="key" value="myapp.settings"/&gt;
+ * &lt;/bean&gt;
+ * </pre>
+ * This will use a system property (or servlet context-param) named
+ * "myapp.settings" to find a properties file that will then be used
+ * to resolve placeholders and configure log4j. When the application is run,
+ * you would pass -Dmyapp.settings=[file] as a JVM option to specify the
+ * properties file location. Classpath locations are permitted using the
+ * classpath: prefix.
  */
 public class ConfigurationPostProcessor
     implements BeanFactoryPostProcessor, ServletContextAware
