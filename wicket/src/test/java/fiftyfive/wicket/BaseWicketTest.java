@@ -36,14 +36,14 @@ public abstract class BaseWicketTest
             {
                 return DummyHomePage.class;
             }
+            @Override public String getConfigurationType()
+            {
+                return DEPLOYMENT;
+            }
             @Override protected void init()
             {
                 super.init();
                 getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(false);
-            }
-            @Override protected void outputDevelopmentModeWarning()
-            {
-                // disable for testing
             }
         });
     }

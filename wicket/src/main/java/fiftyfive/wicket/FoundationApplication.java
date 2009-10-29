@@ -231,13 +231,15 @@ public abstract class FoundationApplication extends WebApplication
      * status bar for every request. Disables ajaxDebugMode (the popup
      * panel in the browser that shows ajax request and response details).
      * It is disabled because it is a memory hog that can bog down the
-     * browser.
+     * browser. Finally, enables emitting HTML comments that show which Wicket
+     * class created each section of HTML.
      */
     protected void initDebugInformation()
     {
         getRequestCycleSettings().addResponseFilter(
             new AjaxServerAndClientTimeFilter()
         );
+        getDebugSettings().setOutputMarkupContainerClassName(true);
         // Turn this off explicity because it causes performance problems
         getDebugSettings().setAjaxDebugModeEnabled(false);
     }
