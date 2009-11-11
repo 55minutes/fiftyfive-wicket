@@ -28,8 +28,8 @@ import org.apache.wicket.markup.html.IHeaderResponse;
 
 
 /**
- * Static methods for injecting conditional stylesheet references into
- * the HTML header. These methods will create markup like this:
+ * This class contains static methods for injecting conditional stylesheet
+ * references into the HTML header. These methods will create markup like this:
  * <pre>
  * &lt;!--[if condition]&gt;
  * &lt;link rel="stylesheet" type="text/css" href="..." /&gt;

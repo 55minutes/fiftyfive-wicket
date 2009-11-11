@@ -60,7 +60,7 @@ public class LabelWithDefault extends Label
     /**
      * @see Label#Label(String, IModel)
      */
-    public LabelWithDefault(final String id, IModel model)
+    public LabelWithDefault(final String id, IModel<?> model)
     {
         super(id, model);
         add(Shortcuts.cssClassIf("empty", this, "empty"));

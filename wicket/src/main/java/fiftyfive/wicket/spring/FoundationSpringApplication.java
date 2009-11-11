@@ -40,7 +40,9 @@ public abstract class FoundationSpringApplication extends FoundationApplication
     }
 
     /**
-     * Provides access to the Spring context by calling
+     * Override this method to change how the Spring context is located,
+     * for example during unit tests. The default implementation simply
+     * locates the Spring context by calling
      * {@link WebApplicationContextUtils#getRequiredWebApplicationContext}.
      */
     protected ApplicationContext getApplicationContext()

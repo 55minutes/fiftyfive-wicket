@@ -105,7 +105,7 @@ public abstract class FoundationApplication extends WebApplication
      * DEPLOYMENT mode, returns a custom IRequestCycleProcessor that changes
      * the exception behavior as follows:
      * <ul>
-     * <li>If a PageExpiredException occurs, simple redirect to the home
+     * <li>If a PageExpiredException occurs, simply redirect to the home
      *     page without displaying an error to the user. Log a warning.</li>
      * <li>If an any other uncaught RuntimeException exception occurs,
      *     re-throw it so that it bubbles up to the servlet container.
@@ -125,7 +125,8 @@ public abstract class FoundationApplication extends WebApplication
             @Override
             public void respond(RuntimeException e, RequestCycle requestCycle)
             {
-                if(e instanceof PageExpiredException)
+                if(e instanceof PageExpiredException ||
+                   e.getCause() instanceof PageExpiredException)
                 {
                     _logger.warn("Page expired. Redirecting to home page.", e);
                     throw new RestartResponseException(
