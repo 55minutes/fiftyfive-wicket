@@ -22,13 +22,14 @@ import org.springframework.web.context.support.ServletContextPropertyPlaceholder
  * that also configures log4j from the same properties file. This allows an
  * application to have its settings and logging configured from a single
  * file, thereby simplifying deployment.
+ * <p>
  * <b>If you do not need the log4j functionality, use Spring's
  * {@link PropertyPlaceholderConfigurer} or
  * {@link ServletContextPropertyPlaceholderConfigurer} instead.</b>
  * <p>
- * Use the ConfigurationPostProcessor like this, in your Spring context:
+ * Use the PropertyPlaceholderAndLog4jConfigurer like this, in your Spring context:
  * <pre>
- * &lt;bean class="fiftyfive.wicket.spring.ConfigurationPostProcessor"&gt;
+ * &lt;bean class="fiftyfive.wicket.spring.PropertyPlaceholderAndLog4jConfigurer"&gt;
  *   &lt;property name="key" value="myapp.settings"/&gt;
  * &lt;/bean&gt;
  * </pre>
@@ -37,9 +38,9 @@ import org.springframework.web.context.support.ServletContextPropertyPlaceholder
  * to resolve placeholders and configure log4j. When the application is run,
  * you would pass -Dmyapp.settings=[file] as a JVM option to specify the
  * properties file location. Classpath locations are permitted using the
- * classpath: prefix.
+ * <code>classpath:</code> prefix.
  */
-public class ConfigurationPostProcessor
+public class PropertyPlaceholderAndLog4jConfigurer
     implements BeanFactoryPostProcessor, ServletContextAware
 {
     private String _key;
@@ -48,10 +49,10 @@ public class ConfigurationPostProcessor
     
     
     /**
-     * Creates a ConfigurationPostProcessor. This is not usually done
+     * Creates a PropertyPlaceholderAndLog4jConfigurer. This is not usually done
      * programmatically, but in the Spring context definition.
      */
-    public ConfigurationPostProcessor()
+    public PropertyPlaceholderAndLog4jConfigurer()
     {
         ServletContextPropertyPlaceholderConfigurer sc =
             new ServletContextPropertyPlaceholderConfigurer();

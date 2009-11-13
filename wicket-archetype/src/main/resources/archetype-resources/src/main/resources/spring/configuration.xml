@@ -14,7 +14,7 @@
   - Use a -D${artifactId}.settings= command line argument
   - when running the application. This happens automatically with jetty:run.
   -->
-  <bean class="fiftyfive.wicket.spring.ConfigurationPostProcessor">
+  <bean class="fiftyfive.wicket.spring.PropertyPlaceholderAndLog4jConfigurer">
     <property name="key" value="${artifactId}.settings"/>
   </bean>
 
