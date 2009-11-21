@@ -25,6 +25,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 
+// TODO: use I18N?
+
 /**
  * An extension of Wicket's Label component that allows a default value to be
  * specified. If the model is empty, then:
