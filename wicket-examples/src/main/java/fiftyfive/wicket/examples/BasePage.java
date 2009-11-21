@@ -16,15 +16,15 @@
 package fiftyfive.wicket.examples;
 
 
-import java.util.Calendar;
+import fiftyfive.wicket.header.InternetExplorerCss;
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ResourceReference;
 import org.apache.wicket.devutils.debugbar.DebugBar;
-import org.apache.wicket.markup.html.WebComponent;
+import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.Model;
 
 
 /**
@@ -49,6 +49,9 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         add(new DebugBar("debug"));
+        addCssContributions();
+        addJavascriptContributions();
+
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
@@ -56,22 +59,40 @@ public abstract class BasePage extends WebPage
             }
         });
         _body.setOutputMarkupId(true);
+    }
+    
+    public WicketApplication getWicketApplication()
+    {
+        return (WicketApplication) getApplication();
+    }
+    
+    public WicketSession getWicketSession()
+    {
+        return (WicketSession) super.getSession();
+    }
 
-        // Set the copyright <meta> content to the current calendar year.
-        Calendar cal = Calendar.getInstance();
-        WebComponent copyright = new WebComponent("copyright");
-        copyright.add(new AttributeModifier("content", true,
-            new Model("Copyright " + cal.get(Calendar.YEAR) + " 55 Minutes")));
-        add(copyright);
-    }
-    
-    public ExampleApplication getExampleApplication()
+    /**
+     * Specifies all the JavaScript files that should be included on this page.
+     */
+    private void addJavascriptContributions()
     {
-        return (ExampleApplication) getApplication();
+        for(ResourceReference ref : getWicketApplication().getJsLibraryReferences())
+        {
+            add(JavascriptPackageResource.getHeaderContribution(ref));
+        }
     }
-    
-    public ExampleSession getExampleSession()
+
+    /**
+     * Specifies all the CSS files that should be included on this page.
+     */
+    private void addCssContributions()
     {
-        return (ExampleSession) super.getSession();
+        for(ResourceReference ref : getWicketApplication().getCssReferences())
+        {
+            add(CSSPackageResource.getHeaderContribution(ref));
+        }
+        add(InternetExplorerCss.getConditionalHeaderContribution(
+            "IE 7", getWicketApplication().getIE7CssReference()
+        ));
     }
 }

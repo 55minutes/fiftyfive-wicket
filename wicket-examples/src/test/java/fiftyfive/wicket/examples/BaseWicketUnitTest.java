@@ -27,18 +27,18 @@ import org.springframework.web.context.support.StaticWebApplicationContext;
 
 
 /**
- * Base class for Wicket tests. Allows Wicket pages and components to be
+ * Base class for Wicket unit tests. Allows Wicket pages and components to be
  * easily tested in isolation. For pages or components that rely on Spring
  * dependency injection, consider overriding {@link #initSpringContext}.
  */
-public abstract class BaseWicketTest
+public abstract class BaseWicketUnitTest
 {
     protected WicketTester _tester;
     
     @Before
     public void createTester()
     {
-        _tester = new WicketTester(new ExampleApplication() {
+        _tester = new WicketTester(new WicketApplication() {
             @Override public String getConfigurationType()
             {
                 // Don't test in development mode, since debug utilities
@@ -52,10 +52,6 @@ public abstract class BaseWicketTest
                 StaticWebApplicationContext c = new StaticWebApplicationContext();
                 initSpringContext(c);
                 return c;
-            }
-            @Override protected void outputDevelopmentModeWarning()
-            {
-                // do nothing
             }
         });
     }

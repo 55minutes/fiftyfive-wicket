@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fiftyfive.wicket.examples;
+package fiftyfive.wicket.examples.home;
 
 
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ import java.util.List;
 import fiftyfive.wicket.booleanquery.BooleanQuery;
 import fiftyfive.wicket.booleanquery.BooleanQueryBuilder;
 import fiftyfive.wicket.booleanquery.IAbbrevChoiceRenderer;
+import fiftyfive.wicket.examples.BasePage;
+import fiftyfive.wicket.examples.formtest.FormTestPage;
 
 import static fiftyfive.wicket.util.Shortcuts.label;
 
@@ -31,6 +33,7 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -48,6 +51,10 @@ public class HomePage extends BasePage
     {
         super(params);
         
+        add(JavascriptPackageResource.getHeaderContribution(
+            HomePage.class, "HomePage.js"
+        ));
+
         _queryModel = new Model(new BooleanQuery());
         _recentQueries = new ArrayList<BooleanQuery>(5);
 

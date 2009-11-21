@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fiftyfive.wicket.examples;
+package fiftyfive.wicket.examples.formtest;
 
-import org.apache.wicket.Request;
-import org.apache.wicket.protocol.http.WebSession;
+import fiftyfive.wicket.examples.BaseWicketUnitTest;
+import fiftyfive.wicket.test.XHtmlValidator;
+import org.junit.Test;
 
-/**
- * Session information for 55 Minutes Wicket Examples.
- * Any variables added to this class will automatically be persisted in
- * the Servlet HttpSession. Each browser session gets its own instance of
- * this class.
- */
-public class ExampleSession extends WebSession
+public class FormTestPageTest extends BaseWicketUnitTest
 {
-    public ExampleSession(Request request)
+    @Test
+    public void testRender() throws Exception
     {
-        super(request);
+        _tester.startPage(FormTestPage.class);
+        _tester.assertRenderedPage(FormTestPage.class);
+        XHtmlValidator.assertValidMarkup(_tester);
     }
 }

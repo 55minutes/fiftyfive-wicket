@@ -15,16 +15,19 @@
  */
 package fiftyfive.wicket.examples;
 
-import fiftyfive.wicket.test.XHtmlValidator;
-import org.junit.Test;
+import org.apache.wicket.Request;
+import org.apache.wicket.protocol.http.WebSession;
 
-public class HomePageTest extends BaseWicketTest
+/**
+ * Session information for 55 Minutes Wicket Examples.
+ * Any variables added to this class will automatically be persisted in
+ * the Servlet HttpSession. Each browser session gets its own instance of
+ * this class.
+ */
+public class WicketSession extends WebSession
 {
-    @Test
-    public void testRender() throws Exception
+    public WicketSession(Request request)
     {
-        _tester.startPage(HomePage.class);
-        _tester.assertRenderedPage(HomePage.class);
-        XHtmlValidator.assertValidMarkup(_tester);
+        super(request);
     }
 }

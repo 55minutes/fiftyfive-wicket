@@ -38,9 +38,10 @@
   <!-- ==================================================================== -->
   <name>55 Minutes Wicket Examples</name>
   <description>
-    Sample application demonstrating the 55 Minutes Wicket-Plus
+    Sample application demonstrating the 55 Minutes Wicket
     components and utilities
   </description>
+
 
 
   <!-- ==================================================================== -->
@@ -58,26 +59,32 @@
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-datetime</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-devutils</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-extensions</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-spring</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.wicketstuff</groupId>
@@ -89,6 +96,11 @@
           <artifactId>spring-core</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>wicketstuff-merged-resources</artifactId>
+      <version>3.0-SNAPSHOT</version>
     </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->
@@ -123,24 +135,87 @@
   <!-- ==================================================================== -->
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+          <encoding>utf-8</encoding>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <!--
-          - For some reason the latest version of maven-war-plugin bundled
-          - with maven 2.1.0 breaks the war packaging step in this project.
-          - Pin at an older version to work around. See:
-          - http://jira.codehaus.org/browse/MWAR-187
-        -->
-        <version>2.0.2</version>
         <configuration>
           <archive>
             <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultImplementationEntries>
+                true
+              </addDefaultImplementationEntries>
             </manifest>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prep-settings</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <copy file="${basedir}/src/main/resources/fiftyfive-wicket-examples.properties.SAMPLE"
+                      tofile="${basedir}/fiftyfive-wicket-examples.local.properties"
+                      overwrite="false" />
+                <copy file="${basedir}/src/test/resources/log4j.properties.SAMPLE"
+                      tofile="${basedir}/src/test/resources/log4j.properties"
+                      overwrite="false" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
@@ -151,6 +226,10 @@
             <systemProperty>
               <name>wicket.configuration</name>
               <value>development</value>
+            </systemProperty>
+            <systemProperty>
+              <name>fiftyfive-wicket-examples.settings</name>
+              <value>${basedir}/fiftyfive-wicket-examples.local.properties</value>
             </systemProperty>
           </systemProperties>
           <reload>manual</reload>
@@ -164,6 +243,28 @@
 
 
   <!-- ==================================================================== -->
+  <!-- Reporting Configuration                                              -->
+  <!-- ==================================================================== -->
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+            <link>http://wicket.apache.org/docs/1.4/</link>
+            <link>http://static.springframework.org/spring/docs/2.5.x/api/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
+  <!-- ==================================================================== -->
   <!-- Additional Repositories                                              -->
   <!-- ==================================================================== -->
 
@@ -174,6 +275,13 @@
       <snapshots><enabled>true</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
     </repository>
+    <repository>
+      <id>fiftyfive-opensource</id>
+      <name>55 Minutes Open Source Maven Repository</name>
+      <url>http://opensource.55minutes.com/maven</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </repository>
   </repositories>
-  
+
 </project>

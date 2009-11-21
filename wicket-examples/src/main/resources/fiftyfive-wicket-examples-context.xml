@@ -5,6 +5,16 @@
   xmlns:tx="http://www.springframework.org/schema/tx"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
+  <!--
+  - Load enviroment-specific properties. The properties file must be specified
+  - in a system property called "fiftyfive-wicket-examples.settings".
+  - Use a -Dfiftyfive-wicket-examples.settings= command line argument
+  - when running the application. This happens automatically with jetty:run.
+  -->
+  <bean class="fiftyfive.wicket.spring.PropertyPlaceholderAndLog4jConfigurer">
+    <property name="key" value="fiftyfive-wicket-examples.settings"/>
+  </bean>
+
   <!-- Your Spring beans go here -->
 
 </beans>

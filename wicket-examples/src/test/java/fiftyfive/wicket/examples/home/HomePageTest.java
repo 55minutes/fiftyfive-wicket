@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fiftyfive.wicket.examples;
+package fiftyfive.wicket.examples.home;
 
+import fiftyfive.wicket.examples.BaseWicketUnitTest;
 import fiftyfive.wicket.test.XHtmlValidator;
 import org.junit.Test;
+import org.springframework.web.context.support.StaticWebApplicationContext;
 
-public class FormTestPageTest extends BaseWicketTest
+public class HomePageTest extends BaseWicketUnitTest
 {
+    protected void initSpringContext(StaticWebApplicationContext ctx)
+    {
+        // If HomePage had @SpringBean dependencies, you would mock them here.
+        // Like this:
+        // MockitoAnnotations.initMocks(this);
+        // ctx.getBeanFactory().registerSingleton("serviceBeanId", _mockSvc);
+    }
+    
     @Test
     public void testRender() throws Exception
     {
-        _tester.startPage(FormTestPage.class);
-        _tester.assertRenderedPage(FormTestPage.class);
+        _tester.startPage(HomePage.class);
+        _tester.assertRenderedPage(HomePage.class);
         XHtmlValidator.assertValidMarkup(_tester);
     }
 }
