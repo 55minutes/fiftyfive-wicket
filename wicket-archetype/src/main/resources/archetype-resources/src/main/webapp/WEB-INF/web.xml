@@ -28,10 +28,7 @@
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>
-      classpath:spring/configuration.xml
-      classpath:spring/beans.xml
-    </param-value>
+    <param-value>classpath:${artifactId}-context.xml</param-value>
   </context-param>
 
 

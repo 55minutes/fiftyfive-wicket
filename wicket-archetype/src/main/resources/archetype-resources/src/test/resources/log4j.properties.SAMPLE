@@ -1,0 +1,10 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+$symbol_pound This file defines the log4j settings that are used during "mvn test".
+
+log4j.appender.Stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.Stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.Stdout.layout.conversionPattern=%-5p %-20.20c{1}: %m${symbol_escape}n
+
+log4j.rootLogger=WARN,Stdout

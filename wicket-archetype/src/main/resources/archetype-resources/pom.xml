@@ -198,6 +198,9 @@
                 <copy file="${symbol_dollar}{basedir}/src/main/resources/${artifactId}.properties.SAMPLE"
                       tofile="${symbol_dollar}{basedir}/${artifactId}.local.properties"
                       overwrite="false" />
+                <copy file="${symbol_dollar}{basedir}/src/test/resources/log4j.properties.SAMPLE"
+                      tofile="${symbol_dollar}{basedir}/src/test/resources/log4j.properties"
+                      overwrite="false" />
               </tasks>
             </configuration>
           </execution>
