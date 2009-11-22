@@ -1,21 +1,18 @@
 package ${package};
 
-import java.util.ArrayList;
-import java.util.List;
 
+import fiftyfive.wicket.resource.MergedResourceBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 
 import ${package}.home.HomePage;
 
 import org.apache.wicket.Request;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.Response;
-import org.apache.wicket.javascript.DefaultJavascriptCompressor;
-import org.apache.wicket.markup.html.PackageResourceGuard;
+import org.apache.wicket.ajax.WicketAjaxReference;
+import org.apache.wicket.markup.html.WicketEventReference;
 
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 import org.wicketstuff.mergedresources.ResourceMount;
-import org.wicketstuff.mergedresources.versioning.SimpleResourceVersion;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,99 +56,31 @@ public class ${app_classname} extends FoundationSpringApplication
      */
     protected void initMergedResources()
     {
-        // Mount Wicket's ajax libs with aggressive caching.
-        ResourceMount.mountWicketResources("wicket", this);
-
-        // Configure resources to be merged only in production.
-        ResourceMount mountConfig = new ResourceMount();
-        if(isDevelopmentMode())
-        {
-            // Discourage caching in development
-            mountConfig.setCacheDuration(0);
-        }
-        else
-        {
-            mountConfig.setDefaultAggressiveCacheDuration();
-        }
-        mountConfig.setMerged(!isDevelopmentMode());
-        mountConfig.setCompressed(true);
-        mountConfig.setMinifyCss(false);
-        mountConfig.setMinifyJs(false);
+        boolean dev = isDevelopmentMode();
         
-        // Mount all CSS files under all.css (split out in dev mode).
-        ResourceMount css = mountConfig.clone();
-        css.setPath("/styles/all.css");
-        for(ResourceReference ref : getCssReferences())
-        {
-            css.addResourceSpec(ref);
-        }
-        css.mount(this);
-
-        // Mount all JS files under all.js (split out in dev mode).
-        ResourceMount js = mountConfig.clone();
-        js.setPath("/scripts/all.js");
-        for(ResourceReference ref : getJsLibraryReferences())
-        {
-            js.addResourceSpec(ref);
-        }
-        js.mount(this);
-    }
-    
-    /**
-     * Returns an array of all JavaScript libraries that should be included
-     * in every page. In production mode, the minified versions will be used
-     * as appropriate.
-     */
-    public ResourceReference[] getJsLibraryReferences()
-    {
-        List<String> libs = new ArrayList<String>();
+        // Mount merged CSS
+        new MergedResourceBuilder()
+            .setPath("/styles/all.css")
+            .addCss(${app_classname}.class, "styles/reset.css")
+            .addCss(${app_classname}.class, "styles/core.css")
+            .addCss(${app_classname}.class, "styles/layout.css")
+            .addCss(${app_classname}.class, "styles/content.css")
+            .addCss(${app_classname}.class, "styles/forms.css")
+            .addCss(${app_classname}.class, "styles/page-specific.css")
+            .attachToPage(BasePage.class)
+            .build(this);
         
-        // Add all JS files we want to include in every page
-        libs.add("scripts/cookies.js");
-
-        // Add minified or normal js files as appropriate
-        if(isDevelopmentMode())
-        {
-            libs.add("scripts/lib/jquery-trunk/jquery.js");
-        }
-        else
-        {
-            libs.add("scripts/lib/jquery-trunk/jquery.min.js");
-        }
-
-        // Turn them into references
-        ResourceReference[] refs = new ResourceReference[libs.size()];
-        for(int i=0; i<refs.length; i++)
-        {
-            refs[i] = new ResourceReference(
-                ${app_classname}.class, libs.get(i)
-            );
-        }
-        return refs;
-    }
-
-    /**
-     * Returns an array of all CSS files that should be included
-     * in every page. Note that the IE-specific styles are not included.
-     */
-    public ResourceReference[] getCssReferences()
-    {
-        return new ResourceReference[] { 
-            new ResourceReference(${app_classname}.class, "styles/reset.css"),
-            new ResourceReference(${app_classname}.class, "styles/core.css"),
-            new ResourceReference(${app_classname}.class, "styles/layout.css"),
-            new ResourceReference(${app_classname}.class, "styles/content.css"),
-            new ResourceReference(${app_classname}.class, "styles/forms.css"),
-            new ResourceReference(${app_classname}.class, "styles/page-specific.css")
-        };
-    }
-    
-    /**
-     * Returns a reference to the IE7 stylesheet.
-     */
-    public ResourceReference getIE7CssReference()
-    {
-        return new ResourceReference(${app_classname}.class, "styles/ie-7-win.css");
+        // Mount merged JS
+        new MergedResourceBuilder()
+            .setPath("/scripts/all.js")
+            .addScript(WicketAjaxReference.INSTANCE)
+            .addScript(WicketEventReference.INSTANCE)
+            .addScript(${app_classname}.class, "scripts/cookies.js")
+            .addScript(
+                ${app_classname}.class, 
+                "scripts/lib/jquery-trunk/jquery" + (dev?".js":".min.js"))
+            .attachToPage(BasePage.class)
+            .build(this);
     }
 
     @Override

@@ -100,7 +100,6 @@
     <dependency>
       <groupId>org.wicketstuff</groupId>
       <artifactId>wicketstuff-merged-resources</artifactId>
-      <version>3.0-SNAPSHOT</version>
     </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->

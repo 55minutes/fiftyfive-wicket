@@ -16,13 +16,11 @@
 package fiftyfive.wicket.examples;
 
 
-import fiftyfive.wicket.header.InternetExplorerCss;
+import fiftyfive.wicket.resource.InternetExplorerCss;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.devutils.debugbar.DebugBar;
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
@@ -49,9 +47,10 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         add(new DebugBar("debug"));
-        addCssContributions();
-        addJavascriptContributions();
-
+        add(InternetExplorerCss.getConditionalHeaderContribution(
+            "IE 7",
+            new ResourceReference(BasePage.class, "styles/ie-7-win.css")
+        ));
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
@@ -69,30 +68,5 @@ public abstract class BasePage extends WebPage
     public WicketSession getWicketSession()
     {
         return (WicketSession) super.getSession();
-    }
-
-    /**
-     * Specifies all the JavaScript files that should be included on this page.
-     */
-    private void addJavascriptContributions()
-    {
-        for(ResourceReference ref : getWicketApplication().getJsLibraryReferences())
-        {
-            add(JavascriptPackageResource.getHeaderContribution(ref));
-        }
-    }
-
-    /**
-     * Specifies all the CSS files that should be included on this page.
-     */
-    private void addCssContributions()
-    {
-        for(ResourceReference ref : getWicketApplication().getCssReferences())
-        {
-            add(CSSPackageResource.getHeaderContribution(ref));
-        }
-        add(InternetExplorerCss.getConditionalHeaderContribution(
-            "IE 7", getWicketApplication().getIE7CssReference()
-        ));
     }
 }

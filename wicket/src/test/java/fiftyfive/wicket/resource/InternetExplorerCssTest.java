@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fiftyfive.wicket.header;
+package fiftyfive.wicket.resource;
 
 import fiftyfive.wicket.BaseWicketTest;
 import org.junit.Test;
