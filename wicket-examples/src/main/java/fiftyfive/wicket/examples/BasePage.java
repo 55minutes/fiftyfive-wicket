@@ -47,10 +47,12 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         add(new DebugBar("debug"));
+        add(getWicketApplication().getMergedCssContributor());
         add(InternetExplorerCss.getConditionalHeaderContribution(
             "IE 7",
             new ResourceReference(BasePage.class, "styles/ie-7-win.css")
         ));
+        add(getWicketApplication().getMergedJavaScriptContributor());
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {

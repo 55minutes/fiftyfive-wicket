@@ -24,10 +24,10 @@ import fiftyfive.wicket.examples.home.HomePage;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.ajax.WicketAjaxReference;
+import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.WicketEventReference;
 
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
-import org.wicketstuff.mergedresources.ResourceMount;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +42,34 @@ public class WicketApplication extends FoundationSpringApplication
         WicketApplication.class
     );
     
+    
+    private AbstractHeaderContributor _mergedCss;
+    private AbstractHeaderContributor _mergedJs;
+    
     @Override
     public Class getHomePage()
     {
         return HomePage.class;
+    }
+    
+    /**
+     * Returns a HeaderContributor for all the common merged CSS for this app.
+     * This will typically be added to the base page of the application so it
+     * is available from all pages.
+     */
+    public AbstractHeaderContributor getMergedCssContributor()
+    {
+        return _mergedCss;
+    }
+    
+    /**
+     * Returns a HeaderContributor for all the common merged JS for this app.
+     * This will typically be added to the base page of the application so it
+     * is available from all pages.
+     */
+    public AbstractHeaderContributor getMergedJavaScriptContributor()
+    {
+        return _mergedJs;
     }
     
     @Override
@@ -73,8 +97,12 @@ public class WicketApplication extends FoundationSpringApplication
     {
         boolean dev = isDevelopmentMode();
         
-        // Mount merged CSS
+        // Mount annotated resources
         new MergedResourceBuilder()
+            .setPath("/")
+        
+        // Mount merged CSS
+        _mergedCss = new MergedResourceBuilder()
             .setPath("/styles/all.css")
             .addCss(WicketApplication.class, "styles/reset.css")
             .addCss(WicketApplication.class, "styles/core.css")
@@ -82,11 +110,10 @@ public class WicketApplication extends FoundationSpringApplication
             .addCss(WicketApplication.class, "styles/content.css")
             .addCss(WicketApplication.class, "styles/forms.css")
             .addCss(WicketApplication.class, "styles/page-specific.css")
-            .attachToPage(BasePage.class)
             .build(this);
         
         // Mount merged JS
-        new MergedResourceBuilder()
+        _mergedJs = new MergedResourceBuilder()
             .setPath("/scripts/all.js")
             .addScript(WicketAjaxReference.INSTANCE)
             .addScript(WicketEventReference.INSTANCE)
@@ -94,7 +121,6 @@ public class WicketApplication extends FoundationSpringApplication
             .addScript(
                 WicketApplication.class, 
                 "scripts/lib/jquery-trunk/jquery" + (dev?".js":".min.js"))
-            .attachToPage(BasePage.class)
             .build(this);
     }
 

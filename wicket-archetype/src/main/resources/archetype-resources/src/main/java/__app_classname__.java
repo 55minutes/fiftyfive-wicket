@@ -9,10 +9,10 @@ import ${package}.home.HomePage;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.ajax.WicketAjaxReference;
+import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.WicketEventReference;
 
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
-import org.wicketstuff.mergedresources.ResourceMount;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +27,34 @@ public class ${app_classname} extends FoundationSpringApplication
         ${app_classname}.class
     );
     
+    
+    private AbstractHeaderContributor _mergedCss;
+    private AbstractHeaderContributor _mergedJs;
+    
     @Override
     public Class getHomePage()
     {
         return HomePage.class;
+    }
+    
+    /**
+     * Returns a HeaderContributor for all the common merged CSS for this app.
+     * This will typically be added to the base page of the application so it
+     * is available from all pages.
+     */
+    public AbstractHeaderContributor getMergedCssContributor()
+    {
+        return _mergedCss;
+    }
+    
+    /**
+     * Returns a HeaderContributor for all the common merged JS for this app.
+     * This will typically be added to the base page of the application so it
+     * is available from all pages.
+     */
+    public AbstractHeaderContributor getMergedJavaScriptContributor()
+    {
+        return _mergedJs;
     }
     
     @Override
@@ -59,7 +83,7 @@ public class ${app_classname} extends FoundationSpringApplication
         boolean dev = isDevelopmentMode();
         
         // Mount merged CSS
-        new MergedResourceBuilder()
+        _mergedCss = new MergedResourceBuilder()
             .setPath("/styles/all.css")
             .addCss(${app_classname}.class, "styles/reset.css")
             .addCss(${app_classname}.class, "styles/core.css")
@@ -67,11 +91,10 @@ public class ${app_classname} extends FoundationSpringApplication
             .addCss(${app_classname}.class, "styles/content.css")
             .addCss(${app_classname}.class, "styles/forms.css")
             .addCss(${app_classname}.class, "styles/page-specific.css")
-            .attachToPage(BasePage.class)
             .build(this);
         
         // Mount merged JS
-        new MergedResourceBuilder()
+        _mergedJs = new MergedResourceBuilder()
             .setPath("/scripts/all.js")
             .addScript(WicketAjaxReference.INSTANCE)
             .addScript(WicketEventReference.INSTANCE)
@@ -79,7 +102,6 @@ public class ${app_classname} extends FoundationSpringApplication
             .addScript(
                 ${app_classname}.class, 
                 "scripts/lib/jquery-trunk/jquery" + (dev?".js":".min.js"))
-            .attachToPage(BasePage.class)
             .build(this);
     }
 

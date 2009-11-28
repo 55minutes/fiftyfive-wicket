@@ -9,7 +9,10 @@ import static org.apache.wicket.Application.DEVELOPMENT;
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.application.IComponentInstantiationListener;
-import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.behavior.AbstractHeaderContributor;
+import org.apache.wicket.markup.html.CSSPackageResource;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -18,11 +21,18 @@ import org.wicketstuff.mergedresources.ResourceMount;
 
 /**
  * Simplifies usage of the wicket-merged-resource library by mounting merged
- * resources with an easy builder API. Applies the following best practices
- * to merged resources:
+ * resources with an easy builder API and a good set defaults.
+ * <p>
+ * More importantly, this builder applies the DRY principle so that you only
+ * have to list your resources once; then you can attach this list of
+ * resources to any number of pages or components without redeclaring
+ * HeaderContributors for them by hand.
+ * See {@link #build} for details.
+ * <p>
+ * The reasonable defaults provided by this builder are as follows:
  * <ul>
- * <li>Only merges resources in deployment mode. In development the resources
- *     will be mounted separately to facilitate debugging.</li>
+ * <li>Only merge resources in deployment mode. In development, mount
+ *     the resources separately to facilitate debugging.</li>
  * <li>Set aggressive cache headers in deployment mode. In development mode
  *     don't send cache headers at all.</li>
  * <li>Always gzip resources.</li>
@@ -39,7 +49,6 @@ import org.wicketstuff.mergedresources.ResourceMount;
  *     .addCss(WicketApplication.class, "styles/content.css")
  *     .addCss(WicketApplication.class, "styles/forms.css")
  *     .addCss(WicketApplication.class, "styles/page-specific.css")
- *     .attachToPage(BasePage.class)
  *     .build(this);
  * </pre>
  */
@@ -50,20 +59,33 @@ public class MergedResourceBuilder
     
     private String _path;
     private List<ResourceReference> _references;
-    private List<Class<? extends Component>> _components;
     
+    /**
+     * Creates an empty builder object. See the
+     * {@link MergedResourceBuilder class documentation} for 
+     * example usage.
+     */
     public MergedResourceBuilder()
     {
         _references = new ArrayList<ResourceReference>();
-        _components = new ArrayList<Class<? extends Component>>();
     }
     
+    /**
+     * Sets the path at which the merged resources will be mounted.
+     * For example, "/styles/all.css".
+     */
     public MergedResourceBuilder setPath(String path)
     {
         _path = path;
         return this;
     }
     
+    /**
+     * Sets the CSS media type that will be used for the merged CSS resources.
+     * By default the merged CSS will not have a media type, meaning it will
+     * apply to all media. Alternatively you could specify "screen" or "print"
+     * to limit the CSS to those media.
+     */
     public MergedResourceBuilder setCssMedia(String media)
     {
         requireCss();
@@ -71,11 +93,29 @@ public class MergedResourceBuilder
         return this;
     }
     
+    /**
+     * Adds a CSS resource to the list of merged resources.
+     *
+     * @param scope The class relative to which the resource will be resolved.
+     * @param path  The path, relative to the scope, where the CSS file is
+     *              is located.
+     * @throws IllegalStateException if a JavaScript resource was previously
+     *         added to this builder. CSS and JavaScript resources cannot be
+     *         mixed.
+     */
     public MergedResourceBuilder addCss(Class<?> scope, String path)
     {
         return addCss(new ResourceReference(scope, path));
     }
 
+    /**
+     * Adds a CSS resource to the list of merged resources.
+     *
+     * @param ref The CSS resource to add.
+     * @throws IllegalStateException if a JavaScript resource was previously
+     *         added to this builder. CSS and JavaScript resources cannot be
+     *         mixed.
+     */
     public MergedResourceBuilder addCss(ResourceReference ref)
     {
         requireCss();
@@ -83,11 +123,29 @@ public class MergedResourceBuilder
         return this;
     }
     
+    /**
+     * Adds a JavaScript resource to the list of merged resources.
+     *
+     * @param scope The class relative to which the resource will be resolved.
+     * @param path  The path, relative to the scope, where the JS file is
+     *              is located.
+     * @throws IllegalStateException if a CSS resource was previously
+     *         added to this builder. CSS and JavaScript resources cannot be
+     *         mixed.
+     */
     public MergedResourceBuilder addScript(Class<?> scope, String path)
     {
         return addScript(new ResourceReference(scope, path));
     }
     
+    /**
+     * Adds a JavaScript resource to the list of merged resources.
+     *
+     * @param ref The JavaScript resource to add.
+     * @throws IllegalStateException if a CSS resource was previously
+     *         added to this builder. CSS and JavaScript resources cannot be
+     *         mixed.
+     */
     public MergedResourceBuilder addScript(ResourceReference ref)
     {
         requireScript();
@@ -95,24 +153,37 @@ public class MergedResourceBuilder
         return this;
     }
 
-    public MergedResourceBuilder attachToPage(Class<? extends WebPage> page)
-    {
-        return attachToComponent(page);
-    }
-    
-    public MergedResourceBuilder attachToComponent(Class<? extends Component> c)
-    {
-        _components.add(c);
-        return this;
-    }
-    
-    public void build(WebApplication app)
+    /**
+     * Constructs a special merged resource using the path and resources
+     * options specified in this builder, and mounts the result in the
+     * application. The resources will remain separate in development mode,
+     * but will be merged together into a single file in deployment mode.
+     * <p>
+     * This method must be called after
+     * all of the options have been set. See
+     * {@link MergedResourceBuilder class documentation} for example usage.
+     * <p>
+     * If desired, the HeaderContributor returned by this method can be used
+     * to contribute the merged resource to the pages or components of your
+     * choice.
+     *
+     * @return A HeaderContributor that will contribute all the JavaScript
+     *         or CSS resources that were specified in this builder.
+     *
+     * @throws IllegalStateException if a path or resources have not been
+     *         specified prior to calling this method.
+     */
+    public AbstractHeaderContributor build(WebApplication app)
     {
         assertRequiredOptions();
         mountResources(app);
-        injectHeaderContributions(app);
+        return createHeaderContributor();
     }
     
+    /**
+     * Delegate to the wicket-merged-resources library for mounting the
+     * mereged resources with reasonable settings.
+     */
     private void mountResources(WebApplication app)
     {
         boolean development = app.getConfigurationType().equals(DEVELOPMENT);
@@ -142,20 +213,22 @@ public class MergedResourceBuilder
         mountConfig.mount(app);
     }
     
-    private void injectHeaderContributions(WebApplication app)
+    private AbstractHeaderContributor createHeaderContributor()
     {
-        if(_isCss)
+        IHeaderContributor[] arr = new IHeaderContributor[_references.size()];
+        for(int i=0; i<_references.size(); i++)
         {
-            app.addComponentInstantiationListener(
-                new CssContributionInjector(_media, _components, _references)
-            );
+            ResourceReference ref = _references.get(i);
+            if(_isCss)
+            {
+                arr[i] = CSSPackageResource.getHeaderContribution(ref, _media);
+            }
+            else
+            {
+                arr[i] = JavascriptPackageResource.getHeaderContribution(ref);
+            }
         }
-        else
-        {
-            app.addComponentInstantiationListener(
-                new JavaScriptContributionInjector(_components, _references)
-            );
-        }
+        return new HeaderContributions(arr);
     }
     
     private void requireCss()
@@ -196,4 +269,18 @@ public class MergedResourceBuilder
         }
     }
     
+    private static class HeaderContributions extends AbstractHeaderContributor
+    {
+        IHeaderContributor[] _contribs;
+        
+        private HeaderContributions(IHeaderContributor[] contribs)
+        {
+            _contribs = contribs;
+        }
+        
+        public IHeaderContributor[] getHeaderContributors()
+        {
+            return _contribs;
+        }
+    }
 }

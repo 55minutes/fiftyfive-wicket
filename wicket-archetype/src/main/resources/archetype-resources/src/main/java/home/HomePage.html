@@ -20,6 +20,15 @@
     }
   </style>
   
+
+  <title>Home</title>
+</wicket:head>
+
+<wicket:extend>
+  <div id="main">
+    <h1>It works!</h1>
+    <p>Current timestamp: <span id="timestamp">xxxx</span> <a href="#" id="update-timestamp">Refresh</a></p>
+  </div> <!-- /main -->
   <script type="text/javascript">
     function updateTimestamp(event)
     {
@@ -37,13 +46,4 @@
       Event.observe($("update-timestamp"), "click", updateTimestamp);
     });
   </script>
-
-  <title>Home</title>
-</wicket:head>
-
-<wicket:extend>
-  <div id="main">
-    <h1>It works!</h1>
-    <p>Current timestamp: <span id="timestamp">xxxx</span> <a href="#" id="update-timestamp">Refresh</a></p>
-  </div> <!-- /main -->
 </wicket:extend>

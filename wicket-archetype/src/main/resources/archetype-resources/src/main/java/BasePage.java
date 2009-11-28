@@ -32,11 +32,12 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         add(new DebugBar("debug"));
+        add(get${app_classname}().getMergedCssContributor());
         add(InternetExplorerCss.getConditionalHeaderContribution(
             "IE 7",
             new ResourceReference(BasePage.class, "styles/ie-7-win.css")
         ));
-
+        add(get${app_classname}().getMergedJavaScriptContributor());
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
