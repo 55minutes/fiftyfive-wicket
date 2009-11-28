@@ -97,10 +97,6 @@ public class WicketApplication extends FoundationSpringApplication
     {
         boolean dev = isDevelopmentMode();
         
-        // Mount annotated resources
-        new MergedResourceBuilder()
-            .setPath("/")
-        
         // Mount merged CSS
         _mergedCss = new MergedResourceBuilder()
             .setPath("/styles/all.css")
