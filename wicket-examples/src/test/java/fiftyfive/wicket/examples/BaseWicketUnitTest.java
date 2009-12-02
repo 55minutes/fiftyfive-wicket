@@ -22,8 +22,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.StaticWebApplicationContext;
 
 
 /**
@@ -49,7 +49,7 @@ public abstract class BaseWicketUnitTest
             {
                 // Provide a static Spring context that can be configured
                 // with mock beans for testing purposes.
-                StaticWebApplicationContext c = new StaticWebApplicationContext();
+                ApplicationContextMock c = new ApplicationContextMock();
                 initSpringContext(c);
                 return c;
             }
@@ -69,14 +69,14 @@ public abstract class BaseWicketUnitTest
      * The default implementation of this method is empty.
      * Example usage:
      * <pre>
-     * protected void initSpringContext(StaticWebApplicationContext ctx)
+     * protected void initSpringContext(ApplicationContextMock ctx)
      * {
      *     MyService svc = // init mock service bean
-     *     ctx.getBeanFactory().registerSingleton("serviceBeanId", svc);
+     *     ctx.putBean(svc);
      * }
      * </pre>
      */
-    protected void initSpringContext(StaticWebApplicationContext ctx)
+    protected void initSpringContext(ApplicationContextMock ctx)
     {
         // pass
     }

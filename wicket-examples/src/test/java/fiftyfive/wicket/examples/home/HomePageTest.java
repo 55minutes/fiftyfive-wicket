@@ -18,16 +18,16 @@ package fiftyfive.wicket.examples.home;
 import fiftyfive.wicket.examples.BaseWicketUnitTest;
 import fiftyfive.wicket.test.XHtmlValidator;
 import org.junit.Test;
-import org.springframework.web.context.support.StaticWebApplicationContext;
+import org.apache.wicket.spring.test.ApplicationContextMock;
 
 public class HomePageTest extends BaseWicketUnitTest
 {
-    protected void initSpringContext(StaticWebApplicationContext ctx)
+    protected void initSpringContext(ApplicationContextMock ctx)
     {
         // If HomePage had @SpringBean dependencies, you would mock them here.
         // Like this:
         // MockitoAnnotations.initMocks(this);
-        // ctx.getBeanFactory().registerSingleton("serviceBeanId", _mockSvc);
+        // ctx.putBean(_mockSvc);
     }
     
     @Test
