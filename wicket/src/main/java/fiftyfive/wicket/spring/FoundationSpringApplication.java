@@ -50,7 +50,7 @@ public abstract class FoundationSpringApplication extends FoundationApplication
     protected void initSpring()
     {
         addComponentInstantiationListener(new SpringComponentInjector(
-            this, getApplicationContext()
+            this, getApplicationContext(), true
         ));
     }
 
