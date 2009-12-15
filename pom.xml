@@ -54,8 +54,8 @@
 
   <modules>
     <module>wicket</module>
-    <module>wicket-archetype</module>
     <module>wicket-examples</module>
+    <module>wicket-archetype</module>
   </modules>
 
 
@@ -71,11 +71,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.15</version>
-      </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
