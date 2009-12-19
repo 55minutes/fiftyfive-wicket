@@ -7,11 +7,11 @@ fi
 export XX_SKIP_TEST=1
 echo "Cleaning"
 mvn -B -q clean
-cd ..
+cd ../parent
 echo "Installing archetype"
 mvn -B -q -Dmaven.test.skip=true \
     install && \
-cd wicket-archetype/target && \
+cd ../archetype/target && \
 echo "Generating sample project" && \
 mvn -q -B archetype:generate \
     -DarchetypeGroupId=com.55minutes \

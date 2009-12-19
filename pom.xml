@@ -14,237 +14,106 @@
  - See the License for the specific language governing permissions and
  - limitations under the License.
  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
 
   <!-- ==================================================================== -->
   <!-- Core Project Information                                             -->
   <!-- ==================================================================== -->
+  <parent>
+    <groupId>com.55minutes</groupId>
+    <artifactId>fiftyfive-wicket-parent</artifactId>
+    <version>1.2-SNAPSHOT</version>
+    <relativePath>fiftyfive-wicket-parent/pom.xml</relativePath>
+  </parent>
   <groupId>com.55minutes</groupId>
-  <artifactId>fiftyfive-wicket-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>1.2-SNAPSHOT</version>
+  <artifactId>fiftyfive-wicket</artifactId>
+  <packaging>jar</packaging>
 
 
 
   <!-- ==================================================================== -->
   <!-- Project Description                                                  -->
   <!-- ==================================================================== -->
-  <name>55 Minutes Wicket Parent</name>
+  <name>55 Minutes Wicket</name>
   <description>
-    Parent POM for all Wicket projects.
+    Additional components and helper classes for streamlining
+    Wicket development.
   </description>
-  <organization>
-    <name>55 Minutes</name>
-    <url>http://www.55minutes.com/</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-
-
-  <!-- ==================================================================== -->
-  <!-- Modules                                                              -->
-  <!-- ==================================================================== -->
-
-  <modules>
-    <module>wicket</module>
-    <module>wicket-examples</module>
-    <module>wicket-archetype</module>
-  </modules>
 
 
   <!-- ==================================================================== -->
   <!-- Dependencies                                                         -->
   <!-- ==================================================================== -->
 
-  <properties>
-    <slf4j.version>1.5.8</slf4j.version>
-    <spring.version>2.5.6</spring.version>
-    <wicket.version>1.4-SNAPSHOT</wicket.version>
-  </properties>
+  <dependencies>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.14</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>jcl-over-slf4j</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-web</artifactId>
-        <version>${spring.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.wicket</groupId>
-        <artifactId>wicket</artifactId>
-        <version>${wicket.version}</version>
-      </dependency>    
-      <dependency>
-        <groupId>org.apache.wicket</groupId>
-        <artifactId>wicket-datetime</artifactId>
-        <version>${wicket.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.wicket</groupId>
-        <artifactId>wicket-devutils</artifactId>
-        <version>${wicket.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.wicket</groupId>
-        <artifactId>wicket-extensions</artifactId>
-        <version>${wicket.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.wicket</groupId>
-        <artifactId>wicket-spring</artifactId>
-        <version>${wicket.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.wicketstuff</groupId>
-        <artifactId>wicketstuff-merged-resources</artifactId>
-        <version>3.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.7</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-
-  <!-- ==================================================================== -->
-  <!-- Build Configuration                                                  -->
-  <!-- ==================================================================== -->
-
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>**</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>src/test/java</directory>
-        <includes>
-          <include>**</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </testResource>
-    </testResources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <encoding>utf-8</encoding>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>utf-8</encoding>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <forkMode>never</forkMode>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-
-  <!-- ==================================================================== -->
-  <!-- Reporting Configuration                                              -->
-  <!-- ==================================================================== -->
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <encoding>utf-8</encoding>
-          <links>
-            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
-            <link>http://wicket.apache.org/docs/1.4/</link>
-            <link>http://static.springframework.org/spring/docs/2.5.x/api/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-
-  <!-- Needed for Wicket SNAPSHOT; remove prior to relase -->
-  <repositories>
-    <repository>
-      <id>wicket-snaps</id>
-      <url>http://wicketstuff.org/maven/repository</url>
-      <snapshots><enabled>true</enabled></snapshots>
-      <releases><enabled>true</enabled></releases>
-    </repository>
-  </repositories>
+    <!-- ==== Compile dependencies ======================================== -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket</artifactId>
+    </dependency>    
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-datetime</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-extensions</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-spring</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>wicketstuff-merged-resources</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    
+    <!-- ==== Test dependencies =========================================== -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <scope>test</scope>
+    </dependency>
+    
+  </dependencies>
 
 
 </project>
