@@ -27,7 +27,7 @@
     <groupId>com.55minutes</groupId>
     <artifactId>fiftyfive-wicket-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
-    <relativePath>fiftyfive-wicket-parent/pom.xml</relativePath>
+    <relativePath>parent/pom.xml</relativePath>
   </parent>
   <groupId>com.55minutes</groupId>
   <artifactId>fiftyfive-wicket</artifactId>
