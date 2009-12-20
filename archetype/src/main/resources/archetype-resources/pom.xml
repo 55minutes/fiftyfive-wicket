@@ -29,7 +29,7 @@
 
   <properties>
     <slf4j.version>1.5.8</slf4j.version>
-    <spring.version>2.5.6</spring.version>
+    <spring.version>3.0.0.RELEASE</spring.version>
     <wicket.version>1.4-SNAPSHOT</wicket.version>
   </properties>
 
@@ -257,7 +257,7 @@
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
             <link>http://wicket.apache.org/docs/1.4/</link>
-            <link>http://static.springframework.org/spring/docs/2.5.x/api/</link>
+            <link>http://static.springsource.org/spring/docs/3.0.x/api/</link>
           </links>
         </configuration>
       </plugin>
