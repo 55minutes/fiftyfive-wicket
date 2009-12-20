@@ -236,6 +236,18 @@
   </reporting>
 
 
+  <!-- ==================================================================== -->
+  <!-- Deployment Configuration                                             -->
+  <!-- ==================================================================== -->
+
+  <distributionManagement>
+    <repository>
+      <id>fiftyfive-internal</id>
+      <name>55 Minutes Maven Repository</name>
+      <url>https://internal.55minutes.com/archiva/repository/fiftyfive-opensource/</url>
+    </repository>
+  </distributionManagement>
+
   <!-- Needed for Wicket SNAPSHOT; remove prior to relase -->
   <repositories>
     <repository>
