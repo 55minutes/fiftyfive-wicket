@@ -96,8 +96,8 @@ public class ${app_classname} extends FoundationSpringApplication
         // Mount merged JS
         _mergedJs = new MergedResourceBuilder()
             .setPath("/scripts/all.js")
-            .addScript(WicketAjaxReference.INSTANCE)
             .addScript(WicketEventReference.INSTANCE)
+            .addScript(WicketAjaxReference.INSTANCE)
             .addScript(${app_classname}.class, "scripts/cookies.js")
             .addScript(
                 ${app_classname}.class, 
