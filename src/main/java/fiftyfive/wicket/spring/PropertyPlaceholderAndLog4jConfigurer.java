@@ -23,11 +23,14 @@ import javax.servlet.ServletContext;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer;
 
@@ -54,11 +57,17 @@ import org.springframework.web.context.support.ServletContextPropertyPlaceholder
  * you would pass -Dmyapp.settings=[file] as a JVM option to specify the
  * properties file location. Classpath locations are permitted using the
  * <code>classpath:</code> prefix.
+ * <p>
+ * This configurer can also reroute all java.util.logging (JUL) events through
+ * slf4j. This feature is useful when using libraries that are hard-coded to
+ * use JUL and you would like to use slf4j instead. To enable this, set the
+ * <code>bridgeJUL</code> property to <code>true</code>.
  */
 public class PropertyPlaceholderAndLog4jConfigurer
     implements BeanFactoryPostProcessor, ServletContextAware
 {
     private String _key;
+    private boolean _bridgeJUL;
     private ServletContext _servletContext;
     private PropertyPlaceholderConfigurer _configurer;
     
@@ -77,6 +86,7 @@ public class PropertyPlaceholderAndLog4jConfigurer
         sc.setContextOverride(true);
         
         _configurer = sc;
+        _bridgeJUL = false;
     }
     
     /**
@@ -140,6 +150,16 @@ public class PropertyPlaceholderAndLog4jConfigurer
     }
     
     /**
+     * If set to <code>true</code>, reroutes all java util logging events
+     * to slf4j.
+     */
+    public void setBridgeJUL(boolean newBridgeJUL)
+    {
+        _bridgeJUL = newBridgeJUL;
+    }
+    
+    
+    /**
      * Creates a File object for the given location. If the location does
      * not point to an existing file, throw a RuntimeException.
      */
@@ -177,6 +197,11 @@ public class PropertyPlaceholderAndLog4jConfigurer
         else
         {
             PropertyConfigurator.configure(configLocation.getAbsolutePath());
+        }
+        if(_bridgeJUL)
+        {
+            java.util.logging.LogManager.getLogManager().reset();
+            SLF4JBridgeHandler.install();
         }
     }
     
@@ -223,7 +248,7 @@ public class PropertyPlaceholderAndLog4jConfigurer
                 "start without its configuration file."
             );
         }
-        return loc;
+        return SystemPropertyUtils.resolvePlaceholders(loc, true);
     }
     
     /**
