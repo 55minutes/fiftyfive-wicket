@@ -331,6 +331,7 @@
       <id>fiftyfive-internal</id>
       <name>55 Minutes Maven Repository</name>
       <url>https://internal.55minutes.com/archiva/repository/fiftyfive-opensource/</url>
+      <uniqueVersion>false</uniqueVersion>
     </repository>
   </distributionManagement>
 
