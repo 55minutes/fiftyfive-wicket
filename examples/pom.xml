@@ -233,10 +233,13 @@
             <configuration>
               <tasks>
                 <copy file="${basedir}/src/main/resources/fiftyfive-wicket-examples.properties.SAMPLE"
-                      tofile="${basedir}/fiftyfive-wicket-examples.local.properties"
+                      tofile="${basedir}/fiftyfive-wicket-examples.properties"
                       overwrite="false" />
-                <copy file="${basedir}/src/test/resources/log4j.properties.SAMPLE"
+                <copy file="${basedir}/src/main/resources/log4j.properties.SAMPLE"
                       tofile="${basedir}/src/test/resources/log4j.properties"
+                      overwrite="false" />
+                <copy file="${basedir}/src/main/resources/log4j.properties.SAMPLE"
+                      tofile="${basedir}/log4j.properties"
                       overwrite="false" />
               </tasks>
             </configuration>
@@ -253,14 +256,11 @@
               <name>wicket.configuration</name>
               <value>development</value>
             </systemProperty>
-            <systemProperty>
-              <name>fiftyfive-wicket-examples.settings</name>
-              <value>${basedir}/fiftyfive-wicket-examples.local.properties</value>
-            </systemProperty>
           </systemProperties>
           <reload>manual</reload>
           <webAppConfig>
             <contextPath>/${artifactId}</contextPath>
+            <extraClasspath>${basedir}/</extraClasspath>
           </webAppConfig>
         </configuration>
       </plugin>

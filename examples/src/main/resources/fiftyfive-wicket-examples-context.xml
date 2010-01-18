@@ -16,21 +16,15 @@
     limitations under the License.
 
 -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-  <!--
-  - Load enviroment-specific properties. The properties file must be specified
-  - in a system property called "fiftyfive-wicket-examples.settings".
-  - Use a -Dfiftyfive-wicket-examples.settings= command line argument
-  - when running the application. This happens automatically with jetty:run.
-  -->
-  <bean class="fiftyfive.wicket.spring.PropertyPlaceholderAndLog4jConfigurer">
-    <property name="key" value="fiftyfive-wicket-examples.settings"/>
-  </bean>
-
-  <!-- Your Spring beans go here -->
-
+  <!-- Load app settings from fiftyfive-wicket-examples.properties on classpath -->
+  <context:property-placeholder location="classpath:fiftyfive-wicket-examples.properties"/>
+  
 </beans>
