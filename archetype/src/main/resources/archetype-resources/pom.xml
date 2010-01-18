@@ -210,10 +210,13 @@
             <configuration>
               <tasks>
                 <copy file="${symbol_dollar}{basedir}/src/main/resources/${artifactId}.properties.SAMPLE"
-                      tofile="${symbol_dollar}{basedir}/${artifactId}.local.properties"
+                      tofile="${symbol_dollar}{basedir}/${artifactId}.properties"
                       overwrite="false" />
-                <copy file="${symbol_dollar}{basedir}/src/test/resources/log4j.properties.SAMPLE"
+                <copy file="${symbol_dollar}{basedir}/src/main/resources/log4j.properties.SAMPLE"
                       tofile="${symbol_dollar}{basedir}/src/test/resources/log4j.properties"
+                      overwrite="false" />
+                <copy file="${symbol_dollar}{basedir}/src/main/resources/log4j.properties.SAMPLE"
+                      tofile="${symbol_dollar}{basedir}/log4j.properties"
                       overwrite="false" />
               </tasks>
             </configuration>
@@ -230,14 +233,11 @@
               <name>wicket.configuration</name>
               <value>development</value>
             </systemProperty>
-            <systemProperty>
-              <name>${artifactId}.settings</name>
-              <value>${symbol_dollar}{basedir}/${artifactId}.local.properties</value>
-            </systemProperty>
           </systemProperties>
           <reload>manual</reload>
           <webAppConfig>
             <contextPath>/${symbol_dollar}{artifactId}</contextPath>
+            <extraClasspath>${symbol_dollar}{basedir}/</extraClasspath>
           </webAppConfig>
         </configuration>
       </plugin>
