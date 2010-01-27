@@ -98,10 +98,22 @@ public class ${app_classname} extends FoundationSpringApplication
             .setPath("/scripts/all.js")
             .addScript(WicketEventReference.INSTANCE)
             .addScript(WicketAjaxReference.INSTANCE)
-            .addScript(${app_classname}.class, "scripts/cookies.js")
+            .addScript(${app_classname}.class, "scripts/lib/cookies/cookies.js")
             .addScript(
                 ${app_classname}.class, 
-                "scripts/lib/jquery-trunk/jquery" + (dev?".js":".min.js"))
+                "scripts/lib/strftime/strftime" + (dev?".js":"-min.js"))
+            .addScript(
+                ${app_classname}.class, 
+                "scripts/lib/fiftyfive-utils/55_utils.js")
+            .addScript(
+                ${app_classname}.class, 
+                "scripts/lib/jquery-1.4/jquery-1.4" + (dev?".js":".min.js"))
+            .addScript(
+                ${app_classname}.class, 
+                "scripts/lib/jquery-ui-1.7.2/jquery-ui-1.7.2.core.min.js")
+            .addScript(
+                ${app_classname}.class, 
+                "scripts/lib/fiftyfive-utils/jquery.55_utils.js")
             .build(this);
     }
 
