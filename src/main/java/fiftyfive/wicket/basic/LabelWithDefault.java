@@ -15,17 +15,13 @@
  */
 package fiftyfive.wicket.basic;
 
-
 import fiftyfive.wicket.util.Shortcuts;
-
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-
-// TODO: use I18N?
 
 /**
  * An extension of Wicket's Label component that allows a default value to be
@@ -41,7 +37,7 @@ import org.apache.wicket.model.Model;
  */
 public class LabelWithDefault extends Label
 {
-    private String _defaultValue;
+    private IModel<String> _defaultValue;
     
     /**
      * @see Label#Label(String)
@@ -74,6 +70,16 @@ public class LabelWithDefault extends Label
      */
     public LabelWithDefault setDefault(String valueIfEmpty)
     {
+        return setDefault(Model.of(valueIfEmpty));
+    }
+    
+    /**
+     * Sets the value that will be used if the value provided by the label's
+     * normal model is empty. For localization, consider passing in an
+     * instance of Wicket's StringResourceModel.
+     */
+    public LabelWithDefault setDefault(IModel<String> valueIfEmpty)
+    {
         _defaultValue = valueIfEmpty;
         return this;
     }
@@ -85,6 +91,16 @@ public class LabelWithDefault extends Label
     public boolean isEmpty()
     {
         return Shortcuts.empty(getDefaultModelObject());
+    }
+    
+    /**
+     * Detaches the model that holds the default value.
+     */
+    @Override
+    protected void onDetach()
+    {
+        if(null != _defaultValue) _defaultValue.detach();
+        super.onDetach();
     }
 
     /**
@@ -100,7 +116,7 @@ public class LabelWithDefault extends Label
         String str = getDefaultModelObjectAsString();
         if(_defaultValue != null && isEmpty())
         {
-            str = _defaultValue;
+            str = _defaultValue.getObject();
         }
         replaceComponentTagBody(markupStream, openTag, str);
     }
