@@ -133,6 +133,12 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <version>${jetty.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
   </dependencies>
 
@@ -249,7 +255,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.1.21</version>
+        <version>${jetty.version}</version>
         <configuration>
           <systemProperties>
             <systemProperty>
@@ -259,7 +265,7 @@
           </systemProperties>
           <reload>manual</reload>
           <webAppConfig>
-            <contextPath>/${artifactId}</contextPath>
+            <contextPath>/</contextPath>
             <extraClasspath>${basedir}/</extraClasspath>
           </webAppConfig>
         </configuration>
