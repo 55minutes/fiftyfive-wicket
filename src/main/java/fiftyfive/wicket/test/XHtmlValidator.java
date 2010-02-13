@@ -15,24 +15,17 @@
  */
 package fiftyfive.wicket.test;
 
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import fiftyfive.wicket.test.dtd.XHtmlEntityResolver;
-
 import org.apache.wicket.util.tester.WicketTester;
-import org.apache.wicket.util.tester.WicketTesterHelper;
-
-import org.junit.Assert;
-
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -41,62 +34,28 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Utility for parsing XHTML documents and verifying that they are valid
- * according to the DTD. Typically you will use this in your unit test with
- * a {@link WicketTester} to render a page and then assert that its markup
- * is valid. For example:
- * <pre>
- * WicketTester tester = new WicketTester(new MyApplication());
- * tester.startPage(MyPage.class);
- * tester.assertRenderedPage(MyPage.class);
- * XHtmlValidator.assertValidMarkup(tester);
- * </pre>
- * @see #assertValidMarkup
+ * according to the DTD. See {@link WicketTestUtils} for typical usage.
  */
 public class XHtmlValidator implements ErrorHandler
 {
-    private static final int DEF_NUM_LINES_CONTEXT = 10;
-    
+    static final int DEF_NUM_LINES_CONTEXT = 10;
+
     /**
-     * Assert that the last rendered page has a content-type of text/html
-     * and is valid XHTML markup.
-     *
-     * @param tester A WicketTester object that has just rendered a page.
+     * @deprecated Use {@link WicketTestUtils#assertValidMarkup(WicketTester)}
      */
     public static void assertValidMarkup(WicketTester tester) 
         throws IOException
     {
-        assertValidMarkup(tester, DEF_NUM_LINES_CONTEXT);
+        WicketTestUtils.assertValidMarkup(tester);
     }
 
     /**
-     * Assert that the last rendered page has a content-type of text/html
-     * and is valid XHTML markup.
-     *
-     * @param tester A WicketTester object that has just rendered a page.
-     * @param linesContext The number of lines of context to include around
-     *                     each validation error.
+     * @deprecated Use {@link WicketTestUtils#assertValidMarkup(WicketTester,int)}
      */
     public static void assertValidMarkup(WicketTester tester, int linesContext) 
         throws IOException
     {
-        String type = tester.getServletResponse().getContentType();
-        Assert.assertTrue(
-            type.equals("text/html") ||
-            type.startsWith("text/html;")
-        );
-        
-        String document = tester.getServletResponse().getDocument();
-        XHtmlValidator validator = new XHtmlValidator();
-        validator.setNumLinesContext(linesContext);
-        validator.parse(document);
-        
-        if(!validator.isValid())
-        {
-            Assert.fail(
-                "Invalid XHTML:\n" +
-                WicketTesterHelper.asLined(validator.getErrors())
-            );
-        }
+        WicketTestUtils.assertValidMarkup(tester, linesContext);
     }
     
     
