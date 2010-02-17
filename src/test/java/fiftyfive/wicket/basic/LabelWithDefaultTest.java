@@ -17,17 +17,40 @@ package fiftyfive.wicket.basic;
 
 import fiftyfive.wicket.BaseWicketTest;
 import org.junit.Test;
+import static fiftyfive.wicket.test.WicketTestUtils.*;
 
 public class LabelWithDefaultTest extends BaseWicketTest
 {
     @Test
-    public void testRender() throws Exception
+    public void testRender_normal() throws Exception
     {
-        _tester.startPage(LabelWithDefaultTestPage.class);
-        _tester.assertRenderedPage(LabelWithDefaultTestPage.class);
-        _tester.assertResultPage(
-            LabelWithDefaultTestPage.class,
-            "LabelWithDefaultTestPage-expected.html"
+        startComponentWithMarkup(
+            _tester,
+            new LabelWithDefault("test", "hello!").setDefault("foo"),
+            "<p wicket:id=\"test\">blah</p>"
         );
+        _tester.assertContains("<p>hello!</p>");
+    }
+
+    @Test
+    public void testRender_emptyNoDefault() throws Exception
+    {
+        startComponentWithMarkup(
+            _tester,
+            new LabelWithDefault("test"),
+            "<p wicket:id=\"test\">blah</p>"
+        );
+        _tester.assertContains("<p class=\"empty\"></p>");
+    }
+
+    @Test
+    public void testRender_emptyWithDefault() throws Exception
+    {
+        startComponentWithMarkup(
+            _tester,
+            new LabelWithDefault("test").setDefault("foo"),
+            "<p wicket:id=\"test\">blah</p>"
+        );
+        _tester.assertContains("<p class=\"empty\">foo</p>");
     }
 }

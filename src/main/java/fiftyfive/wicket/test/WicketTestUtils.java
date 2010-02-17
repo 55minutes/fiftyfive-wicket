@@ -16,21 +16,23 @@
 package fiftyfive.wicket.test;
 
 import java.io.IOException;
+import java.io.StringReader;
+import javax.xml.xpath.XPathExpressionException;
+import static javax.xml.xpath.XPathConstants.NODESET;
+import static javax.xml.xpath.XPathConstants.STRING;
 
+import fiftyfive.wicket.util.XPathHelper;
 import org.apache.wicket.Component;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.settings.IResourceSettings;
-import org.apache.wicket.util.file.IResourceFinder;
-import org.apache.wicket.util.resource.IResourceStream;
-import org.apache.wicket.util.resource.StringResourceStream;
-import org.apache.wicket.util.tester.TestPanelSource;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
 import org.junit.Assert;
-
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
- * Helper functions for simplifying testing of Wicket pages and components.
+ * Helper functions and assertions for easier testing of Wicket pages
+ * and components.
  */
 public abstract class WicketTestUtils
 {
@@ -39,8 +41,16 @@ public abstract class WicketTestUtils
      * rendered Wicket page.
      */
     public static void assertXPath(WicketTester wt, String expr)
+            throws IOException, SAXException, XPathExpressionException
     {
-        // TODO
+        if(matchCount(wt, expr) == 0)
+        {
+            Assert.fail(String.format(
+                "XPath expression [%s] could not be found in document:%n%s",
+                expr,
+                document(wt)
+            ));
+        }
     }
 
     /**
@@ -49,8 +59,29 @@ public abstract class WicketTestUtils
      * rendered Wicket page.
      */
     public static void assertXPath(int count, WicketTester wt, String expr)
+            throws IOException, SAXException, XPathExpressionException
     {
-        // TODO
+        // First make sure the expression exists at all
+        if(count > 0)
+        {
+            assertXPath(wt, expr);
+        }
+        
+        // Then do a more exact check
+        final int matches = matchCount(wt, expr);
+        if(matches != count)
+        {
+            String s = 1 == count ? "" : "s";
+            Assert.fail(String.format(
+                "Expected %d occurance%s of XPath expression [%s], but " +
+                "found %d in document:%n%s",
+                count,
+                s,
+                expr,
+                matches,
+                document(wt)
+            ));
+        }
     }
     
     /**
@@ -82,17 +113,17 @@ public abstract class WicketTestUtils
             type.startsWith("text/html;")
         );
         
-        String document = tester.getServletResponse().getDocument();
+        String document = document(tester);
         XHtmlValidator validator = new XHtmlValidator();
         validator.setNumLinesContext(linesContext);
         validator.parse(document);
         
         if(!validator.isValid())
         {
-            Assert.fail(
-                "Invalid XHTML:\n" +
+            Assert.fail(String.format(
+                "Invalid XHTML:%n%s",
                 WicketTesterHelper.asLined(validator.getErrors())
-            );
+            ));
         }
     }
     
@@ -105,47 +136,45 @@ public abstract class WicketTestUtils
      *     "&lt;span wicket:id=\"label\"&gt;replaced by Wicket&lt;/span&gt;"
      * );
      * </pre>
+     * This method will place the component in a simple Page and render it
+     * using the normal WicketTester request/response. In the above example,
+     * the rendered output will be:
+     * <pre>
+     * &lt;html&gt;
+     * &lt;head&gt;
+     * &lt;/head&gt;
+     * &lt;body&gt;
+     * &lt;span wicket:id=&quot;label&quot;&gt;Hello, world!&lt;/span&gt;
+     * &lt;/body&gt;
+     * &lt;/html&gt;
+     * </pre>
+     * You can then use helper method like
+     * {@link #assertXPath(WicketTester,String) assertXPath} or
+     * {@link WicketTester#assertContains(String)}
+     * to verify the component rendered as expected.
      */
-    public static void startComponentWithMarkup(WicketTester wt,
-                                                final Component c,
+    public static void startComponentWithMarkup(WicketTester tester,
+                                                Component c,
                                                 final String markup)
     {
-        IResourceSettings rs = wt.getApplication().getResourceSettings();
-        final IResourceFinder origFinder = rs.getResourceFinder();
-        
-        // When markup is requested via the resource finder system, we'll
-        // provide the markup string if the request is for the component we
-        // are trying to render.
-        rs.setResourceFinder(new IResourceFinder() {
-            public IResourceStream find(Class<?> clazz, String pathname)
-            {
-                if(clazz.equals(TestPanel.class))
-                {
-                    return new StringResourceStream(String.format(
-                        "<wicket:panel>%s</wicket:panel>", markup
-                    ));
-                }
-                return origFinder.find(clazz, pathname);
-            }
-        });
-        
-        // Render a panel with the component under test inside of it. The
-        // panel will obtain its markup via the system declared above.
-        wt.startPanel(new TestPanelSource() {
-            public Panel getTestPanel(String panelId)
-            {
-                Panel p = new TestPanel(panelId);
-                p.add(c);
-                return p;
-            }
-        });
+        WebPage page = new PageWithInlineMarkup(String.format(
+            "<html>%n<head>%n</head>%n<body>%n%s%n</body>%n</html>", markup
+        ));
+        page.add(c);
+        tester.startPage(page);
     }
     
-    private static class TestPanel extends Panel
+    private static String document(WicketTester tester)
     {
-        public TestPanel(String id)
-        {
-            super(id);
-        }
+        return tester.getServletResponse().getDocument();
+    }
+    
+    private static int matchCount(WicketTester tester, String xPathExpr)
+            throws IOException, SAXException, XPathExpressionException
+    {
+        NodeList nl = XPathHelper.parse(new StringReader(document(tester)))
+                                 .findNodes(xPathExpr);
+                                 
+        return nl != null ? nl.getLength() : 0;
     }
 }

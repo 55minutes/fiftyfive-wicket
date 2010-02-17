@@ -17,6 +17,7 @@ package fiftyfive.wicket.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.namespace.QName;
@@ -51,6 +52,15 @@ public class XPathHelper
             throws IOException, SAXException
     {
         return new XPathHelper(newBuilder().parse(file));
+    }
+    
+    /**
+     * Creates an XPathHelper by parsing the specified Reader.
+     */
+    public static XPathHelper parse(Reader xml)
+            throws IOException, SAXException
+    {
+        return parse(new InputSource(xml));
     }
     
     /**
