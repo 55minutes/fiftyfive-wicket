@@ -35,7 +35,7 @@ import org.wicketstuff.annotation.strategy.MountQueryString;
 public class FormTestPage extends BasePage
 {
     // The page parameter keys
-    private static final String INITIAL_DATE_PARAM = "initialDate";
+    private static final String INITIAL_MONTH_PARAM = "initialMonth";
     private static final String START_DATE_PARAM = "startDate";
     private static final String END_DATE_PARAM = "endDate";
     
@@ -54,7 +54,7 @@ public class FormTestPage extends BasePage
                                         String endDate)
     {
         PageParameters params = new PageParameters();
-        params.put(INITIAL_DATE_PARAM, initialDate);
+        params.put(INITIAL_MONTH_PARAM, initialDate);
         params.put(START_DATE_PARAM, startDate);
         params.put(END_DATE_PARAM, endDate);
         return params;
@@ -113,7 +113,7 @@ public class FormTestPage extends BasePage
             }
         };
 
-        String initialDate = params.getString(INITIAL_DATE_PARAM);
+        String initialDate = params.getString(INITIAL_MONTH_PARAM);
         if(initialDate != null && !initialDate.equals(""))
         {
             cc.getDatePicker().setInitialDateModel(

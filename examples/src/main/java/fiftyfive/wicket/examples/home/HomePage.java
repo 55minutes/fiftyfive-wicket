@@ -60,7 +60,7 @@ public class HomePage extends BasePage
 
         _body.setMarkupId("home");
         
-        PageParameters ftParams = FormTestPage.params("09.2007", "10.03.2007", "11.10.2007");
+        PageParameters ftParams = FormTestPage.params("10.2007", "10.03.2007", "11.10.2007");
         add(new BookmarkablePageLink("form-test", FormTestPage.class, ftParams));
         
         Form form = new Form("form");
