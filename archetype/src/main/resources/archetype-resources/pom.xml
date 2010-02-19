@@ -131,7 +131,7 @@
     <dependency>
       <groupId>org.mortbay.jetty</groupId>
       <artifactId>jetty</artifactId>
-      <version>${jetty.version}</version>
+      <version>${symbol_dollar}{jetty.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -233,7 +233,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
-        <version>${jetty.version}</version>
+        <version>${symbol_dollar}{jetty.version}</version>
         <configuration>
           <systemProperties>
             <systemProperty>
