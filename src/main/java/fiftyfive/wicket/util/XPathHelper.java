@@ -34,8 +34,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-// TODO: add test coverage!
-
 /**
  * Simplifies access to the Java XPath API.
  * <pre>
@@ -103,16 +101,19 @@ public class XPathHelper
     
     /**
      * Evaluates the given xpath expression and returns the result as a String.
+     * If there are multiple matches of the expression, returns the first.
+     * If there are no matches, returns {@code null}.
      */
     public String findString(String expr)
             throws XPathExpressionException
     {
-        return (String) evaluateXPath(expr, STRING);
+        List<String> list = findStrings(expr);
+        return list.isEmpty() ? null : list.get(0);
     }
     
     /**
      * Evaluates the given xpath expression and returns the result as a
-     * List of Strings.
+     * List of Strings. If there are no matches, return the empty list.
      */
     public List<String> findStrings(String expr)
             throws XPathExpressionException
@@ -129,7 +130,8 @@ public class XPathHelper
     
     /**
      * Evaluates the given xpath expression and returns the result as a
-     * NodeList.
+     * NodeList. If the expression did not match any nodes, a NodeList of
+     * length zero is returned.
      */
     public NodeList findNodes(String expr)
             throws XPathExpressionException
