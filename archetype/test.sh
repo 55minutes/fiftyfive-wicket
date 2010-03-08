@@ -16,7 +16,7 @@ echo "Generating sample project" && \
 mvn -q -B archetype:generate \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
-    -DarchetypeVersion=1.2.1-SNAPSHOT \
+    -DarchetypeVersion=1.2.2-SNAPSHOT \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
     -Dversion=999 \
