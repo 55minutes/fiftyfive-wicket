@@ -16,7 +16,7 @@
 package fiftyfive.wicket.examples.formtest;
 
 import fiftyfive.wicket.examples.BaseWicketUnitTest;
-import fiftyfive.wicket.test.XHtmlValidator;
+import fiftyfive.wicket.test.WicketTestUtils;
 import org.junit.Test;
 
 public class FormTestPageTest extends BaseWicketUnitTest
@@ -26,6 +26,6 @@ public class FormTestPageTest extends BaseWicketUnitTest
     {
         _tester.startPage(FormTestPage.class);
         _tester.assertRenderedPage(FormTestPage.class);
-        XHtmlValidator.assertValidMarkup(_tester);
+        WicketTestUtils.assertValidMarkup(_tester);
     }
 }

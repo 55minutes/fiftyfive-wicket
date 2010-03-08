@@ -16,7 +16,7 @@
 package fiftyfive.wicket.examples.home;
 
 import fiftyfive.wicket.examples.BaseWicketUnitTest;
-import fiftyfive.wicket.test.XHtmlValidator;
+import fiftyfive.wicket.test.WicketTestUtils;
 import org.junit.Test;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 
@@ -35,6 +35,6 @@ public class HomePageTest extends BaseWicketUnitTest
     {
         _tester.startPage(HomePage.class);
         _tester.assertRenderedPage(HomePage.class);
-        XHtmlValidator.assertValidMarkup(_tester);
+        WicketTestUtils.assertValidMarkup(_tester);
     }
 }
