@@ -339,7 +339,11 @@
     </repository>
   </distributionManagement>
 
-  <!-- Needed for Wicket SNAPSHOT; remove prior to relase -->
+
+  <!-- ==================================================================== -->
+  <!-- Additional Repositories                                              -->
+  <!-- ==================================================================== -->
+
   <repositories>
     <repository>
       <id>wicket-snaps</id>
