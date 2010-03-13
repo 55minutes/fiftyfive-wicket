@@ -145,7 +145,8 @@ public class ParameterSpec<T> implements Serializable
     public BookmarkablePageLink createLink(String id, final IModel<T> model)
     {
         BookmarkablePageLink bpl = new BookmarkablePageLink(id, _pageClass) {
-            @Override protected void onBeforeRender()
+            @Override
+            protected void onBeforeRender()
             {
                 PageParameters params = createParameters(model.getObject());
                 for(String key : (Set<String>) params.keySet())
@@ -153,6 +154,12 @@ public class ParameterSpec<T> implements Serializable
                     setParameter(key, params.getString(key));
                 }
                 super.onBeforeRender();
+            }
+            @Override
+            protected void onDetach()
+            {
+                model.detach();
+                super.onDetach();
             }
         };
         return bpl;
