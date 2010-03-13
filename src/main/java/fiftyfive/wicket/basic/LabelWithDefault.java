@@ -22,7 +22,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-
 /**
  * An extension of Wicket's Label component that allows a default value to be
  * specified. If the model is empty, then:

@@ -15,13 +15,10 @@
  */
 package fiftyfive.wicket.util;
 
-
-import static fiftyfive.wicket.util.Shortcuts.*;
-
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
-
+import static fiftyfive.wicket.util.Shortcuts.*;
 
 public class ShortcutsTestPage extends WebPage
 {

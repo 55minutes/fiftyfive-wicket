@@ -15,7 +15,6 @@
  */
 package fiftyfive.wicket.resource;
 
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +24,6 @@ import org.apache.wicket.ResourceReference;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.IHeaderResponse;
-
 
 /**
  * This class contains static methods for injecting conditional stylesheet

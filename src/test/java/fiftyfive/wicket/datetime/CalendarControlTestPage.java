@@ -15,14 +15,12 @@
  */
 package fiftyfive.wicket.datetime;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
-
 
 public class CalendarControlTestPage extends WebPage
 {

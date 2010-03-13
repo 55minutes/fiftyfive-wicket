@@ -15,10 +15,8 @@
  */
 package fiftyfive.wicket.booleanquery;
 
-
 import java.io.Serializable;
 import java.util.*;
-
 
 /**
  * Class describing the query constructed by the BooleanQueryBuilder.

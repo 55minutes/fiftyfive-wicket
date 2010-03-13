@@ -15,14 +15,10 @@
  */
 package fiftyfive.wicket.datetime;
 
-
 import fiftyfive.wicket.BaseWicketTest;
-
 import org.junit.Test;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class CalendarControlTest extends BaseWicketTest
 {

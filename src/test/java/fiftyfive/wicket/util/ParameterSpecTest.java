@@ -15,21 +15,17 @@
  */
 package fiftyfive.wicket.util;
 
-
 import java.io.Serializable;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.tester.WicketTester;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 public class ParameterSpecTest
 {

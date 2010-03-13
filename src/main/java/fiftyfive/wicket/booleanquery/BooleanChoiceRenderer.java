@@ -15,9 +15,7 @@
  */
 package fiftyfive.wicket.booleanquery;
 
-
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-
 
 /**
  * Choice renderer for BooleanQuery objects that returns an abbreviated display

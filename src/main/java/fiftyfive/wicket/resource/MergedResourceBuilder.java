@@ -15,24 +15,17 @@
  */
 package fiftyfive.wicket.resource;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.wicket.Application.DEVELOPMENT;
-
-import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
-import org.apache.wicket.application.IComponentInstantiationListener;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
-
 import org.wicketstuff.mergedresources.ResourceMount;
-
+import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
  * Simplifies usage of the wicket-merged-resource library by mounting merged

@@ -18,7 +18,6 @@ package fiftyfive.wicket.resource;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebPage;
-
 import static fiftyfive.wicket.resource.MergedResourceBuilderTest.*;
 
 public class MergedResourceBuilderTestPage extends WebPage

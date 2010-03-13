@@ -15,27 +15,17 @@
  */
 package fiftyfive.wicket.booleanquery;
 
-
-import fiftyfive.wicket.BaseWicketTest;
-import fiftyfive.wicket.FoundationApplication;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+import fiftyfive.wicket.BaseWicketTest;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.extensions.markup.html.form.select.Select;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.TagTester;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class BooleanQueryTest extends BaseWicketTest
 {

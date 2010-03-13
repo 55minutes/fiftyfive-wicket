@@ -15,20 +15,15 @@
  */
 package fiftyfive.wicket.test.dtd;
 
-
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.wicket.util.io.IOUtils;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 
 public class XHtmlEntityResolverTest
 {

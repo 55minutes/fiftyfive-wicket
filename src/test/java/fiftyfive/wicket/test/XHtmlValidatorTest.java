@@ -15,15 +15,12 @@
  */
 package fiftyfive.wicket.test;
 
-
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.wicket.util.io.IOUtils;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 
 public class XHtmlValidatorTest
 {

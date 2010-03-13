@@ -15,15 +15,12 @@
  */
 package fiftyfive.wicket.datetime;
 
-
 import java.util.Date;
-
-import static fiftyfive.wicket.util.Shortcuts.*;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
+import static fiftyfive.wicket.util.Shortcuts.*;
 
 /**
  * This class creates a date picker widget based on the

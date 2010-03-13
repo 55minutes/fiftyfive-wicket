@@ -15,14 +15,10 @@
  */
 package fiftyfive.wicket;
 
-
 import org.apache.wicket.util.tester.DummyHomePage;
 import org.apache.wicket.util.tester.WicketTester;
-
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-
 
 public abstract class BaseWicketTest
 {

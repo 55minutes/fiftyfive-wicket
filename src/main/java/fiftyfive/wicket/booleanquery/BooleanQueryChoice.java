@@ -15,7 +15,6 @@
  */
 package fiftyfive.wicket.booleanquery;
 
-
 import java.util.List;
 
 import org.apache.wicket.Component;
@@ -24,11 +23,8 @@ import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.string.AppendingStringBuffer;
-import org.apache.wicket.util.string.Strings;
-
 
 /**
  * A customized DropDownChoice used with the 

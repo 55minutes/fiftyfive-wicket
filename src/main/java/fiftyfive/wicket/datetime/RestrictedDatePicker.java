@@ -15,16 +15,13 @@
  */
 package fiftyfive.wicket.datetime;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.model.IModel;
-
 
 /**
  * This class is based on {@link org.apache.wicket.extensions.yui.calendar.DatePicker},

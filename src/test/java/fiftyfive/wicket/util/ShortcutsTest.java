@@ -15,19 +15,14 @@
  */
 package fiftyfive.wicket.util;
 
-
-import fiftyfive.wicket.BaseWicketTest;
-import fiftyfive.wicket.FoundationApplication;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fiftyfive.wicket.BaseWicketTest;
 import org.apache.wicket.model.IModel;
-
 import org.junit.Assert;
 import org.junit.Test;
-
 
 public class ShortcutsTest extends BaseWicketTest
 {

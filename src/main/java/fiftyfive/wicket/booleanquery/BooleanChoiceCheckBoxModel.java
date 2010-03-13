@@ -15,10 +15,8 @@
  */
 package fiftyfive.wicket.booleanquery;
 
-
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IWrapModel;
-
 
 /**
  * Model to wrap the plus-minus checkboxes for the BooleanQueryBuilder.

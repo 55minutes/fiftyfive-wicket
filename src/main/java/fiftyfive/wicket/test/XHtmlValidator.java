@@ -31,7 +31,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-
 /**
  * Utility for parsing XHTML documents and verifying that they are valid
  * according to the DTD. See {@link WicketTestUtils} for typical usage.

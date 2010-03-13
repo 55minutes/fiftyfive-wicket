@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import fiftyfive.wicket.basic.LabelWithDefault;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.Response;
 import org.apache.wicket.behavior.AbstractBehavior;

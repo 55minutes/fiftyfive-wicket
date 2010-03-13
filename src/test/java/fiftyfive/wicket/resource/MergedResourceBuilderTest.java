@@ -15,10 +15,8 @@
  */
 package fiftyfive.wicket.resource;
 
-
-import java.io.InputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.WebPage;
@@ -27,14 +25,10 @@ import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.string.StringList;
 import org.apache.wicket.util.tester.WicketTester;
-
 import org.junit.Test;
-
 import static org.apache.wicket.Application.DEPLOYMENT;
 import static org.apache.wicket.Application.DEVELOPMENT;
-
 import static org.junit.Assert.assertEquals;
-
 
 public class MergedResourceBuilderTest
 {

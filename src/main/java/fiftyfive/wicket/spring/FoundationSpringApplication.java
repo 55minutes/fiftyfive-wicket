@@ -16,9 +16,7 @@
 package fiftyfive.wicket.spring;
 
 import fiftyfive.wicket.FoundationApplication;
-
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
