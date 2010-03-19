@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
@@ -162,6 +164,22 @@ public class ParameterSpec<T> implements Serializable
             }
         };
         return bpl;
+    }
+    
+    /**
+     * Immediately halt the request cycle and force a 302 redirect to the
+     * bookmarkable page managed by this ParameterSpec. Page parameters will
+     * be passed to the page based on the specified model.
+     * 
+     * @throws RestartResponseException to force Wicket to halt the request
+     */
+    public void redirect(IModel<T> model)
+    {
+        RequestCycle.get().setRedirect(true);
+        throw new RestartResponseException(
+            _pageClass,
+            createParameters(model.getObject())
+        );
     }
     
     /**

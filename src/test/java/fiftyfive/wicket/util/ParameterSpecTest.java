@@ -17,9 +17,12 @@ package fiftyfive.wicket.util;
 
 import java.io.Serializable;
 
+import fiftyfive.wicket.test.PageWithInlineMarkup;
+import fiftyfive.wicket.test.WicketTestUtils;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.pages.BrowserInfoPage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
@@ -140,11 +143,36 @@ public class ParameterSpecTest
         Assert.assertEquals("hello", bean.getName());
     }
     
-    public static class TestPage extends WebPage
+    /**
+     * Verify that the redirect method actually redirects to a new page as
+     * we expect.
+     */
+    @Test
+    public void testRedirect()
+    {
+        final ParameterSpec spec = new ParameterSpec<TestBean>(TestPage.class);
+        
+        // Force the redirect during wicket's normal request processing.
+        // For example, when a link is clicked.
+        WicketTestUtils.startComponentWithMarkup(_tester, new Link("link") {
+            public void onClick()
+            {
+                spec.redirect(Model.of(new TestBean()));
+            }
+        }, "<a wicket:id=\"link\">link</a>");
+        
+        // Click the link that we just rendered
+        _tester.clickLink("link");
+        
+        // The redirect should have forced wicket to render TestPage
+        _tester.assertRenderedPage(TestPage.class);
+    }
+    
+    public static class TestPage extends PageWithInlineMarkup
     {
         public TestPage(PageParameters params)
         {
-            super(params);
+            super("<html><head></head><body>hello</body></html>");
         }
     }
     
