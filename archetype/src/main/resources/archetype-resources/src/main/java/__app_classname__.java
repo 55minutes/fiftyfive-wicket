@@ -25,7 +25,7 @@ public class ${app_classname} extends FoundationSpringApplication
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
         ${app_classname}.class
-    );
+    )
     
     
     private AbstractHeaderContributor _mergedCss;
