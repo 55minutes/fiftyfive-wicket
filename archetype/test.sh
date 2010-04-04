@@ -1,21 +1,14 @@
 #!/bin/sh
-if test "$XX_SKIP_TEST" == "1"
-then
-    exit
-fi
 
-export XX_SKIP_TEST=1
-echo "Cleaning"
-mvn -B -q clean
-cd ../parent
-echo "Installing archetype"
-mvn -B -q -Dmaven.test.skip=true \
-    install && \
-cd ../archetype/target && \
-echo "Generating sample project" && \
-mvn -q -B archetype:generate \
+# This script is for continuous integration. Generates a test project from
+# the archetype and then runs `mvn test` on it to make sure everything works.
+
+mkdir temp
+cd temp
+mvn archetype:generate -B -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
+    -DarchetypeRepository=http://opensource.55minutes.com/maven \
     -DarchetypeVersion=1.2.2-SNAPSHOT \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
@@ -23,5 +16,4 @@ mvn -q -B archetype:generate \
     -Dpackage=fiftyfive.test \
     -Dproject_name=Test && \
 cd test-project && \
-echo "Testing sample project" && \
 mvn -B test
