@@ -44,6 +44,17 @@
     Sample application demonstrating the 55 Minutes Wicket
     components and utilities
   </description>
+  <organization>
+    <name>55 Minutes</name>
+    <url>http://www.55minutes.com/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
 
 
