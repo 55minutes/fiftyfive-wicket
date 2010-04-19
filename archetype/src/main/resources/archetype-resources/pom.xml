@@ -28,7 +28,7 @@
   <!-- ==================================================================== -->
 
   <properties>
-    <jetty.version>7.0.2.v20100331</jetty.version>
+    <jetty.version>6.1.22</jetty.version>
     <slf4j.version>1.5.11</slf4j.version>
     <spring.version>3.0.2.RELEASE</spring.version>
     <wicket.version>1.4-SNAPSHOT</wicket.version>
@@ -128,14 +128,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${symbol_dollar}{jetty.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-webapp</artifactId>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
       <version>${symbol_dollar}{jetty.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -237,7 +231,7 @@
       </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
+        <artifactId>maven-jetty-plugin</artifactId>
         <version>${symbol_dollar}{jetty.version}</version>
         <configuration>
           <systemProperties>
