@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathFactory;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
+import fiftyfive.wicket.test.dtd.XHtmlEntityResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -78,7 +79,9 @@ public class XPathHelper
         try
         {
             DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
-            return fac.newDocumentBuilder();
+            DocumentBuilder builder = fac.newDocumentBuilder();
+            builder.setEntityResolver(new XHtmlEntityResolver());
+            return builder;
         }
         catch(ParserConfigurationException pce)
         {
