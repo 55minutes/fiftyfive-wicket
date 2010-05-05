@@ -18,13 +18,18 @@ package fiftyfive.wicket.resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.wicket.Resource;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.IHeaderContributor;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WicketURLEncoder;
+import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.wicketstuff.mergedresources.ResourceMount;
+import org.wicketstuff.mergedresources.ResourceSpec;
 import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
@@ -184,30 +189,46 @@ public class MergedResourceBuilder
     public AbstractHeaderContributor build(WebApplication app)
     {
         assertRequiredOptions();
-        mountResources(app);
+        if(app.getConfigurationType().equals(DEVELOPMENT))
+        {
+            mountIndividualResources(app);
+        }
+        else
+        {
+            mountMergedResources(app);            
+        }
         return createHeaderContributor();
+    }
+    
+    /**
+     * Mount each resource using WebApplication.mountSharedResource().
+     */
+    private void mountIndividualResources(WebApplication app)
+    {
+        for(ResourceReference ref : _references)
+        {
+            String key = ref.getSharedResourceKey();
+            String path = String.format(
+                "%s-%s",
+                _path,
+                WicketURLEncoder.PATH_INSTANCE.encode(key)
+            );
+            app.mount(new QueryStringSharedResourceRequestTargetUrlCodingStrategy(
+                path, key
+            ));
+        }
     }
     
     /**
      * Delegate to the wicket-merged-resources library for mounting the
      * mereged resources with reasonable settings.
      */
-    private void mountResources(WebApplication app)
+    private void mountMergedResources(WebApplication app)
     {
-        boolean development = app.getConfigurationType().equals(DEVELOPMENT);
-        
-        // Configure resources to be merged only in production.
-        ResourceMount mountConfig = new ResourceMount();
-        if(development)
-        {
-            // Discourage caching in development
-            mountConfig.setCacheDuration(0);
-        }
-        else
-        {
-            mountConfig.setDefaultAggressiveCacheDuration();
-        }
-        mountConfig.setMerged(!development);
+        ResourceMount mountConfig = new CustomizedResourceMount();
+        mountConfig.setDefaultAggressiveCacheDuration();
+
+        mountConfig.setMerged(true);
         mountConfig.setCompressed(true);
         mountConfig.setMinifyCss(false);
         mountConfig.setMinifyJs(false);
@@ -290,5 +311,35 @@ public class MergedResourceBuilder
         {
             return _contribs;
         }
+    }
+    
+    private static class CustomizedResourceMount extends ResourceMount
+    {
+        @Override
+        protected IRequestTargetUrlCodingStrategy newStrategy(String mountPath, final ResourceReference ref, boolean merge) {
+    		if (merge) {
+    			final ArrayList<String> mergedKeys = new ArrayList<String>(getResourceSpecs().length);
+    			for (ResourceSpec spec : getResourceSpecs()) {
+    				mergedKeys.add(new ResourceReference(spec.getScope(), spec.getFile()) {
+
+    					private static final long serialVersionUID = 1L;
+
+    					@Override
+    					protected Resource newResource() {
+    						Resource r = ref.getResource();
+    						if (r == null) {
+    							throw new WicketRuntimeException("ResourceReference wasn't bound to application yet");
+    						}
+    						return r;
+    					}
+
+    				}.getSharedResourceKey());
+    			}
+    			return new QueryStringMergedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey(), mergedKeys);
+    		} else {
+    			return new QueryStringSharedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey());
+    		}
+    	}
+    	
     }
 }
