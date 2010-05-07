@@ -13,12 +13,10 @@ license. Copyright 2010, John Resig.
 (http://jquery.com/)
 
 This product contains code from the jQuery UI library, licensed under the MIT
-license. Copyright 2009, Brandon Aaron, Paul Bakaus, et al.
+license. Copyright 2010 Paul Bakaus.
 (http://jqueryui.com/)
 
-This product contains code from jquery.tools, licensed under the MIT license.
-Copyright 2009, Tero Piirainen.
-(http://flowplayer.org/tools/)
+This product contains code from jquery.tools at http://flowplayer.org/tools/.
 
 This product contains code from jQuery.ScrollTo, licensed under the MIT
 license. Copyright 2007-2009 Ariel Flesler.
