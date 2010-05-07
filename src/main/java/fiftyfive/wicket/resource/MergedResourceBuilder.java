@@ -33,7 +33,7 @@ import org.wicketstuff.mergedresources.ResourceSpec;
 import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
- * Simplifies usage of the wicket-merged-resource library by mounting merged
+ * Simplifies usage of the wicket-merged-resources library by mounting merged
  * resources with an easy builder API and a good set defaults.
  * <p>
  * More importantly, this builder applies the DRY principle so that you only
@@ -44,13 +44,35 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  * <p>
  * The reasonable defaults provided by this builder are as follows:
  * <ul>
- * <li>Only merge resources in deployment mode. In development, mount
- *     the resources separately to facilitate debugging.</li>
- * <li>Set aggressive cache headers in deployment mode. In development mode
- *     don't send cache headers at all.</li>
- * <li>Always gzip resources.</li>
- * <li>Always disable the resource minify feature. This feature is buggy and
+ * <li>Only merge resources in deployment mode. In development, bypass the
+ *     wicket-merged-resources facility entirely and mount
+ *     the resources separately as Wicket shared resources.</li>
+ * <li>Set aggressive cache headers and gzip resources in deployment mode.</li>
+ * <li>Disable the resource minify feature. This feature is buggy and
  *     does not add much value over gzip.</li>
+ * </ul>
+ * Furthermore, this builder fixes some shortcomings of the
+ * wicket-merged-resources library, namely:
+ * <ul>
+ * <li>With wicket-merged-resources, if Wicket's
+ *     addLastModifiedTimeToResourceReferenceUrl setting is enabled, extra
+ *     path elements like {@code /w:lm/123456789} are appended to the
+ *     resource URLs. This makes it difficult to use relative paths within
+ *     CSS resources, since the presence or absence of the timestamp changes
+ *     the depth of the URL. MergedResourceBuilder ensures that the timestamp
+ *     is appended as a query string, thereby leaving the path unaltered,
+ *     like this: {@code ?w:lm=123456789}.</li>
+ * <li>With wicket-merged-resources, in non-merged mode the individual
+ *     resource path is appended to the merged mount point. So you might end
+ *     up with {@code /styles/all.css} in merged mode, but
+ *     {@code /styles/all.css/com.mypackage.Class/layout.css} in non-merged
+ *     mode. Again, this makes it very difficult to use relative paths within
+ *     CSS files (e.g. for background images). MergedResourceBuilder ensures
+ *     that merged and non-merged modes produce paths of the same depth. In
+ *     this example the URLs would be:
+ *     {@code /styles/all.css} (merged) and
+ *     {@code /styles/all.css-com.mypackage.Class%2Flayout.css} (non-merged).
+ *     </li>
  * </ul>
  * Example usage:
  * <pre>
@@ -201,7 +223,10 @@ public class MergedResourceBuilder
     }
     
     /**
-     * Mount each resource using WebApplication.mountSharedResource().
+     * Mount each resource using WebApplication.mount(). Choose a mount point
+     * for the resource that has the same path depth as the merged path.
+     * This will ensure that relative paths in CSS resources resolve the same
+     * way in both merged and non-merged scenarios.
      */
     private void mountIndividualResources(WebApplication app)
     {
@@ -213,6 +238,9 @@ public class MergedResourceBuilder
                 _path,
                 WicketURLEncoder.PATH_INSTANCE.encode(key)
             );
+            // Use query string strategy to ensure that Wicket's resource
+            // last modified timestamp is appended as query string parameters
+            // rather than additional path elements.
             app.mount(new QueryStringSharedResourceRequestTargetUrlCodingStrategy(
                 path, key
             ));
@@ -313,33 +341,45 @@ public class MergedResourceBuilder
         }
     }
     
+    /**
+     * A customized version of the wicket-merged-resources ResourceMount
+     * class that overrides the URL coding strategy that is used for
+     * mounting resources.
+     * Use a query string strategy to ensure that Wicket's resource
+     * last modified timestamp is appended as query string parameters
+     * rather than additional path elements.
+     */
     private static class CustomizedResourceMount extends ResourceMount
     {
+        // The following code is copied from ResourceMount.java with only minor
+        // tweaks to replace the default coding strategies with our
+        // query string versions.
+        // Original code Copyright 2010 Stefan Fußenegger. Licensed under
+        // the Apache Software License, Version 2.0.
         @Override
         protected IRequestTargetUrlCodingStrategy newStrategy(String mountPath, final ResourceReference ref, boolean merge) {
-    		if (merge) {
-    			final ArrayList<String> mergedKeys = new ArrayList<String>(getResourceSpecs().length);
-    			for (ResourceSpec spec : getResourceSpecs()) {
-    				mergedKeys.add(new ResourceReference(spec.getScope(), spec.getFile()) {
+            if (merge) {
+                final ArrayList<String> mergedKeys = new ArrayList<String>(getResourceSpecs().length);
+                for (ResourceSpec spec : getResourceSpecs()) {
+                    mergedKeys.add(new ResourceReference(spec.getScope(), spec.getFile()) {
 
-    					private static final long serialVersionUID = 1L;
+                        private static final long serialVersionUID = 1L;
 
-    					@Override
-    					protected Resource newResource() {
-    						Resource r = ref.getResource();
-    						if (r == null) {
-    							throw new WicketRuntimeException("ResourceReference wasn't bound to application yet");
-    						}
-    						return r;
-    					}
+                        @Override
+                        protected Resource newResource() {
+                            Resource r = ref.getResource();
+                            if (r == null) {
+                                throw new WicketRuntimeException("ResourceReference wasn't bound to application yet");
+                            }
+                            return r;
+                        }
 
-    				}.getSharedResourceKey());
-    			}
-    			return new QueryStringMergedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey(), mergedKeys);
-    		} else {
-    			return new QueryStringSharedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey());
-    		}
-    	}
-    	
+                    }.getSharedResourceKey());
+                }
+                return new QueryStringMergedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey(), mergedKeys);
+            } else {
+                return new QueryStringSharedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey());
+            }
+        }
     }
 }

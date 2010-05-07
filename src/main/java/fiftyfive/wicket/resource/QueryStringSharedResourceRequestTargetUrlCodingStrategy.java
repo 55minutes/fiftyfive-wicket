@@ -1,18 +1,3 @@
-/*
- * Copyright 2010 55 Minutes (http://www.55minutes.com)
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *    http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package fiftyfive.wicket.resource;
 
 import java.util.Iterator;
@@ -27,6 +12,15 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
  * An extension of SharedResourceRequestTargetUrlCodingStrategy that encodes
  * request parameters as query string parameters, rather than path items.
  * Uses code taken from Wicket's QueryStringUrlCodingStrategy.
+ * <p>
+ * This strategy is preferable to the standard
+ * SharedResourceRequestTargetUrlCodingStrategy because it means Wicket's
+ * last modified timestamps will be appended as query string parameters rather
+ * than additional path parameters.
+ * <p>
+ * I.e. resource will mount at
+ * {@code layout.css?w:lm=123456789} rather than
+ * {@code layout.css/w:lm/123456789}.
  */
 public class QueryStringSharedResourceRequestTargetUrlCodingStrategy extends SharedResourceRequestTargetUrlCodingStrategy
 {
@@ -55,6 +49,10 @@ public class QueryStringSharedResourceRequestTargetUrlCodingStrategy extends Sha
      * limitations under the License.
      */
     
+    /**
+     * Appends Wicket parameters as query string parameters. Overrides the
+     * default implementation, which is to append them as path items.
+     */
     @Override
     protected void appendParameters(AppendingStringBuffer url, Map parameters)
     {

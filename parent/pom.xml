@@ -235,6 +235,8 @@
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>
             <exclude>**/src/test/**/Start.java</exclude>
+            <exclude>**/QueryStringMergedResourceRequestTargetUrlCodingStrategy.java</exclude>
+            <exclude>**/QueryStringSharedResourceRequestTargetUrlCodingStrategy.java</exclude>
           </excludes>
         </configuration>
         <executions>
