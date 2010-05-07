@@ -86,25 +86,19 @@ public abstract class WicketTestUtils
     
     /**
      * Assert that the last rendered page has a content-type of text/html
-     * and is valid markup. Will autodetect whether the document is HTML5 or
-     * XHTML and use the appropriate validator. An HTML5 document must start
-     * with {@code <!DOCTYPE html>}, anything else is assumed to be XHTML.
+     * and is valid XHTML markup.
      *
      * @param tester A WicketTester object that has just rendered a page.
      */
     public static void assertValidMarkup(WicketTester tester) 
         throws IOException
     {
-        assertValidMarkup(
-            tester, AbstractDocumentValidator.DEF_NUM_LINES_CONTEXT
-        );
+        assertValidMarkup(tester, XHtmlValidator.DEF_NUM_LINES_CONTEXT);
     }
 
     /**
      * Assert that the last rendered page has a content-type of text/html
-     * and is valid markup. Will autodetect whether the document is HTML5 or
-     * XHTML and use the appropriate validator. An HTML5 document must start
-     * with {@code <!DOCTYPE html>}, anything else is assumed to be XHTML.
+     * and is valid XHTML markup.
      *
      * @param tester A WicketTester object that has just rendered a page.
      * @param linesContext The number of lines of context to include around
@@ -120,18 +114,14 @@ public abstract class WicketTestUtils
         );
         
         String document = document(tester);
-        AbstractDocumentValidator validator = new XHtmlValidator();
-        if(Html5Validator.hasHtml5Doctype(document))
-        {
-            validator = new Html5Validator();
-        }
+        XHtmlValidator validator = new XHtmlValidator();
         validator.setNumLinesContext(linesContext);
         validator.parse(document);
         
         if(!validator.isValid())
         {
             Assert.fail(String.format(
-                "Invalid HTML:%n%s",
+                "Invalid XHTML:%n%s",
                 WicketTesterHelper.asLined(validator.getErrors())
             ));
         }
@@ -167,7 +157,6 @@ public abstract class WicketTestUtils
                                                 Component c,
                                                 final String markup)
     {
-        // TODO: what about HTML5?
         WebPage page = new PageWithInlineMarkup(String.format(
             "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " +
             "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">%n" +

@@ -119,10 +119,6 @@
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>nu.validator.htmlparser</groupId>
-      <artifactId>htmlparser</artifactId>
-    </dependency>
     
     <!-- ==== Test dependencies =========================================== -->
     <dependency>

@@ -156,11 +156,6 @@
         <artifactId>junit</artifactId>
         <version>4.7</version>
       </dependency>
-      <dependency>
-        <groupId>nu.validator.htmlparser</groupId>
-        <artifactId>htmlparser</artifactId>
-        <version>1.2.1</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
