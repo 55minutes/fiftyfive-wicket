@@ -33,8 +33,8 @@ import org.wicketstuff.mergedresources.ResourceSpec;
 import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
- * Simplifies usage of the wicket-merged-resources library by mounting merged
- * resources with an easy builder API and a good set defaults.
+ * Simplifies usage of the wicketstuff-merged-resources library by mounting
+ * merged resources with an easy builder API and a good set defaults.
  * <p>
  * More importantly, this builder applies the DRY principle so that you only
  * have to list your resources once; then you can attach this list of
@@ -45,16 +45,16 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  * The reasonable defaults provided by this builder are as follows:
  * <ul>
  * <li>Only merge resources in deployment mode. In development, bypass the
- *     wicket-merged-resources facility entirely and mount
+ *     wicketstuff-merged-resources facility entirely and mount
  *     the resources separately as Wicket shared resources.</li>
  * <li>Set aggressive cache headers and gzip resources in deployment mode.</li>
  * <li>Disable the resource minify feature. This feature is buggy and
  *     does not add much value over gzip.</li>
  * </ul>
  * Furthermore, this builder fixes some shortcomings of the
- * wicket-merged-resources library, namely:
+ * wicketstuff-merged-resources library, namely:
  * <ul>
- * <li>With wicket-merged-resources, if Wicket's
+ * <li>With wicketstuff-merged-resources, if Wicket's
  *     addLastModifiedTimeToResourceReferenceUrl setting is enabled, extra
  *     path elements like {@code /w:lm/123456789} are appended to the
  *     resource URLs. This makes it difficult to use relative paths within
@@ -62,7 +62,7 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  *     the depth of the URL. MergedResourceBuilder ensures that the timestamp
  *     is appended as a query string, thereby leaving the path unaltered,
  *     like this: {@code ?w:lm=123456789}.</li>
- * <li>With wicket-merged-resources, in non-merged mode the individual
+ * <li>With wicketstuff-merged-resources, in non-merged mode the individual
  *     resource path is appended to the merged mount point. So you might end
  *     up with {@code /styles/all.css} in merged mode, but
  *     {@code /styles/all.css/com.mypackage.Class/layout.css} in non-merged
@@ -248,7 +248,7 @@ public class MergedResourceBuilder
     }
     
     /**
-     * Delegate to the wicket-merged-resources library for mounting the
+     * Delegate to the wicketstuff-merged-resources library for mounting the
      * mereged resources with reasonable settings.
      */
     private void mountMergedResources(WebApplication app)
@@ -342,7 +342,7 @@ public class MergedResourceBuilder
     }
     
     /**
-     * A customized version of the wicket-merged-resources ResourceMount
+     * A customized version of the wicketstuff-merged-resources ResourceMount
      * class that overrides the URL coding strategy that is used for
      * mounting resources.
      * Use a query string strategy to ensure that Wicket's resource

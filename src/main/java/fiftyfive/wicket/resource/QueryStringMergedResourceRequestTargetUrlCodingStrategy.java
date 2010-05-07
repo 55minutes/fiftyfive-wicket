@@ -12,7 +12,7 @@ import org.apache.wicket.request.target.resource.ISharedResourceRequestTarget;
 // the Apache Software License, Version 2.0.
 
 /**
- * A re-implementation of the wicket-merged-resources
+ * A re-implementation of the wicketstuff-merged-resources
  * MergedResourceRequestTargetUrlCodingStrategy class that extends
  * our {@link QueryStringSharedResourceRequestTargetUrlCodingStrategy} rather
  * than Wicket's default {@link SharedResourceRequestTargetUrlCodingStrategy}
