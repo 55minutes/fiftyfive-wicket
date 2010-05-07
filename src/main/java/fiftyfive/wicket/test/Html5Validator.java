@@ -21,7 +21,7 @@ import nu.validator.htmlparser.dom.HtmlDocumentBuilder;
 
 /**
  * Utility for parsing HTML5 documents and verifying that they are valid.
- * Uses code provided by {@link http://validator.nu/ validator.nu}.
+ * Uses code provided by <a href="http://validator.nu/">validator.nu</a>.
  * You should not have to use this class directly; it will be auto-selected
  * by helper methods in {@link WicketTestUtils}.
  */
