@@ -79,6 +79,8 @@ public class XPathHelper
         try
         {
             DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
+            fac.setNamespaceAware(false);
+            fac.setValidating(false);
             DocumentBuilder builder = fac.newDocumentBuilder();
             builder.setEntityResolver(new XHtmlEntityResolver());
             return builder;
@@ -110,8 +112,16 @@ public class XPathHelper
     public String findString(String expr)
             throws XPathExpressionException
     {
-        List<String> list = findStrings(expr);
-        return list.isEmpty() ? null : list.get(0);
+        // First assume that the expression returns a Node or NodeList
+        try
+        {
+            List<String> list = findStrings(expr);
+            return list.isEmpty() ? null : list.get(0);
+        }
+        catch(XPathExpressionException xpee) { /* ignore */ }
+        
+        // If that fails, try again assuming the expression returns a String
+        return (String) evaluateXPath(expr, STRING);
     }
     
     /**

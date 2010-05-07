@@ -56,9 +56,9 @@ public class ConditionalListViewTest extends BaseWicketTest
         assertXPath(_tester, "//ul/li/span[text()='c']");
     }
     
-    private void doRender(List<String> list)
+    private void doRender(List<String> list) throws Exception
     {
-        startComponentWithMarkup(_tester, new TestListView("c", list), HTML);
+        startComponentWithXHtml(_tester, new TestListView("c", list), HTML);
     }
     
     private static class TestListView extends ConditionalListView<String>

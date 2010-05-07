@@ -154,7 +154,7 @@ public class ParameterSpecTest
         
         // Force the redirect during wicket's normal request processing.
         // For example, when a link is clicked.
-        WicketTestUtils.startComponentWithMarkup(_tester, new Link("link") {
+        WicketTestUtils.startComponentWithXHtml(_tester, new Link("link") {
             public void onClick()
             {
                 spec.redirect(Model.of(new TestBean()));

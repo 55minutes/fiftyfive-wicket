@@ -24,7 +24,7 @@ public class LabelWithDefaultTest extends BaseWicketTest
     @Test
     public void testRender_normal() throws Exception
     {
-        startComponentWithMarkup(
+        startComponentWithXHtml(
             _tester,
             new LabelWithDefault("test", "hello!").setDefault("foo"),
             "<p wicket:id=\"test\">blah</p>"
@@ -35,7 +35,7 @@ public class LabelWithDefaultTest extends BaseWicketTest
     @Test
     public void testRender_emptyNoDefault() throws Exception
     {
-        startComponentWithMarkup(
+        startComponentWithXHtml(
             _tester,
             new LabelWithDefault("test"),
             "<p wicket:id=\"test\">blah</p>"
@@ -46,7 +46,7 @@ public class LabelWithDefaultTest extends BaseWicketTest
     @Test
     public void testRender_emptyWithDefault() throws Exception
     {
-        startComponentWithMarkup(
+        startComponentWithXHtml(
             _tester,
             new LabelWithDefault("test").setDefault("foo"),
             "<p wicket:id=\"test\">blah</p>"

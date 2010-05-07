@@ -40,6 +40,15 @@ public class XPathHelperTest
     }
     
     @Test
+    public void testFindString_function() throws Exception
+    {
+        Assert.assertEquals(
+            "html",
+            _xpath.findString("local-name(/*[1])")
+        );
+    }
+
+    @Test
     public void testFindString() throws Exception
     {
         Assert.assertEquals(
