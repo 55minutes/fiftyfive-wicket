@@ -30,6 +30,8 @@ public class Html5Validator extends AbstractDocumentValidator
     
     protected DocumentBuilder builder()
     {
-        return new HtmlDocumentBuilder();
+        HtmlDocumentBuilder builder = new HtmlDocumentBuilder();
+        builder.setErrorHandler(this);
+        return builder;
     }
 }

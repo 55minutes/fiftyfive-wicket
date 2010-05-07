@@ -131,7 +131,7 @@ public abstract class WicketTestUtils
         if(!validator.isValid())
         {
             Assert.fail(String.format(
-                "Invalid XHTML:%n%s",
+                "Invalid HTML:%n%s",
                 WicketTesterHelper.asLined(validator.getErrors())
             ));
         }
@@ -167,6 +167,7 @@ public abstract class WicketTestUtils
                                                 Component c,
                                                 final String markup)
     {
+        // TODO: what about HTML5?
         WebPage page = new PageWithInlineMarkup(String.format(
             "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " +
             "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">%n" +
