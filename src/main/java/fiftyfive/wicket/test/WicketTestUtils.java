@@ -146,7 +146,7 @@ public abstract class WicketTestUtils
      * @deprecated Use {@link #startComponentWithHtml startComponentWithHtml()}
      *             or {@link #startComponentWithHtml startComponentWithXHtml()}
      *             instead, depending on whether you are targeting your
-     *             component for HTML5 or XHTML usage. Ssince XHTML is the
+     *             component for HTML5 or XHTML usage. Since XHTML is the
      *             stricter of the two, you will usually want to target XHTML,
      *             unless your component relies on HTML5-specific features.
      *             For backwards compatibility, this method delegates to
