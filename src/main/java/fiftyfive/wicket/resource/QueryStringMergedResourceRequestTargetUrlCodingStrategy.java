@@ -16,7 +16,6 @@ import org.apache.wicket.request.target.resource.ISharedResourceRequestTarget;
  * MergedResourceRequestTargetUrlCodingStrategy class that extends
  * our {@link QueryStringSharedResourceRequestTargetUrlCodingStrategy} rather
  * than Wicket's default {@link SharedResourceRequestTargetUrlCodingStrategy}.
- * Uses code taken from Wicket's {@link QueryStringUrlCodingStrategy}.
  * <p>
  * This strategy is preferable to the standard
  * MergedResourceRequestTargetUrlCodingStrategy because it means Wicket's
