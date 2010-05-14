@@ -26,6 +26,8 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
+import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.lang.PropertyResolver;
 
 /**
@@ -217,16 +219,58 @@ public class ParameterSpec<T> implements Serializable
      * @param params Values will be taken from these PageParameters
      * @param beanToPopulate Values will be set using appropriate setters on
      *                       this bean
+     * 
+     * @throws AbortWithWebErrorCodeException with a 404 status code if
+     * a parsing exception occurs. For example, this could happen if the bean
+     * property for "id" is of type Long, but the parameter value being parsed
+     * is not numeric.
      */
     public void parseParameters(PageParameters params, T beanToPopulate)
+    {
+        parseParameters(params, beanToPopulate, true);
+    }
+
+    /**
+     * Use this method in your page constructor to parse the
+     * PageParameters. The specified bean will be populated by calling the
+     * appropriate setters as defined by this ParameterSpec. For example, if
+     * the ParameterSpec has been created parameters that map "id" and "slug"
+     * properties, the <code>setId()</code> and <code>setSlug()</code>
+     * methods of the bean will be called with values taken from the
+     * PageParameters.
+     *
+     * @param params Values will be taken from these PageParameters
+     * @param beanToPopulate Values will be set using appropriate setters on
+     *                       this bean
+     * 
+     * @throws AbortWithWebErrorCodeException with a 404 status code if
+     * {@code throw404OnParseError} is {@code true} and a parsing exception
+     * occurs. For example, this could happen if the bean property for "id" is
+     * of type Long, but the parameter value being parsed is not numeric.
+     * If {@code throw404OnParseError} is {@code false}, skip past properties
+     * with parsing errors.
+     */
+    public void parseParameters(PageParameters params,
+                                T beanToPopulate,
+                                boolean throw404OnParseError)
     {
         for(String key : _mapping.keySet())
         {
             String expr = _mapping.get(key);
-            Object value = params.getString(key);
-            if(value != null)
+            Object val = params.getString(key);
+            if(val != null)
             {
-                PropertyResolver.setValue(expr, beanToPopulate, value, null);
+                try
+                {
+                    PropertyResolver.setValue(expr, beanToPopulate, val, null);
+                }
+                catch(ConversionException ce)
+                {
+                    if(throw404OnParseError)
+                    {
+                        throw new AbortWithWebErrorCodeException(404);
+                    }
+                }
             }
         }
     }

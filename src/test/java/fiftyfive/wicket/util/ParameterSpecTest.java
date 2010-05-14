@@ -22,8 +22,8 @@ import fiftyfive.wicket.test.WicketTestUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.pages.BrowserInfoPage;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Assert;
@@ -49,7 +49,7 @@ public class ParameterSpecTest
     @Test
     public void testCreateLink_indexed()
     {
-        TestBean bean = new TestBean("1", "foo");
+        TestBean bean = new TestBean(1L, "foo");
         ParameterSpec builder =
             new ParameterSpec<TestBean>(TestPage.class, "id", "name");
         
@@ -60,19 +60,19 @@ public class ParameterSpecTest
         Assert.assertEquals(TestPage.class, link.getPageClass());
         
         PageParameters params = link.getPageParameters();
-        Assert.assertEquals(bean.getId(), params.getString("id"));
+        Assert.assertEquals(bean.getId(), (Long) params.getLong("id"));
         Assert.assertEquals(bean.getName(), params.getString("name"));
     }
 
     @Test
     public void testCreateParameters_indexed()
     {
-        TestBean bean = new TestBean("1", "foo");
+        TestBean bean = new TestBean(1L, "foo");
         ParameterSpec builder =
             new ParameterSpec<TestBean>(TestPage.class, "id", "name");
         
         PageParameters params = builder.createParameters(bean);
-        Assert.assertEquals(bean.getId(), params.getString("id"));
+        Assert.assertEquals(bean.getId(), (Long) params.getLong("id"));
         Assert.assertEquals(bean.getName(), params.getString("name"));
     }
 
@@ -89,14 +89,77 @@ public class ParameterSpecTest
         
         builder.parseParameters(params, bean);
         
-        Assert.assertEquals("5", bean.getId());
+        Assert.assertEquals((Long) 5L, (Long) bean.getId());
         Assert.assertEquals("hello", bean.getName());
     }
+
+    /**
+     * Asserts that badly formatted page parameter value causes an abort
+     * with 404.
+     */
+    @Test
+    public void testParseParameters_badformat404()
+    {
+        ParameterSpec builder =
+            new ParameterSpec<TestBean>(TestPage.class, "id", "name");
+        
+        TestBean bean = new TestBean();
+        PageParameters params = new PageParameters();
+        params.put("id", "notparseableaslong");
+        
+        try
+        {
+            builder.parseParameters(params, bean);
+            Assert.fail("AbortWithWebErrorCodeException was not thrown.");
+        }
+        catch(AbortWithWebErrorCodeException awwece)
+        {
+            Assert.assertEquals(404, awwece.getErrorCode());
+        }
+    }
+
+    /**
+     * Asserts that badly formatted page parameter value is ignored when
+     * {@code throw404OnParseError} is {@code false}.
+     */
+    @Test
+    public void testParseParameters_badformatnull()
+    {
+        ParameterSpec builder =
+            new ParameterSpec<TestBean>(TestPage.class, "id", "name");
+        
+        TestBean bean = new TestBean();
+        PageParameters params = new PageParameters();
+        params.put("id", "notparseableaslong");
+        
+        builder.parseParameters(params, bean, false);
+        
+        Assert.assertNull(bean.getId());
+    }
+
+    /**
+     * Asserts that missing parameter values are gracefully ignored.
+     */
+    @Test
+    public void testParseParameters_missing()
+    {
+        ParameterSpec builder =
+            new ParameterSpec<TestBean>(TestPage.class, "id", "name");
+        
+        TestBean bean = new TestBean();
+        PageParameters params = new PageParameters();
+        
+        builder.parseParameters(params, bean);
+
+        Assert.assertNull(bean.getId());
+        Assert.assertNull(bean.getName());
+    }
+
 
     @Test
     public void testCreateLink_named()
     {
-        TestBean bean = new TestBean("1", "foo");
+        TestBean bean = new TestBean(1L, "foo");
         ParameterSpec builder = new ParameterSpec<TestBean>(TestPage.class);
         builder.registerParameter("beanId", "id");
         builder.registerParameter("beanName", "name");
@@ -108,20 +171,20 @@ public class ParameterSpecTest
         Assert.assertEquals(TestPage.class, link.getPageClass());
         
         PageParameters params = link.getPageParameters();
-        Assert.assertEquals(bean.getId(), params.getString("beanId"));
+        Assert.assertEquals(bean.getId(), (Long) params.getLong("beanId"));
         Assert.assertEquals(bean.getName(), params.getString("beanName"));
     }
 
     @Test
     public void testCreateParameters_named()
     {
-        TestBean bean = new TestBean("1", "foo");
+        TestBean bean = new TestBean(1L, "foo");
         ParameterSpec builder = new ParameterSpec<TestBean>(TestPage.class);
         builder.registerParameter("beanId", "id");
         builder.registerParameter("beanName", "name");
         
         PageParameters params = builder.createParameters(bean);
-        Assert.assertEquals(bean.getId(), params.getString("beanId"));
+        Assert.assertEquals(bean.getId(), (Long) params.getLong("beanId"));
         Assert.assertEquals(bean.getName(), params.getString("beanName"));
     }    
 
@@ -139,7 +202,7 @@ public class ParameterSpecTest
         
         builder.parseParameters(params, bean);
         
-        Assert.assertEquals("5", bean.getId());
+        Assert.assertEquals((Long) 5L, bean.getId());
         Assert.assertEquals("hello", bean.getName());
     }
     
@@ -178,7 +241,7 @@ public class ParameterSpecTest
     
     public static class TestBean implements Serializable
     {
-        private String _id;
+        private Long _id;
         private String _name;
         
         public TestBean()
@@ -186,18 +249,18 @@ public class ParameterSpecTest
             super();
         }
         
-        public TestBean(String id, String name)
+        public TestBean(Long id, String name)
         {
             _id = id;
             _name = name;
         }
         
-        public String getId()
+        public Long getId()
         {
             return _id;
         }
 
-        public void setId(String newId)
+        public void setId(Long newId)
         {
             _id = newId;
         }
