@@ -48,9 +48,9 @@ public class LabelWithDefaultTest extends BaseWicketTest
     {
         startComponentWithXHtml(
             _tester,
-            new LabelWithDefault("test").setDefault("foo"),
+            new LabelWithDefault("test").setDefault("foo &amp; bar"),
             "<p wicket:id=\"test\">blah</p>"
         );
-        _tester.assertContains("<p class=\"empty\">foo</p>");
+        _tester.assertContains("<p class=\"empty\">foo &amp; bar</p>");
     }
 }

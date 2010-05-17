@@ -66,6 +66,8 @@ public class LabelWithDefault extends Label
     /**
      * Sets the value that will be used if the value provided by the
      * model is empty.
+     * Note that this String value will <b>not</b> be escaped, so make sure
+     * that you provide an HTML-safe value.
      */
     public LabelWithDefault setDefault(String valueIfEmpty)
     {
@@ -76,6 +78,8 @@ public class LabelWithDefault extends Label
      * Sets the value that will be used if the value provided by the label's
      * normal model is empty. For localization, consider passing in an
      * instance of Wicket's StringResourceModel.
+     * Note that this String value will <b>not</b> be escaped, so make sure
+     * that you provide an HTML-safe value.
      */
     public LabelWithDefault setDefault(IModel<String> valueIfEmpty)
     {
