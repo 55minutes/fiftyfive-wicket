@@ -17,6 +17,11 @@ package fiftyfive.wicket.test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.xpath.XPathExpressionException;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
@@ -26,9 +31,13 @@ import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
+import org.ccil.cowan.tagsoup.Parser;
 import org.junit.Assert;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * Helper functions and assertions for easier testing of Wicket pages
@@ -42,12 +51,52 @@ import org.xml.sax.SAXException;
 public abstract class WicketTestUtils
 {
     /**
+     * Parses the most recently rendered Wicket page into an XML Document
+     * object. Uses
+     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * under the hood to parse even the sloppiest HTML. You can then use
+     * things like xpath expressions against the document.
+     * 
+     * @return The root Node of the resulting DOM
+     */
+    public static Node markupAsDOM(WicketTester tester)
+        throws SAXException, TransformerException
+    {
+        // Obtain the raw text of the markup
+        String markup = document(tester);
+        
+        // Configure the SAX2 TagSoup parser
+        XMLReader reader = new Parser();
+        reader.setFeature(Parser.namespacesFeature, false);
+        reader.setFeature(Parser.namespacePrefixesFeature, false);
+
+        // A transformer that will convert SAX2 events to a DOM node
+        DOMResult result = new DOMResult();
+        Transformer transformer =
+            TransformerFactory.newInstance().newTransformer();
+
+        // Do it
+        transformer.transform(
+            new SAXSource(reader, new InputSource(new StringReader(markup))), 
+            result
+        );
+
+        // This will be the root of the resulting DOM
+        return result.getNode();
+    }
+    
+    /**
      * Asserts that an XPath expression can be found in the most recently
-     * rendered Wicket page. Assumes that the page is well-formed XML (i.e.
-     * valid XHTML or HTML5 that obeys XML syntax).
+     * rendered Wicket page. Uses
+     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * under the hood to parse even the sloppiest HTML into XML that can be
+     * queryied by XPath. It is therefore possible that the XPath assertion
+     * will pass, even though {@link #assertValidMarkup(WicketTester) assertValidMarkup()}
+     * fails.
      */
     public static void assertXPath(WicketTester wt, String expr)
-            throws IOException, SAXException, XPathExpressionException
+            throws IOException, SAXException, TransformerException,
+                   XPathExpressionException
     {
         if(matchCount(wt, expr) == 0)
         {
@@ -62,11 +111,16 @@ public abstract class WicketTestUtils
     /**
      * Asserts that exactly {@code count} number of instances of a given
      * XPath expression can be found in the most recently
-     * rendered Wicket page. Assumes that the page is well-formed XML (i.e.
-     * valid XHTML or HTML5 that obeys XML syntax).
+     * rendered Wicket page. Uses
+     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * under the hood to parse even the sloppiest HTML into XML that can be
+     * queryied by XPath. It is therefore possible that the XPath assertion
+     * will pass, even though {@link #assertValidMarkup(WicketTester) assertValidMarkup()}
+     * fails.
      */
     public static void assertXPath(int count, WicketTester wt, String expr)
-            throws IOException, SAXException, XPathExpressionException
+            throws IOException, SAXException, TransformerException,
+                   XPathExpressionException
     {
         // First make sure the expression exists at all
         if(count > 0)
@@ -287,10 +341,10 @@ public abstract class WicketTestUtils
      * rendered page in the WicketTester.
      */
     private static int matchCount(WicketTester tester, String xPathExpr)
-            throws IOException, SAXException, XPathExpressionException
+            throws IOException, SAXException, TransformerException,
+                   XPathExpressionException
     {
-        NodeList nl = XPathHelper.parse(new StringReader(document(tester)))
-                                 .findNodes(xPathExpr);
+        NodeList nl = new XPathHelper(markupAsDOM(tester)).findNodes(xPathExpr);
         return nl != null ? nl.getLength() : 0;
     }
 }

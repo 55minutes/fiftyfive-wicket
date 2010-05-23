@@ -20,24 +20,24 @@ import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class XHtmlValidatorTest extends BaseValidatorTest
+public class Html5ValidatorTest extends BaseValidatorTest
 {
     @Test
     public void valid() throws IOException
     {
-        AbstractDocumentValidator validator = validator("xhtml-valid.html");
+        AbstractDocumentValidator validator = validator("html5-valid.html");
         if(!validator.isValid()) Assert.fail(validator.getErrors().toString());
     }
 
     @Test
     public void invalid() throws IOException
     {
-        AbstractDocumentValidator validator = validator("xhtml-invalid.html");
+        AbstractDocumentValidator validator = validator("html5-invalid.html");
         Assert.assertFalse(validator.isValid());
     }
     
     protected AbstractDocumentValidator createValidator()
     {
-        return new XHtmlValidator();
+        return new Html5Validator();
     }
 }

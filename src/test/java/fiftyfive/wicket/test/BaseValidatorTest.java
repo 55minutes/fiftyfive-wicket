@@ -16,28 +16,29 @@
 package fiftyfive.wicket.test;
 
 import java.io.IOException;
+import java.io.InputStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.wicket.util.io.IOUtils;
 
-public class XHtmlValidatorTest extends BaseValidatorTest
+public abstract class BaseValidatorTest
 {
-    @Test
-    public void valid() throws IOException
-    {
-        AbstractDocumentValidator validator = validator("xhtml-valid.html");
-        if(!validator.isValid()) Assert.fail(validator.getErrors().toString());
-    }
-
-    @Test
-    public void invalid() throws IOException
-    {
-        AbstractDocumentValidator validator = validator("xhtml-invalid.html");
-        Assert.assertFalse(validator.isValid());
-    }
+    protected abstract AbstractDocumentValidator createValidator();
     
-    protected AbstractDocumentValidator createValidator()
+    protected AbstractDocumentValidator validator(String resource)
+        throws IOException
     {
-        return new XHtmlValidator();
+        InputStream in = null;
+        try
+        {
+            in = getClass().getResourceAsStream(resource);
+            String doc = IOUtils.toString(in, "UTF-8");
+            AbstractDocumentValidator validator = createValidator();
+            validator.parse(doc);
+            return validator;
+        }
+        finally
+        {
+            IOUtils.closeQuietly(in);
+        }
     }
 }

@@ -30,7 +30,7 @@ import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
 import fiftyfive.wicket.test.dtd.XHtmlEntityResolver;
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -91,7 +91,7 @@ public class XPathHelper
         }
     }
     
-    private Document _document;
+    private Node _node;
     
     /**
      * Creates an XPathHelper from a DOM that has already been parsed.
@@ -99,9 +99,9 @@ public class XPathHelper
      * @see #parse(File)
      * @see #parse(InputSource)
      */
-    public XPathHelper(Document doc)
+    public XPathHelper(Node node)
     {
-        _document = doc;
+        _node = node;
     }
     
     /**
@@ -161,6 +161,6 @@ public class XPathHelper
             throws XPathExpressionException
     {
         XPathFactory factory = XPathFactory.newInstance();
-        return factory.newXPath().evaluate(expr, _document, type);
+        return factory.newXPath().evaluate(expr, _node, type);
     }
 }
