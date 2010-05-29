@@ -35,11 +35,17 @@
     </listener-class>
   </listener>
   
-  <listener>
-    <listener-class>
-      org.springframework.web.context.request.RequestContextListener
-    </listener-class>
-  </listener>
+  <filter>
+    <filter-name>spring-request</filter-name>
+    <filter-class>
+      org.springframework.web.filter.RequestContextFilter
+    </filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>spring-request</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <context-param>
     <param-name>contextConfigLocation</param-name>
