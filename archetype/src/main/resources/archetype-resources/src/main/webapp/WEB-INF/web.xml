@@ -8,6 +8,9 @@
    version="2.4">
 
   <display-name>${artifactId}</display-name>
+  <session-config>
+    <session-timeout>30</session-timeout> <!-- minutes -->
+  </session-config>
 
 
   <!-- ==================================================================== -->
