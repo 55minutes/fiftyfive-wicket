@@ -173,7 +173,11 @@ public abstract class WicketTestUtils
         throws IOException
     {
         String type = tester.getServletResponse().getContentType();
+        Assert.assertNotNull(
+            "Content type of rendered Wicket page cannot be null", type
+        );
         Assert.assertTrue(
+            "Content type of rendered Wicket page must be text/html",
             type.equals("text/html") ||
             type.startsWith("text/html;")
         );
@@ -306,7 +310,11 @@ public abstract class WicketTestUtils
      */
     private static String document(WicketTester tester)
     {
-        return tester.getServletResponse().getDocument();
+        String doc = tester.getServletResponse().getDocument();
+        Assert.assertNotNull(
+            "HTTP body of rendered Wicket page cannot be null", doc
+        );
+        return doc;
     }
     
     /**
