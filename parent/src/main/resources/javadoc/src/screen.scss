@@ -1,0 +1,121 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "base";
+
+/*-----[ core ]-----------------------------------------------------------------
+*/
+a
+{
+  color: $brown;
+}
+
+a:hover,
+a:active
+{
+  color: $orange;
+}
+
+a:link:visited
+{
+  color: $purple;
+}
+
+body
+{
+  padding: 18px;
+  font-family: "Helvetica", "Arial", "Verdana", sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+code,
+pre
+{
+  font-family: "Consolas", "Menlo", "Monaco", "Lucida Console", monospace;
+  font-size: 13px;
+}
+
+dl, ol, p, pre, ul
+{
+  margin-bottom: 18px;
+}
+
+dl
+{
+  margin-bottom: 24px;
+}
+
+dd dd
+{
+  margin-left: 18px;
+}
+
+h1
+{
+  margin: 36px 0px 12px;
+  color: $orange;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+h3
+{
+  margin: 26px 0px 12px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: bold;
+}
+
+hr
+{
+  margin: 9px 0px 8px;
+  border-style: none;
+  height: 2px;
+  background-color: $oreo-milkshake;
+  font-size: 0px;
+}
+
+table
+{
+  border-top: 1px solid $custard;
+}
+
+table th,
+table td
+{
+  border-bottom: 1px solid $custard;
+  padding: 4px 15px 5px 5px;
+  line-height: 18px;
+  vertical-align: top;
+}
+
+table table,
+table table th,
+table table td
+{
+  border-style: none;
+}
+
+
+/*-----[ tables ]---------------------------------------------------------------
+*/
+tr.TableHeadingColor th,
+tr.TableSubHeadingColor th,
+td.NavBarCell1
+{
+  background-color: $pale-blue;
+}
+
+td.NavBarCell1
+{
+  padding: 0px;
+}
+
+td.NavBarCell1 td
+{
+  padding: 4px 5px 5px;
+}
+

@@ -160,6 +160,9 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <stylesheetfile>${basedir}/parent/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
+        </configuration>
         <executions>
           <execution>
             <goals>

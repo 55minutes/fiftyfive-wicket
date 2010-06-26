@@ -236,6 +236,7 @@
             <exclude>**/src/main/java/fiftyfive/wicket/examples/scripts/**</exclude>
             <exclude>**/src/main/java/fiftyfive/wicket/examples/styles/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
+            <exclude>**/src/main/resources/javadoc/**</exclude>
             <exclude>**/src/test/**/*.html</exclude>
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>
@@ -332,6 +333,7 @@
             <link>http://wicket.apache.org/docs/1.4/</link>
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
           </links>
+          <stylesheetfile>${basedir}/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
         </configuration>
       </plugin>
     </plugins>
