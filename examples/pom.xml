@@ -301,7 +301,7 @@
             <link>http://wicket.apache.org/docs/1.4/</link>
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
           </links>
-          <stylesheetfile>${basedir}/../parent/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
+          <!-- <stylesheetfile>${basedir}/../parent/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile> -->
         </configuration>
       </plugin>
     </plugins>
