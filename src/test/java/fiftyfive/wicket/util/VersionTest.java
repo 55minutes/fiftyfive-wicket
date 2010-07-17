@@ -32,14 +32,14 @@ public class VersionTest
         Date now = new Date();
         Version v = Version.ofJar(org.slf4j.Logger.class);
         
-        Assert.assertEquals("1.6.0", v.getVersion());
+        Assert.assertEquals("1.6.1", v.getVersion());
         Assert.assertEquals("slf4j-api", v.getTitle());
         Assert.assertTrue(v.getModifiedDate().before(now));
         
-        // slf4j-api 1.6.0 was built in May 2010
+        // slf4j-api 1.6.1 was built in July 2010
         Calendar expected = Calendar.getInstance();
         expected.set(Calendar.YEAR, 2010);
-        expected.set(Calendar.MONTH, 4);
+        expected.set(Calendar.MONTH, 6);
         expected.set(Calendar.DATE, 1);
         
         Calendar mod = Calendar.getInstance();
