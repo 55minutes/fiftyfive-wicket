@@ -215,10 +215,13 @@
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
-        <version>1.6.0</version>
+        <version>1.7.0</version>
         <configuration>
           <header>${parent.dir}/header.txt</header>
           <failIfMissing>true</failIfMissing>
+          <mapping>
+            <scss>JAVADOC_STYLE</scss>
+          </mapping>
           <properties>
             <year>2010</year>
           </properties>
@@ -242,7 +245,12 @@
             <exclude>**/src/main/java/fiftyfive/wicket/examples/scripts/**</exclude>
             <exclude>**/src/main/java/fiftyfive/wicket/examples/styles/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
-            <exclude>**/src/main/resources/javadoc/**</exclude>
+            <exclude>**/src/main/resources/javadoc/config.rb</exclude>
+            <exclude>**/src/main/resources/javadoc/src/_base.scss</exclude>
+            <exclude>**/src/main/resources/javadoc/src/ie.scss</exclude>
+            <exclude>**/src/main/resources/javadoc/src/print.scss</exclude>
+            <exclude>**/src/main/resources/javadoc/stylesheets/ie.css</exclude>
+            <exclude>**/src/main/resources/javadoc/stylesheets/print.css</exclude>
             <exclude>**/src/test/**/*.html</exclude>
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>
