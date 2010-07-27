@@ -26,16 +26,16 @@ a:link:visited
 body
 {
   padding: 18px;
-  font-family: "Helvetica", "Arial", "Verdana", sans-serif;
-  font-size: 14px;
-  line-height: 18px;
+  font-family: $main-font-stack;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 code,
 pre
 {
-  font-family: "Consolas", "Menlo", "Monaco", "Lucida Console", monospace;
-  font-size: 13px;
+  font-family: $fixed-width-font-stack;
+  font-size: 14px;
 }
 
 dl, ol, p, pre, ul
@@ -53,9 +53,22 @@ dd dd
   margin-left: 18px;
 }
 
+h1, h2, h3
+{
+  font-weight: bold;
+}
+
 h1
 {
-  margin: 36px 0px 12px;
+  margin: 36px 0 12px;
+  color: $orange;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+h2
+{
+  margin: 16px 0 18px;
   color: $orange;
   font-size: 24px;
   line-height: 24px;
@@ -63,24 +76,18 @@ h1
 
 h3
 {
-  margin: 26px 0px 12px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: bold;
+  margin: 26px 0 12px;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 hr
 {
-  margin: 9px 0px 8px;
+  margin: 18px 0 16px;
   border-style: none;
   height: 2px;
   background-color: $oreo-milkshake;
-  font-size: 0px;
-}
-
-table
-{
-  border-top: 1px solid $custard;
+  font-size: 0;
 }
 
 table th,
@@ -88,8 +95,12 @@ table td
 {
   border-bottom: 1px solid $custard;
   padding: 4px 15px 5px 5px;
-  line-height: 18px;
+  line-height: 20px;
   vertical-align: top;
+}
+
+table th
+{
 }
 
 table table,
@@ -99,23 +110,79 @@ table table td
   border-style: none;
 }
 
+ul li
+{
+  margin-left: 20px;
+  list-style-type: disc;
+}
+
+
+/*-----[ content ]--------------------------------------------------------------
+*/
+h2 font
+{
+  color: black;
+  font-family: $fixed-width-font-stack;
+  font-size: 14px;
+}
+
+body hr:first-child
+{
+  display: none;
+}
+
+body table:first-child th,
+body table:first-child td
+{
+  padding: 0;
+}
+
 
 /*-----[ tables ]---------------------------------------------------------------
 */
+table[border="0"] th,
+table[border="0"] td
+{
+  border-style: none;
+}
+
 tr.TableHeadingColor th,
 tr.TableSubHeadingColor th,
 td.NavBarCell1
 {
-  background-color: $pale-blue;
+  border-top: 1px solid $custard;
+  background-color: $pale-blue !important;
+}
+
+td.NavBarCell1 td.NavBarCell1
+{
+  border-top-style: none;
+}
+
+td.NavBarCell1 + td[align=right]
+{
+  padding: 0;
+  font-size: 0;
 }
 
 td.NavBarCell1
 {
-  padding: 0px;
+  padding: 0;
 }
 
 td.NavBarCell1 td
 {
   padding: 4px 5px 5px;
+}
+
+td.NavBarCell2
+{
+  font-size: 14px;
+  font-weight: normal;
+}
+
+td[align=right]
+{
+  text-align: right;
 }
 

@@ -9,6 +9,10 @@ $olive: #696f2b;
 $teal: #46948d;
 $purple: #4b2b6f;
 
+/* Fonts */
+$main-font-stack: "Calibri", "Myriad Pro", "Tahoma", sans-serif;
+$fixed-width-font-stack: "Consolas", "Menlo", "Monaco", "Lucida Console", monospace;
+
 @import "compass/reset";
 @import "compass/utilities";
 @import "compass/css3";

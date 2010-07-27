@@ -4,6 +4,7 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 /* Variables */
 /* Colors */
+/* Fonts */
 /* line 14, ../../../../../../../../../../../../../../.gem/ruby/1.9.1/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -85,16 +86,16 @@ a:link:visited {
 /* line 27, ../src/screen.scss */
 body {
   padding: 18px;
-  font-family: "Helvetica", "Arial", "Verdana", sans-serif;
-  font-size: 14px;
-  line-height: 18px;
+  font-family: "Calibri", "Myriad Pro", "Tahoma", sans-serif;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 /* line 36, ../src/screen.scss */
 code,
 pre {
   font-family: "Consolas", "Menlo", "Monaco", "Lucida Console", monospace;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* line 42, ../src/screen.scss */
@@ -113,66 +114,128 @@ dd dd {
 }
 
 /* line 57, ../src/screen.scss */
+h1, h2, h3 {
+  font-weight: bold;
+}
+
+/* line 62, ../src/screen.scss */
 h1 {
-  margin: 36px 0px 12px;
+  margin: 36px 0 12px;
   color: #c8653a;
   font-size: 24px;
   line-height: 24px;
 }
 
-/* line 65, ../src/screen.scss */
-h3 {
-  margin: 26px 0px 12px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: bold;
+/* line 70, ../src/screen.scss */
+h2 {
+  margin: 16px 0 18px;
+  color: #c8653a;
+  font-size: 24px;
+  line-height: 24px;
 }
 
-/* line 73, ../src/screen.scss */
+/* line 78, ../src/screen.scss */
+h3 {
+  margin: 26px 0 12px;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+/* line 85, ../src/screen.scss */
 hr {
-  margin: 9px 0px 8px;
+  margin: 18px 0 16px;
   border-style: none;
   height: 2px;
   background-color: #94847c;
-  font-size: 0px;
+  font-size: 0;
 }
 
-/* line 82, ../src/screen.scss */
-table {
-  border-top: 1px solid #e5dbc7;
-}
-
-/* line 88, ../src/screen.scss */
+/* line 95, ../src/screen.scss */
 table th,
 table td {
   border-bottom: 1px solid #e5dbc7;
   padding: 4px 15px 5px 5px;
-  line-height: 18px;
+  line-height: 20px;
   vertical-align: top;
 }
 
-/* line 98, ../src/screen.scss */
+/* line 109, ../src/screen.scss */
 table table,
 table table th,
 table table td {
   border-style: none;
 }
 
+/* line 114, ../src/screen.scss */
+ul li {
+  margin-left: 20px;
+  list-style-type: disc;
+}
+
+/*-----[ content ]--------------------------------------------------------------
+*/
+/* line 123, ../src/screen.scss */
+h2 font {
+  color: black;
+  font-family: "Consolas", "Menlo", "Monaco", "Lucida Console", monospace;
+  font-size: 14px;
+}
+
+/* line 130, ../src/screen.scss */
+body hr:first-child {
+  display: none;
+}
+
+/* line 136, ../src/screen.scss */
+body table:first-child th,
+body table:first-child td {
+  padding: 0;
+}
+
 /*-----[ tables ]---------------------------------------------------------------
 */
-/* line 108, ../src/screen.scss */
+/* line 145, ../src/screen.scss */
+table[border="0"] th,
+table[border="0"] td {
+  border-style: none;
+}
+
+/* line 152, ../src/screen.scss */
 tr.TableHeadingColor th,
 tr.TableSubHeadingColor th,
 td.NavBarCell1 {
-  background-color: #dde7f3;
+  border-top: 1px solid #e5dbc7;
+  background-color: #dde7f3 !important;
 }
 
-/* line 113, ../src/screen.scss */
+/* line 158, ../src/screen.scss */
+td.NavBarCell1 td.NavBarCell1 {
+  border-top-style: none;
+}
+
+/* line 163, ../src/screen.scss */
+td.NavBarCell1 + td[align=right] {
+  padding: 0;
+  font-size: 0;
+}
+
+/* line 169, ../src/screen.scss */
 td.NavBarCell1 {
-  padding: 0px;
+  padding: 0;
 }
 
-/* line 118, ../src/screen.scss */
+/* line 174, ../src/screen.scss */
 td.NavBarCell1 td {
   padding: 4px 5px 5px;
+}
+
+/* line 179, ../src/screen.scss */
+td.NavBarCell2 {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+/* line 185, ../src/screen.scss */
+td[align=right] {
+  text-align: right;
 }
