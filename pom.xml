@@ -60,6 +60,15 @@
 
 
   <!-- ==================================================================== -->
+  <!-- Properties                                                           -->
+  <!-- ==================================================================== -->
+
+  <properties>
+    <parent.dir>${basedir}/parent</parent.dir>
+  </properties>
+
+
+  <!-- ==================================================================== -->
   <!-- Dependencies                                                         -->
   <!-- ==================================================================== -->
 
@@ -153,16 +162,10 @@
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
         <version>1.6.0</version>
-        <configuration>
-          <header>${basedir}/parent/header.txt</header>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <stylesheetfile>${basedir}/parent/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
-        </configuration>
         <executions>
           <execution>
             <goals>

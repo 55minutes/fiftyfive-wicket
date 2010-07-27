@@ -264,7 +264,7 @@
           <encoding>utf-8</encoding>
           <links>
             <link>http://java.sun.com/javase/6/docs/api/</link>
-            <link>http://wicket.apache.org/docs/1.4/</link>
+            <link>http://wicket.apache.org/apidocs/1.4/</link>
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
           </links>
         </configuration>

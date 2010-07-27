@@ -35,6 +35,11 @@
   <name>55 Minutes Wicket/Spring Archetype</name>
 
 
+  <properties>
+    <parent.dir>${basedir}/../parent</parent.dir>
+  </properties>
+
+
   <build>
     <extensions>
       <extension>
@@ -48,9 +53,6 @@
         <groupId>com.mycila.maven-license-plugin</groupId>
         <artifactId>maven-license-plugin</artifactId>
         <version>1.6.0</version>
-        <configuration>
-          <header>${basedir}/../parent/header.txt</header>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-archetype-plugin</artifactId>

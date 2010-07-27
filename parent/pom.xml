@@ -63,15 +63,21 @@
 
 
   <!-- ==================================================================== -->
-  <!-- Dependencies                                                         -->
+  <!-- Properties                                                           -->
   <!-- ==================================================================== -->
 
   <properties>
+    <parent.dir>${basedir}</parent.dir>
     <jetty.version>6.1.24</jetty.version>
     <slf4j.version>1.6.1</slf4j.version>
     <spring.version>3.0.3.RELEASE</spring.version>
     <wicket.version>1.4-SNAPSHOT</wicket.version>
   </properties>
+
+
+  <!-- ==================================================================== -->
+  <!-- Dependencies                                                         -->
+  <!-- ==================================================================== -->
 
   <dependencyManagement>
     <dependencies>
@@ -211,7 +217,7 @@
         <artifactId>maven-license-plugin</artifactId>
         <version>1.6.0</version>
         <configuration>
-          <header>${basedir}/header.txt</header>
+          <header>${parent.dir}/header.txt</header>
           <failIfMissing>true</failIfMissing>
           <properties>
             <year>2010</year>
@@ -330,10 +336,10 @@
           <encoding>utf-8</encoding>
           <links>
             <link>http://java.sun.com/javase/6/docs/api/</link>
-            <link>http://wicket.apache.org/docs/1.4/</link>
+            <link>http://wicket.apache.org/apidocs/1.4/</link>
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
           </links>
-          <stylesheetfile>${basedir}/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
+          <stylesheetfile>${parent.dir}/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
         </configuration>
       </plugin>
     </plugins>
