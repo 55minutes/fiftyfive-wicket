@@ -127,7 +127,7 @@ public class WicketApplication extends FoundationSpringApplication
                 "scripts/lib/jquery-1.4.2/jquery-1.4.2" + (dev?".js":".min.js"))
             .addScript(
                 WicketApplication.class, 
-                "scripts/lib/jquery-ui-1.8.2/jquery.ui-1.8.2.widget.js")
+                "scripts/lib/jquery-ui-1.8.2/jquery.ui.widget.js")
             .addScript(
                 WicketApplication.class, 
                 "scripts/lib/fiftyfive-utils/jquery.55_utils.js")
