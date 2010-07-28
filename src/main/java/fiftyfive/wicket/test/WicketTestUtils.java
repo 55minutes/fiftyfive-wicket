@@ -26,7 +26,7 @@ import javax.xml.xpath.XPathExpressionException;
 import static javax.xml.xpath.XPathConstants.NODESET;
 import static javax.xml.xpath.XPathConstants.STRING;
 
-import fiftyfive.wicket.util.XPathHelper;
+import fiftyfive.util.XPathHelper;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.util.tester.WicketTester;

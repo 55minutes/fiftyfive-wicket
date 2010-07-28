@@ -76,6 +76,10 @@
 
     <!-- ==== Compile dependencies ======================================== -->
     <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-util</artifactId>
+    </dependency>
+    <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <optional>true</optional>

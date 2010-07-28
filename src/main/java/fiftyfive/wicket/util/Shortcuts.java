@@ -18,6 +18,7 @@ package fiftyfive.wicket.util;
 import java.io.Serializable;
 import java.util.Collection;
 
+import fiftyfive.util.ReflectUtils;
 import fiftyfive.wicket.basic.LabelWithDefault;
 import org.apache.wicket.Component;
 import org.apache.wicket.Response;

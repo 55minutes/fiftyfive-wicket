@@ -324,13 +324,6 @@
       <snapshots><enabled>true</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
     </repository>
-    <repository>
-      <id>fiftyfive-opensource</id>
-      <name>55 Minutes Open Source Maven Repository</name>
-      <url>http://opensource.55minutes.com/maven</url>
-      <releases><enabled>true</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </repository>
   </repositories>
 
 </project>

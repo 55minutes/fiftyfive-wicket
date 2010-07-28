@@ -82,6 +82,11 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>com.55minutes</groupId>
+        <artifactId>fiftyfive-util</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>1.2.16</version>
@@ -378,6 +383,13 @@
       <url>http://wicketstuff.org/maven/repository</url>
       <snapshots><enabled>true</enabled></snapshots>
       <releases><enabled>true</enabled></releases>
+    </repository>
+    <repository>
+      <id>fiftyfive-opensource</id>
+      <name>55 Minutes Open Source Maven Repository</name>
+      <url>http://opensource.55minutes.com/maven</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </repository>
   </repositories>
 

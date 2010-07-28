@@ -17,7 +17,7 @@ package fiftyfive.wicket;
 
 import java.util.Date;
 
-import fiftyfive.wicket.util.Version;
+import fiftyfive.util.Version;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.AjaxServerAndClientTimeFilter;
