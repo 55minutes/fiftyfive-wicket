@@ -71,6 +71,7 @@
     <jetty.version>6.1.24</jetty.version>
     <slf4j.version>1.6.1</slf4j.version>
     <spring.version>3.0.3.RELEASE</spring.version>
+    <util.version>1.0-SNAPSHOT</util.version>
     <wicket.version>1.4-SNAPSHOT</wicket.version>
   </properties>
 
@@ -84,7 +85,7 @@
       <dependency>
         <groupId>com.55minutes</groupId>
         <artifactId>fiftyfive-util</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${util.version}</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -351,6 +352,7 @@
             <link>http://java.sun.com/javase/6/docs/api/</link>
             <link>http://wicket.apache.org/apidocs/1.4/</link>
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
+            <link>http://opensource.55minutes.com/apidocs/fiftyfive-util/${util.version}/</link>
           </links>
           <stylesheetfile>${parent.dir}/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
         </configuration>
