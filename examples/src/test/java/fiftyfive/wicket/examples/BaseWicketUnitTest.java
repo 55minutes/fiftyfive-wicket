@@ -55,7 +55,7 @@ public abstract class BaseWicketUnitTest
     @After
     public void destroyTester()
     {
-        _tester.destroy();
+        if(_tester != null) _tester.destroy();
     }
     
     /**
