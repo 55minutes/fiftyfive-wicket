@@ -15,10 +15,10 @@
  */
 package fiftyfive.wicket.test;
 
-import fiftyfive.wicket.BaseWicketTest;
+import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Test;
 
-public class WicketTestUtilsTest extends BaseWicketTest
+public class WicketTestUtilsTest
 {
     /**
      * Test that an HTML document containing HTML entities like
@@ -28,12 +28,13 @@ public class WicketTestUtilsTest extends BaseWicketTest
     @Test
     public void testAssertXPath_htmlEntities() throws Exception
     {
+        WicketTester tester = new WicketTester();
         final String html =
             "<!DOCTYPE html><html>" +
             "<head><title>&ldquo;title&rdquo; &raquo; test</title></head>" +
             "<body><section><p>&copy;<img></p></section></body>" +
             "</html>";
-        _tester.startPage(new PageWithInlineMarkup(html));
-        WicketTestUtils.assertXPath(_tester, "/html/body/section/p");
+        tester.startPage(new PageWithInlineMarkup(html));
+        WicketTestUtils.assertXPath(tester, "/html/body/section/p");
     }
 }

@@ -123,6 +123,12 @@
     
     <!-- ==== Test dependencies =========================================== -->
     <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-test</artifactId>
+      <version>${symbol_dollar}{fiftyfive.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.1</version>
