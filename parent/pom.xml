@@ -214,7 +214,7 @@
         <artifactId>maven-license-plugin</artifactId>
         <version>1.7.0</version>
         <configuration>
-          <header>${parent.dir}/header.txt</header>
+          <header>${parent.dir}/etc/header.txt</header>
           <failIfMissing>true</failIfMissing>
           <mapping>
             <scss>JAVADOC_STYLE</scss>
@@ -226,6 +226,8 @@
           <includes>
             <include>pom.xml</include>
             <include>src/**</include>
+            <include>etc/javadoc/src/screen.scss</include>
+            <include>etc/javadoc/stylesheets/screen.css</include>
           </includes>
           <excludes>
             <exclude>**/.*</exclude>
@@ -242,12 +244,6 @@
             <exclude>**/src/main/java/fiftyfive/wicket/examples/scripts/**</exclude>
             <exclude>**/src/main/java/fiftyfive/wicket/examples/styles/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
-            <exclude>**/src/main/resources/javadoc/config.rb</exclude>
-            <exclude>**/src/main/resources/javadoc/src/_base.scss</exclude>
-            <exclude>**/src/main/resources/javadoc/src/ie.scss</exclude>
-            <exclude>**/src/main/resources/javadoc/src/print.scss</exclude>
-            <exclude>**/src/main/resources/javadoc/stylesheets/ie.css</exclude>
-            <exclude>**/src/main/resources/javadoc/stylesheets/print.css</exclude>
             <exclude>**/src/test/**/*.html</exclude>
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>
@@ -345,7 +341,7 @@
             <link>http://static.springsource.org/spring/docs/3.0.x/javadoc-api/</link>
             <link>http://opensource.55minutes.com/apidocs/fiftyfive-util/${util.version}/</link>
           </links>
-          <stylesheetfile>${parent.dir}/src/main/resources/javadoc/stylesheets/screen.css</stylesheetfile>
+          <stylesheetfile>${parent.dir}/etc/javadoc/stylesheets/screen.css</stylesheetfile>
         </configuration>
       </plugin>
     </plugins>
