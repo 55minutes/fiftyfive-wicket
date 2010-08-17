@@ -29,7 +29,7 @@
 
   <properties>
     <fiftyfive.version>2.0-SNAPSHOT</fiftyfive.version>
-    <jetty.version>6.1.24</jetty.version>
+    <jetty.version>6.1.25</jetty.version>
     <slf4j.version>1.6.1</slf4j.version>
     <spring.version>3.0.3.RELEASE</spring.version>
     <wicket.version>1.4-SNAPSHOT</wicket.version>
@@ -87,7 +87,7 @@
     <dependency>
       <groupId>org.wicketstuff</groupId>
       <artifactId>annotation</artifactId>
-      <version>1.4.9</version>
+      <version>1.4.10</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
