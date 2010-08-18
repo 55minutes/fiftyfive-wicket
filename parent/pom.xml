@@ -251,6 +251,7 @@
             <exclude>**/QueryStringMergedResourceRequestTargetUrlCodingStrategy.java</exclude>
             <exclude>**/QueryStringSharedResourceRequestTargetUrlCodingStrategy.java</exclude>
           </excludes>
+          <strictCheck>true</strictCheck>
         </configuration>
         <executions>
           <execution>
