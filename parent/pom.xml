@@ -227,7 +227,6 @@
             <include>pom.xml</include>
             <include>src/**</include>
             <include>etc/javadoc/src/screen.scss</include>
-            <include>etc/javadoc/stylesheets/screen.css</include>
           </includes>
           <excludes>
             <exclude>**/.*</exclude>
