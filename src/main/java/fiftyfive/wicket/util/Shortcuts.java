@@ -75,10 +75,9 @@ public class Shortcuts
      *     return _personService.loadPerson(getPageParameters().get("id"));
      * }
      * </pre>
-     * <b>Note: The bean class must be public!</b>
-     * @throws IllegalArgumentException if the loadMethod does not exist,
-     *                                  takes more than zero arguments, or
-     *                                  if bean is not a public class
+     * 
+     * @throws IllegalArgumentException if the loadMethod does not exist, or
+     *                                  takes more than zero arguments
      */
     public static LoadableDetachableModel loadedModel(final Object bean,
                                                       final String loadMethod)

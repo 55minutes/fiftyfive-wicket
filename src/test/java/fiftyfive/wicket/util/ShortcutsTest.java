@@ -76,7 +76,7 @@ public class ShortcutsTest extends BaseWicketTest
         Assert.assertFalse(Shortcuts.empty(true));
     }
     
-    public static class TestBean
+    private static class TestBean
     {
         private List<String> _values;
         
