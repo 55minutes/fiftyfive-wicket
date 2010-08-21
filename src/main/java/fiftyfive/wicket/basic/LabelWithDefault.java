@@ -117,11 +117,16 @@ public class LabelWithDefault extends Label
     protected void onComponentTagBody(MarkupStream markupStream,
                                       ComponentTag openTag)
     {
-        String str = getDefaultModelObjectAsString();
+        String str = internalGetDefaultModelObjectAsString();
         if(_defaultValue != null && isEmpty())
         {
             str = _defaultValue.getObject();
         }
         replaceComponentTagBody(markupStream, openTag, str);
+    }
+    
+    protected String internalGetDefaultModelObjectAsString()
+    {
+        return getDefaultModelObjectAsString();
     }
 }
