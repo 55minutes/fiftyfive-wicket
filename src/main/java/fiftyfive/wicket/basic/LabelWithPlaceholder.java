@@ -68,8 +68,8 @@ public class LabelWithPlaceholder extends Label
     /**
      * Sets the value that will be used if the value provided by the
      * model is empty.
-     * Note that this String value will <b>not</b> be escaped, so make sure
-     * that you provide an HTML-safe value.
+     * Note that this value will be escaped based on the label's
+     * {@link Label#getEscapeModelStrings() getEscapeModelStrings()} flag.
      */
     public LabelWithPlaceholder setPlaceholder(String valueIfEmpty)
     {
