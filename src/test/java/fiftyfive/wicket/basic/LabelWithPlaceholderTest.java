@@ -20,14 +20,14 @@ import fiftyfive.wicket.BaseWicketTest;
 import org.junit.Test;
 import static fiftyfive.wicket.test.WicketTestUtils.*;
 
-public class LabelWithDefaultTest extends BaseWicketTest
+public class LabelWithPlaceholderTest extends BaseWicketTest
 {
     @Test
     public void testRender_normal() throws Exception
     {
         startComponentWithXHtml(
             _tester,
-            new LabelWithDefault("test", "hello!").setDefault("foo"),
+            new LabelWithPlaceholder("test", "hello!").setPlaceholder("foo"),
             "<p wicket:id=\"test\">blah</p>"
         );
         _tester.assertContains("<p>hello!</p>");
@@ -38,7 +38,7 @@ public class LabelWithDefaultTest extends BaseWicketTest
     {
         startComponentWithXHtml(
             _tester,
-            new LabelWithDefault("test"),
+            new LabelWithPlaceholder("test"),
             "<p wicket:id=\"test\">blah</p>"
         );
         _tester.assertContains("<p class=\"empty\"></p>");
@@ -49,9 +49,22 @@ public class LabelWithDefaultTest extends BaseWicketTest
     {
         startComponentWithXHtml(
             _tester,
-            new LabelWithDefault("test").setDefault("foo &amp; bar"),
+            new LabelWithPlaceholder("test").setPlaceholder("foo & bar"),
             "<p wicket:id=\"test\">blah</p>"
         );
         _tester.assertContains("<p class=\"empty\">foo &amp; bar</p>");
+    }
+
+    @Test
+    public void testRender_emptyWithDefaultNoEscape() throws Exception
+    {
+        startComponentWithXHtml(
+            _tester,
+            new LabelWithPlaceholder("test")
+                .setPlaceholder("foo & bar")
+                .setEscapeModelStrings(false),
+            "<p wicket:id=\"test\">blah</p>"
+        );
+        _tester.assertContains("<p class=\"empty\">foo & bar</p>");
     }
 }

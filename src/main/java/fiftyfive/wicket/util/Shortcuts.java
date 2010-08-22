@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import fiftyfive.util.ReflectUtils;
-import fiftyfive.wicket.basic.LabelWithDefault;
+import fiftyfive.wicket.basic.LabelWithPlaceholder;
 import org.apache.wicket.Component;
 import org.apache.wicket.Response;
 import org.apache.wicket.behavior.AbstractBehavior;
@@ -94,48 +94,48 @@ public class Shortcuts
     }
     
     /**
-     * Shortcut for creating a LabelWithDefault with an implied model.
+     * Shortcut for creating a LabelWithPlaceholder with an implied model.
      * Equivalent to:
      * <pre>
-     * new LabelWithDefault("name")
+     * new LabelWithPlaceholder("name")
      * </pre>
-     * @see LabelWithDefault
+     * @see LabelWithPlaceholder
      */
-    public static LabelWithDefault label(String id)
+    public static LabelWithPlaceholder label(String id)
     {
-        return new LabelWithDefault(id);
+        return new LabelWithPlaceholder(id);
     }
 
     /**
-     * Shortcut for creating a LabelWithDefault with a PropertyModel.
+     * Shortcut for creating a LabelWithPlaceholder with a PropertyModel.
      * Equivalent to:
      * <pre>
-     * new LabelWithDefault("name", new PropertyModel(person, "fullName"))
+     * new LabelWithPlaceholder("name", new PropertyModel(person, "fullName"))
      * </pre>
-     * @see LabelWithDefault
+     * @see LabelWithPlaceholder
      */
-    public static LabelWithDefault label(String id,
+    public static LabelWithPlaceholder label(String id,
                                          Object bean, String propertyExpr)
     {
         return label(id, prop(bean, propertyExpr));
     }
 
     /**
-     * Shortcut for creating a LabelWithDefault with a hardcoded value or a
+     * Shortcut for creating a LabelWithPlaceholder with a hardcoded value or a
      * custom model. Equivalent to:
      * <pre>
-     * new LabelWithDefault("name", "Hardcoded string value").
+     * new LabelWithPlaceholder("name", "Hardcoded string value").
      * </pre>
-     * @see LabelWithDefault
+     * @see LabelWithPlaceholder
      */
-    public static LabelWithDefault label(String id, Serializable valueOrIModel)
+    public static LabelWithPlaceholder label(String id, Serializable valueOrIModel)
     {
         IModel model = valueOrIModel != null ? new Model(valueOrIModel) : null;
         if(valueOrIModel instanceof IModel)
         {
             model = (IModel) valueOrIModel;
         }
-        return new LabelWithDefault(id, model);
+        return new LabelWithPlaceholder(id, model);
     }
     
     /**

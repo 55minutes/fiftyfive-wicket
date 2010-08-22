@@ -25,13 +25,13 @@ import org.apache.wicket.util.string.Strings;
  * A Label that truncates is output to the specified maximum number of
  * characters.
  */
-public class TruncatedLabel extends LabelWithDefault
+public class TruncatedLabel extends LabelWithPlaceholder
 {
     private int _length;
     private TruncateHelper _helper = new TruncateHelper();
     
     /**
-     * @see LabelWithDefault#LabelWithDefault(String)
+     * @see LabelWithPlaceholder#LabelWithPlaceholder(String)
      */
     public TruncatedLabel(final String id, int length)
     {
@@ -39,7 +39,7 @@ public class TruncatedLabel extends LabelWithDefault
     }
 
     /**
-     * @see LabelWithDefault#LabelWithDefault(String, String)
+     * @see LabelWithPlaceholder#LabelWithPlaceholder(String, String)
      */
     public TruncatedLabel(final String id, int length, String label)
     {
@@ -47,7 +47,7 @@ public class TruncatedLabel extends LabelWithDefault
     }
 
     /**
-     * @see LabelWithDefault#LabelWithDefault(String, IModel)
+     * @see LabelWithPlaceholder#LabelWithPlaceholder(String, IModel)
      */
     public TruncatedLabel(final String id, int length, IModel<?> model)
     {
@@ -55,6 +55,9 @@ public class TruncatedLabel extends LabelWithDefault
         _length = length;
     }
     
+    /**
+     * Returns a truncated version of {@link #getDefaultModelObjectAsString()}.
+     */
     @Override
     protected String internalGetDefaultModelObjectAsString()
     {

@@ -23,26 +23,27 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+
 /**
- * An extension of Wicket's Label component that allows a default value to be
- * specified. If the model is empty, then:
+ * An extension of Wicket's Label component that allows a placeholder value to
+ * be specified. If the label's default model is empty, then:
  * <ul>
  * <li>A CSS class of "empty" will be added to the tag</li>
- * <li>The default value (if one is specified) will be emitted as the
+ * <li>The placeholder value (if one is specified) will be emitted as the
  * body of the tag</li>
  * </ul>
  * If the model is not empty, this behaves like the standard Label.
- * @see #setDefault
+ * @see #setPlaceholder
  * @see Label
  */
-public class LabelWithDefault extends Label
+public class LabelWithPlaceholder extends Label
 {
-    private IModel<String> _defaultValue;
+    private IModel<?> _placeholderValue;
     
     /**
      * @see Label#Label(String)
      */
-    public LabelWithDefault(final String id)
+    public LabelWithPlaceholder(final String id)
     {
         this(id, (IModel) null);
     }
@@ -50,7 +51,7 @@ public class LabelWithDefault extends Label
     /**
      * @see Label#Label(String, String)
      */
-    public LabelWithDefault(final String id, String label)
+    public LabelWithPlaceholder(final String id, String label)
     {
         this(id, new Model(label));
     }
@@ -58,7 +59,7 @@ public class LabelWithDefault extends Label
     /**
      * @see Label#Label(String, IModel)
      */
-    public LabelWithDefault(final String id, IModel<?> model)
+    public LabelWithPlaceholder(final String id, IModel<?> model)
     {
         super(id, model);
         add(Shortcuts.cssClassIf("empty", this, "empty"));
@@ -70,21 +71,21 @@ public class LabelWithDefault extends Label
      * Note that this String value will <b>not</b> be escaped, so make sure
      * that you provide an HTML-safe value.
      */
-    public LabelWithDefault setDefault(String valueIfEmpty)
+    public LabelWithPlaceholder setPlaceholder(String valueIfEmpty)
     {
-        return setDefault(Model.of(valueIfEmpty));
+        return setPlaceholder(Model.of(valueIfEmpty));
     }
     
     /**
      * Sets the value that will be used if the value provided by the label's
      * normal model is empty. For localization, consider passing in an
      * instance of Wicket's StringResourceModel.
-     * Note that this String value will <b>not</b> be escaped, so make sure
-     * that you provide an HTML-safe value.
+     * Note that this value will be escaped based on the label's
+     * {@link Label#getEscapeModelStrings() getEscapeModelStrings()} flag.
      */
-    public LabelWithDefault setDefault(IModel<String> valueIfEmpty)
+    public LabelWithPlaceholder setPlaceholder(IModel<?> valueIfEmpty)
     {
-        _defaultValue = valueIfEmpty;
+        _placeholderValue = valueIfEmpty;
         return this;
     }
     
@@ -94,23 +95,23 @@ public class LabelWithDefault extends Label
      */
     public boolean isEmpty()
     {
-        return Shortcuts.empty(getDefaultModelObject());
+        return Shortcuts.empty(internalGetDefaultModelObjectAsString());
     }
     
     /**
-     * Detaches the model that holds the default value.
+     * Detaches the model that holds the placeholder value.
      */
     @Override
     protected void onDetach()
     {
-        if(null != _defaultValue) _defaultValue.detach();
+        if(null != _placeholderValue) _placeholderValue.detach();
         super.onDetach();
     }
 
     /**
      * Renders the label using the string value of the model as the tag body.
-     * If the value of the model is empty and default was provided by
-     * {@link #setDefault}, use the default instead.
+     * If the value of the model is empty and placeholder was provided by
+     * {@link #setPlaceholder}, use the placeholder instead.
      * @see Shortcuts#empty
      */
     @Override
@@ -118,13 +119,17 @@ public class LabelWithDefault extends Label
                                       ComponentTag openTag)
     {
         String str = internalGetDefaultModelObjectAsString();
-        if(_defaultValue != null && isEmpty())
+        if(_placeholderValue != null && Shortcuts.empty(str))
         {
-            str = _defaultValue.getObject();
+            str = getDefaultModelObjectAsString(_placeholderValue.getObject());
         }
         replaceComponentTagBody(markupStream, openTag, str);
     }
     
+    /**
+     * A wrapper for {@link #getDefaultModelObjectAsString()} that can be
+     * overridden by subclasses.
+     */
     protected String internalGetDefaultModelObjectAsString()
     {
         return getDefaultModelObjectAsString();
