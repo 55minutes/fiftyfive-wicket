@@ -94,7 +94,7 @@ public class MergedResourceBuilder
     private String _media;
     
     private String _path;
-    private List<ResourceReference> _references;
+    protected List<ResourceReference> _references;
     
     /**
      * Creates an empty builder object. See the
