@@ -199,8 +199,8 @@ public abstract class FoundationApplication extends WebApplication
         {
             htmlDir += "/";
         } 
-        htmlDir += "../java";
-        getResourceSettings().addResourceFolder(htmlDir);
+        getResourceSettings().addResourceFolder(htmlDir + "../java");
+        getResourceSettings().addResourceFolder(htmlDir + "../resources");
     }
     
     /**
