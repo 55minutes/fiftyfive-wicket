@@ -81,11 +81,22 @@ public class TruncatedLabel extends LabelWithPlaceholder
         return trunc;
     }
     
-    /**
-     * Override this method if you wish to customize the truncation algorithm.
-     */
-    protected TruncateHelper getTruncateHelper()
+    public TruncateHelper getTruncateHelper()
     {
         return _helper;
+    }
+
+    /**
+     * Sets the TruncateHelper that will be used to shorten the string
+     * value. Use the properties of the helper object to customize the
+     * truncation algorithm. The default helper is the one provided by
+     * the TruncateHelper empty constructor.
+     * 
+     * @see TruncateHelper#TruncateHelper
+     */
+    public TruncatedLabel setTruncateHelper(TruncateHelper helper)
+    {
+        this._helper = helper;
+        return this;
     }
 }
