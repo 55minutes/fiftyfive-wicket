@@ -58,10 +58,10 @@ import org.apache.wicket.util.lang.PropertyResolver;
  * Recommended usage: define a <code>SPEC</code> static
  * instance on your page.
  * <pre>
- * public class DetailPage extends WebPage
+ * public class PersonDetailPage extends WebPage
  * {
- *    public static final ParameterSpec SPEC = new ParameterSpec(
- *        DetailPage.class, "id", "slug"
+ *    public static final ParameterSpec SPEC = new ParameterSpec&lt;Person&gt;(
+ *        PersonDetailPage.class, "id", "slug"
  *    );
  *    ...
  * }
@@ -69,9 +69,15 @@ import org.apache.wicket.util.lang.PropertyResolver;
  * Now when other parts of the application want add a link to this page, it is
  * as easy as this:
  * <pre>
- * add(DetailPage.SPEC.createLink("link", model));
+ * add(PersonDetailPage.SPEC.createLink("link", personModel));
  * </pre>
- *
+ * To parse the parameters of a request, use this:
+ * <pre>
+ * Person person = new Person();
+ * SPEC.parseParameters(getPageParameters(), person);
+ * // person bean has now been populated based on page parameters
+ * </pre>
+ * 
  * @author Matt Brictson
  */
 public class ParameterSpec<T> implements Serializable

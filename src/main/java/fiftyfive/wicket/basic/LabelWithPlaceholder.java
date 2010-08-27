@@ -33,6 +33,21 @@ import org.apache.wicket.model.Model;
  * body of the tag</li>
  * </ul>
  * If the model is not empty, this behaves like the standard Label.
+ * <p>
+ * Example usage:
+ * <pre>
+ * &lt;span wicket:id="label"&gt;Sample&lt;/span&gt;
+ * 
+ * IModel&lt;String&gt; emptyModel = null;
+ * add(new LabelWithPlaceholder("label", emptyModel).setPlaceholder("N/A"));
+ * </pre>
+ * Since the model in this example is null, the placeholder will be used,
+ * resulting in this output:
+ * <pre>
+ * &lt;span class="empty"&gt;N/A&lt;/span&gt;
+ * </pre>
+ * Notice also that {@code class="empty"} has been added.
+ *
  * @see #setPlaceholder
  * @see Label
  */

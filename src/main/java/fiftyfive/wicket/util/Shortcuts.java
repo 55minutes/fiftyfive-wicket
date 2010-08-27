@@ -115,7 +115,8 @@ public class Shortcuts
      * @see LabelWithPlaceholder
      */
     public static LabelWithPlaceholder label(String id,
-                                         Object bean, String propertyExpr)
+                                             Object bean,
+                                             String propertyExpr)
     {
         return label(id, prop(bean, propertyExpr));
     }
@@ -128,7 +129,8 @@ public class Shortcuts
      * </pre>
      * @see LabelWithPlaceholder
      */
-    public static LabelWithPlaceholder label(String id, Serializable valueOrIModel)
+    public static LabelWithPlaceholder label(String id,
+                                             Serializable valueOrIModel)
     {
         IModel model = valueOrIModel != null ? new Model(valueOrIModel) : null;
         if(valueOrIModel instanceof IModel)

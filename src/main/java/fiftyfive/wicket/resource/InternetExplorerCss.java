@@ -43,9 +43,7 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * Here's how you might use it in your Wicket page:
  * <pre>
  * // Add a &lt;link&gt; to the ie-7.css stylesheet for IE7 browsers only
- * add(InternetExplorerCss.getConditionalHeaderContribution(
- *     "IE 7", "styles/ie-7.css")
- * ));
+ * add(InternetExplorerCss.getConditionalHeaderContribution("IE 7", "styles/ie-7.css"));
  * </pre>
  * 
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms537512%28VS.85%29.aspx">MSDN Reference</a>

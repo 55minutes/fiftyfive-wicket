@@ -25,7 +25,7 @@ import org.apache.wicket.util.string.Strings;
  * A Label that truncates its output to the specified maximum number of
  * characters.
  * <p>
- * The string value is tested and truncated <em>before</em> the string is
+ * The string value is tested and truncated <em>before</em> the string
  * is escaped into HTML entities. After the string is truncated <em>then</em>
  * the resulting value is escaped. The
  * {@link #setEscapeModelStrings escapeModelStrings} property is honored, so

@@ -29,6 +29,8 @@ import org.apache.wicket.model.IModel;
  * the <code>&lt;ul&gt;</code> is ommitted when you have zero
  * <code>&lt;li&gt;</code> elements.
  * <em>This is necessary for valid XHTML markup.</em>
+ * <p>
+ * Example usage:
  * <pre>
  * &lt;wicket:enclosure child="item"&gt;
  *   &lt;ul&gt;
@@ -43,6 +45,8 @@ import org.apache.wicket.model.IModel;
  *     }
  * });
  * </pre>
+ * In this example, if the {@code personList} model is {@code null} or empty,
+ * the entire enclosure will be omitted from the HTML output.
  */
 public abstract class ConditionalListView<T> extends ListView<T>
 {

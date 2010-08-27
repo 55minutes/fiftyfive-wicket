@@ -139,7 +139,7 @@ public abstract class FoundationApplication extends WebApplication
      * <ol>
      * <li>Sets the startupDate property to the current time.</li>
      * <li>Calls {@link WebApplication#init super.init()}.</li>
-     * <li>Executes the following regardles of configuration mode:<ul>
+     * <li>Executes the following regardless of configuration mode:<ul>
      *   <li>{@link #initVersionInformation}</li>
      *   <li>{@link #initCleanMarkup}</li>
      *   <li>{@link #initResources}</li></ul></li>

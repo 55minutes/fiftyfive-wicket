@@ -43,8 +43,8 @@
   <!-- ==================================================================== -->
   <name>55 Minutes Wicket</name>
   <description>
-    Additional components and helper classes for streamlining
-    Wicket development.
+    A library of best practices, improved components, and helper classes
+    inspired by years of Wicket development experience.
   </description>
   <organization>
     <name>55 Minutes</name>
