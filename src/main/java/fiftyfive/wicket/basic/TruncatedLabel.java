@@ -83,12 +83,14 @@ public class TruncatedLabel extends LabelWithPlaceholder
     }
     
     // Override to change return type.
+    @Override
     public TruncatedLabel setPlaceholder(String valueIfEmpty)
     {
         return (TruncatedLabel) super.setPlaceholder(valueIfEmpty);
     }
 
     // Override to change return type.
+    @Override
     public TruncatedLabel setPlaceholder(IModel<?> valueIfEmpty)
     {
         return (TruncatedLabel) super.setPlaceholder(valueIfEmpty);
