@@ -22,8 +22,35 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.util.string.Strings;
 
 /**
- * A Label that truncates is output to the specified maximum number of
+ * A Label that truncates its output to the specified maximum number of
  * characters.
+ * <p>
+ * The string value is tested and truncated <em>before</em> the string is
+ * is escaped into HTML entities. After the string is truncated <em>then</em>
+ * the resulting value is escaped. The
+ * {@link #setEscapeModelStrings escapeModelStrings} property is honored, so
+ * you just as with a normal Label, you can disable escaping entirely if you
+ * want.
+ * <p>
+ * Note that if you provide a {@link #setPlaceholder placeholder}, the
+ * truncation logic will <em>not</em> be applied to the placeholder value.
+ * <p>
+ * Although the default truncation algorithm should be sufficient, you can
+ * customize it if you wish by setting the
+ * {@link #setTruncateHelper truncateHelper} property. Refer to
+ * {@link TruncateHelper#truncate TruncateHelper.truncate()} for complete
+ * details on how the default truncation rules are applied.
+ * <p>
+ * Usage:
+ * <pre>
+ * &lt;span wicket:id="label"&gt;Dummy&lt;/span&gt;
+ * 
+ * add(new TruncatedLabel("label", 50, "My really long string that needs to be cut down to size."));
+ * </pre>
+ * Produces:
+ * <pre>
+ * &lt;span&gt;My really long string that needs to be cut down…&lt;/span&gt;
+ * </pre>
  */
 public class TruncatedLabel extends LabelWithPlaceholder
 {
@@ -53,6 +80,18 @@ public class TruncatedLabel extends LabelWithPlaceholder
     {
         super(id, model);
         _length = length;
+    }
+    
+    // Override to change return type.
+    public TruncatedLabel setPlaceholder(String valueIfEmpty)
+    {
+        return (TruncatedLabel) super.setPlaceholder(valueIfEmpty);
+    }
+
+    // Override to change return type.
+    public TruncatedLabel setPlaceholder(IModel<?> valueIfEmpty)
+    {
+        return (TruncatedLabel) super.setPlaceholder(valueIfEmpty);
     }
     
     /**
