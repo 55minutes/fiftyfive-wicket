@@ -110,7 +110,7 @@ public class ${app_classname} extends FoundationSpringApplication
                 "scripts/lib/jquery-1.4.2/jquery-1.4.2" + (dev?".js":".min.js"))
             .addScript(
                 ${app_classname}.class, 
-                "scripts/lib/jquery-ui-1.8.2/jquery.ui.widget.js")
+                "scripts/lib/jquery-ui-1.8.4/jquery-ui.min.js")
             .addScript(
                 ${app_classname}.class, 
                 "scripts/lib/fiftyfive-utils/jquery.55_utils.js")
