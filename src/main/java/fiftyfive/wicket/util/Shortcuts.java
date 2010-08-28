@@ -19,6 +19,7 @@ package fiftyfive.wicket.util;
 import java.io.Serializable;
 import java.util.Collection;
 
+import fiftyfive.util.Assert;
 import fiftyfive.util.ReflectUtils;
 import fiftyfive.wicket.basic.LabelWithPlaceholder;
 import org.apache.wicket.Component;
@@ -26,11 +27,13 @@ import org.apache.wicket.Response;
 import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.IBehavior;
+import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.lang.PropertyResolver;
 import org.apache.wicket.util.string.Strings;
 
@@ -183,6 +186,28 @@ public class Shortcuts
             return EMPTY_BEHAVIOR;
         }
         return new AttributeAppender("class", true, new Model(cssClass), " ");
+    }
+    
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
+     * the same name as the specified class. For example:
+     * <pre>
+     * add(cssResource(MyPanel.class));
+     * </pre>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code MyPanel.css},
+     * found in the same classpath location as {@code MyPanel.class}.
+     * <p>
+     * This is equivalent to:
+     * <pre>
+     * CSSPackageResource.getHeaderContribution(cls, Classes.simpleName(cls) + ".css");
+     * </pre>
+     */
+    public static IBehavior cssResource(Class<?> cls)
+    {
+        Assert.notNull(cls);
+        return CSSPackageResource.getHeaderContribution(
+            cls, Classes.simpleName(cls) + ".css"
+        );
     }
         
     /**
