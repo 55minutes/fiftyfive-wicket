@@ -90,32 +90,32 @@ public class MergedResourceBuilderTest
         WicketTester tester = doRender(DEVELOPMENT);
         assertDownloaded(
             tester,
-            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F1.css",
+            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-1.css",
             "1.css"
         );
         assertDownloaded(
             tester,
-            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F2.css",
+            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-2.css",
             "2.css"
         );
         assertDownloaded(
             tester,
-            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F1-print.css",
+            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-1-print.css",
             "1-print.css"
         );
         assertDownloaded(
             tester,
-            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F2-print.css",
+            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-2-print.css",
             "2-print.css"
         );
         assertDownloaded(
             tester,
-            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F1.js",
+            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest-1.js",
             "1.js"
         );
         assertDownloaded(
             tester,
-            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest%2F2.js",
+            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest-2.js",
             "2.js"
         );
     }

@@ -72,7 +72,7 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  *     that merged and non-merged modes produce paths of the same depth. In
  *     this example the URLs would be:
  *     {@code /styles/all.css} (merged) and
- *     {@code /styles/all.css-com.mypackage.Class%2Flayout.css} (non-merged).
+ *     {@code /styles/all.css-com.mypackage.Class-layout.css} (non-merged).
  *     </li>
  * </ul>
  * Example usage:
@@ -231,19 +231,20 @@ public class MergedResourceBuilder
      */
     private void mountIndividualResources(WebApplication app)
     {
+        int i = 0;
         for(ResourceReference ref : _references)
         {
-            String key = ref.getSharedResourceKey();
-            String path = String.format(
+            String name = ref.getSharedResourceKey().replaceAll("/", "-");
+            String uniquePath = String.format(
                 "%s-%s",
                 _path,
-                WicketURLEncoder.PATH_INSTANCE.encode(key)
+                WicketURLEncoder.PATH_INSTANCE.encode(name)
             );
             // Use query string strategy to ensure that Wicket's resource
             // last modified timestamp is appended as query string parameters
             // rather than additional path elements.
             app.mount(new QueryStringSharedResourceRequestTargetUrlCodingStrategy(
-                path, key
+                uniquePath, ref.getSharedResourceKey()
             ));
         }
     }
