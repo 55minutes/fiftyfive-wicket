@@ -16,8 +16,6 @@ This product contains code from the jQuery UI library, licensed under the MIT
 license. Copyright 2010 Paul Bakaus.
 (http://jqueryui.com/)
 
-This product contains code from jquery.tools at http://flowplayer.org/tools/.
-
 This product contains code from jQuery.ScrollTo, licensed under the MIT
 license. Copyright 2007-2009 Ariel Flesler.
 (http://flesler.blogspot.com/2007/10/jqueryscrollto.html)
@@ -35,7 +33,3 @@ This product contains code from the wicketstuff-merged-resources library,
 licensed under Apache Software License, Version 2.0. Copyright 2010 Stefan
 Fußenegger.
 (http://wicketstuff.org/confluence/display/STUFFWIKI/wicketstuff-merged-resources)
-
-This product contains code from the jQuery DataTables library, licensed under
-the BSD License. Copyright 2008-2010, Allan Jardine.
-(http://datatables.net/)
