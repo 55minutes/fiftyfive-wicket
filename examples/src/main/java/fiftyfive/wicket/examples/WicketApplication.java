@@ -22,6 +22,7 @@ import fiftyfive.wicket.spring.FoundationSpringApplication;
 
 import fiftyfive.wicket.examples.home.HomePage;
 
+import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.ajax.WicketAjaxReference;
@@ -46,6 +47,17 @@ public class WicketApplication extends FoundationSpringApplication
     
     private AbstractHeaderContributor _mergedCss;
     private AbstractHeaderContributor _mergedJs;
+    
+    
+    
+    /**
+     * Returns the instance of {@code WicketApplication} that is currently
+     * running. This method only works inside a Wicket thread.
+     */
+    public static WicketApplication get()
+    {
+        return (WicketApplication) Application.get();
+    }
     
     @Override
     public Class getHomePage()
