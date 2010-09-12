@@ -486,12 +486,25 @@ public class LoggingUtils
         }
         else
         {
-            Page page = cycle.getResponsePage();
-            if(null == page)
+            Class<?> page = null;
+            if(target instanceof IPageRequestTarget)
             {
-                page = cycle.getRequest().getPage();
+                page = ((IPageRequestTarget) target).getPage().getClass();
             }
-            desc = Classes.simpleName(page.getClass());
+            else if(target instanceof IBookmarkablePageRequestTarget)
+            {
+                page = ((IBookmarkablePageRequestTarget) target).getPageClass();
+            }
+            else
+            {
+                Page obj = cycle.getResponsePage();
+                if(null == obj)
+                {
+                    obj = cycle.getRequest().getPage();
+                }
+                page = obj != null ? obj.getClass() : null;
+            }
+            desc = null == page ? null : Classes.simpleName(page);
         }
         
         return desc;
