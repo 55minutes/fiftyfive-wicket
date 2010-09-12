@@ -12,6 +12,7 @@ import org.apache.wicket.Response;
 import org.apache.wicket.ajax.WicketAjaxReference;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.WicketEventReference;
+import org.apache.wicket.protocol.http.WebRequest;
 
 import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
@@ -129,6 +130,18 @@ public class ${app_classname} extends FoundationSpringApplication
             .build(this);
     }
 
+    /**
+     * Returns our custom {@link ${requestcycle_classname}}.
+     */
+    @Override
+    public ${requestcycle_classname} newRequestCycle(Request request, Response response)
+    {
+        return new ${requestcycle_classname}(this, (WebRequest) request, response);
+    }
+    
+    /**
+     * Returns our custom {@link ${session_classname}}.
+     */
     @Override
     public ${session_classname} newSession(Request request, Response response)
     {

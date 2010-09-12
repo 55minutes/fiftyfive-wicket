@@ -16,24 +16,19 @@
 
 package fiftyfive.wicket.examples;
 
-
+import fiftyfive.wicket.examples.home.HomePage;
 import fiftyfive.wicket.resource.MergedResourceBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
-
-import fiftyfive.wicket.examples.home.HomePage;
-
 import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.ajax.WicketAjaxReference;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.markup.html.WicketEventReference;
-
-import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
-
+import org.apache.wicket.protocol.http.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 /**
  * Wicket framework configuration for 55 Minutes Wicket Examples.
@@ -147,6 +142,18 @@ public class WicketApplication extends FoundationSpringApplication
             .build(this);
     }
 
+    /**
+     * Returns our custom {@link WicketRequestCycle}.
+     */
+    @Override
+    public WicketRequestCycle newRequestCycle(Request request, Response response)
+    {
+        return new WicketRequestCycle(this, (WebRequest) request, response);
+    }
+    
+    /**
+     * Returns our custom {@link WicketSession}.
+     */
     @Override
     public WicketSession newSession(Request request, Response response)
     {
