@@ -23,10 +23,12 @@ import org.apache.wicket.RequestCycle;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.AjaxServerAndClientTimeFilter;
 import org.apache.wicket.protocol.http.PageExpiredException;
+import org.apache.wicket.protocol.http.RequestLogger;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.request.IRequestCycleProcessor;
 import org.apache.wicket.util.time.Duration;
+import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +41,8 @@ import org.slf4j.LoggerFactory;
  * <li>Enables timestamps and gzip for classpath resources</li>
  * <li>Removes Wicket tags, wicket:id attributes, and other cruft from
  *     generated markup to ensure XHTML compliance</li>
+ * <li>Enables Wicket's request logging facility if an appropriate SLF4J
+ *     logger is configured</li>
  * <li>In deployment mode, delegate to the servlet container for handling
  *     exceptions, rather than showing Wicket's useless "internal error"
  *     page; redirect to home page rather than showing "page expired"</li>
@@ -81,6 +85,20 @@ public abstract class FoundationApplication extends WebApplication
     public Date getStartupDate()
     {
         return _startupDate;
+    }
+    
+    /**
+     * Returns the amount of time elapsed since this application was
+     * initialized by the Wicket framework.
+     */
+    public Duration getUptime()
+    {
+        Date start = getStartupDate();
+        if(null == start)
+        {
+            return Duration.milliseconds(0);
+        }
+        return Duration.elapsed(Time.valueOf(start));
     }
     
     /**
@@ -142,7 +160,8 @@ public abstract class FoundationApplication extends WebApplication
      * <li>Executes the following regardless of configuration mode:<ul>
      *   <li>{@link #initVersionInformation}</li>
      *   <li>{@link #initCleanMarkup}</li>
-     *   <li>{@link #initResources}</li></ul></li>
+     *   <li>{@link #initResources}</li>
+     *   <li>{@link #initRequestLogger}</li></ul></li>
      * <li>Executes the following only if the application is in
      *     DEVELOPMENT mode:<ul>
      *   <li>{@link #initHtmlHotDeploy}</li>
@@ -159,6 +178,7 @@ public abstract class FoundationApplication extends WebApplication
         initVersionInformation();
         initCleanMarkup();
         initResources();
+        initRequestLogger();
         
         if(isDevelopmentMode())
         {
@@ -264,5 +284,24 @@ public abstract class FoundationApplication extends WebApplication
         getResourceSettings().setDefaultCacheDuration(
             isDevelopmentMode() ? 0 : (int) Duration.days(365).seconds()
         );
+    }
+    
+    /**
+     * Enables Wicket's request logging facility if an SLF4J logger is
+     * configured for {@code INFO} with the category
+     * {@code org.apache.wicket.protocol.http.RequestLogger}. For example,
+     * if using log4j properties configuration, this would cause the Wicket
+     * request logger to be enabled:
+     * <pre>
+     * log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO
+     * </pre>
+     */
+    protected void initRequestLogger()
+    {
+        Logger log = LoggerFactory.getLogger(RequestLogger.class);
+        if(log.isInfoEnabled())
+        {
+            getRequestLoggerSettings().setRequestLoggerEnabled(true);
+        }
     }
 }
