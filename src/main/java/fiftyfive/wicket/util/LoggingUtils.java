@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import fiftyfive.util.Assert;
 import fiftyfive.wicket.FoundationApplication;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
@@ -49,6 +50,7 @@ import org.apache.wicket.util.string.Strings;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility methods for logging detailed information about Wicket's internal
@@ -57,6 +59,10 @@ import org.slf4j.Logger;
  */
 public class LoggingUtils
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+        LoggingUtils.class
+    );
+    
     /** Human-readable descriptions of Wicket's request listener types. */
     private static final Map<String,String> LISTENER_DESCRIPTIONS;
     
@@ -192,15 +198,30 @@ public class LoggingUtils
      */
     public static void logRuntimeException(Logger logger, RuntimeException e)
     {
-        Throwable unwrapped = unwrap(e);
+        Assert.notNull(logger, "logger cannot be null");
+        Assert.notNull(e, "exception cannot be null");
         
-        logger.error(String.format(
-            "%s: %s%n%n%s%n%n%s",
-            Classes.simpleName(unwrapped.getClass()),
-            unwrapped.getMessage(),
-            dumpWicketState(),
-            Strings.toString(e)
-        ));
+        try
+        {
+            Throwable unwrapped = unwrap(e);
+        
+            logger.error(String.format(
+                "%s: %s%n%n%s%n%n%s",
+                Classes.simpleName(unwrapped.getClass()),
+                unwrapped.getMessage(),
+                dumpWicketState(),
+                Strings.toString(e)
+            ));
+        }
+        catch(Exception loggingEx)
+        {
+            // We should never arrive here, because it means that something
+            // went terribly wrong in our logging code. Since our code failed,
+            // fall back to simple logging so that Wicket error handling
+            // can continue uninterrupted.
+            LOGGER.error("Unexpected exception during logging", loggingEx);
+            logger.error("RuntimeException", e);
+        }
     }
     
     /**
@@ -221,6 +242,8 @@ public class LoggingUtils
      */
     public static Throwable unwrap(RuntimeException e)
     {
+        Assert.notNull(e);
+        
         Throwable unwrapped = e;
         while(true)
         {
@@ -327,14 +350,17 @@ public class LoggingUtils
         }
         
         Map<String,Object> info = new LinkedHashMap<String,Object>();
-        info.put("ID", sess.getId());
-        info.put("Info", detail);
-        info.put("Size", Bytes.bytes(sess.getSizeInBytes()));
-
-        Duration dur = getSessionDuration();
-        if(dur != null)
+        if(sess != null)
         {
-            info.put("Duration", getSessionDuration());
+            info.put("ID", sess.getId());
+            info.put("Info", detail);
+            info.put("Size", Bytes.bytes(sess.getSizeInBytes()));
+
+            Duration dur = getSessionDuration();
+            if(dur != null)
+            {
+                info.put("Duration", getSessionDuration());
+            }
         }
         return info;
     }
@@ -431,7 +457,7 @@ public class LoggingUtils
         {
             desc = "Rendering Bookmarkable Page";
         }
-        else
+        else if(target != null)
         {
             desc = Classes.simpleName(target.getClass());
         }
@@ -464,25 +490,34 @@ public class LoggingUtils
             Component comp;
             comp = ((IListenerInterfaceRequestTarget) target).getTarget();
             
-            if(comp.getClass().isAnonymousClass())
+            if(comp != null)
             {
-                classDesc = String.format(
-                    "%s (%s)",
-                    Classes.simpleName(comp.getClass()),
-                    Classes.simpleName(comp.getClass().getSuperclass())
+                if(comp.getClass().isAnonymousClass())
+                {
+                    classDesc = String.format(
+                        "%s (%s)",
+                        Classes.simpleName(comp.getClass()),
+                        Classes.simpleName(comp.getClass().getSuperclass())
+                    );
+                }
+                else
+                {
+                    classDesc = Classes.simpleName(comp.getClass());
+                }
+                
+                Class pageClass = null;
+                if(comp.getPage() != null)
+                {
+                    pageClass = comp.getPage().getClass();
+                }
+            
+                desc = String.format(
+                    "%s > %s [%s]",
+                    Classes.simpleName(pageClass),
+                    classDesc,
+                    comp.getPageRelativePath()
                 );
             }
-            else
-            {
-                classDesc = Classes.simpleName(comp.getClass());
-            }
-            
-            desc = String.format(
-                "%s > %s [%s]",
-                Classes.simpleName(comp.getPage().getClass()),
-                classDesc,
-                comp.getPageRelativePath()
-            );
         }
         else
         {
@@ -528,18 +563,22 @@ public class LoggingUtils
     public static Duration getSessionDuration()
     {
         Date start = null;
-        String sessionId = Session.get().getId();
+        Session currSession = Session.get();
         IRequestLogger log = Application.get().getRequestLogger();
         
-        if(log != null && sessionId != null)
+        if(log != null && currSession != null && currSession.getId() != null)
         {
+            String sessionId = currSession.getId();
             SessionData[] sessions = log.getLiveSessions();
-            for(SessionData sess : sessions)
+            if(sessions != null)
             {
-                if(sessionId.equals(sess.getSessionId()))
+                for(SessionData sess : sessions)
                 {
-                    start = sess.getStartDate();
-                    break;
+                    if(sessionId.equals(sess.getSessionId()))
+                    {
+                        start = sess.getStartDate();
+                        break;
+                    }
                 }
             }
         }
@@ -592,9 +631,12 @@ public class LoggingUtils
         IRequestLogger log = Application.get().getRequestLogger();
         if(null == log) return null;
         
+        SessionData[] sessions = log.getLiveSessions();
+        if(null == sessions) return null;
+        
         return String.format(
             "%d (%d peak)",
-            log.getLiveSessions().length,
+            sessions.length,
             log.getPeakSessions()
         );
     }
@@ -616,7 +658,7 @@ public class LoggingUtils
                                           String indent)
     {
         StringBuffer buf = new StringBuffer();
-        int width = 0;
+        int width = 1;
         
         for(Map.Entry e : (Collection<Map.Entry>) entries)
         {
