@@ -21,10 +21,13 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebResponse;
 
 /**
  * Provides easy access to the HTTP information that triggered the current
@@ -45,6 +48,21 @@ public class HttpUtils
         if(request instanceof WebRequest)
         {
             http = ((WebRequest) request).getHttpServletRequest();
+        }
+        return http;
+    }
+    
+    /**
+     * Returns the {@link HttpServletResponse} associated with the current
+     * Wicket request, or {@code null} one cannot be found.
+     */
+    public static HttpServletResponse getHttpServletResponse()
+    {
+        HttpServletResponse http = null;
+        Response response = RequestCycle.get().getResponse();
+        if(response instanceof WebResponse)
+        {
+            http = ((WebResponse) response).getHttpServletResponse();
         }
         return http;
     }
