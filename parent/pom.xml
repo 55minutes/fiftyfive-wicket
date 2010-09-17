@@ -58,6 +58,7 @@
   <modules>
     <module>../test</module>
     <module>..</module>
+    <module>../js</module>
     <module>../examples</module>
     <module>../archetype</module>
   </modules>
