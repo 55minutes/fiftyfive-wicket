@@ -16,16 +16,13 @@
 
 package fiftyfive.wicket.examples.home;
 
-
 import fiftyfive.wicket.examples.BasePage;
 import fiftyfive.wicket.examples.formtest.FormTestPage;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.wicketstuff.annotation.mount.MountPath;
 import static fiftyfive.wicket.util.Shortcuts.label;
 
-@MountPath(path="home")
 public class HomePage extends BasePage
 {
     public HomePage(PageParameters params)
