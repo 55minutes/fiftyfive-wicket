@@ -4,6 +4,7 @@ package ${package};
 import fiftyfive.wicket.resource.MergedResourceBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 
+import ${package}.error.InternalServerErrorPage;
 import ${package}.home.HomePage;
 
 import org.apache.wicket.Application;
@@ -81,7 +82,13 @@ public class ${app_classname} extends FoundationSpringApplication
         
         // Configure merged resources
         initMergedResources();
-
+        
+        // Configure error pages
+        getApplicationSettings().setPageExpiredErrorPage(getHomePage());
+        getApplicationSettings().setInternalErrorPage(
+            InternalServerErrorPage.class
+        );
+        
         // Custom initialization goes here
         
         LOGGER.info("Initialized!");

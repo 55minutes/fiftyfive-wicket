@@ -19,6 +19,12 @@
 
   <listener>
     <listener-class>
+      org.springframework.web.util.IntrospectorCleanupListener
+    </listener-class>
+  </listener>
+  
+  <listener>
+    <listener-class>
       org.springframework.web.context.ContextLoaderListener
     </listener-class>
   </listener>
@@ -33,6 +39,8 @@
   <filter-mapping>
     <filter-name>spring-request</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
 
   <context-param>
@@ -62,6 +70,23 @@
   <filter-mapping>
     <filter-name>wicket</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>ERROR</dispatcher>
   </filter-mapping>
+  
+  <error-page>
+    <error-code>403</error-code>
+    <location>/error/403</location>
+  </error-page>
+
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error/404</location>
+  </error-page>
+
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error/500</location>
+  </error-page>
 
 </web-app>
