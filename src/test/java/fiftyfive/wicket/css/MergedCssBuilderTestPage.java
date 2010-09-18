@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.resource;
+package fiftyfive.wicket.css;
 
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WebPage;
-import static fiftyfive.wicket.resource.MergedResourceBuilderTest.*;
+import static fiftyfive.wicket.css.MergedCssBuilderTest.*;
 
-public class MergedResourceBuilderTestPage extends WebPage
+public class MergedCssBuilderTestPage extends WebPage
 {
-    public MergedResourceBuilderTestPage()
+    public MergedCssBuilderTestPage()
     {
         super();
         add(CSSPackageResource.getHeaderContribution(CSS_1));
         add(CSSPackageResource.getHeaderContribution(CSS_2));
         add(CSSPackageResource.getHeaderContribution(CSS_PRINT_1, "print"));
         add(CSSPackageResource.getHeaderContribution(CSS_PRINT_2, "print"));
-        add(JavascriptPackageResource.getHeaderContribution(JS_1));
-        add(JavascriptPackageResource.getHeaderContribution(JS_2));
     }
 }

@@ -48,6 +48,11 @@
       <version>${symbol_dollar}{fiftyfive.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-js</artifactId>
+      <version>${symbol_dollar}{fiftyfive.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
       <version>${symbol_dollar}{wicket.version}</version>

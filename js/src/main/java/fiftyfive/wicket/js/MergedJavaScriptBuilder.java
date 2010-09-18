@@ -23,23 +23,41 @@ import fiftyfive.wicket.resource.MergedResourceBuilder;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.WicketAjaxReference;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
+import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.WicketEventReference;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Instructs Wicket to merge a list of JavaScript resources into a single file
+ * when the application is in deployment mode. Consider using this in your
+ * application as a performance optimization.
+ * <p>
  * Example usage:
  * <pre>
- * new MergedJavaScriptBuilder()
- *     .setPath("/scripts/all.js")
- *     .addWicketAjaxLibraries()
- *     .addJQueryUI()
- *     .addLibrary("jquery.scrollTo")
- *     .addLibrary("jquery.55_utils")
- *     .addLibrary("55_utils")
- *     .addLibrary("strftime")
- *     .build(this);
+ * public class MyApplication extends WebApplication
+ * {
+ *     &#064;Override
+ *     protected void init()
+ *     {
+ *         super.init();
+ * 
+ *         new MergedJavaScriptBuilder()
+ *             .setPath("/scripts/all.js")
+ *             .addWicketAjaxLibraries()
+ *             .addJQueryUI()
+ *             .addLibrary("jquery.scrollTo")
+ *             .addLibrary("jquery.55_utils")
+ *             .addLibrary("55_utils")
+ *             .addLibrary("strftime")
+ *             .build(this);
+ * 
+ *         // The return value from build() can be used on your base page to
+ *         // inject all these JavaScript resources in one shot, if desired.
+ *     }
+ * }
  * </pre>
  */
 public class MergedJavaScriptBuilder extends MergedResourceBuilder
@@ -66,12 +84,26 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         return (MergedJavaScriptBuilder) super.setPath(path);
     }
     
+    /**
+     * Adds a JavaScript file to the list of merged resources. The
+     * dependencies of the script, if declared using Sprockets syntax within
+     * the JS file, will also be added automatically.
+     *
+     * @see JavaScriptDependencySettings
+     */
     public MergedJavaScriptBuilder addScript(Class<?> scope, String path)
     {
         getDependencyLocator().findResourceScripts(scope, path, _deps);
         return this;
     }
     
+    /**
+     * Adds a JavaScript resource to the list of merged resources. The
+     * dependencies of the script, if declared using Sprockets syntax within
+     * the JS file, will also be added automatically.
+     *
+     * @see JavaScriptDependencySettings
+     */
     public MergedJavaScriptBuilder addScript(ResourceReference ref)
     {
         getDependencyLocator().findResourceScripts(
@@ -82,11 +114,22 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         return this;
     }
     
+    /**
+     * Adds jQuery and jQuery UI to the list of merged resources.
+     *
+     * @see JavaScriptDependencySettings
+     */
     public MergedJavaScriptBuilder addJQueryUI()
     {
         return addLibrary("jquery-ui");
     }
     
+    /**
+     * Adds Wicket's wicket-event.js and wicket-ajax.js files to the list
+     * of merged resources.
+     *
+     * @see JavaScriptDependencySettings
+     */
     public MergedJavaScriptBuilder addWicketAjaxLibraries()
     {
         addScript(WicketEventReference.INSTANCE);
@@ -114,12 +157,17 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         for(ResourceReference ref : _deps)
         {
             LOGGER.debug("Added script to merged builder: {}", ref);
-            super.addScript(ref);
+            add(ref);
         }
         return super.build(app);
     }
     
-    protected JavaScriptDependencyLocator getDependencyLocator()
+    protected IHeaderContributor newContributor(ResourceReference ref)
+    {
+        return JavascriptPackageResource.getHeaderContribution(ref);
+    }
+
+    private JavaScriptDependencyLocator getDependencyLocator()
     {
         return JavaScriptDependencySettings.get().getLocator();
     }

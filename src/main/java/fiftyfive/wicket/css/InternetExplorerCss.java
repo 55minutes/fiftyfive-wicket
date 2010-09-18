@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.resource;
+package fiftyfive.wicket.css;
 
 import java.io.Serializable;
 import java.util.Arrays;

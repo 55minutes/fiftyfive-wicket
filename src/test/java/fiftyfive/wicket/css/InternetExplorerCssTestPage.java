@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.resource;
+package fiftyfive.wicket.css;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.WebPage;

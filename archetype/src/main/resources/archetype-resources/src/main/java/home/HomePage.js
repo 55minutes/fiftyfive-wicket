@@ -1,3 +1,6 @@
+//= require <jquery>
+//= require <strftime>
+
 /*------------------------------------------------------------------------------
 | HomePage.js
 | Project name
@@ -8,8 +11,21 @@
 | the Java/HTML file names for the page these scripts are used in.
 ------------------------------------------------------------------------------*/
 
-/*------------------------------------------------------------------------------
-| function(params)
-|
-| Function description
-------------------------------------------------------------------------------*/
+function updateTimestamp(event)
+{
+  d = new Date();
+  jQuery("#timestamp").text(d.strftime("%a %D %b %Y %H:%M:%S"));
+  if(event)
+  {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  return false;
+}
+
+(function($) {
+    $(function() {
+        updateTimestamp();
+        $("#update-timestamp").click(updateTimestamp);
+    });
+})(jQuery);

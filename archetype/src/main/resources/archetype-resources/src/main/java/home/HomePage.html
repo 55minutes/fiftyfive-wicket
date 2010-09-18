@@ -30,24 +30,4 @@
     <h1>It works!</h1>
     <p>Current timestamp: <span id="timestamp">xxxx</span> <a href="javascript://" id="update-timestamp">Refresh</a></p>
   </div> <!-- /main -->
-  <script type="text/javascript">
-    function updateTimestamp(event)
-    {
-      d = new Date();
-      $("#timestamp").text(d.strftime("%a %D %b %Y %H:%M:%S"));
-      if(event)
-      {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      return false;
-    }
-    
-    (function($) {
-        $(function() {
-            updateTimestamp();
-            $("#update-timestamp").click(updateTimestamp);
-        });
-    })(jQuery);
-  </script>
 </wicket:extend>

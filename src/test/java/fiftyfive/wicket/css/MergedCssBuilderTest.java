@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.resource;
+package fiftyfive.wicket.css;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,25 +31,19 @@ import static org.apache.wicket.Application.DEPLOYMENT;
 import static org.apache.wicket.Application.DEVELOPMENT;
 import static org.junit.Assert.assertEquals;
 
-public class MergedResourceBuilderTest
+public class MergedCssBuilderTest
 {
     static final ResourceReference CSS_1 = new ResourceReference(
-        MergedResourceBuilderTest.class, "1.css"
+        MergedCssBuilderTest.class, "1.css"
     );
     static final ResourceReference CSS_2 = new ResourceReference(
-        MergedResourceBuilderTest.class, "2.css"
+        MergedCssBuilderTest.class, "2.css"
     );
     static final ResourceReference CSS_PRINT_1 = new ResourceReference(
-        MergedResourceBuilderTest.class, "1-print.css"
+        MergedCssBuilderTest.class, "1-print.css"
     );
     static final ResourceReference CSS_PRINT_2 = new ResourceReference(
-        MergedResourceBuilderTest.class, "2-print.css"
-    );
-    static final ResourceReference JS_1 = new ResourceReference(
-        MergedResourceBuilderTest.class, "1.js"
-    );
-    static final ResourceReference JS_2 = new ResourceReference(
-        MergedResourceBuilderTest.class, "2.js"
+        MergedCssBuilderTest.class, "2-print.css"
     );
     
     /**
@@ -61,8 +55,8 @@ public class MergedResourceBuilderTest
     {
         WicketTester tester = doRender(DEVELOPMENT);
         tester.assertResultPage(
-            MergedResourceBuilderTestPage.class,
-            "MergedResourceBuilderTestPage-development-expected.html"
+            MergedCssBuilderTestPage.class,
+            "MergedCssBuilderTestPage-development-expected.html"
         );
     }
 
@@ -75,8 +69,8 @@ public class MergedResourceBuilderTest
     {
         WicketTester tester = doRender(DEPLOYMENT);
         tester.assertResultPage(
-            MergedResourceBuilderTestPage.class,
-            "MergedResourceBuilderTestPage-deployment-expected.html"
+            MergedCssBuilderTestPage.class,
+            "MergedCssBuilderTestPage-deployment-expected.html"
         );
     }
     
@@ -90,33 +84,23 @@ public class MergedResourceBuilderTest
         WicketTester tester = doRender(DEVELOPMENT);
         assertDownloaded(
             tester,
-            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-1.css",
+            "static/styles.css-fiftyfive.wicket.css.MergedCssBuilderTest-1.css",
             "1.css"
         );
         assertDownloaded(
             tester,
-            "static/styles.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-2.css",
+            "static/styles.css-fiftyfive.wicket.css.MergedCssBuilderTest-2.css",
             "2.css"
         );
         assertDownloaded(
             tester,
-            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-1-print.css",
+            "static/styles-print.css-fiftyfive.wicket.css.MergedCssBuilderTest-1-print.css",
             "1-print.css"
         );
         assertDownloaded(
             tester,
-            "static/styles-print.css-fiftyfive.wicket.resource.MergedResourceBuilderTest-2-print.css",
+            "static/styles-print.css-fiftyfive.wicket.css.MergedCssBuilderTest-2-print.css",
             "2-print.css"
-        );
-        assertDownloaded(
-            tester,
-            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest-1.js",
-            "1.js"
-        );
-        assertDownloaded(
-            tester,
-            "static/scripts.js-fiftyfive.wicket.resource.MergedResourceBuilderTest-2.js",
-            "2.js"
         );
     }
 
@@ -134,7 +118,6 @@ public class MergedResourceBuilderTest
             "static/styles-print.css",
             "1-print.css", "2-print.css"
         );
-        assertDownloaded(tester, "static/scripts.js", "1.js", "2.js");
     }
     
     /**
@@ -144,7 +127,7 @@ public class MergedResourceBuilderTest
     @Test(expected=IllegalStateException.class)
     public void testMissingPath()
     {
-        MergedResourceBuilder b = new MergedResourceBuilder();
+        MergedCssBuilder b = new MergedCssBuilder();
         b.addCss(getClass(), "1.css");
         b.build(new WicketTester().getApplication());
     }
@@ -156,49 +139,13 @@ public class MergedResourceBuilderTest
     @Test(expected=IllegalStateException.class)
     public void testMissingResource()
     {
-        MergedResourceBuilder b = new MergedResourceBuilder();
+        MergedCssBuilder b = new MergedCssBuilder();
         b.setPath("/styles/all.css");
         b.build(new WicketTester().getApplication());
     }
     
     /**
-     * Verify that an exception is thrown if we add CSS to the builder
-     * followed by JS.
-     */
-    @Test(expected=IllegalStateException.class)
-    public void testCssThenJavaScript()
-    {
-        MergedResourceBuilder b = new MergedResourceBuilder();
-        b.addCss(getClass(), "1.css");
-        b.addScript(getClass(), "1.js");
-    }
-
-    /**
-     * Verify that an exception is thrown if we add JS to the builder
-     * followed by CSS.
-     */
-    @Test(expected=IllegalStateException.class)
-    public void testJavaScriptThenCss()
-    {
-        MergedResourceBuilder b = new MergedResourceBuilder();
-        b.addScript(getClass(), "1.js");
-        b.addCss(getClass(), "1.css");
-    }
-
-    /**
-     * Verify that an exception is thrown if we add JS to the builder
-     * and then specify CSS media.
-     */
-    @Test(expected=IllegalStateException.class)
-    public void testJavaScriptThenCssMedia()
-    {
-        MergedResourceBuilder b = new MergedResourceBuilder();
-        b.addScript(getClass(), "1.js");
-        b.setCssMedia("print");
-    }
-    
-    /**
-     * Render the MergedResourceBuilderTestPage in either
+     * Render the MergedCssBuilderTestPage in either
      * DEVELOPMENT or DEPLOYMENT mode.
      */
     private WicketTester doRender(final String mode)
@@ -210,8 +157,8 @@ public class MergedResourceBuilderTest
                 return mode;
             }
         });
-        tester.startPage(MergedResourceBuilderTestPage.class);
-        tester.assertRenderedPage(MergedResourceBuilderTestPage.class);
+        tester.startPage(MergedCssBuilderTestPage.class);
+        tester.assertRenderedPage(MergedCssBuilderTestPage.class);
         return tester;
     }
     
@@ -256,25 +203,21 @@ public class MergedResourceBuilderTest
         @Override
         public Class<? extends WebPage> getHomePage()
         {
-            return MergedResourceBuilderTestPage.class;
+            return MergedCssBuilderTestPage.class;
         }
 
         @Override
         protected void init()
         {
             super.init();
-            new MergedResourceBuilder().setPath("/static/styles.css")
-                                       .addCss(CSS_1)
-                                       .addCss(CSS_2)
-                                       .build(this);
-            new MergedResourceBuilder().setPath("/static/styles-print.css")
-                                       .addCss(CSS_PRINT_1)
-                                       .addCss(CSS_PRINT_2)
-                                       .build(this);
-            new MergedResourceBuilder().setPath("/static/scripts.js")
-                                       .addScript(JS_1)
-                                       .addScript(JS_2)
-                                       .build(this);
+            new MergedCssBuilder().setPath("/static/styles.css")
+                                  .addCss(CSS_1)
+                                  .addCss(CSS_2)
+                                  .build(this);
+            new MergedCssBuilder().setPath("/static/styles-print.css")
+                                  .addCss(CSS_PRINT_1)
+                                  .addCss(CSS_PRINT_2)
+                                  .build(this);
         }
     }
 }

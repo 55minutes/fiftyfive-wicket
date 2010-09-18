@@ -18,8 +18,8 @@ package fiftyfive.wicket.examples.home;
 
 import fiftyfive.wicket.examples.BasePage;
 import fiftyfive.wicket.examples.formtest.FormTestPage;
+import fiftyfive.wicket.js.JavaScriptDependency;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import static fiftyfive.wicket.util.Shortcuts.label;
 
@@ -29,9 +29,7 @@ public class HomePage extends BasePage
     {
         super(params);
         
-        add(JavascriptPackageResource.getHeaderContribution(
-            HomePage.class, "HomePage.js"
-        ));
+        add(new JavaScriptDependency(HomePage.class));
 
         _body.setMarkupId("home");
         

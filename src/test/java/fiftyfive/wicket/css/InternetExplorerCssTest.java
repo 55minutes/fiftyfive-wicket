@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.resource;
+package fiftyfive.wicket.css;
 
 import fiftyfive.wicket.BaseWicketTest;
 import org.junit.Test;

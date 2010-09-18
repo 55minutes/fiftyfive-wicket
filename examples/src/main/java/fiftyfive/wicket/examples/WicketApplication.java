@@ -16,16 +16,15 @@
 
 package fiftyfive.wicket.examples;
 
+import fiftyfive.wicket.css.MergedCssBuilder;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.home.HomePage;
-import fiftyfive.wicket.resource.MergedResourceBuilder;
+import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
-import org.apache.wicket.ajax.WicketAjaxReference;
 import org.apache.wicket.behavior.AbstractHeaderContributor;
-import org.apache.wicket.markup.html.WicketEventReference;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +41,6 @@ public class WicketApplication extends FoundationSpringApplication
     
     
     private AbstractHeaderContributor _mergedCss;
-    private AbstractHeaderContributor _mergedJs;
-    
     
     
     /**
@@ -69,16 +66,6 @@ public class WicketApplication extends FoundationSpringApplication
     public AbstractHeaderContributor getMergedCssContributor()
     {
         return _mergedCss;
-    }
-    
-    /**
-     * Returns a HeaderContributor for all the common merged JS for this app.
-     * This will typically be added to the base page of the application so it
-     * is available from all pages.
-     */
-    public AbstractHeaderContributor getMergedJavaScriptContributor()
-    {
-        return _mergedJs;
     }
     
     @Override
@@ -113,7 +100,7 @@ public class WicketApplication extends FoundationSpringApplication
         boolean dev = isDevelopmentMode();
         
         // Mount merged CSS
-        _mergedCss = new MergedResourceBuilder()
+        _mergedCss = new MergedCssBuilder()
             .setPath("/styles/all.css")
             .addCss(WicketApplication.class, "styles/reset.css")
             .addCss(WicketApplication.class, "styles/core.css")
@@ -124,28 +111,14 @@ public class WicketApplication extends FoundationSpringApplication
             .build(this);
 
         // Mount merged JS
-        _mergedJs = new MergedResourceBuilder()
+        new MergedJavaScriptBuilder()
             .setPath("/scripts/all.js")
-            .addScript(WicketEventReference.INSTANCE)
-            .addScript(WicketAjaxReference.INSTANCE)
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/cookies/cookies.js")
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/strftime/strftime" + (dev?".js":"-min.js"))
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/fiftyfive-utils/55_utils.js")
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/jquery-1.4.2/jquery-1.4.2" + (dev?".js":".min.js"))
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/jquery-ui-1.8.4/jquery-ui.min.js")
-            .addScript(
-                WicketApplication.class, 
-                "scripts/lib/fiftyfive-utils/jquery.55_utils.js")
+            .addWicketAjaxLibraries()
+            .addJQueryUI()
+            .addLibrary("cookies")
+            .addLibrary("strftime")
+            .addLibrary("55_utils")
+            .addLibrary("jquery.55_utils")
             .build(this);
     }
 

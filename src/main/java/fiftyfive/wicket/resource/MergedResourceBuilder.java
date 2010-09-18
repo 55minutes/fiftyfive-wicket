@@ -35,15 +35,13 @@ import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
  * Simplifies usage of the wicketstuff-merged-resources library by mounting
- * merged resources with an easy builder API and a good set defaults.
+ * merged resources with an easy builder API and a good set defaults. This
+ * is an abstract base class intended to be subclassed for CSS and JavaScript
+ * specific uses. See
+ * {@link fiftyfive.wicket.css.MergedCssBuilder MergedCssBuilder} for more
+ * details an example usage.
  * <p>
- * More importantly, this builder applies the DRY principle so that you only
- * have to list your resources once; then you can attach this list of
- * resources to any number of pages or components without redeclaring
- * HeaderContributors for them by hand.
- * See {@link #build} for details.
- * <p>
- * The reasonable defaults provided by this builder are as follows:
+ * The reasonable defaults provided by this class are as follows:
  * <ul>
  * <li>Only merge resources in deployment mode. In development, bypass the
  *     wicketstuff-merged-resources facility entirely and mount
@@ -52,7 +50,7 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  * <li>Disable the resource minify feature. This feature is buggy and
  *     does not add much value over gzip.</li>
  * </ul>
- * Furthermore, this builder fixes some shortcomings of the
+ * Furthermore, this class fixes some shortcomings of the
  * wicketstuff-merged-resources library, namely:
  * <ul>
  * <li>With wicketstuff-merged-resources, if Wicket's
@@ -75,33 +73,13 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  *     {@code /styles/all.css-com.mypackage.Class-layout.css} (non-merged).
  *     </li>
  * </ul>
- * Example usage:
- * <pre>
- * new MergedResourceBuilder()
- *     .setPath("/styles/all.css")
- *     .addCss(WicketApplication.class, "styles/reset.css")
- *     .addCss(WicketApplication.class, "styles/core.css")
- *     .addCss(WicketApplication.class, "styles/layout.css")
- *     .addCss(WicketApplication.class, "styles/content.css")
- *     .addCss(WicketApplication.class, "styles/forms.css")
- *     .addCss(WicketApplication.class, "styles/page-specific.css")
- *     .build(this);
- * </pre>
  */
-public class MergedResourceBuilder
+public abstract class MergedResourceBuilder
 {
-    private Boolean _isCss;
-    private String _media;
-    
     private String _path;
     private List<ResourceReference> _references;
     
-    /**
-     * Creates an empty builder object. See the
-     * {@link MergedResourceBuilder class documentation} for 
-     * example usage.
-     */
-    public MergedResourceBuilder()
+    protected MergedResourceBuilder()
     {
         _references = new ArrayList<ResourceReference>();
     }
@@ -117,87 +95,13 @@ public class MergedResourceBuilder
     }
     
     /**
-     * Sets the CSS media type that will be used for the merged CSS resources.
-     * By default the merged CSS will not have a media type, meaning it will
-     * apply to all media. Alternatively you could specify "screen" or "print"
-     * to limit the CSS to those media.
-     */
-    public MergedResourceBuilder setCssMedia(String media)
-    {
-        requireCss();
-        _media = media;
-        return this;
-    }
-    
-    /**
-     * Adds a CSS resource to the list of merged resources.
-     *
-     * @param scope The class relative to which the resource will be resolved.
-     * @param path  The path, relative to the scope, where the CSS file is
-     *              is located.
-     * @throws IllegalStateException if a JavaScript resource was previously
-     *         added to this builder. CSS and JavaScript resources cannot be
-     *         mixed.
-     */
-    public MergedResourceBuilder addCss(Class<?> scope, String path)
-    {
-        return addCss(new ResourceReference(scope, path));
-    }
-
-    /**
-     * Adds a CSS resource to the list of merged resources.
-     *
-     * @param ref The CSS resource to add.
-     * @throws IllegalStateException if a JavaScript resource was previously
-     *         added to this builder. CSS and JavaScript resources cannot be
-     *         mixed.
-     */
-    public MergedResourceBuilder addCss(ResourceReference ref)
-    {
-        requireCss();
-        _references.add(ref);
-        return this;
-    }
-    
-    /**
-     * Adds a JavaScript resource to the list of merged resources.
-     *
-     * @param scope The class relative to which the resource will be resolved.
-     * @param path  The path, relative to the scope, where the JS file is
-     *              is located.
-     * @throws IllegalStateException if a CSS resource was previously
-     *         added to this builder. CSS and JavaScript resources cannot be
-     *         mixed.
-     */
-    public MergedResourceBuilder addScript(Class<?> scope, String path)
-    {
-        return addScript(new ResourceReference(scope, path));
-    }
-    
-    /**
-     * Adds a JavaScript resource to the list of merged resources.
-     *
-     * @param ref The JavaScript resource to add.
-     * @throws IllegalStateException if a CSS resource was previously
-     *         added to this builder. CSS and JavaScript resources cannot be
-     *         mixed.
-     */
-    public MergedResourceBuilder addScript(ResourceReference ref)
-    {
-        requireScript();
-        _references.add(ref);
-        return this;
-    }
-
-    /**
      * Constructs a special merged resource using the path and resources
      * options specified in this builder, and mounts the result in the
      * application. The resources will remain separate in development mode,
      * but will be merged together into a single file in deployment mode.
      * <p>
      * This method must be called after
-     * all of the options have been set. See
-     * {@link MergedResourceBuilder class documentation} for example usage.
+     * all of the options have been set.
      * <p>
      * If desired, the HeaderContributor returned by this method can be used
      * to contribute the merged resource to the pages or components of your
@@ -222,6 +126,20 @@ public class MergedResourceBuilder
         }
         return createHeaderContributor();
     }
+    
+    /**
+     * Add a resource to the list of merged resources.
+     */
+    protected void add(ResourceReference ref)
+    {
+        _references.add(ref);
+    }
+    
+    /**
+     * Constructs a header contributor for the given resource.
+     * Subclasses should implement the appropriate CSS or JS contributor.
+     */
+    protected abstract IHeaderContributor newContributor(ResourceReference ref);
     
     /**
      * Mount each resource using WebApplication.mount(). Choose a mount point
@@ -278,42 +196,11 @@ public class MergedResourceBuilder
         for(int i=0; i<_references.size(); i++)
         {
             ResourceReference ref = _references.get(i);
-            if(_isCss)
-            {
-                arr[i] = CSSPackageResource.getHeaderContribution(ref, _media);
-            }
-            else
-            {
-                arr[i] = JavascriptPackageResource.getHeaderContribution(ref);
-            }
+            arr[i] = newContributor(ref);
         }
         return new HeaderContributions(arr);
     }
     
-    private void requireCss()
-    {
-        if(_isCss != null && !_isCss)
-        {
-            throw new IllegalStateException(
-                "CSS resources and options cannot be added to a merged " +
-                "JavaScript resource"
-            );
-        }
-        _isCss = true;
-    }
-
-    private void requireScript()
-    {
-        if(_isCss != null && _isCss)
-        {
-            throw new IllegalStateException(
-                "JavaScript resources cannot be added to a merged " +
-                "CSS resource"
-            );
-        }
-        _isCss = false;
-    }
-
     private void assertRequiredOptions()
     {
         if(null == _path)

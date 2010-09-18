@@ -17,14 +17,12 @@
 package fiftyfive.wicket.examples;
 
 
-import fiftyfive.wicket.resource.InternetExplorerCss;
-
+import fiftyfive.wicket.css.InternetExplorerCss;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-
 
 /**
  * Base class for all pages. Provides markup for XHTML 1.0 Strict doctype.
@@ -53,7 +51,6 @@ public abstract class BasePage extends WebPage
             "IE 7",
             new ResourceReference(BasePage.class, "styles/ie-7-win.css")
         ));
-        add(getWicketApplication().getMergedJavaScriptContributor());
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {

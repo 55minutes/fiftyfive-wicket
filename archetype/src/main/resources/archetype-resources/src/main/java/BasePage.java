@@ -1,7 +1,7 @@
 package ${package};
 
 
-import fiftyfive.wicket.resource.InternetExplorerCss;
+import fiftyfive.wicket.css.InternetExplorerCss;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
@@ -37,7 +37,6 @@ public abstract class BasePage extends WebPage
             "IE 7",
             new ResourceReference(BasePage.class, "styles/ie-7-win.css")
         ));
-        add(get${app_classname}().getMergedJavaScriptContributor());
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {
