@@ -245,6 +245,7 @@
             <exclude>**/src/main/java/fiftyfive/wicket/examples/styles/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
             <exclude>**/src/main/resources/fiftyfive/wicket/js/lib/**</exclude>
+            <exclude>**/src/main/resources/fiftyfive/wicket/examples/**</exclude>
             <exclude>**/src/test/**/*.html</exclude>
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>
