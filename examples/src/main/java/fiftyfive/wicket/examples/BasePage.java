@@ -25,7 +25,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 
 /**
- * Base class for all pages. Provides markup for XHTML 1.0 Strict doctype.
+ * Base class for all pages. Provides markup for the HTML5 doctype.
  * <p>
  * Also exposes a <code>_body</code> variable to subclasses that can be used
  * to add <code>id</code> or <code>class</code> attributes to the
