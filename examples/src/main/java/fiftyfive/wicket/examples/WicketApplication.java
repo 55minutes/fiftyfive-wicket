@@ -19,6 +19,7 @@ package fiftyfive.wicket.examples;
 import fiftyfive.wicket.css.MergedCssBuilder;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.home.HomePage;
+import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 import org.apache.wicket.Application;
@@ -109,6 +110,13 @@ public class WicketApplication extends FoundationSpringApplication
             .addCss(WicketApplication.class, "styles/forms.css")
             .addCss(WicketApplication.class, "styles/page-specific.css")
             .build(this);
+        
+        // Tell fiftyfive-wicket-js where to find custom JS libs for this app
+        // (i.e. those that can be referenced via //= require <lib>).
+        // This corresponds to src/main/resources/fiftyfive/examples/scripts.
+        JavaScriptDependencySettings.get().addLibraryPath(
+            WicketApplication.class, "scripts"
+        );
 
         // Mount merged JS
         new MergedJavaScriptBuilder()
