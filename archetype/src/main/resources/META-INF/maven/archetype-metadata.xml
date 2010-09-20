@@ -43,6 +43,15 @@
       </includes>
     </fileSet>
     <fileSet filtered="false" packaged="true" encoding="UTF-8">
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>**/*.html</include>
+        <include>**/*.txt</include>
+        <include>**/*.css</include>
+        <include>**/*.js</include>
+      </includes>
+    </fileSet>
+    <fileSet filtered="false" packaged="true" encoding="UTF-8">
       <directory>src/main/java</directory>
       <includes>
         <include>**/*.html</include>
@@ -63,6 +72,10 @@
     </fileSet>
     <fileSet filtered="true" encoding="UTF-8">
       <directory>src/main/resources</directory>
+      <includes>
+        <include>*.xml</include>
+        <include>*.SAMPLE</include>
+      </includes>
     </fileSet>
     <fileSet filtered="true" encoding="UTF-8">
       <directory>src/test/resources</directory>
