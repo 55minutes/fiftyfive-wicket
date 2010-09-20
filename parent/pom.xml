@@ -241,8 +241,6 @@
             <exclude>**/*.properties</exclude>
             <exclude>**/*.tmproj</exclude>
             <exclude>**/*.SAMPLE</exclude>
-            <exclude>**/src/main/java/fiftyfive/wicket/examples/scripts/**</exclude>
-            <exclude>**/src/main/java/fiftyfive/wicket/examples/styles/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
             <exclude>**/src/main/resources/fiftyfive/wicket/js/lib/**</exclude>
             <exclude>**/src/main/resources/fiftyfive/wicket/examples/**</exclude>

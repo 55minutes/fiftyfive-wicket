@@ -98,8 +98,6 @@ public class WicketApplication extends FoundationSpringApplication
      */
     protected void initMergedResources()
     {
-        boolean dev = isDevelopmentMode();
-        
         // Mount merged CSS
         _mergedCss = new MergedCssBuilder()
             .setPath("/styles/all.css")
