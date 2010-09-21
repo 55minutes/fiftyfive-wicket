@@ -16,6 +16,7 @@
 
 package fiftyfive.wicket.test;
 
+import org.apache.wicket.markup.ContainerInfo;
 import org.apache.wicket.markup.Markup;
 import org.apache.wicket.markup.MarkupResourceStream;
 import org.apache.wicket.markup.MarkupStream;
@@ -43,8 +44,11 @@ public class PageWithInlineMarkup extends WebPage
         StringResourceStream stream = new StringResourceStream(_htmlMarkup);
         try
         {
+            MarkupResourceStream mrs = new MarkupResourceStream(
+                stream, new ContainerInfo(this), null
+            );
             Markup markup = new DefaultMarkupLoader().loadMarkup(
-                this, new MarkupResourceStream(stream), null, false
+                this, mrs, null, false
             );
             return new MarkupStream(markup);
         }
