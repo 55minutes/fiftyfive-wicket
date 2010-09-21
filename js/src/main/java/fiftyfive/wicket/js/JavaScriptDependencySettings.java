@@ -42,7 +42,7 @@ import org.apache.wicket.util.time.Duration;
  * <li><b>If your application already has a mechanism for including jQuery
  *     and/or jQuery UI in the &lt;head&gt;</b> (e.g. via your base page),
  *     then you should take care that fiftyfive-wicket-js is not including its
- *     own copies of these libraries. In this secnario, call
+ *     own copies of these libraries. In this scenario, call
  *     {@link #setJQueryResource setJQueryResource()} and
  *     {@link #setJQueryUIResource setJQueryUIResource()} with references to
  *     the files that your application is already using (or {@code null},
@@ -180,7 +180,7 @@ public class JavaScriptDependencySettings
      * </pre>
      * Or when you use
      * {@link JavaScriptDependency#JavaScriptDependency(String)} or
-     * {@link MergedJavaScriptBuilder#addLibrary()}.
+     * {@link MergedJavaScriptBuilder#addLibrary(String)}.
      * 
      * @return {@code this} to allow chaining
      */

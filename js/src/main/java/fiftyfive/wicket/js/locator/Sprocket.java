@@ -19,7 +19,7 @@ package fiftyfive.wicket.js.locator;
 /**
  * Represents a sprocket dependency reference. There are two types:
  * <ul>
- * <li>Library: {@code //= require &lt;libname&gt;}</li>
+ * <li>Library: {@code //= require <libname>}</li>
  * <li>File: {@code //= require "filename.js"}</li>
  * </ul>
  */
