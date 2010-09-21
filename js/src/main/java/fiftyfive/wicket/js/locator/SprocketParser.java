@@ -46,7 +46,8 @@ public class SprocketParser
     static final Pattern FILE = Pattern.compile(PREFIX + "\"([^\"]+)\"");
     
     /**
-     * Does not close the Reader.
+     * Parses the given JavaScript file and returns a list of sprocket
+     * dependencies that it finds. Does not close the Reader.
      */
     public List<Sprocket> parseSprockets(BufferedReader javascript)
         throws IOException

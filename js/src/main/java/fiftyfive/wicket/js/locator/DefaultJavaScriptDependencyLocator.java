@@ -32,16 +32,17 @@ import org.apache.wicket.util.lang.Packages;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.locator.IResourceStreamLocator;
 import org.apache.wicket.util.time.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+/**
+ * Default implementation of JavaScriptDependencyLocator. Uses the Wicket
+ * application's {@link IResourceStreamLocator} to load JavaScript files,
+ * and our {@link SprocketDependencyCollector} to parse them for dependencies.
+ * A {@link ConcurrentHashMap} is used as a simple in-memory cache for the
+ * dependency trees that are discovered.
+ */
 public class DefaultJavaScriptDependencyLocator
     implements JavaScriptDependencyLocator
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-        DefaultJavaScriptDependencyLocator.class
-    );
-    
     static final Pattern JQUERYUI_PATT = Pattern.compile("jquery(\\.|-|_)?ui");
     
     private Map<ResourceReference,CacheEntry> _cache;
@@ -108,6 +109,14 @@ public class DefaultJavaScriptDependencyLocator
         return settings().getJQueryUICSSResource();
     }
     
+    /**
+     * Adds the resource to the DependencyCollection and recursively traverses
+     * all of the sprocket dependencies of that resource (and its dependencies
+     * and so forth), until the entire dependency tree has been added to
+     * the collection. The cache will first be consulted to avoid the
+     * recursion, if possible. Otherwise the result of the recursion is cached
+     * for future use.
+     */
     private void collectResourceAndDependencies(ResourceReference ref,
                                                 DependencyCollection scripts)
     {
@@ -121,6 +130,13 @@ public class DefaultJavaScriptDependencyLocator
         putIntoCache(ref, scripts);
     }
 
+    /**
+     * Modifies the given DependencyCollection so that it is identical to the
+     * cached copy based on a previous call to putIntoCache() and returns
+     * {@code true}.
+     * If the cache is disabled or there is no existing cache for the given
+     * resource, returns {@code false}.
+     */
     private boolean populateFromCache(ResourceReference ref,
                                       DependencyCollection scripts)
     {
@@ -135,6 +151,10 @@ public class DefaultJavaScriptDependencyLocator
         return false;
     }
     
+    /**
+     * Stores the dependencies of the given resource in the cache. If the
+     * cache is disabled (i.e. duration of zero), this has no effect.
+     */
     private void putIntoCache(ResourceReference ref,
                               DependencyCollection scripts)
     {
@@ -147,26 +167,39 @@ public class DefaultJavaScriptDependencyLocator
         }
     }
     
-    private ResourceReference searchForRequiredLibrary(String name)
+    /**
+     * Loops through all the library search paths as configured in
+     * JavaScriptDependencySettings and looks for the JavaScript library
+     * with the specified name, returning a ResourceReference for the first
+     * match. If none could be found, throws a WicketRuntimeException.
+     */
+    private ResourceReference searchForRequiredLibrary(final String name)
     {
         ResourceReference ref = null;
         
-        for(SearchLocation loc : settings().getLibraryPaths())
+        // Test for name with and without the ".js" extension added.
+        // The library name should *not* include the extension, but since
+        // this is a common mistake, we accept both formats.
+        String[] filenames = new String[] { name + ".js", name };
+        
+        for(String filename : filenames)
         {
-            String path = loc.getPath();
-            String absolutePath = String.format(
-                "%s%s.js",
-                path.isEmpty() ? "" : path + "/", 
-                name
-            );
-            ResourceReference testRef = new JavascriptResourceReference(
-                loc.getScope(), absolutePath
-            );
-            if(load(testRef) != null)
+            for(SearchLocation loc : settings().getLibraryPaths())
             {
-                ref = testRef;
-                break;
+                String path = loc.getPath();
+                String absolutePath = String.format(
+                    "%s%s", path.isEmpty() ? "" : path + "/", filename
+                );
+                ResourceReference testRef = new JavascriptResourceReference(
+                    loc.getScope(), absolutePath
+                );
+                if(load(testRef) != null)
+                {
+                    ref = testRef;
+                    break;
+                }
             }
+            if(ref != null) break;
         }
         
         if(null == ref)
@@ -179,6 +212,10 @@ public class DefaultJavaScriptDependencyLocator
         return ref;
     }
     
+    /**
+     * Loads the given ResourceReference as an IResourceStream or returns
+     * {@code null} if the resource could not be found.
+     */
     private IResourceStream load(ResourceReference ref)
     {
         IResourceStreamLocator locator =
@@ -199,18 +236,22 @@ public class DefaultJavaScriptDependencyLocator
         return JavaScriptDependencySettings.get();
     }
     
+    /**
+     * A cache entry holds an immutable DependencyCollection and expires
+     * after a certain duration.
+     */
     private static class CacheEntry
     {
         private long _start;
         private long _timeToLive;
         private DependencyCollection _scripts;
         
-        private CacheEntry(DependencyCollection scripts, Duration duration)
+        private CacheEntry(DependencyCollection orig, Duration duration)
         {
             super();
             // Make a private copy so that the cached copy is never mutated
             _scripts = new DependencyCollection();
-            scripts.copyTo(_scripts);
+            orig.copyTo(_scripts);
             _scripts.freeze();
             _start = System.currentTimeMillis();
             _timeToLive = duration.getMilliseconds();

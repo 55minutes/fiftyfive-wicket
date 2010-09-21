@@ -18,6 +18,10 @@ package fiftyfive.wicket.js.locator;
 
 import fiftyfive.util.Assert;
 
+/**
+ * Holds an immutable classpath search location, consisting of a class
+ * (the scope) and a path relative to that class.
+ */
 public class SearchLocation
 {
     private Class<?> _scope;

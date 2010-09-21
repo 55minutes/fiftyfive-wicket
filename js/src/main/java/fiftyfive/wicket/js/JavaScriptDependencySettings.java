@@ -99,6 +99,10 @@ public class JavaScriptDependencySettings
         return settings;
     }
     
+    /**
+     * Constructs a settings object for the given application with a reasonable
+     * set of defaults.
+     */
     protected JavaScriptDependencySettings(Application app)
     {
         super();
@@ -128,11 +132,21 @@ public class JavaScriptDependencySettings
         );
     }
     
+    /**
+     * Returns the JavaScriptDependencyLocator for this application.
+     */
     public JavaScriptDependencyLocator getLocator()
     {
         return _locator;
     }
     
+    /**
+     * Sets the JavaScriptDependencyLocator that should be used for this
+     * application. By default this is
+     * {@link DefaultJavaScriptDependencyLocator}.
+     * 
+     * @return {@code this} to allow chaining
+     */
     public JavaScriptDependencySettings setLocator(JavaScriptDependencyLocator loc)
     {
         Assert.notNull(loc);
@@ -140,45 +154,106 @@ public class JavaScriptDependencySettings
         return this;
     }
     
+    /**
+     * Returns the list of classpath locations that will be used to find
+     * JavaScript libraries.
+     */
     public List<SearchLocation> getLibraryPaths()
     {
         return Collections.unmodifiableList(_locations);
     }
 
+    /**
+     * Adds a classpath location to be used for locating JavaScript libraries.
+     * A default list of locations from the fiftyfive-wicket-js JAR contains
+     * jQuery, jQuery UI, cookies, fiftyfive-utils, jquery-scrollto and
+     * strftime.
+     * Call this method if you wish to add more libraries to this list, or if
+     * you want your versions of the previously mentioned libraries to take
+     * precedence. The paths that you add will be consulted before the
+     * defaults.
+     * <p>
+     * Library paths are searched whenever you use the angle-bracket syntax
+     * for JavaScript dependencies, like this:
+     * <pre>
+     * //= require &lt;libraryname&gt;
+     * </pre>
+     * Or when you use
+     * {@link JavaScriptDependency#JavaScriptDependency(String)} or
+     * {@link MergedJavaScriptBuilder#addLibrary()}.
+     * 
+     * @return {@code this} to allow chaining
+     */
     public JavaScriptDependencySettings addLibraryPath(Class<?> cls, String path)
     {
         _locations.add(0, new SearchLocation(cls, path));
         return this;
     }
     
+    /**
+     * Returns the ResourceReference for the jQuery JavaScript file.
+     */
     public ResourceReference getJQueryResource()
     {
         return _jQueryResource;
     }
-
+    
+    /**
+     * Sets the ResourceReference of the jQuery JavaScript file that should
+     * be used whenever the dependency locator determines that jQuery is
+     * needed. Pass {@code null} if you do not want the framework to include
+     * jQuery automatically.
+     * By default this refers to a copy of jQuery bundled in the
+     * fiftyfive-wicket-js JAR.
+     * 
+     * @return {@code this} to allow chaining
+     */
     public JavaScriptDependencySettings setJQueryResource(ResourceReference r)
     {
         this._jQueryResource = r;
         return this;
     }
     
+    /**
+     * Returns the ResourceReference for the jQuery UI JavaScript file.
+     */
     public ResourceReference getJQueryUIResource()
     {
         return _jQueryUIResource;
     }
 
+    /**
+     * Sets the ResourceReference of the jQuery UI JavaScript file that should
+     * be used whenever the dependency locator determines that jQuery UI is
+     * needed. Pass {@code null} if you do not want the framework to include
+     * jQuery UI automatically.
+     * By default this refers to a copy of jQuery UI bundled in the
+     * fiftyfive-wicket-js JAR.
+     * 
+     * @return {@code this} to allow chaining
+     */
     public JavaScriptDependencySettings setJQueryUIResource(ResourceReference r)
     {
         this._jQueryUIResource = r;
         return this;
     }
     
+    /**
+     * Returns the ResourceReference for the jQuery UI CSS theme file.
+     */
     public ResourceReference getJQueryUICSSResource()
     {
         return _jQueryUICSSResource;
     }
 
     /**
+     * Sets the ResourceReference of the jQuery UI CSS theme file that should
+     * be used whenever the dependency locator determines that jQuery UI is
+     * needed. Pass {@code null} if you do not want the framework to include
+     * jQuery UI CSS automatically.
+     * By default this refers to a copy of jQuery UI "redmond" theme bundled
+     * in the fiftyfive-wicket-js JAR.
+     * 
      * @return {@code this} to allow chaining
      */
     public JavaScriptDependencySettings setJQueryUICSSResource(ResourceReference r)

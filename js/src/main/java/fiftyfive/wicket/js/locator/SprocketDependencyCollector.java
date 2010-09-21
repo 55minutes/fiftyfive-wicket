@@ -30,6 +30,10 @@ import org.apache.wicket.util.resource.ResourceStreamNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Parses JavaScript files for sprocket dependencies and recurses to find
+ * the dependencies of those, until all are discovered.
+ */
 public class SprocketDependencyCollector extends SprocketParser
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
@@ -38,12 +42,30 @@ public class SprocketDependencyCollector extends SprocketParser
     
     private JavaScriptDependencyLocator _locator;
     
+    /**
+     * Constructs a instance that will use the given
+     * JavaScriptDependencyLocator for recursively loading JavaScript files
+     * that are found as dependencies.
+     */
     public SprocketDependencyCollector(JavaScriptDependencyLocator locator)
     {
         super();
         _locator = locator;
     }
     
+    /**
+     * Parse the given JavaScript file stream for sprockets dependency
+     * declarations. For each dependency that is found, recursively invoke
+     * the JavaScriptDependencyLocator to locate the dependency and parse it
+     * for its dependencies, and so on. All the scripts that are found as a
+     * result of this process will be added to the specified
+     * DependencyCollection.
+     * 
+     * @param ref The lcoation of the JavaScript file to aprse
+     * @param stream An opened stream of the JavaScript file to parse
+     * @param dependencies Target collection to which all dependencies will
+     *                     be added
+     */
     public void collectDependencies(ResourceReference ref,
                                     IResourceStream stream,
                                     DependencyCollection dependencies)
@@ -75,6 +97,10 @@ public class SprocketDependencyCollector extends SprocketParser
         }
     }
     
+    /**
+     * Parse the given stream and translate any i/o exceptions into
+     * WicketRuntimeException. Close the stream cleanly no matter what.
+     */
     private List<Sprocket> parseSprockets(IResourceStream stream)
     {
         // TODO: allow encoding to be customized
@@ -99,6 +125,9 @@ public class SprocketDependencyCollector extends SprocketParser
         }
     }
     
+    /**
+     * Returns a new path by resolving it relative to an original path.
+     */
     private String concatPaths(String orig, String relative)
     {
         if(null == orig || orig.indexOf("/") == -1)

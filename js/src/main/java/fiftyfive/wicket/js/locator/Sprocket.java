@@ -16,6 +16,13 @@
 
 package fiftyfive.wicket.js.locator;
 
+/**
+ * Represents a sprocket dependency reference. There are two types:
+ * <ul>
+ * <li>Library: {@code //= require &lt;libname&gt;}</li>
+ * <li>File: {@code //= require "filename.js"}</li>
+ * </ul>
+ */
 public class Sprocket
 {
     private boolean _library;
@@ -27,11 +34,19 @@ public class Sprocket
         _path = path;
     }
     
+    /**
+     * Returns {@code true} if this is a library reference, {@code false} if
+     * it is a file reference.
+     */
     public boolean isLibrary()
     {
         return _library;
     }
     
+    /**
+     * The name of the library or filename, with the angle brackets or
+     * double quotes, respectively.
+     */
     public String getPath()
     {
         return _path;

@@ -25,7 +25,7 @@ import org.apache.wicket.ResourceReference;
 
 /**
  * Holds a tree of JavaScript dependencies as they are traversed, ensuring
- * that ordering is properly maintained and duplicates are ignored. Once
+ * that the ordering is properly maintained and duplicates are ignored. Once
  * traversal is complete, the dependencies can be iterated in the order they
  * should appear in the &lt;head&gt; by calling {@link #iterator iterator()}.
  * <p>
