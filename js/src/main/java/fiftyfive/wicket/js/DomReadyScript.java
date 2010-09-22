@@ -94,11 +94,9 @@ public class DomReadyScript extends AbstractBehavior
         if(response.wasRendered(script)) return;
 
         // Ensure that jQuery is present
-        response.renderJavascriptReference(
-            JavaScriptDependencySettings.get().getJQueryResource()
-        );
+        response.renderJavascriptReference(settings().getJQueryResource());
 
-        Request request = RequestCycle.get().getRequest();
+        Request request = request();
         if((request instanceof WebRequest) && ((WebRequest)request).isAjax())
         {
             response.renderOnDomReadyJavascript(script);
@@ -111,5 +109,23 @@ public class DomReadyScript extends AbstractBehavior
         }
         
         response.markRendered(script);
+    }
+    
+    /**
+     * Returns the settings to use. This method exists only for overriding
+     * during unit tests.
+     */
+    JavaScriptDependencySettings settings()
+    {
+        return JavaScriptDependencySettings.get();
+    }
+
+    /**
+     * Returns the current request. This method exists only for overriding
+     * during unit tests.
+     */
+    Request request()
+    {
+        return RequestCycle.get().getRequest();
     }
 }
