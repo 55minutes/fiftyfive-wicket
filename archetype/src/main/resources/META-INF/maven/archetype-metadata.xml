@@ -49,6 +49,8 @@
         <include>**/*.txt</include>
         <include>**/*.css</include>
         <include>**/*.js</include>
+        <include>**/*.rb</include>
+        <include>**/*.scss</include>
       </includes>
     </fileSet>
     <fileSet filtered="false" packaged="true" encoding="UTF-8">
