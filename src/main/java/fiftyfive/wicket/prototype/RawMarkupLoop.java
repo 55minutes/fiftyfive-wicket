@@ -44,6 +44,8 @@ import org.apache.wicket.model.IModel;
  *   &lt;li&gt;Hello&lt;li/&gt;
  * &lt;/ul&gt;
  * </pre>
+ * 
+ * @since 2.0
  */
 public class RawMarkupLoop extends Loop
 {

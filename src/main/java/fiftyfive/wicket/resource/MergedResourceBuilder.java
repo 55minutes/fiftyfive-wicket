@@ -129,6 +129,8 @@ public abstract class MergedResourceBuilder
     
     /**
      * Add a resource to the list of merged resources.
+     * 
+     * @since 2.0
      */
     protected void add(ResourceReference ref)
     {
@@ -138,6 +140,8 @@ public abstract class MergedResourceBuilder
     /**
      * Constructs a header contributor for the given resource.
      * Subclasses should implement the appropriate CSS or JS contributor.
+     * 
+     * @since 2.0
      */
     protected abstract IHeaderContributor newContributor(ResourceReference ref);
     

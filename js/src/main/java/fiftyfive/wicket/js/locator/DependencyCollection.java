@@ -33,6 +33,8 @@ import org.apache.wicket.ResourceReference;
  * JavaScript dependencies. Currently this is only used to indicate the need
  * for jQuery UI's CSS theme, based on whether or not jQuery UI is a script
  * dependency. An arbitrary number of CSS dependencies is not supported.
+ * 
+ * @since 2.0
  */
 public class DependencyCollection implements Iterable<ResourceReference>
 {

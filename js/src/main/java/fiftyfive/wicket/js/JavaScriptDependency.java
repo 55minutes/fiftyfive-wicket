@@ -69,6 +69,8 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * to find the actual files and their dependencies. The behavior of this
  * dependency discovery can be controlled using the
  * {@link JavaScriptDependencySettings}.
+ * 
+ * @since 2.0
  */
 public class JavaScriptDependency extends AbstractBehavior
 {

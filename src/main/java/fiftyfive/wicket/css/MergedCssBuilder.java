@@ -50,6 +50,8 @@ import org.apache.wicket.markup.html.IHeaderContributor;
  *     }
  * }
  * </pre>
+ * 
+ * @since 2.0
  */
 public class MergedCssBuilder extends MergedResourceBuilder
 {

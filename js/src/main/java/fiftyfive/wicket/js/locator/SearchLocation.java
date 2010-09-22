@@ -21,6 +21,8 @@ import fiftyfive.util.Assert;
 /**
  * Holds an immutable classpath search location, consisting of a class
  * (the scope) and a path relative to that class.
+ * 
+ * @since 2.0
  */
 public class SearchLocation
 {

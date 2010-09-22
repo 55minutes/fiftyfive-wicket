@@ -56,6 +56,8 @@ import org.slf4j.LoggerFactory;
  * Utility methods for logging detailed information about Wicket's internal
  * state for troubleshooting purposes. Most of these methods work only when
  * called within a Wicket thread.
+ * 
+ * @since 2.0
  */
 public class LoggingUtils
 {

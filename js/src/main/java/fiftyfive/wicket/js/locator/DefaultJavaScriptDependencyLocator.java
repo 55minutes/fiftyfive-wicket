@@ -39,6 +39,8 @@ import org.apache.wicket.util.time.Duration;
  * and our {@link SprocketDependencyCollector} to parse them for dependencies.
  * A {@link ConcurrentHashMap} is used as a simple in-memory cache for the
  * dependency trees that are discovered.
+ * 
+ * @since 2.0
  */
 public class DefaultJavaScriptDependencyLocator
     implements JavaScriptDependencyLocator

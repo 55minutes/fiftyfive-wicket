@@ -51,6 +51,8 @@ import org.apache.wicket.util.string.Strings;
  * <pre>
  * &lt;span&gt;My really long string that needs to be cut down…&lt;/span&gt;
  * </pre>
+ * 
+ * @since 2.0
  */
 public class TruncatedLabel extends LabelWithPlaceholder
 {

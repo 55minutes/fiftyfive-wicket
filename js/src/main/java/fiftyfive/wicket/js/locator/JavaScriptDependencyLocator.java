@@ -24,6 +24,8 @@ package fiftyfive.wicket.js.locator;
  * you should never need to use this API directly.
  * To provide a custom implementation, call
  * {@link fiftyfive.wicket.js.JavaScriptDependencySettings#setLocator JavaScriptDependencySettings.setLocator()}.
+ * 
+ * @since 2.0
  */
 public interface JavaScriptDependencyLocator
 {

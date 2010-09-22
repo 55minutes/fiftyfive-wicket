@@ -60,6 +60,8 @@ import org.apache.wicket.util.time.Duration;
  *     reference to the desired CSS file, or {@code null} if you don't want
  *     fiftyfive-wicket-js to manage this for you.</li>
  * </ol>
+ * 
+ * @since 2.0
  */
 public class JavaScriptDependencySettings
 {

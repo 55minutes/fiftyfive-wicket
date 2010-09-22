@@ -52,6 +52,8 @@ import org.apache.wicket.markup.html.WebComponent;
  *   tempor incididunt ut…
  * &lt;/p&gt;
  * </pre>
+ * 
+ * @since 2.0
  */
 public class TruncatedRawMarkup extends WebComponent
 {

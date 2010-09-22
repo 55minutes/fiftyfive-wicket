@@ -34,6 +34,8 @@ import org.apache.wicket.protocol.http.WebResponse;
  * Wicket request. Wicket normally hides this information from us, but
  * occassionally we need access to things like the raw URL or HTTP headers.
  * Note that these methods only work when called within a Wicket thread.
+ * 
+ * @since 2.0
  */
 public class HttpUtils
 {

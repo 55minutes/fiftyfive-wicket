@@ -59,6 +59,8 @@ import org.slf4j.LoggerFactory;
  *     }
  * }
  * </pre>
+ * 
+ * @since 2.0
  */
 public class MergedJavaScriptBuilder extends MergedResourceBuilder
 {

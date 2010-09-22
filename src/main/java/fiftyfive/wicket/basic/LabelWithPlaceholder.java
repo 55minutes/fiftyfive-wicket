@@ -50,6 +50,7 @@ import org.apache.wicket.model.Model;
  *
  * @see #setPlaceholder
  * @see Label
+ * @since 2.0
  */
 public class LabelWithPlaceholder extends Label
 {

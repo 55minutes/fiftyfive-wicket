@@ -22,6 +22,8 @@ package fiftyfive.wicket.js.locator;
  * <li>Library: {@code //= require <libname>}</li>
  * <li>File: {@code //= require "filename.js"}</li>
  * </ul>
+ * 
+ * @since 2.0
  */
 public class Sprocket
 {

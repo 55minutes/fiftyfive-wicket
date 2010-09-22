@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Parses JavaScript files for sprocket dependencies and recurses to find
  * the dependencies of those, until all are discovered.
+ * 
+ * @since 2.0
  */
 public class SprocketDependencyCollector extends SprocketParser
 {

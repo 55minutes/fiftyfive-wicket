@@ -42,6 +42,8 @@ import org.apache.wicket.protocol.http.WebRequest;
  *     add(new DomReadyScript("alert('page ready!')"));
  * }
  * </pre>
+ * 
+ * @since 2.0
  */
 public class DomReadyScript extends AbstractBehavior
 {

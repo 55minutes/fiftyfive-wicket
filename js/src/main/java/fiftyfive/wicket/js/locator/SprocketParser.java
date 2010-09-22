@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
  * //= require &lt;library_name&gt;
  * //= require "file_name"
  * </pre>
+ * 
+ * @since 2.0
  */
 public class SprocketParser
 {
