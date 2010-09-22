@@ -16,10 +16,6 @@
 
 package fiftyfive.wicket.js.locator;
 
-import java.util.List;
-
-import org.apache.wicket.ResourceReference;
-
 /**
  * Locates JavaScript files and their dependencies. 
  * This is what is used internally by

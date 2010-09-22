@@ -148,9 +148,7 @@ public class JavaScriptDependency extends AbstractBehavior
     @Override
     public void renderHead(IHeaderResponse response)
     {
-        JavaScriptDependencyLocator locator;
-        locator = JavaScriptDependencySettings.get().getLocator();
-        
+        JavaScriptDependencyLocator locator = settings().getLocator();
         DependencyCollection scripts = new DependencyCollection();
         
         if(_libraryName != null)
@@ -173,5 +171,14 @@ public class JavaScriptDependency extends AbstractBehavior
         {
             if(ref != null) response.renderJavascriptReference(ref);
         }
+    }
+
+    /**
+     * Returns the settings to use. This method exists only for overriding
+     * during unit tests.
+     */
+    JavaScriptDependencySettings settings()
+    {
+        return JavaScriptDependencySettings.get();
     }
 }
