@@ -16,13 +16,12 @@
 
 package fiftyfive.wicket.examples;
 
-
-import fiftyfive.wicket.css.InternetExplorerCss;
+import fiftyfive.wicket.js.JavaScriptDependency;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import static fiftyfive.wicket.util.Shortcuts.*;
 
 /**
  * Base class for all pages. Provides markup for the HTML5 doctype.
@@ -46,11 +45,15 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         add(new DebugBar("debug"));
-        add(getWicketApplication().getMergedCssContributor());
-        add(InternetExplorerCss.getConditionalHeaderContribution(
-            "IE 7",
-            new ResourceReference(BasePage.class, "styles/ie-7-win.css")
-        ));
+        
+        // Set up JS
+        add(new JavaScriptDependency(BasePage.class));
+        
+        // Set up CSS
+        add(cssResource("styles/screen.css"));
+        add(cssConditionalResource("IE", "styles/ie.css"));
+        add(cssPrintResource("styles/print.css"));
+
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {

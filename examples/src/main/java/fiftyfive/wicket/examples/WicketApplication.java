@@ -16,7 +16,6 @@
 
 package fiftyfive.wicket.examples;
 
-import fiftyfive.wicket.css.MergedCssBuilder;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.home.HomePage;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
@@ -25,7 +24,6 @@ import fiftyfive.wicket.spring.FoundationSpringApplication;
 import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
-import org.apache.wicket.behavior.AbstractHeaderContributor;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +39,6 @@ public class WicketApplication extends FoundationSpringApplication
     );
     
     
-    private AbstractHeaderContributor _mergedCss;
-    
-    
     /**
      * Returns the instance of {@code WicketApplication} that is currently
      * running. This method only works inside a Wicket thread.
@@ -57,16 +52,6 @@ public class WicketApplication extends FoundationSpringApplication
     public Class getHomePage()
     {
         return HomePage.class;
-    }
-    
-    /**
-     * Returns a HeaderContributor for all the common merged CSS for this app.
-     * This will typically be added to the base page of the application so it
-     * is available from all pages.
-     */
-    public AbstractHeaderContributor getMergedCssContributor()
-    {
-        return _mergedCss;
     }
     
     @Override
@@ -94,21 +79,10 @@ public class WicketApplication extends FoundationSpringApplication
     
     /**
      * Use the wicketstuff mergedresources feature to serve out our common
-     * CSS and JS in an efficient manner.
+     * JavaScript in an efficient manner.
      */
     protected void initMergedResources()
     {
-        // Mount merged CSS
-        _mergedCss = new MergedCssBuilder()
-            .setPath("/styles/all.css")
-            .addCss(WicketApplication.class, "styles/reset.css")
-            .addCss(WicketApplication.class, "styles/core.css")
-            .addCss(WicketApplication.class, "styles/layout.css")
-            .addCss(WicketApplication.class, "styles/content.css")
-            .addCss(WicketApplication.class, "styles/forms.css")
-            .addCss(WicketApplication.class, "styles/page-specific.css")
-            .build(this);
-        
         // Tell fiftyfive-wicket-js where to find custom JS libs for this app
         // (i.e. those that can be referenced via //= require <lib>).
         // This corresponds to src/main/resources/fiftyfive/examples/scripts.
@@ -125,6 +99,7 @@ public class WicketApplication extends FoundationSpringApplication
             .addLibrary("strftime")
             .addLibrary("55_utils")
             .addLibrary("jquery.55_utils")
+            .addAssociatedScript(BasePage.class)
             .build(this);
     }
 

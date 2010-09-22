@@ -22,6 +22,8 @@ import java.util.Collection;
 import fiftyfive.util.Assert;
 import fiftyfive.util.ReflectUtils;
 import fiftyfive.wicket.basic.LabelWithPlaceholder;
+import fiftyfive.wicket.css.InternetExplorerCss;
+import org.apache.wicket.Application;
 import org.apache.wicket.Component;
 import org.apache.wicket.Response;
 import org.apache.wicket.behavior.AbstractBehavior;
@@ -29,6 +31,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -199,17 +202,158 @@ public class Shortcuts
      * <p>
      * This is equivalent to:
      * <pre>
-     * CSSPackageResource.getHeaderContribution(cls, Classes.simpleName(cls) + ".css");
+     * CSSPackageResource.getHeaderContribution(
+     *     new CompressedResourceReference(
+     *         cls, Classes.simpleName(cls) + ".css"
+     *     )
+     * );
      * </pre>
+     * 
+     * @since 2.0
      */
     public static IBehavior cssResource(Class<?> cls)
     {
         Assert.notNull(cls);
         return CSSPackageResource.getHeaderContribution(
-            cls, Classes.simpleName(cls) + ".css"
+            new CompressedResourceReference(
+                cls, Classes.simpleName(cls) + ".css"
+            )
         );
     }
         
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
+     * the specified name, relative to the current application class.
+     * For example:
+     * <pre>
+     * add(cssResource("screen.css"));
+     * </pre>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
+     * found in the same classpath location as your wicket application class.
+     * <p>
+     * This is equivalent to:
+     * <pre>
+     * CSSPackageResource.getHeaderContribution(
+     *     new CompressedResourceReference(
+     *         Application.get().getClass(), "screen.css"
+     *     )
+     * );
+     * </pre>
+     * 
+     * @since 2.0
+     */
+    public static IBehavior cssResource(String filename)
+    {
+        Assert.notNull(filename);
+        return CSSPackageResource.getHeaderContribution(
+            new CompressedResourceReference(
+                Application.get().getClass(), filename
+            )
+        );
+    }
+
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
+     * the specified name, relative to the given class.
+     * For example:
+     * <pre>
+     * add(cssResource(BasePage.class, "screen.css"));
+     * </pre>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
+     * found in the same classpath location as BasePage.
+     * <p>
+     * This is equivalent to:
+     * <pre>
+     * CSSPackageResource.getHeaderContribution(
+     *     new CompressedResourceReference(
+     *         BasePage.class, "screen.css"
+     *     )
+     * );
+     * </pre>
+     * 
+     * @since 2.0
+     */
+    public static IBehavior cssResource(Class<?> scope, String filename)
+    {
+        Assert.notNull(scope, "scope cannot be null");
+        Assert.notNull(filename, "filename cannot be null");
+        return CSSPackageResource.getHeaderContribution(
+            new CompressedResourceReference(scope, filename)
+        );
+    }
+        
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a print
+     * stylesheet CSS file with the specified name, relative to the current
+     * application class.
+     * For example:
+     * <pre>
+     * add(cssPrintResource("print.css"));
+     * </pre>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code print.css},
+     * found in the same classpath location as your wicket application class.
+     * The &lt;link&gt; will have a print media type.
+     * <p>
+     * This is equivalent to:
+     * <pre>
+     * CSSPackageResource.getHeaderContribution(
+     *     new CompressedResourceReference(
+     *         Application.get().getClass(), "print.css"
+     *     ),
+     *     "print"
+     * );
+     * </pre>
+     * 
+     * @since 2.0
+     */
+    public static IBehavior cssPrintResource(String filename)
+    {
+        Assert.notNull(filename);
+        return CSSPackageResource.getHeaderContribution(
+            new CompressedResourceReference(
+                Application.get().getClass(), filename
+            ),
+            "print"
+        );
+    }
+
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to an
+     * Internet Explorer conditional stylesheet CSS file with
+     * the specified name, relative to the current application class.
+     * The stylesheet will apply based on the IE condition argument.
+     * For example:
+     * <pre>
+     * add(cssConditionalResource("IE 7", "ie-7.css"));
+     * </pre>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code ie-7.css},
+     * found in the same classpath location as your wicket application class.
+     * The stylesheet will only be loaded in IE 7 browsers.
+     * <p>
+     * This is equivalent to:
+     * <pre>
+     * InternetExplorerCss.getConditionalHeaderContribution(
+     *     "IE 7"
+     *     new CompressedResourceReference(
+     *         Application.get().getClass(), "ie-7.css")
+     *     )
+     * );
+     * </pre>
+     * 
+     * @since 2.0
+     */
+    public static IBehavior cssConditionalResource(String cond, String filename)
+    {
+        Assert.notNull(cond, "condition cannot be null");
+        Assert.notNull(filename, "filename cannot be null");
+        return InternetExplorerCss.getConditionalHeaderContribution(
+            cond,
+            new CompressedResourceReference(
+                Application.get().getClass(), filename
+            )
+        );
+    }
+
     /**
      * Adds a CSS class to the component it decorates
      * when the specified property value is true or not empty.

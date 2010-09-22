@@ -117,6 +117,25 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     }
     
     /**
+     * Adds a JavaScript resource of the same name and location of the given
+     * class, except with the ".js" extension. These two statements are
+     * equivalent:
+     * <pre>
+     * addAssociatedScript(MyPanel.class);
+     * addScript(MyPanel.class, "MyPanel.js");
+     * </pre>
+     * The dependencies of the script, if declared using Sprockets syntax within
+     * the JS file, will also be added automatically.
+     *
+     * @see JavaScriptDependencySettings
+     */
+    public MergedJavaScriptBuilder addAssociatedScript(Class<?> cls)
+    {
+        getDependencyLocator().findAssociatedScripts(cls, _deps);
+        return this;
+    }
+
+    /**
      * Adds jQuery and jQuery UI to the list of merged resources.
      *
      * @see JavaScriptDependencySettings
