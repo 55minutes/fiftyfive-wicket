@@ -90,6 +90,8 @@ public abstract class FoundationApplication extends WebApplication
     /**
      * Returns the amount of time elapsed since this application was
      * initialized by the Wicket framework.
+     * 
+     * @since 2.0
      */
     public Duration getUptime()
     {
@@ -108,47 +110,6 @@ public abstract class FoundationApplication extends WebApplication
     public boolean isDevelopmentMode()
     {
         return getConfigurationType().equals(DEVELOPMENT);
-    }
-    
-    /**
-     * If the application is in DEVELOPMENT mode, returns the default
-     * IRequestCycleProcessor implementation as defined in
-     * {@link WebApplication}. However, if the application is in
-     * DEPLOYMENT mode, returns a custom IRequestCycleProcessor that changes
-     * the exception behavior as follows:
-     * <ul>
-     * <li>If a PageExpiredException occurs, simply redirect to the home
-     *     page without displaying an error to the user. Log a warning.</li>
-     * <li>If an any other uncaught RuntimeException exception occurs,
-     *     re-throw it so that it bubbles up to the servlet container.
-     *     The container will then show its standard 500 error page, or
-     *     a custom one as specified in the error-page element of web.xml.
-     *     Wicket's "internal error" screen will not be used.</li>
-     * </ul>
-     */
-    @Override
-    public IRequestCycleProcessor newRequestCycleProcessor()
-    {
-        if(isDevelopmentMode())
-        {
-            return super.newRequestCycleProcessor();
-        }
-        return new WebRequestCycleProcessor() {
-            @Override
-            public void respond(RuntimeException e, RequestCycle requestCycle)
-            {
-                if(e instanceof PageExpiredException ||
-                   e.getCause() instanceof PageExpiredException)
-                {
-                    _logger.warn("Page expired. Redirecting to home page.", e);
-                    throw new RestartResponseException(
-                        requestCycle.getApplication().getHomePage()
-                    );
-                }
-                _logger.error("Unexpected runtime exception", e);
-                throw e;
-            }
-        };
     }
     
     /**
@@ -295,6 +256,8 @@ public abstract class FoundationApplication extends WebApplication
      * <pre>
      * log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO
      * </pre>
+     * 
+     * @since 2.0
      */
     protected void initRequestLogger()
     {
