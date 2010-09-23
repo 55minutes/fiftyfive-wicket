@@ -77,7 +77,6 @@ public class SprocketDependencyCollector extends SprocketParser
         // Parse the resource, looking for Sprocket dependency declarations
         LOGGER.debug("Parsing: {}", ref.getName());
         List<Sprocket> sprockets = parseSprockets(stream);
-        Collections.reverse(sprockets);
         
         // After parsing is complete, loop through what we found and
         // process their dependencies recursively.
