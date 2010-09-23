@@ -50,9 +50,9 @@ public interface JavaScriptDependencyLocator
      * DependencyCollection.
      * 
      * @param cls The JavaScript file will be located relative to this class.
-     * @param fileName Exact name of the JavaScript file as it appears in
-     *                 the classpath relative to the specified class, like
-     *                 "myfile.js".
+     * @param fileName Name of the JavaScript file as it appears in
+     *                 the classpath relative to the specified class, without
+     *                 the ".js" extension.
      * @param scripts The script and all of its dependencies will be added
      *                to this collection in the order that they should appear
      *                in the HTML &lt;head&gt;.

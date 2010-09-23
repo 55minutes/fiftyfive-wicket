@@ -129,10 +129,10 @@ public class JavaScriptDependency extends AbstractBehavior
     
     /**
      * Creates a JavaScriptDependency for a JavaScript file in the classpath,
-     * The file name must exactly match, including the .js extension.
+     * The file name should not include the .js extension.
      * For example:
      * <pre>
-     * add(new JavaScriptDependency(MyPanel.class, "jquery.ui.myplugin.js"));
+     * add(new JavaScriptDependency(MyPanel.class, "jquery.ui.myplugin"));
      * </pre>
      */
     public JavaScriptDependency(Class<?> cls, String fileName)

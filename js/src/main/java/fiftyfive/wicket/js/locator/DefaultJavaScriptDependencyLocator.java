@@ -84,7 +84,7 @@ public class DefaultJavaScriptDependencyLocator
                                     DependencyCollection scripts)
     {
         collectResourceAndDependencies(
-            new JavascriptResourceReference(cls, fileName), scripts
+            newResourceReference(cls, fileName), scripts
         );
     }
     
@@ -92,7 +92,7 @@ public class DefaultJavaScriptDependencyLocator
                                       DependencyCollection scripts)
     {
         collectResourceAndDependencies(
-            new JavascriptResourceReference(cls, Classes.simpleName(cls)+".js"),
+            newResourceReference(cls, Classes.simpleName(cls)+".js"),
             scripts
         );
     }
@@ -126,7 +126,14 @@ public class DefaultJavaScriptDependencyLocator
         if(!scripts.add(ref)) return;
         
         scripts.descend();
-        _collector.collectDependencies(ref, load(ref), scripts);
+        IResourceStream stream = load(ref);
+        if(null == stream)
+        {
+            throw new WicketRuntimeException(
+                "JavaScript file does not exist: " + ref
+            );
+        }
+        _collector.collectDependencies(ref, stream, scripts);
         scripts.ascend();
         
         putIntoCache(ref, scripts);
@@ -179,29 +186,20 @@ public class DefaultJavaScriptDependencyLocator
     {
         ResourceReference ref = null;
         
-        // Test for name with and without the ".js" extension added.
-        // The library name should *not* include the extension, but since
-        // this is a common mistake, we accept both formats.
-        String[] filenames = new String[] { name + ".js", name };
-        
-        for(String filename : filenames)
+        for(SearchLocation loc : settings().getLibraryPaths())
         {
-            for(SearchLocation loc : settings().getLibraryPaths())
+            String path = loc.getPath();
+            String absolutePath = String.format(
+                "%s%s", path.isEmpty() ? "" : path + "/", name
+            );
+            ResourceReference testRef = newResourceReference(
+                loc.getScope(), absolutePath
+            );
+            if(load(testRef) != null)
             {
-                String path = loc.getPath();
-                String absolutePath = String.format(
-                    "%s%s", path.isEmpty() ? "" : path + "/", filename
-                );
-                ResourceReference testRef = new JavascriptResourceReference(
-                    loc.getScope(), absolutePath
-                );
-                if(load(testRef) != null)
-                {
-                    ref = testRef;
-                    break;
-                }
+                ref = testRef;
+                break;
             }
-            if(ref != null) break;
         }
         
         if(null == ref)
@@ -227,6 +225,22 @@ public class DefaultJavaScriptDependencyLocator
         String path = Packages.absolutePath(scope, ref.getName());
         
         return locator.locate(scope, path);
+    }
+    
+    /**
+     * Constructs a new ResourceReference, automatically adding the ".js"
+     * extension if needed.
+     */
+    private ResourceReference newResourceReference(Class<?> scope, String name)
+    {
+        // TODO: test whether file exists first, just in case it has no
+        // extension or a non-js extension.
+        
+        if(!name.toLowerCase().endsWith(".js"))
+        {
+            name = name + ".js";
+        }
+        return new JavascriptResourceReference(scope, name);
     }
     
     /**

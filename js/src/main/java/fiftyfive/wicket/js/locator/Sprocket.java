@@ -22,7 +22,7 @@ package fiftyfive.wicket.js.locator;
  * dependency reference. There are two types:
  * <ul>
  * <li>Library: {@code //= require <libname>}</li>
- * <li>File: {@code //= require "filename.js"}</li>
+ * <li>File: {@code //= require "filename"}</li>
  * </ul>
  * 
  * @since 2.0
