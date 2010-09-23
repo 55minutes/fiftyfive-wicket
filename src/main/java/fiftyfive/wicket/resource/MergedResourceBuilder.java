@@ -39,7 +39,7 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  * is an abstract base class intended to be subclassed for CSS and JavaScript
  * specific uses. See
  * {@link fiftyfive.wicket.css.MergedCssBuilder MergedCssBuilder} for more
- * details an example usage.
+ * details and example usage.
  * <p>
  * The reasonable defaults provided by this class are as follows:
  * <ul>
