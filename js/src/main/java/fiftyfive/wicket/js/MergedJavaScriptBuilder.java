@@ -88,7 +88,8 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     
     /**
      * Adds a JavaScript file to the list of merged resources. The
-     * dependencies of the script, if declared using Sprockets syntax within
+     * dependencies of the script, if declared using
+     * <a href="http://getsprockets.org/>Sprockets</p> syntax within
      * the JS file, will also be added automatically.
      *
      * @see JavaScriptDependencySettings
@@ -101,7 +102,8 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     
     /**
      * Adds a JavaScript resource to the list of merged resources. The
-     * dependencies of the script, if declared using Sprockets syntax within
+     * dependencies of the script, if declared using
+     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
      * the JS file, will also be added automatically.
      *
      * @see JavaScriptDependencySettings
@@ -124,7 +126,8 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      * addAssociatedScript(MyPanel.class);
      * addScript(MyPanel.class, "MyPanel.js");
      * </pre>
-     * The dependencies of the script, if declared using Sprockets syntax within
+     * The dependencies of the script, if declared using
+     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
      * the JS file, will also be added automatically.
      *
      * @see JavaScriptDependencySettings
@@ -160,7 +163,8 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     
     /**
      * Adds a JavaScript library to the list of merged resources. The
-     * dependencies of the script, if declared using Sprockets syntax within
+     * dependencies of the script, if declared using
+     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
      * the JS file, will also be added automatically.
      *
      * @see JavaScriptDependencySettings

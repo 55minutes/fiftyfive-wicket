@@ -27,7 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Helper class that parses JavaScript files for special Sprockets comments
+ * Helper class that parses JavaScript files for special
+ * <a href="http://getsprockets.org/">Sprockets</a> comments
  * like these:
  * <pre>
  * //= require &lt;library_name&gt;

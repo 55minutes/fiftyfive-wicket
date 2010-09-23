@@ -38,7 +38,8 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  *     jQuery, using {@link #JavaScriptDependency(String)}.</li>
  * </ul>
  * In all cases, the JavaScript files that you specify will be scanned for
- * dependencies. If any of the files contain sprocket {@code require}
+ * dependencies. If any of the files contain
+ * <a href="http://getsprockets.org/">sprocket</a> {@code require}
  * statements, these requirements will be resolved and added to the
  * &lt;head&gt; as well, in the appropriate order.
  * <p>

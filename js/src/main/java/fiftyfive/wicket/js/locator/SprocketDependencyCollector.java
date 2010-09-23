@@ -31,7 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Parses JavaScript files for sprocket dependencies and recurses to find
+ * Parses JavaScript files for
+ * <a href="http://getsprockets.org/">sprocket</a> dependencies
+ * and recurses to find
  * the dependencies of those, until all are discovered.
  * 
  * @since 2.0
