@@ -203,17 +203,17 @@ public abstract class WicketTestUtils
 
     /**
      * Renders a component using a snippet of XHTML 1.0 Strict markup. Example:
-     * <pre>
+     * <pre class="example">
      * startComponentWithXHtml(
      *     tester,
      *     new Label("label", "Hello, world!),
      *     "&lt;span wicket:id=\"label\"&gt;replaced by Wicket&lt;/span&gt;"
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * This method will place the component in a simple XHTML Page and render
      * it using the normal WicketTester request/response. In the above example,
      * the rendered output will be:
-     * <pre>
+     * <pre class="example">
      * &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
      * &lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"&gt;
      * &lt;head&gt;
@@ -222,8 +222,8 @@ public abstract class WicketTestUtils
      * &lt;body&gt;
      * &lt;span wicket:id=&quot;label&quot;&gt;Hello, world!&lt;/span&gt;
      * &lt;/body&gt;
-     * &lt;/html&gt;
-     * </pre>
+     * &lt;/html&gt;</pre>
+     * 
      * You can then use helper method like
      * {@link #assertXPath(WicketTester,String) assertXPath} or
      * {@link WicketTester#assertContains(String)}
@@ -248,17 +248,17 @@ public abstract class WicketTestUtils
 
     /**
      * Renders a component using a snippet of HTML5 markup. Example:
-     * <pre>
+     * <pre class="example">
      * startComponentWithHtml(
      *     tester,
      *     new Label("label", "Hello, world!),
      *     "&lt;span wicket:id=\"label\"&gt;replaced by Wicket&lt;/span&gt;"
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * This method will place the component in a simple HTML5 Page and render
      * it using the normal WicketTester request/response. In the above example,
      * the rendered output will be:
-     * <pre>
+     * <pre class="example">
      * &lt;!DOCTYPE html&gt;
      * &lt;html&gt;
      * &lt;head&gt;
@@ -267,8 +267,8 @@ public abstract class WicketTestUtils
      * &lt;body&gt;
      * &lt;span wicket:id=&quot;label&quot;&gt;Hello, world!&lt;/span&gt;
      * &lt;/body&gt;
-     * &lt;/html&gt;
-     * </pre>
+     * &lt;/html&gt;</pre>
+     * 
      * You can then use helper method like
      * {@link #assertXPath(WicketTester,String) assertXPath} or
      * {@link WicketTester#assertContains(String)}

@@ -50,6 +50,7 @@ import static org.apache.wicket.Application.DEVELOPMENT;
  * <li>Disable the resource minify feature. This feature is buggy and
  *     does not add much value over gzip.</li>
  * </ul>
+ * <p>
  * Furthermore, this class fixes some shortcomings of the
  * wicketstuff-merged-resources library, namely:
  * <ul>

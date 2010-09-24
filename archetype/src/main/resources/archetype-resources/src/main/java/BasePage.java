@@ -15,13 +15,12 @@ import org.apache.wicket.markup.html.WebPage;
  * Also exposes a <code>_body</code> variable to subclasses that can be used
  * to add <code>id</code> or <code>class</code> attributes to the
  * &lt;body&gt; element. For example, to add an <code>id</code>, do this:
- * <pre>
- * _body.setMarkupId("myId");
- * </pre>
+ * <pre class="example">
+ * _body.setMarkupId("myId");</pre>
+ * <p>
  * To add a CSS class (using fiftyfive.wicket.util.Shortcuts.cssClass):
- * <pre>
- * _body.add(cssClass("myClass"));
- * </pre>
+ * <pre class="example">
+ * _body.add(cssClass("myClass"));</pre>
  */
 public abstract class BasePage extends WebPage
 {

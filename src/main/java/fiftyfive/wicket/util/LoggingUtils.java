@@ -92,7 +92,7 @@ public class LoggingUtils
      * full stack traces of the entire exception chain.
      * <p>
      * Example logger output:
-     * <pre>
+     * <pre class="example">
      * IllegalStateException: Attempt to set model object on null model of component: form:calendar-control:date-text-field
      * 
      * Request:
@@ -195,8 +195,8 @@ public class LoggingUtils
      *      at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
      *      at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
      *      at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
-     *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)
-     * </pre>
+     *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)</pre>
+     * 
      */
     public static void logRuntimeException(Logger logger, RuntimeException e)
     {
@@ -234,12 +234,12 @@ public class LoggingUtils
      * types are usually language cruft that don't add much desciptive value.
      * <p>
      * For example, if the exception chain is:
-     * <pre>
+     * <pre class="example">
      * WicketRuntimeException
      * -> InvocationTargetException
      *    -> MyBusinessException
-     *       -> SQLException
-     * </pre>
+     *       -> SQLException</pre>
+     * 
      * Then the unwrapped exception would be {@code MyBusinessException}. 
      */
     public static Throwable unwrap(RuntimeException e)
@@ -270,7 +270,7 @@ public class LoggingUtils
     /**
      * Returns a multi-line string that describes the current Wicket request
      * cycle in great detail. Example output:
-     * <pre>
+     * <pre class="example">
      * Request:
      *   URL      = /form?wicket:interface=:0:form::IFormSubmitListener::
      *   Step     = Processing Form Submission
@@ -297,8 +297,8 @@ public class LoggingUtils
      *   Connection      = keep-alive
      *   Origin          = http://localhost:8080
      *   Content-Type    = application/x-www-form-urlencoded
-     *   Content-Length  = 47
-     * </pre>
+     *   Content-Length  = 47</pre>
+     * 
      * Note that session duration and application active sessions are only
      * available if Wicket's request logging facility is enabled.
      */
@@ -471,13 +471,13 @@ public class LoggingUtils
      * Returns a description of component or page that is currently being
      * processed by the Wicket framework. If a component is being executed, the
      * description will be in the form:
-     * <pre>
-     * PageClass &gt; ComponentClass (superclass if component is anonymous) [wicket:id path]
-     * </pre>
+     * <pre class="example">
+     * PageClass &gt; ComponentClass (superclass if component is anonymous) [wicket:id path]</pre>
+     * 
      * Example:
-     * <pre>
-     * MyPage &gt; MyPanel$1 (Link) [path:to:link]
-     * </pre>
+     * <pre class="example">
+     * MyPage &gt; MyPanel$1 (Link) [path:to:link]</pre>
+     * 
      * If a page is being rendered, the description will be the page class.
      */
     public static String describeRequestTarget()

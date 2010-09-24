@@ -30,10 +30,9 @@ import org.slf4j.LoggerFactory;
  * Helper class that parses JavaScript files for special
  * <a href="http://getsprockets.org/">Sprockets</a> comments
  * like these:
- * <pre>
+ * <pre class="example">
  * //= require &lt;library_name&gt;
- * //= require "file_name"
- * </pre>
+ * //= require "file_name"</pre>
  * 
  * @since 2.0
  */

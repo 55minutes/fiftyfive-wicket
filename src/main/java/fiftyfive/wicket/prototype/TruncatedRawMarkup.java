@@ -32,7 +32,7 @@ import org.apache.wicket.markup.html.WebComponent;
  * you would use {@link fiftyfive.wicket.basic.TruncatedLabel TruncatedLabel}.
  * <p>
  * Example usage:
- * <pre>
+ * <pre class="example">
  * &lt;p wicket:id="truncate"&gt;
  *   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
  *   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
@@ -43,15 +43,14 @@ import org.apache.wicket.markup.html.WebComponent;
  *   mollit anim id est laborum.
  * &lt;/p&gt;
  * 
- * add(new TruncatedRawMarkup("truncate", 100));
- * </pre>
+ * add(new TruncatedRawMarkup("truncate", 100));</pre>
+ * <p>
  * Would result in the following output:
- * <pre>
+ * <pre class="example">
  * &lt;p&gt;
  *   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
  *   tempor incididunt ut…
- * &lt;/p&gt;
- * </pre>
+ * &lt;/p&gt;</pre>
  * 
  * @since 2.0
  */

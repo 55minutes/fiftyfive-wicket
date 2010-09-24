@@ -55,28 +55,28 @@ import org.apache.wicket.util.lang.PropertyResolver;
  *     and <code>setSlug()</code> call with those values. You could then send
  *     that bean to the backend for loading, etc.</li>
  * </ol>
+ * <p>
  * Recommended usage: define a <code>SPEC</code> static
  * instance on your page.
- * <pre>
+ * <pre class="example">
  * public class PersonDetailPage extends WebPage
  * {
  *    public static final ParameterSpec SPEC = new ParameterSpec&lt;Person&gt;(
  *        PersonDetailPage.class, "id", "slug"
  *    );
  *    ...
- * }
- * </pre>
+ * }</pre>
+ * <p>
  * Now when other parts of the application want add a link to this page, it is
  * as easy as this:
- * <pre>
- * add(PersonDetailPage.SPEC.createLink("link", personModel));
- * </pre>
+ * <pre class="example">
+ * add(PersonDetailPage.SPEC.createLink("link", personModel));</pre>
+ * <p>
  * To parse the parameters of a request, use this:
- * <pre>
+ * <pre class="example">
  * Person person = new Person();
  * SPEC.parseParameters(getPageParameters(), person);
- * // person bean has now been populated based on page parameters
- * </pre>
+ * // person bean has now been populated based on page parameters</pre>
  * 
  * @author Matt Brictson
  */
@@ -97,15 +97,15 @@ public class ParameterSpec<T> implements Serializable
      * you would mount the page using
      * {@link org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy}
      * and then construct the ParameterSpec like this:
-     * <pre>
-     * new ParameterSpec(PersonPage.class, "id", "slug");
-     * </pre>
+     * <pre class="example">
+     * new ParameterSpec(PersonPage.class, "id", "slug");</pre>
+     * 
      * Which is the same as:
-     * <pre>
+     * <pre class="example">
      * ParameterSpec spec = new ParameterSpec(PersonPage.class);
      * spec.registerParameter("id", "id");
-     * spec.registerParameter("slug", "slug");
-     * </pre>
+     * spec.registerParameter("slug", "slug");</pre>
+     * 
      *
      * @param page The target page of links created by this ParameterSpec
      * @param expressions Bean property expressions (e.g. "slug", "id") that
@@ -125,9 +125,9 @@ public class ParameterSpec<T> implements Serializable
      * page. For example, if your URL is "/search?q=[terms]" and the
      * terms come from a <code>getTerms()</code> property of your model bean,
      * then you would use this code:
-     * <pre>
-     * registerParameter("q", "terms")
-     * </pre>
+     * <pre class="example">
+     * registerParameter("q", "terms")</pre>
+     * 
      * @param parameter The page parameter key (this may appear in the URL
      *                  depending on the coding strategy)
      * @param propExpr Bean property that will be used to populate URLs

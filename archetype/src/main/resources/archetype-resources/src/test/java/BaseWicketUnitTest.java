@@ -49,13 +49,13 @@ public abstract class BaseWicketUnitTest
      * SpringBean annotations to use these mock beans during testing.
      * The default implementation of this method is empty.
      * Example usage:
-     * <pre>
+     * <pre class="example">
      * protected void initSpringContext(StaticWebApplicationContext ctx)
      * {
      *     MyService svc = // init mock service bean
      *     ctx.getBeanFactory().registerSingleton("myService", svc);
-     * }
-     * </pre>
+     * }</pre>
+     * 
      */
     protected void initSpringContext(StaticWebApplicationContext ctx)
     {

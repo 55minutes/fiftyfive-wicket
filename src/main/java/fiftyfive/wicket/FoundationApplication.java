@@ -161,14 +161,14 @@ public abstract class FoundationApplication extends WebApplication
      * <p>
      * You must also be using the
      * standard maven project structure for your Wicket project, like so:
-     * <pre>
+     * <pre class="example">
      * pom.xml
      * src/
      *   main/
      *     java/
      *     resources/
-     *     webapp/
-     * </pre>
+     *     webapp/</pre>
+     * 
      *
      * @see <a href="http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin">http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin</a>
      */
@@ -253,9 +253,9 @@ public abstract class FoundationApplication extends WebApplication
      * {@code org.apache.wicket.protocol.http.RequestLogger}. For example,
      * if using log4j properties configuration, this would cause the Wicket
      * request logger to be enabled:
-     * <pre>
-     * log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO
-     * </pre>
+     * <pre class="example">
+     * log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO</pre>
+     * 
      * 
      * @since 2.0
      */

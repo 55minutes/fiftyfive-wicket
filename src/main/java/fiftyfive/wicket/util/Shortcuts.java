@@ -43,9 +43,8 @@ import org.apache.wicket.util.string.Strings;
 /**
  * Helper methods for simplifying common Wicket tasks. Consider adding this
  * in the Java file of your wicket page or component:
- * <pre>
- * import static fiftyfive.wicket.util.Shortcuts.*;
- * </pre>
+ * <pre class="example">
+ * import static fiftyfive.wicket.util.Shortcuts.*;</pre>
  *
  * @author Matt Brictson
  */
@@ -55,9 +54,9 @@ public class Shortcuts
     
     /**
      * Shortcut for creating a PropertyModel. Equivalent to:
-     * <pre>
-     * new PropertyModel(bean, propertyExpr)
-     * </pre>
+     * <pre class="example">
+     * new PropertyModel(bean, propertyExpr)</pre>
+     * 
      * @see PropertyModel
      */
     public static PropertyModel prop(Object bean, String propertyExpr)
@@ -70,7 +69,7 @@ public class Shortcuts
      * on a bean. The return value of that method will be cached as the value
      * of the model. When the model is detached, the cache will be discarded.
      * This is useful for connecting your Wicket page to your back-end:
-     * <pre>
+     * <pre class="example">
      * public PersonDetailPage(PageParameters params)
      * {
      *     super(params);
@@ -79,8 +78,8 @@ public class Shortcuts
      * private Person loadPerson()
      * {
      *     return _personService.loadPerson(getPageParameters().get("id"));
-     * }
-     * </pre>
+     * }</pre>
+     * 
      * 
      * @throws IllegalArgumentException if the loadMethod does not exist, or
      *                                  takes more than zero arguments
@@ -102,9 +101,9 @@ public class Shortcuts
     /**
      * Shortcut for creating a LabelWithPlaceholder with an implied model.
      * Equivalent to:
-     * <pre>
-     * new LabelWithPlaceholder("name")
-     * </pre>
+     * <pre class="example">
+     * new LabelWithPlaceholder("name")</pre>
+     * 
      * @see LabelWithPlaceholder
      */
     public static LabelWithPlaceholder label(String id)
@@ -115,9 +114,9 @@ public class Shortcuts
     /**
      * Shortcut for creating a LabelWithPlaceholder with a PropertyModel.
      * Equivalent to:
-     * <pre>
-     * new LabelWithPlaceholder("name", new PropertyModel(person, "fullName"))
-     * </pre>
+     * <pre class="example">
+     * new LabelWithPlaceholder("name", new PropertyModel(person, "fullName"))</pre>
+     * 
      * @see LabelWithPlaceholder
      */
     public static LabelWithPlaceholder label(String id,
@@ -130,9 +129,9 @@ public class Shortcuts
     /**
      * Shortcut for creating a LabelWithPlaceholder with a hardcoded value or a
      * custom model. Equivalent to:
-     * <pre>
-     * new LabelWithPlaceholder("name", "Hardcoded string value").
-     * </pre>
+     * <pre class="example">
+     * new LabelWithPlaceholder("name", "Hardcoded string value")</pre>
+     * 
      * @see LabelWithPlaceholder
      */
     public static LabelWithPlaceholder label(String id,
@@ -151,7 +150,7 @@ public class Shortcuts
      * closing tag of the component it decorates. The text will be escaped
      * to be safe HTML. This is very useful for doing comma separated lists.
      * For example:
-     * <pre>
+     * <pre class="example">
      * add(new ListView("list", myList) {
      *     &#064;Override protected void populateItem(ListItem item)
      *     {
@@ -160,8 +159,8 @@ public class Shortcuts
      *             item.add(afterTag(", "));
      *         }
      *     }
-     * });
-     * </pre>
+     * });</pre>
+     * 
      */
     public static IBehavior afterTag(final String textToAppend)
     {
@@ -178,9 +177,9 @@ public class Shortcuts
     /**
      * Adds a CSS class to the component it decorates.
      * Equivalent to:
-     * <pre>
-     * new AttributeAppender("class", true, new Model(cssClass), " ");
-     * </pre>
+     * <pre class="example">
+     * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
+     * 
      */
     public static IBehavior cssClass(String cssClass)
     {
@@ -194,20 +193,20 @@ public class Shortcuts
     /**
      * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
      * the same name as the specified class. For example:
-     * <pre>
-     * add(cssResource(MyPanel.class));
-     * </pre>
+     * <pre class="example">
+     * add(cssResource(MyPanel.class));</pre>
+     * 
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code MyPanel.css},
      * found in the same classpath location as {@code MyPanel.class}.
      * <p>
      * This is equivalent to:
-     * <pre>
+     * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
      *     new CompressedResourceReference(
      *         cls, Classes.simpleName(cls) + ".css"
      *     )
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * 
      * @since 2.0
      */
@@ -225,20 +224,20 @@ public class Shortcuts
      * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
      * the specified name, relative to the current application class.
      * For example:
-     * <pre>
-     * add(cssResource("screen.css"));
-     * </pre>
+     * <pre class="example">
+     * add(cssResource("screen.css"));</pre>
+     * 
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
      * found in the same classpath location as your wicket application class.
      * <p>
      * This is equivalent to:
-     * <pre>
+     * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
      *     new CompressedResourceReference(
      *         Application.get().getClass(), "screen.css"
      *     )
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * 
      * @since 2.0
      */
@@ -256,20 +255,20 @@ public class Shortcuts
      * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
      * the specified name, relative to the given class.
      * For example:
-     * <pre>
-     * add(cssResource(BasePage.class, "screen.css"));
-     * </pre>
+     * <pre class="example">
+     * add(cssResource(BasePage.class, "screen.css"));</pre>
+     * 
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
      * found in the same classpath location as BasePage.
      * <p>
      * This is equivalent to:
-     * <pre>
+     * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
      *     new CompressedResourceReference(
      *         BasePage.class, "screen.css"
      *     )
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * 
      * @since 2.0
      */
@@ -287,22 +286,22 @@ public class Shortcuts
      * stylesheet CSS file with the specified name, relative to the current
      * application class.
      * For example:
-     * <pre>
-     * add(cssPrintResource("print.css"));
-     * </pre>
+     * <pre class="example">
+     * add(cssPrintResource("print.css"));</pre>
+     * 
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code print.css},
      * found in the same classpath location as your wicket application class.
      * The &lt;link&gt; will have a print media type.
      * <p>
      * This is equivalent to:
-     * <pre>
+     * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
      *     new CompressedResourceReference(
      *         Application.get().getClass(), "print.css"
      *     ),
      *     "print"
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * 
      * @since 2.0
      */
@@ -323,22 +322,22 @@ public class Shortcuts
      * the specified name, relative to the current application class.
      * The stylesheet will apply based on the IE condition argument.
      * For example:
-     * <pre>
-     * add(cssConditionalResource("IE 7", "ie-7.css"));
-     * </pre>
+     * <pre class="example">
+     * add(cssConditionalResource("IE 7", "ie-7.css"));</pre>
+     * 
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code ie-7.css},
      * found in the same classpath location as your wicket application class.
      * The stylesheet will only be loaded in IE 7 browsers.
      * <p>
      * This is equivalent to:
-     * <pre>
+     * <pre class="example">
      * InternetExplorerCss.getConditionalHeaderContribution(
      *     "IE 7"
      *     new CompressedResourceReference(
      *         Application.get().getClass(), "ie-7.css")
      *     )
-     * );
-     * </pre>
+     * );</pre>
+     * 
      * 
      * @since 2.0
      */
@@ -359,19 +358,19 @@ public class Shortcuts
      * when the specified property value is true or not empty.
      * <p>
      * For example, suppose we have the following Person class:
-     * <pre>
+     * <pre class="example">
      * public interface Person
      * {
      *     public boolean isLocked();
      *     public String getFullName();
-     * }
-     * </pre>
+     * }</pre>
+     * 
      * We want to conditionally apply a "locked" CSS class to the full name
      * label in the UI. Here's how to do it with shortcuts:
-     * <pre>
+     * <pre class="example">
      * // Create label for the fullName, with a "locked" CSS class if applicable
-     * label("wicket-id", person, "fullName").add(cssClassIf("locked", person, "locked"));
-     * </pre>
+     * label("wicket-id", person, "fullName").add(cssClassIf("locked", person, "locked"));</pre>
+     * 
      * @see #empty
      */
     public static IBehavior cssClassIf(final String cssClass,
@@ -389,9 +388,9 @@ public class Shortcuts
 
     /**
      * Shortcut for creating a WebMarkupContainer. Equivalent to:
-     * <pre>
-     * new WebMarkupContainer("id")
-     * </pre>
+     * <pre class="example">
+     * new WebMarkupContainer("id")</pre>
+     * 
      * @see WebMarkupContainer
      */
     public static WebMarkupContainer container(String id)
@@ -401,9 +400,9 @@ public class Shortcuts
     
     /**
      * Shortcut for creating a WebMarkupContainer. Equivalent to:
-     * <pre>
-     * new WebMarkupContainer("id", model)
-     * </pre>
+     * <pre class="example">
+     * new WebMarkupContainer("id", model)</pre>
+     * 
      * @see WebMarkupContainer
      */
     public static WebMarkupContainer container(String id, IModel model)
@@ -414,9 +413,9 @@ public class Shortcuts
     /**
      * Shortcut for creating a WebMarkupContainer with a PropertyModel.
      * Equivalent to:
-     * <pre>
-     * new WebMarkupContainer("id", new PropertyModel(bean, prop))
-     * </pre>
+     * <pre class="example">
+     * new WebMarkupContainer("id", new PropertyModel(bean, prop))</pre>
+     * 
      * @see WebMarkupContainer
      */
     public static WebMarkupContainer container(String id,

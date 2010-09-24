@@ -27,7 +27,7 @@ import org.apache.wicket.markup.html.IHeaderContributor;
  * application as a performance optimization.
  * <p>
  * Example usage:
- * <pre>
+ * <pre class="example">
  * public class MyApplication extends WebApplication
  * {
  *     &#064;Override
@@ -48,8 +48,7 @@ import org.apache.wicket.markup.html.IHeaderContributor;
  *         // The return value from build() can be used on your base page to
  *         // inject all these CSS resources in one shot.
  *     }
- * }
- * </pre>
+ * }</pre>
  * 
  * @since 2.0
  */

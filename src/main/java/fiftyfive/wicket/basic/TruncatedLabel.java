@@ -42,15 +42,14 @@ import org.apache.wicket.util.string.Strings;
  * details on how the default truncation rules are applied.
  * <p>
  * Usage:
- * <pre>
+ * <pre class="example">
  * &lt;span wicket:id="label"&gt;Dummy&lt;/span&gt;
  * 
- * add(new TruncatedLabel("label", 50, "My really long string that needs to be cut down to size."));
- * </pre>
+ * add(new TruncatedLabel("label", 50, "My really long string that needs to be cut down to size."));</pre>
+ * <p>
  * Produces:
- * <pre>
- * &lt;span&gt;My really long string that needs to be cut down…&lt;/span&gt;
- * </pre>
+ * <pre class="example">
+ * &lt;span&gt;My really long string that needs to be cut down…&lt;/span&gt;</pre>
  * 
  * @since 2.0
  */

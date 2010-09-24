@@ -31,7 +31,7 @@ import org.apache.wicket.model.IModel;
  * <em>This is necessary for valid XHTML markup.</em>
  * <p>
  * Example usage:
- * <pre>
+ * <pre class="example">
  * &lt;wicket:enclosure child="item"&gt;
  *   &lt;ul&gt;
  *     &lt;li wicket:id=&quot;item&quot;&gt;...&lt;/li&gt;
@@ -43,8 +43,8 @@ import org.apache.wicket.model.IModel;
  *     {
  *         item.add(...);
  *     }
- * });
- * </pre>
+ * });</pre>
+ * <p>
  * In this example, if the {@code personList} model is {@code null} or empty,
  * the entire enclosure will be omitted from the HTML output.
  */

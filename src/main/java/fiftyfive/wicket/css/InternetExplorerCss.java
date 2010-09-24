@@ -29,11 +29,11 @@ import org.apache.wicket.markup.html.IHeaderResponse;
 /**
  * This class contains static methods for injecting conditional stylesheet
  * references into the HTML header. These methods will create markup like this:
- * <pre>
+ * <pre class="example">
  * &lt;!--[if condition]&gt;
  * &lt;link rel="stylesheet" type="text/css" href="..." /&gt;
- * &lt;![endif]--&gt;
- * </pre>
+ * &lt;![endif]--&gt;</pre>
+ * <p>
  * In non-Internet Explorer browsers, this stylesheet reference will be
  * ignored. But in IE, the stylesheet will be loaded as long as the
  * <code>condition</code> is met. For example, if the condition is
@@ -41,10 +41,9 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * Another example: <code>gte IE 7</code> will load in browsers IE7 or greater.
  * <p>
  * Here's how you might use it in your Wicket page:
- * <pre>
+ * <pre class="example">
  * // Add a &lt;link&gt; to the ie-7.css stylesheet for IE7 browsers only
- * add(InternetExplorerCss.getConditionalHeaderContribution("IE 7", "styles/ie-7.css"));
- * </pre>
+ * add(InternetExplorerCss.getConditionalHeaderContribution("IE 7", "styles/ie-7.css"));</pre>
  * 
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms537512%28VS.85%29.aspx">MSDN Reference</a>
  */

@@ -27,23 +27,22 @@ import org.apache.wicket.model.IModel;
  * before real data and Wicket components have been wired up.
  * <p>
  * For example:
- * <pre>
+ * <pre class="example">
  * &lt;ul&gt;
  *   &lt;li wicket:id="repeat"&gt;Hello&lt;li/&gt;
  * &lt;/ul&gt;
  * 
- * add(new RawMarkupLoop("repeat", 5));
- * </pre>
+ * add(new RawMarkupLoop("repeat", 5));</pre>
+ * <p>
  * Would result in the following output:
- * <pre>
+ * <pre class="example">
  * &lt;ul&gt;
  *   &lt;li&gt;Hello&lt;li/&gt;
  *   &lt;li&gt;Hello&lt;li/&gt;
  *   &lt;li&gt;Hello&lt;li/&gt;
  *   &lt;li&gt;Hello&lt;li/&gt;
  *   &lt;li&gt;Hello&lt;li/&gt;
- * &lt;/ul&gt;
- * </pre>
+ * &lt;/ul&gt;</pre>
  * 
  * @since 2.0
  */

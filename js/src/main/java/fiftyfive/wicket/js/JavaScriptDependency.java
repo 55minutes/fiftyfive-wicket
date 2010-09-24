@@ -37,6 +37,7 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * <li>Inject one of several commonly-used JavaScript libraries, like
  *     jQuery, using {@link #JavaScriptDependency(String)}.</li>
  * </ul>
+ * <p>
  * In all cases, the JavaScript files that you specify will be scanned for
  * dependencies. If any of the files contain
  * <a href="http://getsprockets.org/">sprocket</a> {@code require}
@@ -47,18 +48,18 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * JavaScript in an accompanying {@code MyPanel.js} file. Your JavaScript
  * in turn depends on jQuery UI. In {@code MyPanel.js} you would add this
  * line:
- * <pre>
- * //= require &lt;jquery-ui&gt;
- * </pre>
+ * <pre class="example">
+ * //= require &lt;jquery-ui&gt;</pre>
+ * <p>
  * This informs fiftyfive-wicket-js of the dependency. Then in your Java code,
  * you just need to add {@code MyPanel.js} like this:
- * <pre>
+ * <pre class="example">
  * public MyPanel(String id)
  * {
  *     super(id);
  *     add(new JavaScriptDependency(MyPanel.class));
- * }
- * </pre>
+ * }</pre>
+ * <p>
  * At runtime, fiftyfive-wicket-js will find {@code MyPanel.js}, scan it
  * for dependencies, and notice that jQuery UI is needed. It is smart enough
  * to realize jQuery is needed as well. When the page renders, jQuery,
@@ -99,9 +100,9 @@ public class JavaScriptDependency extends AbstractBehavior
      * {@code MyPanel.js} in the same classpath location. Unlike how Wicket
      * locates HTML files, the superclass will not be searched. This is a
      * shortcut for the following:
-     * <pre>
-     * new JavaScriptDependency(MyPanel.class, "MyPanel.js");
-     * </pre>
+     * <pre class="example">
+     * new JavaScriptDependency(MyPanel.class, "MyPanel.js");</pre>
+     * 
      */
     public JavaScriptDependency(Class<?> cls)
     {
@@ -114,9 +115,9 @@ public class JavaScriptDependency extends AbstractBehavior
      * Creates a JavaScriptDependency for a JavaScript library that resides
      * in the library search path. The name should not include the .js
      * extension. For example:
-     * <pre>
-     * add(new JavaScriptDependency("jquery-ui"));
-     * </pre>
+     * <pre class="example">
+     * add(new JavaScriptDependency("jquery-ui"));</pre>
+     * 
      * 
      * @see JavaScriptDependencySettings#addLibraryPath
      */
@@ -131,9 +132,9 @@ public class JavaScriptDependency extends AbstractBehavior
      * Creates a JavaScriptDependency for a JavaScript file in the classpath,
      * The file name should not include the .js extension.
      * For example:
-     * <pre>
-     * add(new JavaScriptDependency(MyPanel.class, "jquery.ui.myplugin"));
-     * </pre>
+     * <pre class="example">
+     * add(new JavaScriptDependency(MyPanel.class, "jquery.ui.myplugin"));</pre>
+     * 
      */
     public JavaScriptDependency(Class<?> cls, String fileName)
     {

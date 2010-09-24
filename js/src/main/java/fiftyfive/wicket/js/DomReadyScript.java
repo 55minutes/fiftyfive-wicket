@@ -35,13 +35,12 @@ import org.apache.wicket.protocol.http.WebRequest;
  * is not there already.</b>
  * <p>
  * Trivial example:
- * <pre>
+ * <pre class="example">
  * public MyPanel(String id)
  * {
  *     super(id);
  *     add(new DomReadyScript("alert('page ready!')"));
- * }
- * </pre>
+ * }</pre>
  * 
  * @since 2.0
  */

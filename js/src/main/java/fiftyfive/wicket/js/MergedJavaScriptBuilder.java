@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * application as a performance optimization.
  * <p>
  * Example usage:
- * <pre>
+ * <pre class="example">
  * public class MyApplication extends WebApplication
  * {
  *     &#064;Override
@@ -57,8 +57,7 @@ import org.slf4j.LoggerFactory;
  *         // The return value from build() can be used on your base page to
  *         // inject all these JavaScript resources in one shot, if desired.
  *     }
- * }
- * </pre>
+ * }</pre>
  * 
  * @since 2.0
  */
@@ -122,10 +121,10 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      * Adds a JavaScript resource of the same name and location of the given
      * class, except with the ".js" extension. These two statements are
      * equivalent:
-     * <pre>
+     * <pre class="example">
      * addAssociatedScript(MyPanel.class);
-     * addScript(MyPanel.class, "MyPanel.js");
-     * </pre>
+     * addScript(MyPanel.class, "MyPanel.js");</pre>
+     * 
      * The dependencies of the script, if declared using
      * <a href="http://getsprockets.org/">Sprockets</a> syntax within
      * the JS file, will also be added automatically.

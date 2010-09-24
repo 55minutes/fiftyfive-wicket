@@ -177,9 +177,9 @@ public class JavaScriptDependencySettings
      * <p>
      * Library paths are searched whenever you use the angle-bracket syntax
      * for JavaScript dependencies, like this:
-     * <pre>
-     * //= require &lt;libraryname&gt;
-     * </pre>
+     * <pre class="example">
+     * //= require &lt;libraryname&gt;</pre>
+     * 
      * Or when you use
      * {@link JavaScriptDependency#JavaScriptDependency(String)} or
      * {@link MergedJavaScriptBuilder#addLibrary(String)}.
