@@ -209,7 +209,7 @@ public abstract class WicketTestUtils
      *     new Label("label", "Hello, world!),
      *     "&lt;span wicket:id=\"label\"&gt;replaced by Wicket&lt;/span&gt;"
      * );</pre>
-     * 
+     * <p>
      * This method will place the component in a simple XHTML Page and render
      * it using the normal WicketTester request/response. In the above example,
      * the rendered output will be:
@@ -223,7 +223,7 @@ public abstract class WicketTestUtils
      * &lt;span wicket:id=&quot;label&quot;&gt;Hello, world!&lt;/span&gt;
      * &lt;/body&gt;
      * &lt;/html&gt;</pre>
-     * 
+     * <p>
      * You can then use helper method like
      * {@link #assertXPath(WicketTester,String) assertXPath} or
      * {@link WicketTester#assertContains(String)}
@@ -254,7 +254,7 @@ public abstract class WicketTestUtils
      *     new Label("label", "Hello, world!),
      *     "&lt;span wicket:id=\"label\"&gt;replaced by Wicket&lt;/span&gt;"
      * );</pre>
-     * 
+     * <p>
      * This method will place the component in a simple HTML5 Page and render
      * it using the normal WicketTester request/response. In the above example,
      * the rendered output will be:
@@ -268,7 +268,7 @@ public abstract class WicketTestUtils
      * &lt;span wicket:id=&quot;label&quot;&gt;Hello, world!&lt;/span&gt;
      * &lt;/body&gt;
      * &lt;/html&gt;</pre>
-     * 
+     * <p>
      * You can then use helper method like
      * {@link #assertXPath(WicketTester,String) assertXPath} or
      * {@link WicketTester#assertContains(String)}

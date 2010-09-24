@@ -102,7 +102,6 @@ public class JavaScriptDependency extends AbstractBehavior
      * shortcut for the following:
      * <pre class="example">
      * new JavaScriptDependency(MyPanel.class, "MyPanel.js");</pre>
-     * 
      */
     public JavaScriptDependency(Class<?> cls)
     {
@@ -117,7 +116,6 @@ public class JavaScriptDependency extends AbstractBehavior
      * extension. For example:
      * <pre class="example">
      * add(new JavaScriptDependency("jquery-ui"));</pre>
-     * 
      * 
      * @see JavaScriptDependencySettings#addLibraryPath
      */
@@ -134,7 +132,6 @@ public class JavaScriptDependency extends AbstractBehavior
      * For example:
      * <pre class="example">
      * add(new JavaScriptDependency(MyPanel.class, "jquery.ui.myplugin"));</pre>
-     * 
      */
     public JavaScriptDependency(Class<?> cls, String fileName)
     {

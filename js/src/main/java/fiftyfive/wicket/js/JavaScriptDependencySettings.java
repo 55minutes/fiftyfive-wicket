@@ -179,7 +179,7 @@ public class JavaScriptDependencySettings
      * for JavaScript dependencies, like this:
      * <pre class="example">
      * //= require &lt;libraryname&gt;</pre>
-     * 
+     * <p>
      * Or when you use
      * {@link JavaScriptDependency#JavaScriptDependency(String)} or
      * {@link MergedJavaScriptBuilder#addLibrary(String)}.

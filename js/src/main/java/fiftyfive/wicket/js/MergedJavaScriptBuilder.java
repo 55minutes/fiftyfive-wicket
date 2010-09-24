@@ -124,7 +124,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      * <pre class="example">
      * addAssociatedScript(MyPanel.class);
      * addScript(MyPanel.class, "MyPanel.js");</pre>
-     * 
+     * <p>
      * The dependencies of the script, if declared using
      * <a href="http://getsprockets.org/">Sprockets</a> syntax within
      * the JS file, will also be added automatically.

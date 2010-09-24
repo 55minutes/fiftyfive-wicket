@@ -196,7 +196,6 @@ public class LoggingUtils
      *      at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
      *      at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
      *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)</pre>
-     * 
      */
     public static void logRuntimeException(Logger logger, RuntimeException e)
     {
@@ -239,7 +238,7 @@ public class LoggingUtils
      * -> InvocationTargetException
      *    -> MyBusinessException
      *       -> SQLException</pre>
-     * 
+     * <p>
      * Then the unwrapped exception would be {@code MyBusinessException}. 
      */
     public static Throwable unwrap(RuntimeException e)
@@ -298,7 +297,7 @@ public class LoggingUtils
      *   Origin          = http://localhost:8080
      *   Content-Type    = application/x-www-form-urlencoded
      *   Content-Length  = 47</pre>
-     * 
+     * <p>
      * Note that session duration and application active sessions are only
      * available if Wicket's request logging facility is enabled.
      */
@@ -473,11 +472,11 @@ public class LoggingUtils
      * description will be in the form:
      * <pre class="example">
      * PageClass &gt; ComponentClass (superclass if component is anonymous) [wicket:id path]</pre>
-     * 
+     * <p>
      * Example:
      * <pre class="example">
      * MyPage &gt; MyPanel$1 (Link) [path:to:link]</pre>
-     * 
+     * <p>
      * If a page is being rendered, the description will be the page class.
      */
     public static String describeRequestTarget()

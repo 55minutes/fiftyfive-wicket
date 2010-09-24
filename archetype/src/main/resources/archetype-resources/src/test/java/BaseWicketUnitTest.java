@@ -55,7 +55,6 @@ public abstract class BaseWicketUnitTest
      *     MyService svc = // init mock service bean
      *     ctx.getBeanFactory().registerSingleton("myService", svc);
      * }</pre>
-     * 
      */
     protected void initSpringContext(StaticWebApplicationContext ctx)
     {

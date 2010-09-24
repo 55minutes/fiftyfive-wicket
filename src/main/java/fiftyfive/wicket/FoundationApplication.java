@@ -168,7 +168,6 @@ public abstract class FoundationApplication extends WebApplication
      *     java/
      *     resources/
      *     webapp/</pre>
-     * 
      *
      * @see <a href="http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin">http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin</a>
      */
@@ -255,7 +254,6 @@ public abstract class FoundationApplication extends WebApplication
      * request logger to be enabled:
      * <pre class="example">
      * log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO</pre>
-     * 
      * 
      * @since 2.0
      */

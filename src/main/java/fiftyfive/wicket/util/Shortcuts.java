@@ -80,7 +80,6 @@ public class Shortcuts
      *     return _personService.loadPerson(getPageParameters().get("id"));
      * }</pre>
      * 
-     * 
      * @throws IllegalArgumentException if the loadMethod does not exist, or
      *                                  takes more than zero arguments
      */
@@ -160,7 +159,6 @@ public class Shortcuts
      *         }
      *     }
      * });</pre>
-     * 
      */
     public static IBehavior afterTag(final String textToAppend)
     {
@@ -179,7 +177,6 @@ public class Shortcuts
      * Equivalent to:
      * <pre class="example">
      * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
-     * 
      */
     public static IBehavior cssClass(String cssClass)
     {
@@ -195,7 +192,7 @@ public class Shortcuts
      * the same name as the specified class. For example:
      * <pre class="example">
      * add(cssResource(MyPanel.class));</pre>
-     * 
+     * <p>
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code MyPanel.css},
      * found in the same classpath location as {@code MyPanel.class}.
      * <p>
@@ -206,7 +203,6 @@ public class Shortcuts
      *         cls, Classes.simpleName(cls) + ".css"
      *     )
      * );</pre>
-     * 
      * 
      * @since 2.0
      */
@@ -226,7 +222,7 @@ public class Shortcuts
      * For example:
      * <pre class="example">
      * add(cssResource("screen.css"));</pre>
-     * 
+     * <p>
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
      * found in the same classpath location as your wicket application class.
      * <p>
@@ -237,7 +233,6 @@ public class Shortcuts
      *         Application.get().getClass(), "screen.css"
      *     )
      * );</pre>
-     * 
      * 
      * @since 2.0
      */
@@ -257,7 +252,7 @@ public class Shortcuts
      * For example:
      * <pre class="example">
      * add(cssResource(BasePage.class, "screen.css"));</pre>
-     * 
+     * <p>
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
      * found in the same classpath location as BasePage.
      * <p>
@@ -268,7 +263,6 @@ public class Shortcuts
      *         BasePage.class, "screen.css"
      *     )
      * );</pre>
-     * 
      * 
      * @since 2.0
      */
@@ -288,7 +282,7 @@ public class Shortcuts
      * For example:
      * <pre class="example">
      * add(cssPrintResource("print.css"));</pre>
-     * 
+     * <p>
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code print.css},
      * found in the same classpath location as your wicket application class.
      * The &lt;link&gt; will have a print media type.
@@ -301,7 +295,6 @@ public class Shortcuts
      *     ),
      *     "print"
      * );</pre>
-     * 
      * 
      * @since 2.0
      */
@@ -324,7 +317,7 @@ public class Shortcuts
      * For example:
      * <pre class="example">
      * add(cssConditionalResource("IE 7", "ie-7.css"));</pre>
-     * 
+     * <p>
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code ie-7.css},
      * found in the same classpath location as your wicket application class.
      * The stylesheet will only be loaded in IE 7 browsers.
@@ -337,7 +330,6 @@ public class Shortcuts
      *         Application.get().getClass(), "ie-7.css")
      *     )
      * );</pre>
-     * 
      * 
      * @since 2.0
      */
@@ -364,7 +356,7 @@ public class Shortcuts
      *     public boolean isLocked();
      *     public String getFullName();
      * }</pre>
-     * 
+     * <p>
      * We want to conditionally apply a "locked" CSS class to the full name
      * label in the UI. Here's how to do it with shortcuts:
      * <pre class="example">

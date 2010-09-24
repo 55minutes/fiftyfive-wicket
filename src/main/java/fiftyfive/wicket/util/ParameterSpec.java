@@ -99,13 +99,12 @@ public class ParameterSpec<T> implements Serializable
      * and then construct the ParameterSpec like this:
      * <pre class="example">
      * new ParameterSpec(PersonPage.class, "id", "slug");</pre>
-     * 
+     * <p>
      * Which is the same as:
      * <pre class="example">
      * ParameterSpec spec = new ParameterSpec(PersonPage.class);
      * spec.registerParameter("id", "id");
      * spec.registerParameter("slug", "slug");</pre>
-     * 
      *
      * @param page The target page of links created by this ParameterSpec
      * @param expressions Bean property expressions (e.g. "slug", "id") that
