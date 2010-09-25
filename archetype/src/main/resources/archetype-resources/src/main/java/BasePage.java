@@ -1,13 +1,17 @@
 package ${package};
 
+import java.util.Date;
+
+import fiftyfive.wicket.head.FavIconLink;
+import fiftyfive.wicket.head.HomeLink;
 import fiftyfive.wicket.js.JavaScriptDependency;
-
-import static fiftyfive.wicket.util.Shortcuts.*;
-
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.Model;
+import static fiftyfive.wicket.util.Shortcuts.*;
 
 /**
  * Base class for all pages. Provides markup for the HTML5 doctype.
@@ -31,6 +35,10 @@ public abstract class BasePage extends WebPage
         super(params);
         add(new DebugBar("debug"));
         
+        // Set up <head> elements
+        add(new FavIconLink("images/favicon.ico"));
+        add(new HomeLink());
+        
         // Set up JS
         add(new JavaScriptDependency(BasePage.class));
         
@@ -38,7 +46,11 @@ public abstract class BasePage extends WebPage
         add(cssResource("styles/screen.css"));
         add(cssConditionalResource("IE", "styles/ie.css"));
         add(cssPrintResource("styles/print.css"));
-
+        
+        // Copyright year in footer
+        add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
+        
+        // Allow subclasses to register CSS classes on the body tag
         add(_body = new WebMarkupContainer("body") {
             public boolean isTransparentResolver()
             {

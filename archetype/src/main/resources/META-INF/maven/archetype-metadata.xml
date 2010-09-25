@@ -51,6 +51,7 @@
         <include>**/*.js</include>
         <include>**/*.rb</include>
         <include>**/*.scss</include>
+        <include>**/*.ico</include>
       </includes>
     </fileSet>
     <fileSet filtered="false" packaged="true" encoding="UTF-8">
