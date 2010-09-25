@@ -2,9 +2,8 @@ package ${package};
 
 import java.util.Date;
 
-import fiftyfive.wicket.head.FavIconLink;
-import fiftyfive.wicket.head.HomeLink;
 import fiftyfive.wicket.js.JavaScriptDependency;
+import fiftyfive.wicket.link.HomeLink;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.devutils.debugbar.DebugBar;
@@ -36,8 +35,7 @@ public abstract class BasePage extends WebPage
         add(new DebugBar("debug"));
         
         // Set up <head> elements
-        add(new FavIconLink("images/favicon.ico"));
-        add(new HomeLink());
+        add(new HomeLink("home-link"));
         
         // Set up JS
         add(new JavaScriptDependency(BasePage.class));
