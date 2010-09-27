@@ -97,6 +97,8 @@ import org.apache.wicket.model.Model;
  * for the IDataProvider interface. We accomplish this feat by
  * using the Java reflection API to access private and protected data within
  * {@link AbstractPageableView}.
+ * 
+ * @since 2.0
  */
 public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
 {
