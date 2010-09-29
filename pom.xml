@@ -176,4 +176,21 @@
   </build>
   
 
+  <!-- ==================================================================== -->
+  <!-- Reporting Configuration                                              -->
+  <!-- ==================================================================== -->
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <sourcepath>${basedir}/src/main/java;${basedir}/js/src/main/java;${basedir}/test/src/main/java</sourcepath>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
+
 </project>
