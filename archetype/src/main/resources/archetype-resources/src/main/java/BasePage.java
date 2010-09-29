@@ -57,14 +57,4 @@ public abstract class BasePage extends WebPage
         });
         _body.setOutputMarkupId(true);
     }
-    
-    public ${app_classname} get${app_classname}()
-    {
-        return (${app_classname}) getApplication();
-    }
-    
-    public ${session_classname} get${session_classname}()
-    {
-        return (${session_classname}) super.getSession();
-    }
 }

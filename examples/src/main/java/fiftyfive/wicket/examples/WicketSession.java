@@ -17,6 +17,7 @@
 package fiftyfive.wicket.examples;
 
 import org.apache.wicket.Request;
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.RequestLogger.ISessionLogInfo;
 import org.apache.wicket.protocol.http.WebSession;
 
@@ -28,6 +29,15 @@ import org.apache.wicket.protocol.http.WebSession;
  */
 public class WicketSession extends WebSession implements ISessionLogInfo
 {
+    /**
+     * Returns the instance of {@code WicketSession} associated with
+     * the current request. This method only works inside a Wicket thread.
+     */
+    public static WicketSession get()
+    {
+        return (WicketSession) Session.get();
+    }
+    
     public WicketSession(Request request)
     {
         super(request);

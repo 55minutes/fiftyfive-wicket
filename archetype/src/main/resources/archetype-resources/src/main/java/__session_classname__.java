@@ -1,6 +1,7 @@
 package ${package};
 
 import org.apache.wicket.Request;
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.RequestLogger.ISessionLogInfo;
 import org.apache.wicket.protocol.http.WebSession;
 
@@ -12,6 +13,15 @@ import org.apache.wicket.protocol.http.WebSession;
  */
 public class ${session_classname} extends WebSession implements ISessionLogInfo
 {
+    /**
+     * Returns the instance of {@code ${session_classname}} associated with
+     * the current request. This method only works inside a Wicket thread.
+     */
+    public static ${session_classname} get()
+    {
+        return (${session_classname}) Session.get();
+    }
+    
     public ${session_classname}(Request request)
     {
         super(request);

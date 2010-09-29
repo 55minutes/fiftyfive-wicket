@@ -73,14 +73,4 @@ public abstract class BasePage extends WebPage
         });
         _body.setOutputMarkupId(true);
     }
-    
-    public WicketApplication getWicketApplication()
-    {
-        return (WicketApplication) getApplication();
-    }
-    
-    public WicketSession getWicketSession()
-    {
-        return (WicketSession) super.getSession();
-    }
 }
