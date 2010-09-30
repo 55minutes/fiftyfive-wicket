@@ -20,9 +20,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.List;
 
+import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.util.resource.IResourceStream;
@@ -65,7 +65,7 @@ public class SprocketDependencyCollector extends SprocketParser
      * result of this process will be added to the specified
      * DependencyCollection.
      * 
-     * @param ref The lcoation of the JavaScript file to aprse
+     * @param ref The location of the JavaScript file to parse
      * @param stream An opened stream of the JavaScript file to parse
      * @param dependencies Target collection to which all dependencies will
      *                     be added
@@ -106,12 +106,12 @@ public class SprocketDependencyCollector extends SprocketParser
      */
     private List<Sprocket> parseSprockets(IResourceStream stream)
     {
-        // TODO: allow encoding to be customized
         try
         {
             InputStream is = stream.getInputStream();
+            String enc = JavaScriptDependencySettings.get().getEncoding();
             return parseSprockets(
-                new BufferedReader(new InputStreamReader(is, "UTF-8"))
+                new BufferedReader(new InputStreamReader(is, enc))
             );
         }
         catch(IOException ioe)

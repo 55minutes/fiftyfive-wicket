@@ -48,8 +48,8 @@ public class Sprocket
     }
     
     /**
-     * The name of the library or filename, with the angle brackets or
-     * double quotes, respectively.
+     * The name of the library or filename (the text between the angle brackets
+     * or double quotes, respectively).
      */
     public String getPath()
     {

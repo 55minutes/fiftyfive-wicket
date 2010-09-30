@@ -16,6 +16,7 @@
 
 package fiftyfive.wicket.js;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +75,7 @@ public class JavaScriptDependencySettings
     private ResourceReference _jQueryUIResource;
     private ResourceReference _jQueryUICSSResource;
     private Duration _traversalCacheDuration;
+    private String _encoding;
     private JavaScriptDependencyLocator _locator;
     
     /**
@@ -300,6 +302,38 @@ public class JavaScriptDependencySettings
     public JavaScriptDependencySettings setTraversalCacheDuration(Duration d)
     {
         this._traversalCacheDuration = d;
+        return this;
+    }
+    
+    /**
+     * Returns the character encoding that will be used when parsing
+     * JavaScript files.
+     */
+    public String getEncoding()
+    {
+        if(null == _encoding)
+        {
+            String enc = _app.getMarkupSettings().getDefaultMarkupEncoding();
+            if(null == enc)
+            {
+                enc = Charset.defaultCharset().name();
+            }
+            return enc;
+        }
+        return _encoding;
+    }
+
+    /**
+     * Sets the character encoding that will be used when parsing
+     * JavaScript files. If this is set to {@code null} (the default), then
+     * Wicket's markup encoding setting will be used.
+     * 
+     * @return {@code this} to allow chaining
+     * @see org.apache.wicket.settings.IMarkupSettings#getDefaultMarkupEncoding()
+     */
+    public JavaScriptDependencySettings setEncoding(String encoding)
+    {
+        this._encoding = encoding;
         return this;
     }
 }
