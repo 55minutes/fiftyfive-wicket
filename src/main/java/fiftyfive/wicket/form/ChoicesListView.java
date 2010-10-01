@@ -49,6 +49,7 @@ public abstract class ChoicesListView<T> extends ListView<T>
     
     protected String getChoiceLabel(T choice)
     {
+        // This code was copied from Wicket's CheckBoxMultipleChoice.java
         Object displayValue = getChoiceRenderer().getDisplayValue(choice);
         Class<?> objectClass = displayValue == null ? null : displayValue.getClass();
         // Get label for choice

@@ -50,7 +50,7 @@ import org.apache.wicket.model.Model;
  *   &lt;/label&gt;
  * &lt;/wicket:container&gt;
  * 
- * add(new RadioGroup("group", selectedItemsModel)
+ * add(new RadioGroup("group", selectedItemModel)
  *     .add(new RadioChoicesListView("choices", choicesModel, renderer)));</pre>
  * <p>
  * You can also override {@link #populateItem(ListItem) populateItem()}
