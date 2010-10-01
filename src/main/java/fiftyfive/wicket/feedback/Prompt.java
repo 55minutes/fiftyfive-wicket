@@ -19,6 +19,7 @@ package fiftyfive.wicket.feedback;
 import org.apache.wicket.Component;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
@@ -65,8 +66,6 @@ public class Prompt extends WebMarkupContainer
         add(child);
     }
     
-    // TODO: automatically add FeedbackStyle to all child form components
-    
     @Override
     protected void onInitialize()
     {
@@ -75,9 +74,38 @@ public class Prompt extends WebMarkupContainer
         add(newFeedbackPanel("feedback"));
     }
     
+    /**
+     * Automatically adds FeedbackStyle to all FormComponents that are
+     * children of this container.
+     */
+    @Override
+    protected void onBeforeRender()
+    {
+        visitChildren(FormComponent.class, new IVisitor<FormComponent>()
+        {
+            public Object component(FormComponent fc)
+            {
+                fc.add(TempFeedbackStyle.INSTANCE);
+                return CONTINUE_TRAVERSAL;
+            }
+        });
+        super.onBeforeRender();
+    }
+    
     protected FeedbackPanel newFeedbackPanel(String id)
     {
         IFeedbackMessageFilter f = new ContainerFeedbackMessageFilter(this);
         return new FeedbackPanel(id, f);
+    }
+    
+    private static class TempFeedbackStyle extends FeedbackStyle
+    {
+        private static final TempFeedbackStyle INSTANCE = new TempFeedbackStyle();
+        
+        @Override
+        public boolean isTemporary()
+        {
+            return true;
+        }
     }
 }
