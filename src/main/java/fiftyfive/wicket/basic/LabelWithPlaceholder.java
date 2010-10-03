@@ -79,7 +79,16 @@ public class LabelWithPlaceholder extends Label
     public LabelWithPlaceholder(final String id, IModel<?> model)
     {
         super(id, model);
-        add(Shortcuts.cssClassIf("empty", this, "empty"));
+        add(Shortcuts.cssClass(Shortcuts.prop(this, "cssClass")));
+    }
+    
+    /**
+     * Returns "empty" if the value provided by this label's model is empty.
+     * Otherwise returns {@code null}.
+     */
+    public String getCssClass()
+    {
+        return isEmpty() ? "empty" : null;
     }
     
     /**

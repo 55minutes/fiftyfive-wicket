@@ -30,14 +30,12 @@ import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.resources.CompressedResourceReference;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.lang.Classes;
-import org.apache.wicket.util.lang.PropertyResolver;
 import org.apache.wicket.util.string.Strings;
 
 /**
@@ -177,14 +175,34 @@ public class Shortcuts
      * Equivalent to:
      * <pre class="example">
      * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
+     * 
+     * @since 2.0
      */
-    public static IBehavior cssClass(String cssClass)
+    public static IBehavior cssClass(IModel<String> cssClass)
     {
         if(null == cssClass)
         {
             return EMPTY_BEHAVIOR;
         }
-        return new AttributeAppender("class", true, new Model(cssClass), " ");
+        return new AttributeAppender("class", true, cssClass, " ") {
+            @Override
+            protected String newValue(String current, String append)
+            {
+                if(null == current && null == append) return null;
+                return super.newValue(current, append);
+            }
+        };
+    }
+
+    /**
+     * Adds a CSS class to the component it decorates.
+     * Equivalent to:
+     * <pre class="example">
+     * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
+     */
+    public static IBehavior cssClass(String cssClass)
+    {
+        return cssClass(new Model(cssClass));
     }
     
     /**
@@ -343,77 +361,6 @@ public class Shortcuts
                 Application.get().getClass(), filename
             )
         );
-    }
-
-    /**
-     * Adds a CSS class to the component it decorates
-     * when the specified property value is true or not empty.
-     * <p>
-     * For example, suppose we have the following Person class:
-     * <pre class="example">
-     * public interface Person
-     * {
-     *     public boolean isLocked();
-     *     public String getFullName();
-     * }</pre>
-     * <p>
-     * We want to conditionally apply a "locked" CSS class to the full name
-     * label in the UI. Here's how to do it with shortcuts:
-     * <pre class="example">
-     * // Create label for the fullName, with a "locked" CSS class if applicable
-     * label("wicket-id", person, "fullName").add(cssClassIf("locked", person, "locked"));</pre>
-     * 
-     * @see #empty
-     */
-    public static IBehavior cssClassIf(final String cssClass,
-                                       final Object bean,
-                                       final String boolPropertyExpr)
-    {
-        return new AttributeAppender("class", true, new Model(cssClass), " ") {
-            @Override protected String newValue(String curr, String replace)
-            {
-                Object val = PropertyResolver.getValue(boolPropertyExpr, bean);
-                return !empty(val) ? super.newValue(curr, replace) : null;
-            }
-        };
-    }
-
-    /**
-     * Shortcut for creating a WebMarkupContainer. Equivalent to:
-     * <pre class="example">
-     * new WebMarkupContainer("id")</pre>
-     * 
-     * @see WebMarkupContainer
-     */
-    public static WebMarkupContainer container(String id)
-    {
-        return new WebMarkupContainer(id);
-    }
-    
-    /**
-     * Shortcut for creating a WebMarkupContainer. Equivalent to:
-     * <pre class="example">
-     * new WebMarkupContainer("id", model)</pre>
-     * 
-     * @see WebMarkupContainer
-     */
-    public static WebMarkupContainer container(String id, IModel model)
-    {
-        return new WebMarkupContainer(id, model);
-    }
-    
-    /**
-     * Shortcut for creating a WebMarkupContainer with a PropertyModel.
-     * Equivalent to:
-     * <pre class="example">
-     * new WebMarkupContainer("id", new PropertyModel(bean, prop))</pre>
-     * 
-     * @see WebMarkupContainer
-     */
-    public static WebMarkupContainer container(String id,
-                                               Object bean, String propertyExpr)
-    {
-        return container(id, prop(bean, propertyExpr));
     }
     
     /**

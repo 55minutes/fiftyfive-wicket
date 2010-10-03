@@ -16,6 +16,7 @@
 
 package fiftyfive.wicket.util;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -32,7 +33,7 @@ public class ShortcutsTestPage extends WebPage
         add(label("testLabelString", "string"));
         add(label("testProperty"));
         add(label("testAfterTag", "foo").add(afterTag("!")));
-        add(container("testCssClass").add(cssClass("test")));
+        add(new WebMarkupContainer("testCssClass").add(cssClass("test")));
     }
 
     public String getTestProperty()

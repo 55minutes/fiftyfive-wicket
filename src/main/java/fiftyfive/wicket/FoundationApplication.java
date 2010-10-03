@@ -43,9 +43,6 @@ import org.slf4j.LoggerFactory;
  *     generated markup to ensure XHTML compliance</li>
  * <li>Enables Wicket's request logging facility if an appropriate SLF4J
  *     logger is configured</li>
- * <li>In deployment mode, delegate to the servlet container for handling
- *     exceptions, rather than showing Wicket's useless "internal error"
- *     page; redirect to home page rather than showing "page expired"</li>
  * <li>In development mode, enable automatic reloading of HTML templates from
  *     the source code directory ("hot deploy")</li>
  * <li>In development mode, turn off the ajax debugger (it is a browser
