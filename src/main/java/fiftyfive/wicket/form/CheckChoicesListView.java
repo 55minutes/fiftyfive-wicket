@@ -44,7 +44,7 @@ import org.apache.wicket.model.Model;
  * For example:
  * <pre class="example">
  * &lt;wicket:container wicket:id="group"&gt;
- *   &lt;label&gt;
+ *   &lt;label wicket:id="choices"&gt;
  *     &lt;input type="checkbox" wicket:id="check" /&gt;
  *     &lt;wicket:container wicket:id="label"&gt;Label&lt;/wicket:container&gt;
  *   &lt;/label&gt;

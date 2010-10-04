@@ -27,13 +27,19 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.convert.IConverter;
 
 /**
- * TODO
+ * A base ListView that provides conveniences for rendering its items using
+ * an IChoiceRenderer.
+ * 
  * @since 2.0
  */
 public abstract class ChoicesListView<T> extends ListView<T>
 {
     private IChoiceRenderer<? super T> _choiceRenderer;
     
+    /**
+     * Construct a list view that will expose the specified IChoiceRenderer for
+     * rendering its list items.
+     */
     public ChoicesListView(String id,
                            IModel<? extends List<? extends T>> choices,
                            IChoiceRenderer<? super T> renderer)
@@ -42,11 +48,23 @@ public abstract class ChoicesListView<T> extends ListView<T>
         _choiceRenderer = renderer;
     }
     
+    /**
+     * Returns the IChoiceRenderer that was passed to the constructor.
+     */
     public IChoiceRenderer<? super T> getChoiceRenderer()
     {
         return _choiceRenderer;
     }
     
+    /**
+     * Convenience method exposed to subclasses for determining the display
+     * value of a given list item. This delegates to
+     * {@link IChoiceRenderer#getDisplayValue getDisplayValue()} on the
+     * IChoiceRenderer. The display value will be coverted to a String if
+     * necessary using Wicket's {@link IConverter} system.
+     * 
+     * @param choice The current value of the list that is being rendered.
+     */
     protected String getChoiceLabel(T choice)
     {
         // This code was copied from Wicket's CheckBoxMultipleChoice.java
@@ -66,6 +84,15 @@ public abstract class ChoicesListView<T> extends ListView<T>
         return label;
     }
     
+    /**
+     * Convenience method exposed to subclasses for determining the unique
+     * ID of the given list item. This delegates to
+     * {@link IChoiceRenderer#getIdValue getIdValue()} on the
+     * IChoiceRenderer.
+     * 
+     * @param choice The current value of the list that is being rendered.
+     * @param index The zero-indexed position of that value in the list.
+     */
     protected String getChoiceValue(T choice, int index)
     {
         return getChoiceRenderer().getIdValue(choice, index);
