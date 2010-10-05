@@ -28,6 +28,10 @@ import org.apache.wicket.model.IModel;
  * This class is based on {@link org.apache.wicket.extensions.yui.calendar.DatePicker},
  * with the added functionality that a minimum and/or maximum date can be
  * specified by the caller.
+ * 
+ * @deprecated Consider writing jQuery UI JavaScript in your markup to handle
+ *             all of your date picker needs; this is more powerful and
+ *             customizable than what the Wicket DatePicker provides.
  */
 public class RestrictedDatePicker extends DatePicker
 {
