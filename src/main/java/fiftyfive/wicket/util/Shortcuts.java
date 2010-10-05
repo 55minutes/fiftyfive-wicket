@@ -39,7 +39,8 @@ import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
 
 /**
- * Helper methods for simplifying common Wicket tasks. Consider adding this
+ * Helper methods the greatly reduce the amount of boilerplate code needed
+ * for common Wicket tasks. Consider adding this
  * in the Java file of your wicket page or component:
  * <pre class="example">
  * import static fiftyfive.wicket.util.Shortcuts.*;</pre>
