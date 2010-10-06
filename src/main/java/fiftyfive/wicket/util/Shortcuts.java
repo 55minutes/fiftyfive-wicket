@@ -39,7 +39,7 @@ import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
 
 /**
- * Helper methods the greatly reduce the amount of boilerplate code needed
+ * Helper methods that greatly reduce the amount of boilerplate code needed
  * for common Wicket tasks. Consider adding this
  * in the Java file of your wicket page or component:
  * <pre class="example">
@@ -145,8 +145,11 @@ public class Shortcuts
     
     /**
      * Appends the specified text after the
-     * closing tag of the component it decorates. The text will be escaped
-     * to be safe HTML. This is very useful for doing comma separated lists.
+     * closing tag of the component it decorates. The text will <b>not</b> be
+     * escaped to be safe HTML, so take care to escape the string first if
+     * necessary.
+     * <p>
+     * This shortcut is very useful for doing comma separated lists.
      * For example:
      * <pre class="example">
      * add(new ListView("list", myList) {
@@ -166,7 +169,7 @@ public class Shortcuts
             public void onRendered(Component component)
             {
                 Response response = component.getResponse();
-                response.write(Strings.escapeMarkup(textToAppend));
+                response.write(textToAppend);
             }
         };
     }
