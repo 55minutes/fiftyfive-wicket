@@ -28,7 +28,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
  * The container will gain the appropriate CSS class whenever feedback
  * messages are present.
  * <p>
- * Essentially this container takes care of some boilerplace Java code
+ * Essentially this container takes care of some boilerplate Java code
  * needed for bundling a form field with a feedback panel. This way your form
  * displays validation messages along side each field.
  * <pre class="example">
