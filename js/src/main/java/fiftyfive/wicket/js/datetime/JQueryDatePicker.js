@@ -17,7 +17,7 @@
 //= require <jquery-ui>
 //= require <strftime>
 
-jQuery("#${component.marukpId}").datepicker(
+jQuery("#${component.markupId}").datepicker(
     { showOn: "both"
     , buttonImage: "${behavior.buttonImageUrl}"
     , buttonImageOnly: true
