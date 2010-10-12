@@ -19,7 +19,7 @@ package fiftyfive.wicket.examples.home;
 import fiftyfive.wicket.examples.BasePage;
 import fiftyfive.wicket.examples.formtest.FormTestPage;
 import fiftyfive.wicket.js.JavaScriptDependency;
-import fiftyfive.wicket.js.jui.DatePicker;
+import fiftyfive.wicket.js.datetime.JQueryDatePicker;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -39,6 +39,6 @@ public class HomePage extends BasePage
         PageParameters ftParams = FormTestPage.params("10.2007", "10.03.2007", "11.10.2007");
         add(new BookmarkablePageLink("form-test", FormTestPage.class, ftParams));
         
-        add(new WebComponent("input").add(new DatePicker()));
+        add(new WebComponent("input").add(new JQueryDatePicker()));
     }
 }
