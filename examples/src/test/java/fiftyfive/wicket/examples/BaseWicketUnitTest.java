@@ -16,9 +16,12 @@
 
 package fiftyfive.wicket.examples;
 
+import org.apache.wicket.Request;
+import org.apache.wicket.Response;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Before;
+import org.mockito.MockitoAnnotations;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.StaticWebApplicationContext;
 
@@ -29,19 +32,22 @@ import org.springframework.web.context.support.StaticWebApplicationContext;
  */
 public abstract class BaseWicketUnitTest
 {
+    protected WicketSession _session;
     protected WicketTester _tester;
     
     @Before
     public void createTester()
     {
         _tester = new WicketTester(new WicketApplication() {
-            @Override public String getConfigurationType()
+            @Override
+            public String getConfigurationType()
             {
                 // Don't test in development mode, since debug utilities
                 // can break XHTML compliance.
                 return DEPLOYMENT;
             }
-            @Override protected ApplicationContext getApplicationContext()
+            @Override
+            protected ApplicationContext getApplicationContext()
             {
                 // Provide a static Spring context that can be configured
                 // with mock beans for testing purposes.
@@ -50,6 +56,18 @@ public abstract class BaseWicketUnitTest
                 initSpringContext(context);
                 return context;
             }
+            @Override
+            public WicketSession newSession(Request request, Response response)
+            {
+                // Enforce a singleton session object to be used for the entire
+                // test. This allows us to modify the contents of the session
+                // with prerequisite values before starting a test.
+                if(null == _session)
+                {
+                    _session = super.newSession(request, response);
+                }
+                return _session;
+            }
         });
     }
     
@@ -57,23 +75,32 @@ public abstract class BaseWicketUnitTest
     public void destroyTester()
     {
         if(_tester != null) _tester.destroy();
+        _tester = null;
+        _session = null;
     }
     
     /**
      * Subclasses should override this method to register mock Spring beans
      * in the Spring context. This will allow Wicket components that contain
      * SpringBean annotations to use these mock beans during testing.
-     * The default implementation of this method is empty.
+     * <p>
+     * The default implementation of this method calls
+     * {@link MockitoAnnotations#initMocks MockitoAnnotations.initMocks()} to
+     * initialize any <code>&#064;Mock</code> variables that have been
+     * declared in the test class.
+     * <p>
      * Example usage:
      * <pre class="example">
+     * &#064;Mock MyService myService;
+     * 
      * protected void initSpringContext(StaticWebApplicationContext ctx)
      * {
-     *     MyService svc = // init mock service bean
-     *     ctx.getBeanFactory().registerSingleton("myService", svc);
+     *     super.initSpringContext(ctx);
+     *     ctx.getBeanFactory().registerSingleton("myService", myService);
      * }</pre>
      */
     protected void initSpringContext(StaticWebApplicationContext ctx)
     {
-        // pass
+        MockitoAnnotations.initMocks(this);
     }
 }

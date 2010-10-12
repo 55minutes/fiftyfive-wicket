@@ -1,5 +1,6 @@
 log4j.rootLogger = WARN, console
 log4j.logger.fiftyfive.wicket.examples = DEBUG
+log4j.logger.org.apache.wicket.util.tester = INFO
 
 # Uncomment this line to enable detailed request logging and session stats.
 # log4j.logger.org.apache.wicket.protocol.http.RequestLogger = INFO

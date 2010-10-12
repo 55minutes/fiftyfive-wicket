@@ -1,22 +1,23 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
 package ${package}.home;
 
 import ${package}.BaseWicketUnitTest;
 import fiftyfive.wicket.test.WicketTestUtils;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.springframework.web.context.support.StaticWebApplicationContext;
 
 public class HomePageTest extends BaseWicketUnitTest
 {
+    // @Mock MyService _myService;
+    
     @Override
     protected void initSpringContext(StaticWebApplicationContext ctx)
     {
-        // If HomePage had @SpringBean dependencies, you would mock them here.
-        // Like this:
-        // MockitoAnnotations.initMocks(this);
-        // ctx.getBeanFactory().registerSingleton("svc", _mockSvc);
+        super.initSpringContext(ctx);
+        
+        // If HomePage had @SpringBean dependencies, you would mock them
+        // (see @Mock example above), and register them with Spring here.
+        // ctx.getBeanFactory().registerSingleton("myService", _myService);
     }
     
     @Test
