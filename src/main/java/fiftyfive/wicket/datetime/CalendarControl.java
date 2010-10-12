@@ -30,6 +30,8 @@ import static fiftyfive.wicket.util.Shortcuts.*;
  * @deprecated Consider writing jQuery UI JavaScript in your markup to handle
  *             all of your date picker needs; this is more powerful and
  *             customizable than what the Wicket DatePicker provides.
+ *             See {@link fiftyfive.wicket.js.datetime.JQueryDatePicker JQueryDatePicker}
+ *             for a simple example.
  */
 public class CalendarControl extends Panel
 {

@@ -19,14 +19,12 @@ package fiftyfive.wicket.js;
 import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 
 /**
  * Represents a JavaScript file, or group of files, that will be injected into
- * the &lt;head&gt;. This is the central class that you will use as a consumer
- * of the fiftyfive-wicket-js API.
+ * the &lt;head&gt;. This is the mechanism for programmatically declaring
+ * JavaScript dependencies within Java code.
  * <p>
  * There are three ways to use this class:
  * <ul>
@@ -74,7 +72,7 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * 
  * @since 2.0
  */
-public class JavaScriptDependency extends AbstractBehavior
+public class JavaScriptDependency extends AbstractJavaScriptContribution
 {
     /**
      * Dependency representing jQuery UI. Automatically injects both jQuery and
@@ -97,11 +95,9 @@ public class JavaScriptDependency extends AbstractBehavior
      * Creates a JavaScriptDependency for a JavaScript file that accompanies
      * a class of the same name. For example, a dependency created for
      * {@code MyPanel.class} will look for a corresponding file named
-     * {@code MyPanel.js} in the same classpath location. Unlike how Wicket
-     * locates HTML files, the superclass will not be searched. This is a
-     * shortcut for the following:
-     * <pre class="example">
-     * new JavaScriptDependency(MyPanel.class, "MyPanel.js");</pre>
+     * {@code MyPanel.js} in the same classpath location. Simliar to how Wicket
+     * locates HTML files, if {@code MyPanel.js} cannot be found, the
+     * superclass of that panel is searched, and so on.
      */
     public JavaScriptDependency(Class<?> cls)
     {
@@ -165,13 +161,7 @@ public class JavaScriptDependency extends AbstractBehavior
             locator.findAssociatedScripts(_class, scripts);
         }
         
-        ResourceReference css = scripts.getCss();
-        if(css != null) response.renderCSSReference(css);
-        
-        for(ResourceReference ref : scripts)
-        {
-            if(ref != null) response.renderJavascriptReference(ref);
-        }
+        renderDependencies(response, scripts, null);
     }
 
     /**

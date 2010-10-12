@@ -19,6 +19,7 @@ package fiftyfive.wicket.js.locator;
 /**
  * Locates JavaScript files and their dependencies. 
  * This is what is used internally by
+ * {@link fiftyfive.wicket.js.DomReadyTemplate DomReadyTemplate},
  * {@link fiftyfive.wicket.js.JavaScriptDependency JavaScriptDependency} and
  * {@link fiftyfive.wicket.js.MergedJavaScriptBuilder MergedJavaScriptBuilder};
  * you should never need to use this API directly.
@@ -62,12 +63,16 @@ public interface JavaScriptDependencyLocator
     /**
      * Locates a JavaScript file in the classpath with the same name and
      * location as a given class, and adds it, along with of its dependencies,
-     * to the specified DependencyCollection.
+     * to the specified DependencyCollection. If the given class has no
+     * JavaScript file, its superclass is searched, and so on up the class
+     * hierarchy.
      * 
      * @param cls Specifies the name and location of the JavaScript file.
      *            For example, if the class is {@code MyPanel.class}, the
      *            JavaScript file that will be located will be
      *            {@code MyPanel.js} in the same classpath location.
+     *            Superclasses will also be searched until a JS file can be
+     *            found.
      * @param scripts The script and all of its dependencies will be added
      *                to this collection in the order that they should appear
      *                in the HTML &lt;head&gt;.

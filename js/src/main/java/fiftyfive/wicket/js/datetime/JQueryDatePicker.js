@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 55 Minutes (http://www.55minutes.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.js;
+//= require <jquery-ui>
+//= require <strftime>
 
-public class IntegrationTestPage extends BaseIntegrationTestPage
-{
-    public IntegrationTestPage()
-    {
-        super();
-        add(new DomReadyScript("alert('page init')"));
-        add(new IntegrationTestPanel("panel1"));
-        add(new IntegrationTestTemplatePanel("panel2"));
+jQuery("#${wicketMarkupId}").datepicker(
+    { showOn: "both"
+    , buttonImage: "${imageUrl}"
+    , buttonImageOnly: true
+    , changeMonth: true
+    , changeYear: true
     }
-}
+);

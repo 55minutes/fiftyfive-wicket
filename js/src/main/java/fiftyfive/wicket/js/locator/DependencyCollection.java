@@ -128,6 +128,11 @@ public class DependencyCollection implements Iterable<ResourceReference>
         return _resources.iterator();
     }
     
+    public ResourceReference getRootReference()
+    {
+        return isEmpty() ? null : _resources.get(_resources.size() - 1);
+    }
+    
     /**
      * Returns {@code true} if this collection does not contain any script
      * references.

@@ -16,13 +16,13 @@
 
 package fiftyfive.wicket.js;
 
-public class IntegrationTestPage extends BaseIntegrationTestPage
+import org.apache.wicket.markup.html.panel.Panel;
+
+public class IntegrationTestTemplatePanel extends Panel
 {
-    public IntegrationTestPage()
+    public IntegrationTestTemplatePanel(String id)
     {
-        super();
-        add(new DomReadyScript("alert('page init')"));
-        add(new IntegrationTestPanel("panel1"));
-        add(new IntegrationTestTemplatePanel("panel2"));
+        super(id);
+        add(new DomReadyTemplate(getClass()));
     }
 }

@@ -43,12 +43,21 @@ jQuery(function(){alert('page init');});
 jQuery(function(){alert('panel init');;});
 /*-->]]>*/</script>
 
+<script type="text/javascript" src="resources/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/strftime/strftime.js"></script>
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+jQuery(function(){
+jQuery("#panel21").myfancyplugin();
+;});
+/*-->]]>*/</script>
+
 </head>
 
 <body>
   
-  <div wicket:id="panel"><wicket:panel>
+  <div wicket:id="panel1"><wicket:panel>
   Test Panel
+</wicket:panel></div>
+  <div wicket:id="panel2" id="panel21"><wicket:panel>
 </wicket:panel></div>
   
 </body>

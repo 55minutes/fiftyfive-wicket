@@ -17,22 +17,23 @@
 package fiftyfive.wicket.js;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.WebRequest;
 
 /**
- * Renders a script tag in the &lt;head&gt; that executes specified
- * JavaScript code on DOM ready. During non-ajax responses, jQuery's
- * ready handler is used rather than the default Wicket ready handler, since
- * jQuery has a faster implementation.
+ * Renders a script tag in the {@code <head>} that executes specified
+ * JavaScript code on DOM ready.
+ * The code will run when the page loads, and also every time the component to
+ * which this behavior is attached is repainted via Wicket ajax.
  * <p>
  * <b>This behavior will cause jQuery to be added to the &lt;head&gt; if it
- * is not there already.</b>
+ * is not there already.</b> Your script can rely on the {@code jQuery}
+ * object being available.
+ * <p>
+ * The script will <em>not</em> be scanned for dependencies declared using the
+ * sprocket syntax. This behavior is intended for short one-liner
+ * initialization scripts.
  * <p>
  * Trivial example:
  * <pre class="example">
@@ -44,7 +45,7 @@ import org.apache.wicket.protocol.http.WebRequest;
  * 
  * @since 2.0
  */
-public class DomReadyScript extends AbstractBehavior
+public class DomReadyScript extends AbstractJavaScriptContribution
 {
     private IModel<String> _readyScript;
     
@@ -78,6 +79,7 @@ public class DomReadyScript extends AbstractBehavior
     }
     
     /**
+     * Renders the DOM-ready script in the {@code <head>}.
      * If we are within an ajax request, use Wicket's standard
      * {@link IHeaderResponse#renderOnDomReadyJavascript renderOnDomReadyJavascript()}
      * method to add javascript to the
@@ -88,45 +90,9 @@ public class DomReadyScript extends AbstractBehavior
     @Override
     public void renderHead(IHeaderResponse response)
     {
-        if(null == _readyScript) return;
-        String script = _readyScript.getObject();
-        if(null == script) return;
-        
-        if(response.wasRendered(script)) return;
-
-        // Ensure that jQuery is present
-        response.renderJavascriptReference(settings().getJQueryResource());
-
-        Request request = request();
-        if((request instanceof WebRequest) && ((WebRequest)request).isAjax())
+        if(_readyScript != null)
         {
-            response.renderOnDomReadyJavascript(script);
+            renderDomReady(response, _readyScript.getObject());
         }
-        else
-        {
-            response.renderJavascript(
-                String.format("jQuery(function(){%s;});", script), null
-            );
-        }
-        
-        response.markRendered(script);
-    }
-    
-    /**
-     * Returns the settings to use. This method exists only for overriding
-     * during unit tests.
-     */
-    JavaScriptDependencySettings settings()
-    {
-        return JavaScriptDependencySettings.get();
-    }
-
-    /**
-     * Returns the current request. This method exists only for overriding
-     * during unit tests.
-     */
-    Request request()
-    {
-        return RequestCycle.get().getRequest();
     }
 }

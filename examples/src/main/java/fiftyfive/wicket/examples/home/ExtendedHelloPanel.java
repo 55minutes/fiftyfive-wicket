@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.js;
+package fiftyfive.wicket.examples.home;
 
-public class IntegrationTestPage extends BaseIntegrationTestPage
+public class ExtendedHelloPanel extends HelloPanel
 {
-    public IntegrationTestPage()
+    public ExtendedHelloPanel(String id)
     {
-        super();
-        add(new DomReadyScript("alert('page init')"));
-        add(new IntegrationTestPanel("panel1"));
-        add(new IntegrationTestTemplatePanel("panel2"));
+        super(id);
     }
 }

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
+import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import org.apache.wicket.Application;
 import org.apache.wicket.ResourceReference;
@@ -32,6 +33,8 @@ import org.apache.wicket.util.lang.Packages;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.locator.IResourceStreamLocator;
 import org.apache.wicket.util.time.Duration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of JavaScriptDependencyLocator. Uses the Wicket
@@ -46,6 +49,11 @@ public class DefaultJavaScriptDependencyLocator
     implements JavaScriptDependencyLocator
 {
     static final Pattern JQUERYUI_PATT = Pattern.compile("jquery(\\.|-|_)?ui");
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+        DefaultJavaScriptDependencyLocator.class
+    );
+    
     
     private Map<ResourceReference,CacheEntry> _cache;
     private SprocketDependencyCollector _collector;
@@ -88,13 +96,30 @@ public class DefaultJavaScriptDependencyLocator
         );
     }
     
-    public void findAssociatedScripts(Class<?> cls,
-                                      DependencyCollection scripts)
+    public void findAssociatedScripts(final Class<?> cls,
+                                      final DependencyCollection scripts)
     {
-        collectResourceAndDependencies(
-            newResourceReference(cls, Classes.simpleName(cls)+".js"),
-            scripts
-        );
+        Assert.notNull(cls, "cls cannot be null");
+        Assert.notNull(scripts, "scripts cannot be null");
+        
+        // Traverse up the class hierarchy until we find
+        // a valid JavaScript resource or we run out of super classes.
+        Class<?> scope = cls;
+        while(scope != null)
+        {
+            ResourceReference reference = newResourceReference(
+                scope,
+                Classes.simpleName(scope)
+            );
+            LOGGER.debug("Searching for: {}", reference);
+            if(load(reference) != null)
+            {
+                LOGGER.debug("Found: {}", reference);
+                collectResourceAndDependencies(reference, scripts);
+                break;
+            }
+            scope = scope.getSuperclass();
+        }
     }
     
     /**
