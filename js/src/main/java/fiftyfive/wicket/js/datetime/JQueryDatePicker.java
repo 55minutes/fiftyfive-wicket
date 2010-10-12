@@ -36,7 +36,7 @@ import org.apache.wicket.ResourceReference;
  * <p>
  * Here’s how you might use it in practice:
  * <pre class="example">
- * add(DateTextField.forDatePattern("date", "mm/dd/yyyy")
+ * add(DateTextField.forDatePattern("date", "MM/dd/yyyy")
  *     .setRequired(true)
  *     .add(new JQueryDatePicker())
  * );</pre>

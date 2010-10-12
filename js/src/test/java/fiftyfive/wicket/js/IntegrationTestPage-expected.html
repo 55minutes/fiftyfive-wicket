@@ -50,6 +50,19 @@ jQuery("#panel21").myfancyplugin();
 ;});
 /*-->]]>*/</script>
 
+<script type="text/javascript" ><!--/*--><![CDATA[/*><!--*/
+jQuery(function(){
+
+jQuery("#date2").datepicker(
+{ showOn: "both"
+, buttonImage: "resources/fiftyfive.wicket.js.datetime.JQueryDatePicker/calendar.png"
+, buttonImageOnly: true
+, changeMonth: true
+, changeYear: true
+}
+);;});
+/*-->]]>*/</script>
+
 </head>
 
 <body>
@@ -59,6 +72,13 @@ jQuery("#panel21").myfancyplugin();
 </wicket:panel></div>
   <div wicket:id="panel2" id="panel21"><wicket:panel>
 </wicket:panel></div>
+  
+  <form wicket:id="form" id="form3" method="post" action="?wicket:interface=:0:form::IFormSubmitListener::"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden"><input type="hidden" name="form3_hf_0" id="form3_hf_0" /></div>
+    <label>
+      Date
+      <input type="text" wicket:id="date" value="" name="date" id="date2"/>
+    </label>
+  </form>
   
 </body>
 </html>

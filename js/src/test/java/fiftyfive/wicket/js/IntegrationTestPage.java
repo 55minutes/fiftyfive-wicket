@@ -16,6 +16,13 @@
 
 package fiftyfive.wicket.js;
 
+import java.util.Date;
+
+import fiftyfive.wicket.js.datetime.JQueryDatePicker;
+import org.apache.wicket.datetime.markup.html.form.DateTextField;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.Model;
+
 public class IntegrationTestPage extends BaseIntegrationTestPage
 {
     public IntegrationTestPage()
@@ -24,5 +31,13 @@ public class IntegrationTestPage extends BaseIntegrationTestPage
         add(new DomReadyScript("alert('page init')"));
         add(new IntegrationTestPanel("panel1"));
         add(new IntegrationTestTemplatePanel("panel2"));
+        
+        add(new Form("form")
+            .add(DateTextField.forDatePattern("date",
+                                              new Model<Date>(),
+                                              "MM/dd/yyyy")
+                .setRequired(true)
+                .add(new JQueryDatePicker()))
+        );
     }
 }
