@@ -17,9 +17,9 @@
 //= require <jquery-ui>
 //= require <strftime>
 
-jQuery("#${wicketMarkupId}").datepicker(
+jQuery("#${component.marukpId}").datepicker(
     { showOn: "both"
-    , buttonImage: "${imageUrl}"
+    , buttonImage: "${behavior.buttonImageUrl}"
     , buttonImageOnly: true
     , changeMonth: true
     , changeYear: true
