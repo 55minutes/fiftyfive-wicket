@@ -4,6 +4,10 @@ Copyright 2010 55 Minutes
 This product includes software developed at 55 Minutes. 
 (http://www.55minutes.com/). 
 
+This product contains the Modernizr library, licensed under the MIT license.
+Copyright 2009-2010 Faruk Ates.
+(http://www.modernizr.com/)
+
 This product contains the strftime library for Javascript, licensed under the
 BSD license. Copyright 2008 Philip S Tellis.
 (http://tech.bluesmoon.info/2008/04/strftime-in-javascript.html)
