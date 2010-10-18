@@ -306,10 +306,10 @@
 
   <repositories>
     <repository>
-      <id>wicket-snaps</id>
-      <url>http://wicketstuff.org/maven/repository</url>
+      <id>apache-snapshots</id>
+      <url>http://repository.apache.org/snapshots/</url>
       <snapshots><enabled>true</enabled></snapshots>
-      <releases><enabled>true</enabled></releases>
+      <releases><enabled>false</enabled></releases>
     </repository>
     <repository>
       <id>fiftyfive-opensource</id>
