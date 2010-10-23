@@ -64,7 +64,7 @@
       <!-- This is overridden to be "development" when using jetty:run -->
       <param-name>configuration</param-name>
       <param-value>deployment</param-value>
-   </init-param>
+    </init-param>
   </filter>
 
   <filter-mapping>
