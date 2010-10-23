@@ -61,7 +61,7 @@ import org.apache.wicket.util.lang.PropertyResolver;
  * <pre class="example">
  * public class PersonDetailPage extends WebPage
  * {
- *    public static final ParameterSpec SPEC = new ParameterSpec&lt;Person&gt;(
+ *    public static final ParameterSpec&lt;Person&gt; SPEC = new ParameterSpec&lt;Person&gt;(
  *        PersonDetailPage.class, "id", "slug"
  *    );
  *    ...
