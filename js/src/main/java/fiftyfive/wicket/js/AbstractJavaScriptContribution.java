@@ -89,7 +89,8 @@ public abstract class AbstractJavaScriptContribution extends AbstractBehavior
         if(response.wasRendered(script)) return;
 
         // Ensure that jQuery is present
-        response.renderJavascriptReference(settings().getJQueryResource());
+        ResourceReference jQuery = settings().getJQueryResource();
+        if(jQuery != null) response.renderJavascriptReference(jQuery);
 
         Request request = request();
         if((request instanceof WebRequest) && ((WebRequest)request).isAjax())
