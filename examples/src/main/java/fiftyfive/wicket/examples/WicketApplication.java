@@ -16,6 +16,7 @@
 
 package fiftyfive.wicket.examples;
 
+import fiftyfive.wicket.examples.error.ForbiddenErrorPage;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.home.HomePage;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
@@ -68,6 +69,7 @@ public class WicketApplication extends FoundationSpringApplication
         
         // Configure error pages
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());
+        getApplicationSettings().setAccessDeniedPage(ForbiddenErrorPage.class);
         getApplicationSettings().setInternalErrorPage(
             InternalServerErrorPage.class
         );

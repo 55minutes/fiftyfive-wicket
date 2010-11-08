@@ -5,6 +5,7 @@ import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 
+import ${package}.error.ForbiddenErrorPage;
 import ${package}.error.InternalServerErrorPage;
 import ${package}.home.HomePage;
 
@@ -58,6 +59,7 @@ public class ${app_classname} extends FoundationSpringApplication
         
         // Configure error pages
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());
+        getApplicationSettings().setAccessDeniedPage(ForbiddenErrorPage.class);
         getApplicationSettings().setInternalErrorPage(
             InternalServerErrorPage.class
         );
