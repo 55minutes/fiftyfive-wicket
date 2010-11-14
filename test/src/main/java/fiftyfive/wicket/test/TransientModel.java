@@ -23,6 +23,8 @@ import org.apache.wicket.model.IModel;
  * in unit tests where you need to construct a quick and dirty model for a
  * non-serializable object, and therefore {@code Model.of()} will not work.
  * This class is not intended for production code.
+ * 
+ * @since 2.0.2
  */
 public class TransientModel<T> implements IModel<T>
 {

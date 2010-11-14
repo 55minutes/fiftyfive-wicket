@@ -46,7 +46,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
  * // Which is equivalent to all this:
  * FeedbackPanel feedback = new FeedbackPanel("feedback");
  * WebMarkupContainer username = new WebMarkupContainer("username")
- *     .add(new RequiredTextField("username").add(FeedbackPanel.INSTANCE))
+ *     .add(new RequiredTextField("username").add(FeedbackStyle.INSTANCE))
  *     .add(feedback)
  *     .add(FeedbackStyle.INSTANCE);
  * feedback.setFilter(new ContainerFeedbackMessageFilter(username));</pre>
