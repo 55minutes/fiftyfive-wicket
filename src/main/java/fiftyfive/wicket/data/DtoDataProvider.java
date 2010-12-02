@@ -234,7 +234,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * cached copy if it has already been loaded. The cache is discarded when
      * {@link #detach() detach()} is called.
      */
-    protected R getResult()
+    public R getResult()
     {
         if(!_loaded)
         {
