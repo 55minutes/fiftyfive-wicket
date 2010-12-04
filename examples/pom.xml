@@ -117,7 +117,7 @@
     <dependency>
       <groupId>org.wicketstuff</groupId>
       <artifactId>annotation</artifactId>
-      <version>1.4.12.1</version>
+      <version>1.4.14</version>
       <exclusions>
         <exclusion>
           <groupId>org.springframework</groupId>
