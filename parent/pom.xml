@@ -224,9 +224,6 @@
           <mapping>
             <scss>JAVADOC_STYLE</scss>
           </mapping>
-          <properties>
-            <year>2010</year>
-          </properties>
           <useDefaultExcludes>false</useDefaultExcludes>
           <includes>
             <include>pom.xml</include>
