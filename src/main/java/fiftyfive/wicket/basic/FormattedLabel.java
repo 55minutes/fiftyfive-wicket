@@ -16,7 +16,10 @@
 
 package fiftyfive.wicket.basic;
 
+import java.util.Locale;
+
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.util.convert.IConverter;
 
 // TODO: unit test
 
@@ -67,9 +70,18 @@ public class FormattedLabel extends LabelWithPlaceholder
     }
     
     @Override
-    protected String internalGetDefaultModelObjectAsString()
+    public IConverter getConverter(Class<?> type)
     {
-        Object object = getDefaultModelObject();
-        return object != null ? String.format(_format, object) : null;
+        return new IConverter() {
+            public String convertToString(Object value, Locale locale)
+            {
+                if(null == value) return null;
+                return String.format(locale, _format, value);
+            }
+            public Object convertToObject(String value, Locale locale)
+            {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 }
