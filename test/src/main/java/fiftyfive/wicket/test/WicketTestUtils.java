@@ -70,10 +70,14 @@ public abstract class WicketTestUtils
         reader.setFeature(Parser.namespacesFeature, false);
         reader.setFeature(Parser.namespacePrefixesFeature, false);
 
-        // A transformer that will convert SAX2 events to a DOM node
+        // A transformer that will convert SAX2 events to a DOM node.
+        // Note that we force the sun impl to be used since third-party impls
+        // don't seem to work.
         DOMResult result = new DOMResult();
-        Transformer transformer =
-            TransformerFactory.newInstance().newTransformer();
+        TransformerFactory fac = TransformerFactory.newInstance(
+            "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl",
+            null);
+        Transformer transformer = fac.newTransformer();
 
         // Do it
         transformer.transform(
