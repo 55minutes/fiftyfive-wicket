@@ -244,7 +244,7 @@ public abstract class WicketTestUtils
      * A variation of
      * {@link #startComponentWithXHtml(WicketTester,Component,String) startComponentWithXHtml()}
      * that accepts {@link PageParameters}. These page parameters are passed to
-     * page that wraps the component under test.
+     * the page that wraps the component under test.
      * 
      * @since 2.0.4
      */
@@ -306,7 +306,7 @@ public abstract class WicketTestUtils
      * A variation of
      * {@link #startComponentWithHtml(WicketTester,Component,String) startComponentWithHtml()}
      * that accepts {@link PageParameters}. These page parameters are passed to
-     * page that wraps the component under test.
+     * the page that wraps the component under test.
      * 
      * @since 2.0.4
      */
