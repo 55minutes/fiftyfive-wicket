@@ -46,6 +46,8 @@ import org.apache.wicket.model.IModel;
  * });
  * // This will be visible only when friendsModel is empty
  * add(new EmptyContainer("no-friends", friendsModel));</pre>
+ * 
+ * @since 2.0
  */
 public class EmptyContainer extends WebMarkupContainer
 {
