@@ -28,6 +28,7 @@ import static javax.xml.xpath.XPathConstants.STRING;
 
 import fiftyfive.util.XPathHelper;
 import org.apache.wicket.Component;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
@@ -236,6 +237,22 @@ public abstract class WicketTestUtils
                                                Component c,
                                                final String markup)
     {
+        startComponentWithXHtml(tester, null, c, markup);
+    }
+
+    /**
+     * A variation of
+     * {@link #startComponentWithXHtml(WicketTester,Component,String) startComponentWithXHtml()}
+     * that accepts {@link PageParameters}. These page parameters are passed to
+     * page that wraps the component under test.
+     * 
+     * @since 2.0.4
+     */
+    public static void startComponentWithXHtml(WicketTester tester,
+                                               PageParameters parameters,
+                                               Component c,
+                                               final String markup)
+    {
         WebPage page = new PageWithInlineMarkup(String.format(
             "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" " +
             "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">%n" +
@@ -243,8 +260,9 @@ public abstract class WicketTestUtils
             "xml:lang=\"en\" lang=\"en\">%n" +
             "<head>%n  <title>untitled</title>%n</head>%n" +
             "<body>%n%s%n</body>%n</html>",
-            markup
-        ));
+            markup),
+            parameters
+        );
         page.add(c);
         tester.startPage(page);
     }
@@ -281,12 +299,29 @@ public abstract class WicketTestUtils
                                               Component c,
                                               final String markup)
     {
+        startComponentWithHtml(tester, null, c, markup);
+    }
+
+    /**
+     * A variation of
+     * {@link #startComponentWithHtml(WicketTester,Component,String) startComponentWithHtml()}
+     * that accepts {@link PageParameters}. These page parameters are passed to
+     * page that wraps the component under test.
+     * 
+     * @since 2.0.4
+     */
+    public static void startComponentWithHtml(WicketTester tester,
+                                              PageParameters parameters,
+                                              Component c,
+                                              final String markup)
+    {
         WebPage page = new PageWithInlineMarkup(String.format(
             "<!DOCTYPE html>%n" +
             "<html>%n<head>%n  <title>untitled</title>%n</head>%n" +
             "<body>%n%s%n</body>%n</html>",
-            markup
-        ));
+            markup),
+            parameters
+        );
         page.add(c);
         tester.startPage(page);
     }

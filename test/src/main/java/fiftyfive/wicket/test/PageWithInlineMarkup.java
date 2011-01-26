@@ -15,6 +15,7 @@
  */
 package fiftyfive.wicket.test;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.ContainerInfo;
 import org.apache.wicket.markup.Markup;
 import org.apache.wicket.markup.MarkupResourceStream;
@@ -33,7 +34,15 @@ public class PageWithInlineMarkup extends WebPage
     
     public PageWithInlineMarkup(String htmlMarkup)
     {
-        super();
+        this(htmlMarkup, null);
+    }
+    
+    /**
+     * @since 2.0.4
+     */
+    public PageWithInlineMarkup(String htmlMarkup, PageParameters parameters)
+    {
+        super(parameters);
         _htmlMarkup = htmlMarkup;
     }
     
