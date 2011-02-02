@@ -85,13 +85,13 @@ public class ${app_classname} extends FoundationSpringApplication
         // Mount merged JS
         new MergedJavaScriptBuilder()
             .setPath("/scripts/all.js")
-            .addWicketAjaxLibraries()
             .addJQueryUI()
             .addLibrary("cookies")
             .addLibrary("strftime")
             .addLibrary("55_utils")
             .addLibrary("jquery.55_utils")
             .addAssociatedScript(BasePage.class)
+            .addWicketAjaxLibraries()
             .build(this);
     }
 
