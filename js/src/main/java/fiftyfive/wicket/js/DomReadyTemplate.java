@@ -242,7 +242,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
         if(null == _template)
         {
             throw new WicketRuntimeException(String.format(
-                "Failed to located JavaScript template for %s. The JavaScript file must be " +
+                "Failed to locate JavaScript template for %s. The JavaScript file must be " +
                 "the same name as the class but with a '.js' extension and be present in " +
                 "the same classpath location.",
                 _templateLocation));
