@@ -20,14 +20,17 @@ import java.util.Map;
 
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.ResourceReference;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.javascript.DefaultJavascriptCompressor;
 import org.apache.wicket.javascript.IJavascriptCompressor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.util.string.interpolator.PropertyVariableInterpolator;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
+
 
 /**
  * Injects DOM-ready Javascript into the {@code <head>} using the
@@ -236,6 +239,15 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
         locator.findAssociatedScripts(_templateLocation, _dependencies);
         
         _template = _dependencies.getRootReference();
+        if(null == _template)
+        {
+            throw new WicketRuntimeException(String.format(
+                "Failed to located JavaScript template for %s. The JavaScript file must be " +
+                "the same name as the class but with a '.js' extension and be present in " +
+                "the same classpath location.",
+                _templateLocation));
+        }
+        
         TextTemplate tt = new PackagedTextTemplate(
             _template.getScope(),
             _template.getName(),
