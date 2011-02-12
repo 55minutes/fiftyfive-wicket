@@ -38,7 +38,7 @@ public class DomReadyTemplateTest extends BaseJSTest
         }
         catch(WicketRuntimeException wre)
         {
-            Assert.assertTrue(wre.getMessage().startsWith("Failed to located JavaScript template"));
+            Assert.assertTrue(wre.getMessage().startsWith("Failed to locate JavaScript template"));
         }
     }
 }
