@@ -20,7 +20,10 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
+
 import static fiftyfive.wicket.util.Shortcuts.*;
+
 
 public class ShortcutsTestPage extends WebPage
 {
@@ -34,6 +37,36 @@ public class ShortcutsTestPage extends WebPage
         add(label("testProperty"));
         add(label("testAfterTag", "foo").add(afterTag("!")));
         add(new WebMarkupContainer("testCssClass").add(cssClass("test")));
+        
+        add(new WebMarkupContainer("testToggledCssClass1")
+            .add(toggledCssClass("active", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass2")
+            .add(toggledCssClass("active", Model.of(Boolean.FALSE))));
+        add(new WebMarkupContainer("testToggledCssClass3")
+            .add(toggledCssClass("active", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass4")
+            .add(toggledCssClass("active", Model.of(Boolean.FALSE))));
+        add(new WebMarkupContainer("testToggledCssClass5")
+            .add(toggledCssClass("active", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass6")
+            .add(toggledCssClass("active", Model.of(Boolean.FALSE))));
+
+        add(new WebMarkupContainer("testToggledCssClass7")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass8")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.FALSE))));
+        add(new WebMarkupContainer("testToggledCssClass9")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass10")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.FALSE))));
+        add(new WebMarkupContainer("testToggledCssClass11")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass12")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.FALSE))));
+        add(new WebMarkupContainer("testToggledCssClass13")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.TRUE))));
+        add(new WebMarkupContainer("testToggledCssClass14")
+            .add(toggledCssClass("active", "inactive", Model.of(Boolean.FALSE))));
     }
 
     public String getTestProperty()

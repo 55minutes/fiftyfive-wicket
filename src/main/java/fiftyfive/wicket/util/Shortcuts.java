@@ -18,10 +18,12 @@ package fiftyfive.wicket.util;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Set;
 
 import fiftyfive.util.Assert;
 import fiftyfive.util.ReflectUtils;
 import fiftyfive.wicket.basic.LabelWithPlaceholder;
+import fiftyfive.wicket.css.CssClassModifier;
 import fiftyfive.wicket.css.InternetExplorerCss;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
@@ -178,7 +180,7 @@ public class Shortcuts
      * Adds a CSS class to the component it decorates.
      * Equivalent to:
      * <pre class="example">
-     * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
+     * new AttributeAppender("class", true, cssClass, " ");</pre>
      * 
      * @since 2.0
      */
@@ -207,6 +209,82 @@ public class Shortcuts
     public static IBehavior cssClass(String cssClass)
     {
         return cssClass(new Model(cssClass));
+    }
+    
+    /**
+     * Adds {@code classIfTrue} to the HTML {@code class} attribute of the component
+     * if the {@code toggle} value is {@code true}. If the {@code toggle} value is {@code false},
+     * ensure that the class is removed (in case it was already present in the markup).
+     * <p>
+     * For example, let's say your HTML file contains the following markup:
+     * <pre class="example">
+     * &lt;span wicket:id=&quot;message&quot; class=&quot;severe&quot;&gt;blah blah&lt;/span&gt;</pre>
+     * You've added a behavior like so:
+     * <pre class="example">
+     * add(new MyMessageComponent("message")
+     *     .add(toggledCssClass("severe", isSevereModel)));</pre>
+     * If the {@code isSevereModel} model returns {@code true}, the component will render as:
+     * <pre class="example">
+     * &lt;span class=&quot;severe&quot;&gt;...</pre>
+     * If {@code false}, then:
+     * <pre class="example">
+     * &lt;span class=&quot;&quot;&gt;...</pre>
+     * 
+     * @since 2.0.4
+     */
+    public static IBehavior toggledCssClass(String classIfTrue, IModel<Boolean> toggle)
+    {
+        return toggledCssClass(classIfTrue, null, toggle);
+    }
+
+    /**
+     * Adds {@code classIfTrue} to the HTML {@code class} attribute of the component
+     * if the {@code toggle} value is {@code true}. If the {@code toggle} value is {@code false},
+     * adds {@code classIfFalse} to the HTML instead. In both cases, if these classes already
+     * exist in the markup, they will first be removed.
+     * <p>
+     * For example, let's say your HTML file contains the following markup:
+     * <pre class="example">
+     * &lt;span wicket:id=&quot;message&quot; class=&quot;high-priority&quot;&gt;blah blah&lt;/span&gt;</pre>
+     * You've added a behavior like so:
+     * <pre class="example">
+     * add(new MyMessageComponent("message")
+     *     .add(toggledCssClass("high-priority", "low-priority", isHighPriorityModel)));</pre>
+     * If the {@code isHighPriorityModel} model returns {@code true}, the component will render as:
+     * <pre class="example">
+     * &lt;span class=&quot;high-priority&quot;&gt;...</pre>
+     * If {@code false}, then:
+     * <pre class="example">
+     * &lt;span class=&quot;low-priority&quot;&gt;...</pre>
+     * 
+     * @since 2.0.4
+     */
+    public static IBehavior toggledCssClass(final String classIfTrue,
+                                            final String classIfFalse,
+                                            final IModel<Boolean> toggle)
+    {
+        if(null == toggle)
+        {
+            return EMPTY_BEHAVIOR;
+        }
+        return new CssClassModifier() {
+            @Override
+            protected void modifyClasses(Component component, Set<String> cssClasses)
+            {
+                // Note that we treat null as false
+                Boolean b = toggle.getObject();
+                if(b != null && b)
+                {
+                    if(classIfFalse != null) cssClasses.remove(classIfFalse);
+                    if(classIfTrue != null) cssClasses.add(classIfTrue);
+                }
+                else
+                {
+                    if(classIfTrue != null) cssClasses.remove(classIfTrue);
+                    if(classIfFalse != null) cssClasses.add(classIfFalse);
+                }
+            }
+        };
     }
     
     /**

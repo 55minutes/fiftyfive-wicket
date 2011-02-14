@@ -15,6 +15,6 @@
  */
 
 /**
- * Utilities for merging and declaring CSS dependencies.
+ * Utilities for merging and declaring CSS dependencies and modifying HTML class attributes.
  */
 package fiftyfive.wicket.css;
