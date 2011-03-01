@@ -17,16 +17,17 @@ package fiftyfive.wicket.test;
 
 import java.io.IOException;
 import java.io.StringReader;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.xpath.XPathExpressionException;
-import static javax.xml.xpath.XPathConstants.NODESET;
-import static javax.xml.xpath.XPathConstants.STRING;
 
 import fiftyfive.util.XPathHelper;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
@@ -40,6 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+
 /**
  * Helper functions and assertions for easier testing of Wicket pages
  * and components. Care has been taken to ensure that these helpers
@@ -51,6 +53,34 @@ import org.xml.sax.XMLReader;
  */
 public abstract class WicketTestUtils
 {
+    // Default to using the implementations shipped with the JRE
+    
+    private static String _transformerFactoryClassName =
+        "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
+    
+    private static String _documentBuilderFactoryClassName =
+        "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl";
+    
+    /**
+     * Change the {@link DocumentBuilderFactory} implementation used by the DOM and XPath
+     * helper methods of this class. The default JRE-provided class should be sufficient:
+     * {@code com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl}.
+     */
+    public static void setDocumentBuilderFactoryClassName(String className)
+    {
+        _documentBuilderFactoryClassName = className;
+    }
+    
+    /**
+     * Change the {@link TransformerFactory} implementation used by the DOM and XPath
+     * helper methods of this class. The default JRE-provided class should be sufficient:
+     * {@code com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl}.
+     */
+    public static void setTransformerFactoryClassName(String className)
+    {
+        _transformerFactoryClassName = className;
+    }
+    
     /**
      * Parses the most recently rendered Wicket page into an XML Document
      * object. Uses
@@ -61,7 +91,7 @@ public abstract class WicketTestUtils
      * @return The root Node of the resulting DOM
      */
     public static Node markupAsDOM(WicketTester tester)
-        throws SAXException, TransformerException
+        throws SAXException, ParserConfigurationException, TransformerException
     {
         // Obtain the raw text of the markup
         String markup = document(tester);
@@ -72,15 +102,16 @@ public abstract class WicketTestUtils
         reader.setFeature(Parser.namespacePrefixesFeature, false);
 
         // A transformer that will convert SAX2 events to a DOM node.
-        // Note that we force the sun impl to be used since third-party impls
-        // don't seem to work.
-        DOMResult result = new DOMResult();
-        TransformerFactory fac = TransformerFactory.newInstance(
-            "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl",
-            null);
-        Transformer transformer = fac.newTransformer();
+        TransformerFactory tf = TransformerFactory.newInstance(_transformerFactoryClassName, null);
+        Transformer transformer = tf.newTransformer();
 
-        // Do it
+        // Construct an empty document into which the transformed elements will be placed
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(
+            _documentBuilderFactoryClassName,
+            null);
+        DOMResult result = new DOMResult(dbf.newDocumentBuilder().newDocument());
+
+        // Peform the transformation
         transformer.transform(
             new SAXSource(reader, new InputSource(new StringReader(markup))), 
             result
@@ -100,7 +131,7 @@ public abstract class WicketTestUtils
      * fails.
      */
     public static void assertXPath(WicketTester wt, String expr)
-            throws IOException, SAXException, TransformerException,
+            throws IOException, SAXException, ParserConfigurationException, TransformerException,
                    XPathExpressionException
     {
         if(matchCount(wt, expr) == 0)
@@ -124,7 +155,7 @@ public abstract class WicketTestUtils
      * fails.
      */
     public static void assertXPath(int count, WicketTester wt, String expr)
-            throws IOException, SAXException, TransformerException,
+            throws IOException, SAXException, ParserConfigurationException, TransformerException,
                    XPathExpressionException
     {
         // First make sure the expression exists at all
@@ -371,7 +402,7 @@ public abstract class WicketTestUtils
      * rendered page in the WicketTester.
      */
     private static int matchCount(WicketTester tester, String xPathExpr)
-            throws IOException, SAXException, TransformerException,
+            throws IOException, SAXException, ParserConfigurationException, TransformerException,
                    XPathExpressionException
     {
         NodeList nl = new XPathHelper(markupAsDOM(tester)).findNodes(xPathExpr);
