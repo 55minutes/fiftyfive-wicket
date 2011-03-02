@@ -123,15 +123,15 @@ public class JavaScriptDependencySettings
         
         _jQueryResource = new JavascriptResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-1.4.4/jquery.noconflict.min.js"
+            "lib/jquery-1.5.1/jquery.noconflict.min.js"
         );
         _jQueryUIResource = new JavascriptResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.9/jquery-ui.min.js"
+            "lib/jquery-ui-1.8.10/jquery-ui.min.js"
         );
         _jQueryUICSSResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.9/themes/redmond/jquery-ui-1.8.9.redmond.css"
+            "lib/jquery-ui-1.8.10/themes/redmond/jquery-ui-1.8.10.redmond.css"
         );
     }
     
