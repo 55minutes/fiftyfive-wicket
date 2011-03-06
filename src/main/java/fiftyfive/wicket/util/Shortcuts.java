@@ -27,16 +27,15 @@ import fiftyfive.wicket.css.CssClassModifier;
 import fiftyfive.wicket.css.InternetExplorerCss;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
-import org.apache.wicket.Response;
-import org.apache.wicket.behavior.AbstractBehavior;
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.behavior.IBehavior;
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.resources.CompressedResourceReference;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.Response;
+import org.apache.wicket.request.resource.CompressedResourceReference;
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
 
@@ -51,7 +50,7 @@ import org.apache.wicket.util.string.Strings;
  */
 public class Shortcuts
 {
-    private static final IBehavior EMPTY_BEHAVIOR = new AbstractBehavior() {};
+    private static final Behavior EMPTY_BEHAVIOR = new Behavior() {};
     
     /**
      * Shortcut for creating a PropertyModel. Equivalent to:
@@ -164,11 +163,11 @@ public class Shortcuts
      *     }
      * });</pre>
      */
-    public static IBehavior afterTag(final String textToAppend)
+    public static Behavior afterTag(final String textToAppend)
     {
-        return new AbstractBehavior() {
+        return new Behavior() {
             @Override
-            public void onRendered(Component component)
+            public void afterRender(Component component)
             {
                 Response response = component.getResponse();
                 response.write(textToAppend);
@@ -184,7 +183,7 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssClass(IModel<String> cssClass)
+    public static Behavior cssClass(IModel<String> cssClass)
     {
         if(null == cssClass)
         {
@@ -206,7 +205,7 @@ public class Shortcuts
      * <pre class="example">
      * new AttributeAppender("class", true, new Model(cssClass), " ");</pre>
      */
-    public static IBehavior cssClass(String cssClass)
+    public static Behavior cssClass(String cssClass)
     {
         return cssClass(new Model(cssClass));
     }
@@ -232,7 +231,7 @@ public class Shortcuts
      * 
      * @since 2.0.4
      */
-    public static IBehavior toggledCssClass(String classIfTrue, IModel<Boolean> toggle)
+    public static Behavior toggledCssClass(String classIfTrue, IModel<Boolean> toggle)
     {
         return toggledCssClass(classIfTrue, null, toggle);
     }
@@ -259,9 +258,9 @@ public class Shortcuts
      * 
      * @since 2.0.4
      */
-    public static IBehavior toggledCssClass(final String classIfTrue,
-                                            final String classIfFalse,
-                                            final IModel<Boolean> toggle)
+    public static Behavior toggledCssClass(final String classIfTrue,
+                                           final String classIfFalse,
+                                           final IModel<Boolean> toggle)
     {
         if(null == toggle)
         {
@@ -306,14 +305,18 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssResource(Class<?> cls)
+    public static Behavior cssResource(final Class<?> cls)
     {
         Assert.notNull(cls);
-        return CSSPackageResource.getHeaderContribution(
-            new CompressedResourceReference(
-                cls, Classes.simpleName(cls) + ".css"
-            )
-        );
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderCSSReference(new CompressedResourceReference(
+                    cls, Classes.simpleName(cls) + ".css"
+                ));
+            }
+        };
     }
         
     /**
@@ -336,14 +339,18 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssResource(String filename)
+    public static Behavior cssResource(final String filename)
     {
         Assert.notNull(filename);
-        return CSSPackageResource.getHeaderContribution(
-            new CompressedResourceReference(
-                Application.get().getClass(), filename
-            )
-        );
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderCSSReference(new CompressedResourceReference(
+                    Application.get().getClass(), filename
+                ));
+            }
+        };
     }
 
     /**
@@ -366,13 +373,20 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssResource(Class<?> scope, String filename)
+    public static Behavior cssResource(final Class<?> scope,
+                                        final String filename)
     {
         Assert.notNull(scope, "scope cannot be null");
         Assert.notNull(filename, "filename cannot be null");
-        return CSSPackageResource.getHeaderContribution(
-            new CompressedResourceReference(scope, filename)
-        );
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderCSSReference(new CompressedResourceReference(
+                    scope, filename
+                ));
+            }
+        };
     }
         
     /**
@@ -398,15 +412,21 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssPrintResource(String filename)
+    public static Behavior cssPrintResource(final String filename)
     {
         Assert.notNull(filename);
-        return CSSPackageResource.getHeaderContribution(
-            new CompressedResourceReference(
-                Application.get().getClass(), filename
-            ),
-            "print"
-        );
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderCSSReference(
+                    new CompressedResourceReference(
+                        Application.get().getClass(), filename
+                    ),
+                    "print"
+                );
+            }
+        };
     }
 
     /**
@@ -433,7 +453,7 @@ public class Shortcuts
      * 
      * @since 2.0
      */
-    public static IBehavior cssConditionalResource(String cond, String filename)
+    public static Behavior cssConditionalResource(String cond, String filename)
     {
         Assert.notNull(cond, "condition cannot be null");
         Assert.notNull(filename, "filename cannot be null");

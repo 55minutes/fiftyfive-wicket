@@ -15,8 +15,9 @@
  */
 package fiftyfive.wicket.examples;
 
-import org.apache.wicket.Request;
-import org.apache.wicket.Response;
+import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Before;
@@ -39,11 +40,11 @@ public abstract class BaseWicketUnitTest
     {
         _tester = new WicketTester(new WicketApplication() {
             @Override
-            public String getConfigurationType()
+            public RuntimeConfigurationType getConfigurationType()
             {
                 // Don't test in development mode, since debug utilities
                 // can break XHTML compliance.
-                return DEPLOYMENT;
+                return RuntimeConfigurationType.DEPLOYMENT;
             }
             @Override
             protected ApplicationContext getApplicationContext()

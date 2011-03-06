@@ -22,11 +22,11 @@ import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.javascript.DefaultJavascriptCompressor;
-import org.apache.wicket.javascript.IJavascriptCompressor;
+import org.apache.wicket.javascript.DefaultJavaScriptCompressor;
+import org.apache.wicket.javascript.IJavaScriptCompressor;
 import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.string.interpolator.PropertyVariableInterpolator;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
@@ -110,11 +110,10 @@ import org.apache.wicket.util.template.TextTemplate;
  */
 public class DomReadyTemplate extends AbstractJavaScriptContribution
 {
-    private static final DefaultJavascriptCompressor DEFAULT_COMPRESSOR = 
-        new DefaultJavascriptCompressor();
+    private static final DefaultJavaScriptCompressor DEFAULT_COMPRESSOR = 
+        new DefaultJavaScriptCompressor();
         
     private Class<?> _templateLocation;
-    private Component _component;
     private transient DependencyCollection _dependencies;
     private transient ResourceReference _template;
     private transient String _readyScript;
@@ -173,12 +172,12 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     }
     
     /**
-     * Returns the {@link IJavascriptCompressor} that will be used to
+     * Returns the {@link IJavaScriptCompressor} that will be used to
      * compress the JavaScript before it is added to the {@code <head>}.
      * By default this returns an instance of
-     * {@code DefaultJavascriptCompressor}.
+     * {@code DefaultJavaScriptCompressor}.
      */
-    protected IJavascriptCompressor getCompressor()
+    protected IJavaScriptCompressor getCompressor()
     {
         return DEFAULT_COMPRESSOR;
     }
@@ -195,8 +194,8 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     @Override
     public void bind(Component component)
     {
-        _component = component;
-        _component.setOutputMarkupId(true);
+        super.bind(component);
+        component.setOutputMarkupId(true);
     }
     
     /**
@@ -218,9 +217,9 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
      * of the template after variable substitutions have been performed.
      */
     @Override
-    public void renderHead(IHeaderResponse response)
+    public void renderHead(Component comp, IHeaderResponse response)
     {
-        if(null == _dependencies) load();
+        if(null == _dependencies) load(comp);
         
         renderDependencies(response, _dependencies, _template);
         renderDomReady(response, _readyScript);
@@ -232,7 +231,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
      * The results are cached in member variables that will be cleared when
      * detach() is called.
      */
-    private void load()
+    private void load(Component comp)
     {
         JavaScriptDependencyLocator locator = settings().getLocator();
         _dependencies = new DependencyCollection();
@@ -256,7 +255,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
         );
         
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("component", _component);
+        map.put("component", comp);
         map.put("behavior", this);
         
         _readyScript = getCompressor().compress(

@@ -16,6 +16,8 @@
 
 package fiftyfive.wicket;
 
+import org.apache.wicket.RuntimeConfigurationType;
+import org.apache.wicket.request.resource.caching.NoOpResourceCachingStrategy;
 import org.apache.wicket.util.tester.DummyHomePage;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
@@ -33,14 +35,16 @@ public abstract class BaseWicketTest
             {
                 return DummyHomePage.class;
             }
-            @Override public String getConfigurationType()
+            @Override public RuntimeConfigurationType getConfigurationType()
             {
-                return DEPLOYMENT;
+                return RuntimeConfigurationType.DEPLOYMENT;
             }
             @Override protected void init()
             {
                 super.init();
-                getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(false);
+                getResourceSettings().setCachingStrategy(
+                    NoOpResourceCachingStrategy.INSTANCE
+                );
             }
         });
     }

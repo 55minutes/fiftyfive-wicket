@@ -16,8 +16,7 @@
 
 package fiftyfive.wicket.css;
 
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
 import static fiftyfive.wicket.css.MergedCssBuilderTest.*;
 
@@ -26,9 +25,15 @@ public class MergedCssBuilderTestPage extends WebPage
     public MergedCssBuilderTestPage()
     {
         super();
-        add(CSSPackageResource.getHeaderContribution(CSS_1));
-        add(CSSPackageResource.getHeaderContribution(CSS_2));
-        add(CSSPackageResource.getHeaderContribution(CSS_PRINT_1, "print"));
-        add(CSSPackageResource.getHeaderContribution(CSS_PRINT_2, "print"));
+    }
+    
+    @Override
+    public void renderHead(IHeaderResponse response)
+    {
+        super.renderHead(response);
+        response.renderCSSReference(CSS_1);
+        response.renderCSSReference(CSS_2);
+        response.renderCSSReference(CSS_PRINT_1, "print");
+        response.renderCSSReference(CSS_PRINT_2, "print");
     }
 }

@@ -28,22 +28,18 @@ import java.util.concurrent.ExecutionException;
 import fiftyfive.util.Assert;
 import fiftyfive.wicket.FoundationApplication;
 import org.apache.wicket.Application;
-import org.apache.wicket.Component;
-import org.apache.wicket.IRequestTarget;
-import org.apache.wicket.Page;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.protocol.http.IRequestLogger.ISessionLogInfo;
+import org.apache.wicket.protocol.http.IRequestLogger.SessionData;
 import org.apache.wicket.protocol.http.IRequestLogger;
-import org.apache.wicket.protocol.http.RequestLogger.ISessionLogInfo;
-import org.apache.wicket.protocol.http.RequestLogger.SessionData;
-import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.request.target.component.IBookmarkablePageRequestTarget;
-import org.apache.wicket.request.target.component.IPageRequestTarget;
-import org.apache.wicket.request.target.component.listener.IListenerInterfaceRequestTarget;
-import org.apache.wicket.request.target.resource.ISharedResourceRequestTarget;
+import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.IRequestMapper;
+import org.apache.wicket.request.component.IRequestableComponent;
+import org.apache.wicket.request.component.IRequestablePage;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.handler.IComponentRequestHandler;
+import org.apache.wicket.request.handler.IPageClassRequestHandler;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
@@ -93,63 +89,78 @@ public class LoggingUtils
      * <p>
      * Example logger output:
      * <pre class="example">
-     * IllegalStateException: Attempt to set model object on null model of component: form:calendar-control:date-text-field
-     * 
+     * ParseException: Unparseable date: "1xxx07"
+     *
      * Request:
-     *   URL      = /form?wicket:interface=:0:form::IFormSubmitListener::
-     *   Step     = Processing Form Submission
-     *   Target   = FormTestPage > Form [form]
-     *   Duration = 9 milliseconds
+     *   URL       = wicket/bookmarkable/fiftyfive.wicket.examples.formtest.FormTestPage?0&initialMonth=10.2007&startDate=1xxx07&endDate=11.10.2007
+     *   Handler   = RenderPageRequestHandler
+     *   Component = FormTestPage
+     *   Duration  = 485 milliseconds
      * Session:
-     *   ID       = wvz6xha0fvdzte1x36zzbz4a
-     *   Info     = Custom session information
-     *   Duration = 16 seconds
-     *   Size     = 13.5K
+     *   ID       = 1sxy938y7qoqq942z4pnuqdqt
+     *   Info     = TODO: Your session info goes here
+     *   Size     = 716 bytes
+     *   Duration = 310 milliseconds
      * Application:
-     *   Active Sessions = 1 (6 peak)
-     *   Memory Usage    = 36M used, 29M free, 533M max
+     *   Active Sessions = 1 (1 peak)
+     *   Memory Usage    = 25M used, 40M free, 533M max
      *   IP Address      = 172.16.1.14
-     *   Uptime          = 33.5 seconds
+     *   Uptime          = 10.9 seconds
      * Headers:
      *   Host            = localhost:8080
      *   User-Agent      = Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5
-     *   Accept          = application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*&#047;*;q=0.5
-     *   Referer         = http://localhost:8080/form?initialMonth=10.2007&startDate=10.01.2007&endDate=11.10.2007
+     *   Accept          = application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,&#042;/&#042;;q=0.5
+     *   Cache-Control   = max-age=0
      *   Accept-Language = en-us
      *   Accept-Encoding = gzip, deflate
-     *   Cookie          = JSESSIONID=wvz6xha0fvdzte1x36zzbz4a
+     *   Cookie          = JSESSIONID=1217fv4qjpnbnv1ewzzmonevh
      *   Connection      = keep-alive
-     *   Origin          = http://localhost:8080
-     *   Content-Type    = application/x-www-form-urlencoded
-     *   Content-Length  = 47
      * 
-     * WicketMessage: Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
+     * Message: Error calling method: public java.util.Date fiftyfive.wicket.examples.formtest.FormTestPage$1.getStartDate() on object: [ [Component id = calendar-control]]
      * 
      * Root cause:
      * 
-     * java.lang.IllegalStateException: Attempt to set model object on null model of component: form:calendar-control:date-text-field
-     *      at org.apache.wicket.Component.setDefaultModelObject(Component.java:3111)
-     *      at org.apache.wicket.markup.html.form.FormComponent.updateModel(FormComponent.java:1168)
-     *      at org.apache.wicket.markup.html.form.Form$FormModelUpdateVisitor.component(Form.java:229)
-     *      at org.apache.wicket.markup.html.form.FormComponent.visitComponentsPostOrderHelper(FormComponent.java:514)
-     *      at org.apache.wicket.markup.html.form.FormComponent.visitComponentsPostOrderHelper(FormComponent.java:493)
-     *      at org.apache.wicket.markup.html.form.FormComponent.visitComponentsPostOrderHelper(FormComponent.java:493)
-     *      at org.apache.wicket.markup.html.form.FormComponent.visitComponentsPostOrder(FormComponent.java:465)
-     *      at org.apache.wicket.markup.html.form.Form.internalUpdateFormComponentModels(Form.java:2110)
-     *      at org.apache.wicket.markup.html.form.Form.updateFormComponentModels(Form.java:2078)
-     *      at org.apache.wicket.markup.html.form.Form.process(Form.java:1028)
-     *      at org.apache.wicket.markup.html.form.Form.process(Form.java:955)
-     *      at org.apache.wicket.markup.html.form.Form.onFormSubmitted(Form.java:920)
+     * java.text.ParseException: Unparseable date: "1xxx07"
+     *      at java.text.DateFormat.parse(DateFormat.java:337)
+     *      at fiftyfive.wicket.examples.formtest.FormTestPage$1.getStartDate(FormTestPage.java:82)
      *      at java.lang.reflect.Method.invoke(Method.java:597)
-     *      at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:182)
-     *      at org.apache.wicket.request.target.component.listener.ListenerInterfaceRequestTarget.processEvents(ListenerInterfaceRequestTarget.java:73)
-     *      at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
-     *      at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
-     *      at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
-     *      at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
-     *      at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
-     *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)
-     *      at org.apache.wicket.protocol.http.WicketFilter.doFilter(WicketFilter.java:317)
+     *      at org.apache.wicket.util.lang.PropertyResolver$MethodGetAndSet.getValue(PropertyResolver.java:1112)
+     *      at org.apache.wicket.util.lang.PropertyResolver$ObjectAndGetSetter.getValue(PropertyResolver.java:637)
+     *      at org.apache.wicket.util.lang.PropertyResolver.getValue(PropertyResolver.java:96)
+     *      at org.apache.wicket.model.AbstractPropertyModel.getObject(AbstractPropertyModel.java:122)
+     *      at fiftyfive.wicket.datetime.RestrictedDatePicker.configure(RestrictedDatePicker.java:168)
+     *      at org.apache.wicket.extensions.yui.calendar.DatePicker.renderHead(DatePicker.java:260)
+     *      at org.apache.wicket.Component.renderHead(Component.java:2627)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:70)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:66)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:143)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:117)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:193)
+     *      at org.apache.wicket.MarkupContainer.visitChildren(MarkupContainer.java:941)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy.renderChildHeaders(ParentFirstHeaderRenderStrategy.java:64)
+     *      at org.apache.wicket.markup.renderStrategy.AbstractHeaderRenderStrategy.renderHeader(AbstractHeaderRenderStrategy.java:125)
+     *      at org.apache.wicket.markup.html.internal.HtmlHeaderContainer.onComponentTagBody(HtmlHeaderContainer.java:140)
+     *      at org.apache.wicket.Component.renderComponent(Component.java:2518)
+     *      at org.apache.wicket.MarkupContainer.onRender(MarkupContainer.java:1527)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.MarkupContainer.renderNext(MarkupContainer.java:1466)
+     *      at org.apache.wicket.MarkupContainer.renderAll(MarkupContainer.java:1589)
+     *      at org.apache.wicket.Page.onRender(Page.java:1139)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.Page.renderPage(Page.java:1289)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.renderPage(WebPageRenderer.java:131)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.respond(WebPageRenderer.java:199)
+     *      at org.apache.wicket.request.handler.RenderPageRequestHandler.respond(RenderPageRequestHandler.java:149)
+     *      at org.apache.wicket.request.RequestHandlerStack.executeRequestHandler(RequestHandlerStack.java:84)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequest(RequestCycle.java:206)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequestAndDetach(RequestCycle.java:248)
+     *      at org.apache.wicket.protocol.http.WicketFilter.processRequest(WicketFilter.java:131)
+     *      at org.apache.wicket.protocol.http.WicketFilter.doFilter(WicketFilter.java:184)
      *      at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
      *      at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:83)
      *      at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:76)
@@ -164,9 +175,9 @@ public class LoggingUtils
      *      at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
      *      at org.mortbay.jetty.Server.handle(Server.java:326)
      *      at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
-     *      at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:943)
-     *      at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:756)
-     *      at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:218)
+     *      at org.mortbay.jetty.HttpConnection$RequestHandler.headerComplete(HttpConnection.java:926)
+     *      at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:549)
+     *      at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:212)
      *      at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
      *      at org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:410)
      *      at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
@@ -174,30 +185,86 @@ public class LoggingUtils
      * 
      * Complete stack:
      * 
-     * org.apache.wicket.WicketRuntimeException: Method onFormSubmitted of interface org.apache.wicket.markup.html.form.IFormSubmitListener targeted at component [MarkupContainer [Component id = form]] threw an exception
-     *      at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:193)
-     *      at org.apache.wicket.request.target.component.listener.ListenerInterfaceRequestTarget.processEvents(ListenerInterfaceRequestTarget.java:73)
-     *      at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
-     *      at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
-     *      at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
-     *      at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
-     *      at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
-     *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)
+     * org.apache.wicket.WicketRuntimeException: Error calling method: public java.util.Date fiftyfive.wicket.examples.formtest.FormTestPage$1.getStartDate() on object: [ [Component id = calendar-control]]
+     *      at org.apache.wicket.util.lang.PropertyResolver$MethodGetAndSet.getValue(PropertyResolver.java:1116)
+     *      at org.apache.wicket.util.lang.PropertyResolver$ObjectAndGetSetter.getValue(PropertyResolver.java:637)
+     *      at org.apache.wicket.util.lang.PropertyResolver.getValue(PropertyResolver.java:96)
+     *      at org.apache.wicket.model.AbstractPropertyModel.getObject(AbstractPropertyModel.java:122)
+     *      at fiftyfive.wicket.datetime.RestrictedDatePicker.configure(RestrictedDatePicker.java:168)
+     *      at org.apache.wicket.extensions.yui.calendar.DatePicker.renderHead(DatePicker.java:260)
+     *      at org.apache.wicket.Component.renderHead(Component.java:2627)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:70)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:66)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:143)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:117)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:193)
+     *      at org.apache.wicket.MarkupContainer.visitChildren(MarkupContainer.java:941)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy.renderChildHeaders(ParentFirstHeaderRenderStrategy.java:64)
+     *      at org.apache.wicket.markup.renderStrategy.AbstractHeaderRenderStrategy.renderHeader(AbstractHeaderRenderStrategy.java:125)
+     *      at org.apache.wicket.markup.html.internal.HtmlHeaderContainer.onComponentTagBody(HtmlHeaderContainer.java:140)
+     *      at org.apache.wicket.Component.renderComponent(Component.java:2518)
+     *      at org.apache.wicket.MarkupContainer.onRender(MarkupContainer.java:1527)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.MarkupContainer.renderNext(MarkupContainer.java:1466)
+     *      at org.apache.wicket.MarkupContainer.renderAll(MarkupContainer.java:1589)
+     *      at org.apache.wicket.Page.onRender(Page.java:1139)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.Page.renderPage(Page.java:1289)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.renderPage(WebPageRenderer.java:131)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.respond(WebPageRenderer.java:199)
+     *      at org.apache.wicket.request.handler.RenderPageRequestHandler.respond(RenderPageRequestHandler.java:149)
+     *      at org.apache.wicket.request.RequestHandlerStack.executeRequestHandler(RequestHandlerStack.java:84)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequest(RequestCycle.java:206)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequestAndDetach(RequestCycle.java:248)
+     *      at org.apache.wicket.protocol.http.WicketFilter.processRequest(WicketFilter.java:131)
      * 
-     * java.lang.reflect.InvocationTargetException
+     * java.lang.RuntimeException: java.text.ParseException: Unparseable date: "1xxx07"
+     *      at fiftyfive.wicket.examples.formtest.FormTestPage$1.getStartDate(FormTestPage.java:87)
      *      at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-     *      at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
      *      at java.lang.reflect.Method.invoke(Method.java:597)
-     *      at org.apache.wicket.RequestListenerInterface.invoke(RequestListenerInterface.java:182)
-     *      at org.apache.wicket.request.target.component.listener.ListenerInterfaceRequestTarget.processEvents(ListenerInterfaceRequestTarget.java:73)
-     *      at org.apache.wicket.request.AbstractRequestCycleProcessor.processEvents(AbstractRequestCycleProcessor.java:92)
-     *      at org.apache.wicket.RequestCycle.processEventsAndRespond(RequestCycle.java:1250)
-     *      at org.apache.wicket.RequestCycle.step(RequestCycle.java:1329)
-     *      at org.apache.wicket.RequestCycle.steps(RequestCycle.java:1436)
-     *      at org.apache.wicket.RequestCycle.request(RequestCycle.java:545)
-     *      at org.apache.wicket.protocol.http.WicketFilter.doGet(WicketFilter.java:484)</pre>
+     *      at org.apache.wicket.util.lang.PropertyResolver$MethodGetAndSet.getValue(PropertyResolver.java:1112)
+     *      at org.apache.wicket.util.lang.PropertyResolver$ObjectAndGetSetter.getValue(PropertyResolver.java:637)
+     *      at org.apache.wicket.util.lang.PropertyResolver.getValue(PropertyResolver.java:96)
+     *      at org.apache.wicket.model.AbstractPropertyModel.getObject(AbstractPropertyModel.java:122)
+     *      at fiftyfive.wicket.datetime.RestrictedDatePicker.configure(RestrictedDatePicker.java:168)
+     *      at org.apache.wicket.extensions.yui.calendar.DatePicker.renderHead(DatePicker.java:260)
+     *      at org.apache.wicket.Component.renderHead(Component.java:2627)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:70)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy$1.component(ParentFirstHeaderRenderStrategy.java:66)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:143)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:161)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:117)
+     *      at org.apache.wicket.util.visit.Visits.visitChildren(Visits.java:193)
+     *      at org.apache.wicket.MarkupContainer.visitChildren(MarkupContainer.java:941)
+     *      at org.apache.wicket.markup.renderStrategy.ParentFirstHeaderRenderStrategy.renderChildHeaders(ParentFirstHeaderRenderStrategy.java:64)
+     *      at org.apache.wicket.markup.renderStrategy.AbstractHeaderRenderStrategy.renderHeader(AbstractHeaderRenderStrategy.java:125)
+     *      at org.apache.wicket.markup.html.internal.HtmlHeaderContainer.onComponentTagBody(HtmlHeaderContainer.java:140)
+     *      at org.apache.wicket.Component.renderComponent(Component.java:2518)
+     *      at org.apache.wicket.MarkupContainer.onRender(MarkupContainer.java:1527)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.MarkupContainer.renderNext(MarkupContainer.java:1466)
+     *      at org.apache.wicket.MarkupContainer.renderAll(MarkupContainer.java:1589)
+     *      at org.apache.wicket.Page.onRender(Page.java:1139)
+     *      at org.apache.wicket.Component.render_(Component.java:2380)
+     *      at org.apache.wicket.Component.render(Component.java:2307)
+     *      at org.apache.wicket.Page.renderPage(Page.java:1289)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.renderPage(WebPageRenderer.java:131)
+     *      at org.apache.wicket.request.handler.render.WebPageRenderer.respond(WebPageRenderer.java:199)
+     *      at org.apache.wicket.request.handler.RenderPageRequestHandler.respond(RenderPageRequestHandler.java:149)
+     *      at org.apache.wicket.request.RequestHandlerStack.executeRequestHandler(RequestHandlerStack.java:84)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequest(RequestCycle.java:206)
+     *      at org.apache.wicket.request.cycle.RequestCycle.processRequestAndDetach(RequestCycle.java:248)
+     *      at org.apache.wicket.protocol.http.WicketFilter.processRequest(WicketFilter.java:131)</pre>
      */
-    public static void logRuntimeException(Logger logger, RuntimeException e)
+    public static void logException(Logger logger, Exception e)
     {
         Assert.notNull(logger, "logger cannot be null");
         Assert.notNull(e, "exception cannot be null");
@@ -241,7 +308,7 @@ public class LoggingUtils
      * <p>
      * Then the unwrapped exception would be {@code MyBusinessException}. 
      */
-    public static Throwable unwrap(RuntimeException e)
+    public static Throwable unwrap(Throwable e)
     {
         Assert.notNull(e);
         
@@ -271,32 +338,29 @@ public class LoggingUtils
      * cycle in great detail. Example output:
      * <pre class="example">
      * Request:
-     *   URL      = /form?wicket:interface=:0:form::IFormSubmitListener::
-     *   Step     = Processing Form Submission
-     *   Target   = FormTestPage > Form [form]
-     *   Duration = 9 milliseconds
+     *   URL       = wicket/bookmarkable/fiftyfive.wicket.examples.formtest.FormTestPage?0&initialMonth=10.2007&startDate=1xxx07&endDate=11.10.2007
+     *   Handler   = RenderPageRequestHandler
+     *   Component = FormTestPage
+     *   Duration  = 485 milliseconds
      * Session:
-     *   ID       = wvz6xha0fvdzte1x36zzbz4a
-     *   Info     = Custom session information
-     *   Duration = 16 seconds
-     *   Size     = 13.5K
+     *   ID       = 1sxy938y7qoqq942z4pnuqdqt
+     *   Info     = TODO: Your session info goes here
+     *   Size     = 716 bytes
+     *   Duration = 310 milliseconds
      * Application:
-     *   Active Sessions = 1 (6 peak)
-     *   Memory Usage    = 36M used, 29M free, 533M max
+     *   Active Sessions = 1 (1 peak)
+     *   Memory Usage    = 25M used, 40M free, 533M max
      *   IP Address      = 172.16.1.14
-     *   Uptime          = 33.5 seconds
+     *   Uptime          = 10.9 seconds
      * Headers:
      *   Host            = localhost:8080
      *   User-Agent      = Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-us) AppleWebKit/533.18.1 (KHTML, like Gecko) Version/5.0.2 Safari/533.18.5
-     *   Accept          = application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*&#047;*;q=0.5
-     *   Referer         = http://localhost:8080/form?initialMonth=10.2007&startDate=10.01.2007&endDate=11.10.2007
+     *   Accept          = application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,&#042;/&#042;;q=0.5
+     *   Cache-Control   = max-age=0
      *   Accept-Language = en-us
      *   Accept-Encoding = gzip, deflate
-     *   Cookie          = JSESSIONID=wvz6xha0fvdzte1x36zzbz4a
-     *   Connection      = keep-alive
-     *   Origin          = http://localhost:8080
-     *   Content-Type    = application/x-www-form-urlencoded
-     *   Content-Length  = 47</pre>
+     *   Cookie          = JSESSIONID=1217fv4qjpnbnv1ewzzmonevh
+     *   Connection      = keep-alive</pre>
      * <p>
      * Note that session duration and application active sessions are only
      * available if Wicket's request logging facility is enabled.
@@ -316,8 +380,8 @@ public class LoggingUtils
      * Returns a Map with information associated with the following keys:
      * <ul>
      * <li>{@code URL}</li>
-     * <li>{@code Step}</li>
-     * <li>{@code Target}</li>
+     * <li>{@code Handler}</li>
+     * <li>{@code Component}</li>
      * <li>{@code Duration}</li>
      * </ul>
      */
@@ -325,8 +389,8 @@ public class LoggingUtils
     {
         Map<String,Object> info = new LinkedHashMap<String,Object>();
         info.put("URL", HttpUtils.getRelativeRequestUrl());
-        info.put("Step", describeRequestStep());
-        info.put("Target", describeRequestTarget());
+        info.put("Handler", describeRequestHandler());
+        info.put("Component", describeRequestComponent());
         info.put("Duration", getRequestDuration());
         return info;
     }
@@ -396,74 +460,15 @@ public class LoggingUtils
     }
     
     /**
-     * Returns a human-readable description of the task currently being
-     * performed by the Wicket framework. The result will be one of these
-     * strings:
-     * <ul>
-     * <li>{@code Processing Form Submission}</li>
-     * <li>{@code Processing Link Click}</li>
-     * <li>{@code Processing Form Element OnChange Event}</li>
-     * <li>{@code Processing Ajax Event}</li>
-     * <li>{@code Rendering Ajax Response}</li>
-     * <li>{@code Rendering Stateful Page}</li>
-     * <li>{@code Rendering Bookmarkable Page}</li>
-     * <li>{@code Serving Shared Resource}</li>
-     * <li>Class name of the current {@link IRequestTarget}, if a description
-     *     is not available.</li>
-     * </ul>
+     * Returns a human-readable description of the original handler of the
+     * current request. This is simply the name of the
+     * {@link IRequestHandler} class, like {@code RenderPageRequestHandler}.
      */
-    public static String describeRequestStep()
+    public static String describeRequestHandler()
     {
-        RequestCycle cycle = RequestCycle.get();
-        IRequestTarget target = cycle.getRequestTarget();
-        Response resp = cycle.getResponse();
-        
-        String desc = null;
-        
-        if(resp instanceof WebResponse && ((WebResponse) resp).isAjax())
-        {
-            desc = "Rendering Ajax Response";
-        }
-        else if(AjaxRequestTarget.get() != null)
-        {
-            desc = "Processing Ajax Event";
-        }
-        else if(target instanceof ISharedResourceRequestTarget)
-        {
-            desc = "Serving Shared Resource";
-        }
-        else if(target instanceof IListenerInterfaceRequestTarget)
-        {
-            IListenerInterfaceRequestTarget listener;
-            listener = (IListenerInterfaceRequestTarget) target;
-            String name = listener.getRequestListenerInterface().getName();
-            if(LISTENER_DESCRIPTIONS.containsKey(name))
-            {
-                desc = LISTENER_DESCRIPTIONS.get(name);
-            }
-            else
-            {
-                desc = String.format(
-                    "%s#%s",
-                    name,
-                    listener.getRequestListenerInterface().getMethod().getName()
-                );
-            }
-        }
-        else if(target instanceof IPageRequestTarget)
-        {
-            desc = "Rendering Stateful Page";
-        }
-        else if(target instanceof IBookmarkablePageRequestTarget)
-        {
-            desc = "Rendering Bookmarkable Page";
-        }
-        else if(target != null)
-        {
-            desc = Classes.simpleName(target.getClass());
-        }
-        
-        return desc;
+        IRequestHandler handler = guessOriginalRequestHandler();
+        // TODO: more descriptive than this?
+        return handler != null ? Classes.simpleName(handler.getClass()) : null;
     }
     
     /**
@@ -479,71 +484,51 @@ public class LoggingUtils
      * <p>
      * If a page is being rendered, the description will be the page class.
      */
-    public static String describeRequestTarget()
+    public static String describeRequestComponent()
     {
-        RequestCycle cycle = RequestCycle.get();
-        IRequestTarget target = cycle.getRequestTarget();
-        String desc = null;
+        IRequestHandler handler = guessOriginalRequestHandler();
+        Class<? extends IRequestablePage> pageClass = null;
+        IRequestableComponent component = null;
         
-        if(target instanceof IListenerInterfaceRequestTarget)
+        if(handler instanceof IPageClassRequestHandler)
+        {
+            pageClass = ((IPageClassRequestHandler) handler).getPageClass();
+        }
+        if(handler instanceof IComponentRequestHandler)
+        {
+            component = ((IComponentRequestHandler) handler).getComponent();
+        }
+        
+        StringBuffer desc = new StringBuffer();
+        
+        if(pageClass != null)
+        {
+            desc.append(Classes.simpleName(pageClass));
+        }
+        if(component != null)
         {
             String classDesc = null;
-            Component comp;
-            comp = ((IListenerInterfaceRequestTarget) target).getTarget();
-            
-            if(comp != null)
+            if(component.getClass().isAnonymousClass())
             {
-                if(comp.getClass().isAnonymousClass())
-                {
-                    classDesc = String.format(
-                        "%s (%s)",
-                        Classes.simpleName(comp.getClass()),
-                        Classes.simpleName(comp.getClass().getSuperclass())
-                    );
-                }
-                else
-                {
-                    classDesc = Classes.simpleName(comp.getClass());
-                }
-                
-                Class pageClass = null;
-                if(comp.getPage() != null)
-                {
-                    pageClass = comp.getPage().getClass();
-                }
-            
-                desc = String.format(
-                    "%s > %s [%s]",
-                    Classes.simpleName(pageClass),
-                    classDesc,
-                    comp.getPageRelativePath()
+                classDesc = String.format(
+                    "%s (%s)",
+                    Classes.simpleName(component.getClass()),
+                    Classes.simpleName(component.getClass().getSuperclass())
                 );
-            }
-        }
-        else
-        {
-            Class<?> page = null;
-            if(target instanceof IPageRequestTarget)
-            {
-                page = ((IPageRequestTarget) target).getPage().getClass();
-            }
-            else if(target instanceof IBookmarkablePageRequestTarget)
-            {
-                page = ((IBookmarkablePageRequestTarget) target).getPageClass();
             }
             else
             {
-                Page obj = cycle.getResponsePage();
-                if(null == obj)
-                {
-                    obj = cycle.getRequest().getPage();
-                }
-                page = obj != null ? obj.getClass() : null;
+                classDesc = Classes.simpleName(component.getClass());
             }
-            desc = null == page ? null : Classes.simpleName(page);
+            
+            desc.append(String.format(
+                " > %s [%s]",
+                classDesc,
+                component.getPageRelativePath()
+            ));
         }
-        
-        return desc;
+
+        return desc.length() > 0 ? desc.toString() : null;
     }
     
     /**
@@ -683,6 +668,12 @@ public class LoggingUtils
             ));
         }
         return buf.toString();
+    }
+    
+    private static IRequestHandler guessOriginalRequestHandler()
+    {
+        IRequestMapper mapper = Application.get().getRootRequestMapper();
+        return mapper.mapRequest(RequestCycle.get().getRequest());
     }
 
     /**

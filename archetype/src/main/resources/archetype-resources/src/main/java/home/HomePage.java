@@ -4,7 +4,7 @@ import ${package}.BasePage;
 
 import fiftyfive.wicket.js.JavaScriptDependency;
 import static fiftyfive.wicket.util.Shortcuts.*;
-import org.apache.wicket.PageParameters;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * Home page for ${project_name}.

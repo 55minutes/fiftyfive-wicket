@@ -19,21 +19,17 @@ package fiftyfive.wicket.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wicket.Resource;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.behavior.AbstractHeaderContributor;
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.IHeaderContributor;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WicketURLEncoder;
-import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
+import org.apache.wicket.request.UrlEncoder;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.wicketstuff.mergedresources.ResourceMount;
-import org.wicketstuff.mergedresources.ResourceSpec;
-import static org.apache.wicket.Application.DEVELOPMENT;
 
 /**
+ * <b>This class is not yet compatible with Wicket 1.5.</b>
+ * <p>
  * Simplifies usage of the wicketstuff-merged-resources library by mounting
  * merged resources with an easy builder API and a good set defaults. This
  * is an abstract base class intended to be subclassed for CSS and JavaScript
@@ -83,6 +79,8 @@ public abstract class MergedResourceBuilder
     protected MergedResourceBuilder()
     {
         _references = new ArrayList<ResourceReference>();
+        throw new UnsupportedOperationException(
+            "MergedResourceBuilder is not yet compatible with Wicket 1.5.");
     }
     
     /**
@@ -114,10 +112,13 @@ public abstract class MergedResourceBuilder
      * @throws IllegalStateException if a path or resources have not been
      *         specified prior to calling this method.
      */
-    public AbstractHeaderContributor build(WebApplication app)
+    public Behavior build(WebApplication app)
     {
         assertRequiredOptions();
-        if(app.getConfigurationType().equals(DEVELOPMENT))
+        mountIndividualResources(app);
+        // TODO: uncomment onse mountMergedResources() is working again
+        /*
+        if(app.usesDevelopmentConfig())
         {
             mountIndividualResources(app);
         }
@@ -125,6 +126,7 @@ public abstract class MergedResourceBuilder
         {
             mountMergedResources(app);            
         }
+        */
         return createHeaderContributor();
     }
     
@@ -144,7 +146,7 @@ public abstract class MergedResourceBuilder
      * 
      * @since 2.0
      */
-    protected abstract IHeaderContributor newContributor(ResourceReference ref);
+    protected abstract Behavior newContributor(ResourceReference ref);
     
     /**
      * Mount each resource using WebApplication.mount(). Choose a mount point
@@ -157,18 +159,14 @@ public abstract class MergedResourceBuilder
         int i = 0;
         for(ResourceReference ref : _references)
         {
-            String name = ref.getSharedResourceKey().replaceAll("/", "-");
+            ResourceReference.Key key = new ResourceReference.Key(ref);
+            String name = key.toString().replaceAll("/", "-");
             String uniquePath = String.format(
                 "%s-%s",
                 _path,
-                WicketURLEncoder.PATH_INSTANCE.encode(name)
+                UrlEncoder.PATH_INSTANCE.encode(name, "UTF-8")
             );
-            // Use query string strategy to ensure that Wicket's resource
-            // last modified timestamp is appended as query string parameters
-            // rather than additional path elements.
-            app.mount(new QueryStringSharedResourceRequestTargetUrlCodingStrategy(
-                uniquePath, ref.getSharedResourceKey()
-            ));
+            app.mountResource(uniquePath, ref);
         }
     }
     
@@ -178,7 +176,11 @@ public abstract class MergedResourceBuilder
      */
     private void mountMergedResources(WebApplication app)
     {
-        ResourceMount mountConfig = new CustomizedResourceMount();
+        // TODO: We can't use ResourceMount yet because it isn't compiled for
+        //       Wicket 1.5!!
+        throw new UnsupportedOperationException();
+        /*
+        ResourceMount mountConfig = new ResourceMount();
         mountConfig.setDefaultAggressiveCacheDuration();
 
         mountConfig.setMerged(true);
@@ -193,17 +195,22 @@ public abstract class MergedResourceBuilder
             mountConfig.addResourceSpec(ref);
         }
         mountConfig.mount(app);
+        */
     }
     
-    private AbstractHeaderContributor createHeaderContributor()
+    private Behavior createHeaderContributor()
     {
-        IHeaderContributor[] arr = new IHeaderContributor[_references.size()];
-        for(int i=0; i<_references.size(); i++)
-        {
-            ResourceReference ref = _references.get(i);
-            arr[i] = newContributor(ref);
-        }
-        return new HeaderContributions(arr);
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                for(int i=0; i<_references.size(); i++)
+                {
+                    ResourceReference ref = _references.get(i);
+                    newContributor(ref).renderHead(comp, response);
+                }
+            }
+        };
     }
     
     private void assertRequiredOptions()
@@ -217,63 +224,6 @@ public abstract class MergedResourceBuilder
             throw new IllegalStateException(
                 "at least one resource must be added"
             );
-        }
-    }
-    
-    private static class HeaderContributions extends AbstractHeaderContributor
-    {
-        IHeaderContributor[] _contribs;
-        
-        private HeaderContributions(IHeaderContributor[] contribs)
-        {
-            _contribs = contribs;
-        }
-        
-        public IHeaderContributor[] getHeaderContributors()
-        {
-            return _contribs;
-        }
-    }
-    
-    /**
-     * A customized version of the wicketstuff-merged-resources ResourceMount
-     * class that overrides the URL coding strategy that is used for
-     * mounting resources.
-     * Use a query string strategy to ensure that Wicket's resource
-     * last modified timestamp is appended as query string parameters
-     * rather than additional path elements.
-     */
-    private static class CustomizedResourceMount extends ResourceMount
-    {
-        // The following code is copied from ResourceMount.java with only minor
-        // tweaks to replace the default coding strategies with our
-        // query string versions.
-        // Original code Copyright 2010 Stefan Fußenegger. Licensed under
-        // the Apache Software License, Version 2.0.
-        @Override
-        protected IRequestTargetUrlCodingStrategy newStrategy(String mountPath, final ResourceReference ref, boolean merge) {
-            if (merge) {
-                final ArrayList<String> mergedKeys = new ArrayList<String>(getResourceSpecs().length);
-                for (ResourceSpec spec : getResourceSpecs()) {
-                    mergedKeys.add(new ResourceReference(spec.getScope(), spec.getFile()) {
-
-                        private static final long serialVersionUID = 1L;
-
-                        @Override
-                        protected Resource newResource() {
-                            Resource r = ref.getResource();
-                            if (r == null) {
-                                throw new WicketRuntimeException("ResourceReference wasn't bound to application yet");
-                            }
-                            return r;
-                        }
-
-                    }.getSharedResourceKey());
-                }
-                return new QueryStringMergedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey(), mergedKeys);
-            } else {
-                return new QueryStringSharedResourceRequestTargetUrlCodingStrategy(mountPath, ref.getSharedResourceKey());
-            }
         }
     }
 }

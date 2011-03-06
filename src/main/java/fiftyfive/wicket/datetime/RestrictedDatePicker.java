@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -143,9 +144,12 @@ public class RestrictedDatePicker extends DatePicker
      * Configure the widget with the start and end dates specified.
      * @param widgetProperties  the current widget properties
      */
-    protected void configure(Map widgetProperties)
+    @Override
+    protected void configure(final Map<String, Object> widgetProperties,
+                             final IHeaderResponse response,
+                             final Map<String, Object> initVariables)
     {
-        super.configure(widgetProperties);
+        super.configure(widgetProperties, response, initVariables);
         
         /*
         ** If the initial, start and end date model objects exist, add pagedate,

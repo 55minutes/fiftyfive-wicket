@@ -17,8 +17,9 @@ package fiftyfive.wicket.js.datetime;
 
 import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.DomReadyTemplate;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * A simple jQuery UI-based replacement for Wicket’s YUI-based
@@ -52,10 +53,8 @@ import org.apache.wicket.ResourceReference;
  */
 public class JQueryDatePicker extends DomReadyTemplate
 {
-    private static ResourceReference DEFAULT_IMAGE = new ResourceReference(
-        JQueryDatePicker.class,
-        "calendar.png"
-    );
+    private static ResourceReference DEFAULT_IMAGE =
+        new PackageResourceReference(JQueryDatePicker.class, "calendar.png");
     
     /**
      * Sets the date picker button image that will be used by default for
@@ -100,6 +99,6 @@ public class JQueryDatePicker extends DomReadyTemplate
      */
     public CharSequence getButtonImageUrl()
     {
-        return RequestCycle.get().urlFor(getButtonImage());
+        return RequestCycle.get().urlFor(getButtonImage(), null);
     }
 }

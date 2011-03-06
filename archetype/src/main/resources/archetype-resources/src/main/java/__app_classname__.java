@@ -1,24 +1,21 @@
 package ${package};
 
+import ${package}.error.ForbiddenErrorPage;
+import ${package}.error.InternalServerErrorPage;
+import ${package}.home.HomePage;
 
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 
-import ${package}.error.ForbiddenErrorPage;
-import ${package}.error.InternalServerErrorPage;
-import ${package}.home.HomePage;
-
 import org.apache.wicket.Application;
-import org.apache.wicket.Request;
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebRequest;
-
-import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
-
+import org.apache.wicket.request.IExceptionMapper;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
+import org.apache.wicket.request.mapper.MountedMapper;
+import org.apache.wicket.util.ValueProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 /**
  * Wicket framework configuration for ${project_name}.
@@ -40,7 +37,7 @@ public class ${app_classname} extends FoundationSpringApplication
     }
 
     @Override
-    public Class getHomePage()
+    public Class<HomePage> getHomePage()
     {
         return HomePage.class;
     }
@@ -51,8 +48,9 @@ public class ${app_classname} extends FoundationSpringApplication
         super.init();
         
         // Enable annotations for mounting pages
-        AnnotatedMountScanner scanner = new AnnotatedMountScanner();
-        scanner.scanPackage("${package}").mount(this);
+        // TODO: uncomment once wicketstuff annotation supports Wicket 1.5!!
+        // AnnotatedMountScanner scanner = new AnnotatedMountScanner();
+        // scanner.scanPackage("${package}").mount(this);
         
         // Configure merged resources
         initMergedResources();
@@ -64,6 +62,11 @@ public class ${app_classname} extends FoundationSpringApplication
             InternalServerErrorPage.class
         );
         
+        // Configure exception handling
+        setExceptionMapperProvider(new ValueProvider<IExceptionMapper>(
+            new ${exceptionmapper_classname}()
+        ));
+
         // Custom initialization goes here
         
         LOGGER.info("Initialized!");
@@ -83,27 +86,19 @@ public class ${app_classname} extends FoundationSpringApplication
         );
         
         // Mount merged JS
-        new MergedJavaScriptBuilder()
-            .setPath("/scripts/all.js")
-            .addJQueryUI()
-            .addLibrary("cookies")
-            .addLibrary("strftime")
-            .addLibrary("55_utils")
-            .addLibrary("jquery.55_utils")
-            .addAssociatedScript(BasePage.class)
-            .addWicketAjaxLibraries()
-            .build(this);
+        // Not yet compatible with Wicket 1.5!
+        // new MergedJavaScriptBuilder()
+        //     .setPath("/scripts/all.js")
+        //     .addJQueryUI()
+        //     .addLibrary("cookies")
+        //     .addLibrary("strftime")
+        //     .addLibrary("55_utils")
+        //     .addLibrary("jquery.55_utils")
+        //     .addAssociatedScript(BasePage.class)
+        //     .addWicketAjaxLibraries()
+        //     .build(this);
     }
 
-    /**
-     * Returns our custom {@link ${requestcycle_classname}}.
-     */
-    @Override
-    public ${requestcycle_classname} newRequestCycle(Request request, Response response)
-    {
-        return new ${requestcycle_classname}(this, (WebRequest) request, response);
-    }
-    
     /**
      * Returns our custom {@link ${session_classname}}.
      */

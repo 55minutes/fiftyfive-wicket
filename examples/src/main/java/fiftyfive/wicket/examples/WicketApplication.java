@@ -22,12 +22,12 @@ import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 import org.apache.wicket.Application;
-import org.apache.wicket.Request;
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.request.IExceptionMapper;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.Response;
+import org.apache.wicket.util.ValueProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.wicketstuff.annotation.scan.AnnotatedMountScanner;
 
 /**
  * Wicket framework configuration for 55 Minutes Wicket Examples.
@@ -60,8 +60,9 @@ public class WicketApplication extends FoundationSpringApplication
         super.init();
         
         // Enable annotations for mounting pages
-        AnnotatedMountScanner scanner = new AnnotatedMountScanner();
-        scanner.scanPackage("fiftyfive.wicket.examples").mount(this);
+        // TODO: uncomment once wicketstuff annotation supports Wicket 1.5!!
+        // AnnotatedMountScanner scanner = new AnnotatedMountScanner();
+        // scanner.scanPackage("fiftyfive.wicket.examples").mount(this);
         
         // Configure merged resources
         initMergedResources();
@@ -72,6 +73,11 @@ public class WicketApplication extends FoundationSpringApplication
         getApplicationSettings().setInternalErrorPage(
             InternalServerErrorPage.class
         );
+        
+        // Configure exception handling
+        setExceptionMapperProvider(new ValueProvider<IExceptionMapper>(
+            new WicketExceptionMapper()
+        ));
 
         // Custom initialization goes here
         
@@ -92,27 +98,19 @@ public class WicketApplication extends FoundationSpringApplication
         );
 
         // Mount merged JS
-        new MergedJavaScriptBuilder()
-            .setPath("/scripts/all.js")
-            .addJQueryUI()
-            .addLibrary("cookies")
-            .addLibrary("strftime")
-            .addLibrary("55_utils")
-            .addLibrary("jquery.55_utils")
-            .addAssociatedScript(BasePage.class)
-            .addWicketAjaxLibraries()
-            .build(this);
+        // Not yet compatible with Wicket 1.5!
+        // new MergedJavaScriptBuilder()
+        //     .setPath("/scripts/all.js")
+        //     .addJQueryUI()
+        //     .addLibrary("cookies")
+        //     .addLibrary("strftime")
+        //     .addLibrary("55_utils")
+        //     .addLibrary("jquery.55_utils")
+        //     .addAssociatedScript(BasePage.class)
+        //     .addWicketAjaxLibraries()
+        //     .build(this);
     }
 
-    /**
-     * Returns our custom {@link WicketRequestCycle}.
-     */
-    @Override
-    public WicketRequestCycle newRequestCycle(Request request, Response response)
-    {
-        return new WicketRequestCycle(this, (WebRequest) request, response);
-    }
-    
     /**
      * Returns our custom {@link WicketSession}.
      */

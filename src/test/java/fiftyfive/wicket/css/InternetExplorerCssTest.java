@@ -32,39 +32,4 @@ public class InternetExplorerCssTest extends BaseWicketTest
             "InternetExplorerCssTestPage-expected.html"
         );
     }
-    
-    @Test
-    public void testRewriteUri_null()
-    {
-        assertEquals(null, InternetExplorerCss.rewriteUri(null));
-    }
-
-    @Test
-    public void testRewriteUri_http()
-    {
-        final String url = "http://www.google.com";
-        assertEquals(url, InternetExplorerCss.rewriteUri(url));
-    }
-
-    @Test
-    public void testRewriteUri_https()
-    {
-        final String url = "https://www.google.com";
-        assertEquals(url, InternetExplorerCss.rewriteUri(url));
-    }
-
-    @Test
-    public void testRewriteUri_slash()
-    {
-        final String url = "/foo";
-        assertEquals(url, InternetExplorerCss.rewriteUri(url));
-    }
-
-    @Test
-    public void testRewriteUri_relative()
-    {
-        final String url = "foo/bar/baz";
-        _tester.startPage(InternetExplorerCssTestPage.class);
-        assertEquals("../" + url, InternetExplorerCss.rewriteUri(url));
-    }
 }

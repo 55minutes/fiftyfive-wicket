@@ -17,6 +17,7 @@
 package fiftyfive.wicket.prototype;
 
 import org.apache.wicket.markup.html.list.Loop;
+import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.model.IModel;
 
 /**
@@ -61,7 +62,7 @@ public class RawMarkupLoop extends Loop
     /**
      * Empty.
      */
-    protected void populateItem(Loop.LoopItem item)
+    protected void populateItem(LoopItem item)
     {
         // pass
     }

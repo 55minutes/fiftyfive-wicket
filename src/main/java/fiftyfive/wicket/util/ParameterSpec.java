@@ -19,15 +19,14 @@ package fiftyfive.wicket.util;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.flow.RedirectToUrlException;
+import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.convert.ConversionException;
 import org.apache.wicket.util.lang.PropertyResolver;
 
@@ -56,8 +55,22 @@ import org.apache.wicket.util.lang.PropertyResolver;
  *     that bean to the backend for loading, etc.</li>
  * </ol>
  * <p>
- * Recommended usage: define a <code>SPEC</code> static
- * instance on your page.
+ * For example, let's say you have a {@code PersonDetailPage} mounted at
+ * <code>/people/${id}/${slug}</code>.
+ * <pre class="example">
+ * public class MyApplication extends WebApplication
+ * {
+ *     &#064;Override
+ *     protected void init()
+ *     {
+ *         super.init();
+ *         mountPage("/people/${id}/${slug}", PersonDetailPage.class);
+ *     }
+ * }</pre>
+ * ParameterSpec will handle these {@code id} and {@code slug} parameters
+ * for you. Assuming you have a {@code Person} bean with {@code id} and
+ * {@code slug} properties, you would define a {@code SPEC} static instance
+ * on the page like this:
  * <pre class="example">
  * public class PersonDetailPage extends WebPage
  * {
@@ -158,9 +171,9 @@ public class ParameterSpec<T> implements Serializable
             protected void onBeforeRender()
             {
                 PageParameters params = createParameters(model.getObject());
-                for(String key : (Set<String>) params.keySet())
+                for(PageParameters.NamedPair pair : params.getAllNamed())
                 {
-                    setParameter(key, params.getString(key));
+                    setParameter(pair.getKey(), pair.getValue());
                 }
                 super.onBeforeRender();
             }
@@ -179,15 +192,15 @@ public class ParameterSpec<T> implements Serializable
      * bookmarkable page managed by this ParameterSpec. Page parameters will
      * be passed to the page based on the specified model.
      * 
-     * @throws RestartResponseException to force Wicket to halt the request
+     * @throws RedirectToUrlException to force Wicket to halt the request
      */
     public void redirect(IModel<T> model)
     {
-        RequestCycle.get().setRedirect(true);
-        throw new RestartResponseException(
+        CharSequence url = RequestCycle.get().urlFor(
             _pageClass,
             createParameters(model.getObject())
         );
+        throw new RedirectToUrlException(url.toString(), 302);
     }
     
     /**
@@ -207,7 +220,7 @@ public class ParameterSpec<T> implements Serializable
             Object value = PropertyResolver.getValue(expression, bean);
             if(value != null)
             {
-                params.put(key, value.toString());
+                params.set(key, value.toString());
             }
         }
         return params;
@@ -226,7 +239,7 @@ public class ParameterSpec<T> implements Serializable
      * @param beanToPopulate Values will be set using appropriate setters on
      *                       this bean
      * 
-     * @throws AbortWithWebErrorCodeException with a 404 status code if
+     * @throws AbortWithHttpErrorCodeException with a 404 status code if
      * a parsing exception occurs. For example, this could happen if the bean
      * property for "id" is of type Long, but the parameter value being parsed
      * is not numeric.
@@ -249,7 +262,7 @@ public class ParameterSpec<T> implements Serializable
      * @param beanToPopulate Values will be set using appropriate setters on
      *                       this bean
      * 
-     * @throws AbortWithWebErrorCodeException with a 404 status code if
+     * @throws AbortWithHttpErrorCodeException with a 404 status code if
      * {@code throw404OnParseError} is {@code true} and a parsing exception
      * occurs. For example, this could happen if the bean property for "id" is
      * of type Long, but the parameter value being parsed is not numeric.
@@ -260,10 +273,11 @@ public class ParameterSpec<T> implements Serializable
                                 T beanToPopulate,
                                 boolean throw404OnParseError)
     {
-        for(String key : _mapping.keySet())
+        for(PageParameters.NamedPair pair : params.getAllNamed())
         {
+            String key = pair.getKey();
             String expr = _mapping.get(key);
-            Object val = params.getString(key);
+            String val = pair.getValue();
             if(val != null)
             {
                 try
@@ -274,7 +288,10 @@ public class ParameterSpec<T> implements Serializable
                 {
                     if(throw404OnParseError)
                     {
-                        throw new AbortWithWebErrorCodeException(404);
+                        throw new AbortWithHttpErrorCodeException(
+                            404,
+                            "Not found"
+                        );
                     }
                 }
             }

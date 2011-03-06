@@ -16,30 +16,25 @@
 package fiftyfive.wicket.test;
 
 import java.io.IOException;
-import java.io.StringReader;
+
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.sax.SAXSource;
 import javax.xml.xpath.XPathExpressionException;
 
 import fiftyfive.util.XPathHelper;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
-import org.ccil.cowan.tagsoup.Parser;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.DomSerializer;
+import org.htmlcleaner.HtmlCleaner;
 import org.junit.Assert;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 
 /**
@@ -53,72 +48,21 @@ import org.xml.sax.XMLReader;
  */
 public abstract class WicketTestUtils
 {
-    // Default to using the implementations shipped with the JRE
-    
-    private static String _transformerFactoryClassName =
-        "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
-    
-    private static String _documentBuilderFactoryClassName =
-        "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl";
-    
-    /**
-     * Change the {@link DocumentBuilderFactory} implementation used by the DOM and XPath
-     * helper methods of this class. The default JRE-provided class should be sufficient:
-     * {@code com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl}.
-     */
-    public static void setDocumentBuilderFactoryClassName(String className)
-    {
-        _documentBuilderFactoryClassName = className;
-    }
-    
-    /**
-     * Change the {@link TransformerFactory} implementation used by the DOM and XPath
-     * helper methods of this class. The default JRE-provided class should be sufficient:
-     * {@code com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl}.
-     */
-    public static void setTransformerFactoryClassName(String className)
-    {
-        _transformerFactoryClassName = className;
-    }
-    
     /**
      * Parses the most recently rendered Wicket page into an XML Document
-     * object. Uses
-     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * object. Uses <a href="http://htmlcleaner.sourceforge.net/>HtmlCleaner</a>
      * under the hood to parse even the sloppiest HTML. You can then use
      * things like xpath expressions against the document.
      * 
      * @return The root Node of the resulting DOM
      */
-    public static Node markupAsDOM(WicketTester tester)
-        throws SAXException, ParserConfigurationException, TransformerException
+    public static Node markupAsDOM(WicketTester tester) throws ParserConfigurationException
     {
-        // Obtain the raw text of the markup
-        String markup = document(tester);
+        CleanerProperties props = new CleanerProperties();
+        props.setNamespacesAware(false);
         
-        // Configure the SAX2 TagSoup parser
-        XMLReader reader = new Parser();
-        reader.setFeature(Parser.namespacesFeature, false);
-        reader.setFeature(Parser.namespacePrefixesFeature, false);
-
-        // A transformer that will convert SAX2 events to a DOM node.
-        TransformerFactory tf = TransformerFactory.newInstance(_transformerFactoryClassName, null);
-        Transformer transformer = tf.newTransformer();
-
-        // Construct an empty document into which the transformed elements will be placed
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance(
-            _documentBuilderFactoryClassName,
-            null);
-        DOMResult result = new DOMResult(dbf.newDocumentBuilder().newDocument());
-
-        // Peform the transformation
-        transformer.transform(
-            new SAXSource(reader, new InputSource(new StringReader(markup))), 
-            result
-        );
-
-        // This will be the root of the resulting DOM
-        return result.getNode();
+        HtmlCleaner cleaner = new HtmlCleaner(props);
+        return new DomSerializer(props, true).createDOM(cleaner.clean(document(tester)));
     }
     
     /**
@@ -208,7 +152,7 @@ public abstract class WicketTestUtils
     public static void assertValidMarkup(WicketTester tester, int linesContext) 
         throws IOException
     {
-        String type = tester.getServletResponse().getContentType();
+        String type = tester.getLastResponse().getContentType();
         Assert.assertNotNull(
             "Content type of rendered Wicket page cannot be null", type
         );
@@ -363,7 +307,7 @@ public abstract class WicketTestUtils
      */
     private static String document(WicketTester tester)
     {
-        String doc = tester.getServletResponse().getDocument();
+        String doc = tester.getLastResponseAsString();
         Assert.assertNotNull(
             "HTTP body of rendered Wicket page cannot be null", doc
         );

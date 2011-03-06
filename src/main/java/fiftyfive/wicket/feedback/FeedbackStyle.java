@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
-import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.feedback.ComponentFeedbackMessageFilter;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -51,7 +51,7 @@ import org.apache.wicket.markup.ComponentTag;
  * 
  * @since 2.0
  */
-public class FeedbackStyle extends AbstractBehavior
+public class FeedbackStyle extends Behavior
 {
     public static final FeedbackStyle INSTANCE = new FeedbackStyle();
     

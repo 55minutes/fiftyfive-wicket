@@ -49,7 +49,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     private IModel<String> _readyScript;
     
     /**
-     * Creates an IBehavior object that will add the given javascript
+     * Creates a Behavior object that will add the given javascript
      * string to the &lt;head&gt; for execution on DOM ready.
      */
     public DomReadyScript(String readyScript)
@@ -58,7 +58,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     }
 
     /**
-     * Creates an IBehavior object that will add the given javascript
+     * Creates a Behavior object that will add the given javascript
      * string to the &lt;head&gt; for execution on DOM ready.
      */
     public DomReadyScript(IModel<String> readyScript)
@@ -87,7 +87,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
      * <code>jQuery(function() { ... });</code>
      */
     @Override
-    public void renderHead(IHeaderResponse response)
+    public void renderHead(Component comp, IHeaderResponse response)
     {
         if(_readyScript != null)
         {

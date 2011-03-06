@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fiftyfive.util.Assert;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * Holds a tree of JavaScript dependencies as they are traversed, ensuring

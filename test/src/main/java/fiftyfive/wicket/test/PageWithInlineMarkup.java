@@ -15,14 +15,14 @@
  */
 package fiftyfive.wicket.test;
 
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.ContainerInfo;
 import org.apache.wicket.markup.Markup;
+import org.apache.wicket.markup.MarkupFactory;
 import org.apache.wicket.markup.MarkupResourceStream;
-import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.loader.DefaultMarkupLoader;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.resource.StringResourceStream;
+
 
 /**
  * A WebPage that obtains its markup from a String passed into its
@@ -47,23 +47,12 @@ public class PageWithInlineMarkup extends WebPage
     }
     
     @Override
-    public MarkupStream getAssociatedMarkupStream(boolean throwException)
+    public Markup getAssociatedMarkup()
     {
         StringResourceStream stream = new StringResourceStream(_htmlMarkup);
-        try
-        {
-            MarkupResourceStream mrs = new MarkupResourceStream(
-                stream, new ContainerInfo(this), null
-            );
-            Markup markup = new DefaultMarkupLoader().loadMarkup(
-                this, mrs, null, false
-            );
-            return new MarkupStream(markup);
-        }
-        catch(Exception e)
-        {
-            if(throwException) throw new RuntimeException(e);
-        }
-        return null;
+        MarkupResourceStream mrs = new MarkupResourceStream(
+            stream, new ContainerInfo(this), null
+        );
+        return MarkupFactory.get().loadMarkup(this, mrs, false);
     }
 }

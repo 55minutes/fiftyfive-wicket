@@ -19,18 +19,14 @@ package fiftyfive.wicket;
 import java.util.Date;
 
 import fiftyfive.util.Version;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.markup.html.AjaxServerAndClientTimeFilter;
-import org.apache.wicket.protocol.http.PageExpiredException;
-import org.apache.wicket.protocol.http.RequestLogger;
+import org.apache.wicket.protocol.http.DummyRequestLogger;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
-import org.apache.wicket.request.IRequestCycleProcessor;
+import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.apache.wicket.RuntimeConfigurationType.DEVELOPMENT;
 
 /**
  * Useful base class for Wicket applications that implements best practices
@@ -102,11 +98,14 @@ public abstract class FoundationApplication extends WebApplication
     
     /**
      * Helper method that returns true if {@link #getConfigurationType}
-     * is equal to Application.DEVELOPMENT.
+     * is equal to DEVELOPMENT.
+     * 
+     * @deprecated In Wicket 1.5, this has been superseded by
+     *             {@link #usesDevelopmentConfig}.
      */
     public boolean isDevelopmentMode()
     {
-        return getConfigurationType().equals(DEVELOPMENT);
+        return usesDevelopmentConfig();
     }
     
     /**
@@ -138,7 +137,7 @@ public abstract class FoundationApplication extends WebApplication
         initResources();
         initRequestLogger();
         
-        if(isDevelopmentMode())
+        if(usesDevelopmentConfig())
         {
             initHtmlHotDeploy();
             initDebugInformation();
@@ -198,9 +197,7 @@ public abstract class FoundationApplication extends WebApplication
     }
     
     /**
-     * Enables the {@link AjaxServerAndClientTimeFilter} so that the
-     * response and rendering time are automatically displayed in the browser
-     * status bar for every request. Disables ajaxDebugMode (the popup
+     * Disables ajaxDebugMode (the popup
      * panel in the browser that shows ajax request and response details).
      * It is disabled because it is a memory hog that can bog down the
      * browser. Finally, enables emitting HTML comments that show which Wicket
@@ -236,10 +233,9 @@ public abstract class FoundationApplication extends WebApplication
      */
     protected void initResources()
     {
-        getResourceSettings().setAddLastModifiedTimeToResourceReferenceUrl(true);
         getResourceSettings().setDisableGZipCompression(false);
         getResourceSettings().setDefaultCacheDuration(
-            isDevelopmentMode() ? 0 : (int) Duration.days(365).seconds()
+            usesDevelopmentConfig() ? Duration.NONE : Duration.days(365)
         );
     }
     
@@ -256,7 +252,7 @@ public abstract class FoundationApplication extends WebApplication
      */
     protected void initRequestLogger()
     {
-        Logger log = LoggerFactory.getLogger(RequestLogger.class);
+        Logger log = LoggerFactory.getLogger(DummyRequestLogger.class);
         if(log.isInfoEnabled())
         {
             getRequestLoggerSettings().setRequestLoggerEnabled(true);

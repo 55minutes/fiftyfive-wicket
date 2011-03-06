@@ -19,9 +19,11 @@ package fiftyfive.wicket.feedback;
 import org.apache.wicket.Component;
 import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
-import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.util.visit.IVisit;
+import org.apache.wicket.util.visit.IVisitor;
 
 /**
  * A markup container intended to hold a label, form field and feedback panel.
@@ -81,12 +83,11 @@ public class Prompt extends WebMarkupContainer
     @Override
     protected void onBeforeRender()
     {
-        visitChildren(FormComponent.class, new IVisitor<FormComponent>()
+        visitChildren(FormComponent.class, new IVisitor<FormComponent,Void>()
         {
-            public Object component(FormComponent fc)
+            public void component(FormComponent fc, IVisit<Void> visit)
             {
                 fc.add(TempFeedbackStyle.INSTANCE);
-                return CONTINUE_TRAVERSAL;
             }
         });
         super.onBeforeRender();
@@ -103,7 +104,7 @@ public class Prompt extends WebMarkupContainer
         private static final TempFeedbackStyle INSTANCE = new TempFeedbackStyle();
         
         @Override
-        public boolean isTemporary()
+        public boolean isTemporary(Component comp)
         {
             return true;
         }

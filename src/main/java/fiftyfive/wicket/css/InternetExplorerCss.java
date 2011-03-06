@@ -20,11 +20,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  * This class contains static methods for injecting conditional stylesheet
@@ -47,7 +46,7 @@ import org.apache.wicket.markup.html.IHeaderResponse;
  * 
  * @see <a href="http://msdn.microsoft.com/en-us/library/ms537512%28VS.85%29.aspx">MSDN Reference</a>
  */
-public abstract class InternetExplorerCss implements IHeaderContributor
+public abstract class InternetExplorerCss extends Behavior
 {
     /**
      * Creates a Wicket HeaderContributor for the specified stylesheet.
@@ -62,7 +61,7 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      *         it to the page will cause the appropriate markup to be
      *         emitted in the HTML header.
      */
-    public static HeaderContributor getConditionalHeaderContribution (
+    public static InternetExplorerCss getConditionalHeaderContribution (
         final String condition,
         final ResourceReference cssReference
     )
@@ -85,7 +84,7 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      *         it to the page will cause the appropriate markup to be
      *         emitted in the HTML header.
      */
-    public static HeaderContributor getConditionalHeaderContribution (
+    public static InternetExplorerCss getConditionalHeaderContribution (
         final String condition,
         final ResourceReference cssReference,
         final String media
@@ -94,12 +93,12 @@ public abstract class InternetExplorerCss implements IHeaderContributor
         List<Serializable> token = Arrays.asList(
             condition, cssReference, media
         );
-        return new HeaderContributor(new InternetExplorerCss(condition, token) {
+        return new InternetExplorerCss(condition, token) {
             protected void doLinkRender(IHeaderResponse response)
             {
                 response.renderCSSReference(cssReference, media);                
             }
-        });
+        };
     }
     
     
@@ -119,7 +118,7 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      *         it to the page will cause the appropriate markup to be
      *         emitted in the HTML header.
      */
-    public static HeaderContributor getConditionalHeaderContribution(
+    public static InternetExplorerCss getConditionalHeaderContribution(
         final String condition,
         final String contextRelativeUri
     )
@@ -148,7 +147,7 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      *         it to the page will cause the appropriate markup to be
      *         emitted in the HTML header.
      */
-    public static HeaderContributor getConditionalHeaderContribution(
+    public static InternetExplorerCss getConditionalHeaderContribution(
         final String condition,
         final String contextRelativeUri,
         final String media
@@ -157,31 +156,14 @@ public abstract class InternetExplorerCss implements IHeaderContributor
         List<String> token = Arrays.asList(
             condition, contextRelativeUri, media
         );
-        return new HeaderContributor(new InternetExplorerCss(condition, token) {
+        return new InternetExplorerCss(condition, token) {
             protected void doLinkRender(IHeaderResponse response)
             {
-                String absUri = rewriteUri(contextRelativeUri);
-                response.renderCSSReference(absUri, media);                
+                response.renderCSSReference(contextRelativeUri, media);                
             }
-        });
+        };
     }
     
-    /**
-     * Modifes the given URI so it resolves relative to the context path
-     * if it is not already absolute.
-     */
-    static String rewriteUri(String uri)
-    {
-        if(null == uri || uri.startsWith("/") ||
-           uri.startsWith("http:") || uri.startsWith("https:"))
-        {
-            return uri;
-        }
-        return RequestCycle.get().getProcessor().getRequestCodingStrategy()
-            .rewriteStaticRelativeUrl(uri);
-    }
-
-
     private String _condition;
     private List<? extends Serializable> _token;
     
@@ -199,15 +181,17 @@ public abstract class InternetExplorerCss implements IHeaderContributor
      * Renders the conditional Internet Explorer comment, delegating to
      * {@link #doLinkRender} to render the actual link element.
      */
-    public void renderHead(IHeaderResponse response)
+    @Override
+    public void renderHead(Component comp, IHeaderResponse response)
     {
         if(!response.wasRendered(_token))
         {
-            response.getResponse().write("<!--[if ");
-            response.getResponse().write(_condition);
-            response.getResponse().println("]>");
+            response.getResponse().write(String.format(
+                "<!--[if %s]>%n",
+                _condition
+            ));
             doLinkRender(response);
-            response.getResponse().println("<![endif]-->");
+            response.getResponse().write(String.format("<![endif]-->%n"));
             response.markRendered(_token);
         }
     }

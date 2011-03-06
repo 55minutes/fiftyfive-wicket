@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.ResourceStreamNotFoundException;

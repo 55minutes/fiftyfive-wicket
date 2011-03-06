@@ -48,7 +48,7 @@ public abstract class FoundationSpringApplication extends FoundationApplication
      */
     protected void initSpring()
     {
-        addComponentInstantiationListener(new SpringComponentInjector(
+        getComponentInstantiationListeners().add(new SpringComponentInjector(
             this, getApplicationContext(), true
         ));
     }

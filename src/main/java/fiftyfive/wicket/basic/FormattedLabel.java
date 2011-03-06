@@ -70,15 +70,15 @@ public class FormattedLabel extends LabelWithPlaceholder
     }
     
     @Override
-    public IConverter getConverter(Class<?> type)
+    public <C> IConverter<C> getConverter(Class<C> type)
     {
-        return new IConverter() {
-            public String convertToString(Object value, Locale locale)
+        return new IConverter<C>() {
+            public String convertToString(C value, Locale locale)
             {
                 if(null == value) return null;
                 return String.format(locale, _format, value);
             }
-            public Object convertToObject(String value, Locale locale)
+            public C convertToObject(String value, Locale locale)
             {
                 throw new UnsupportedOperationException();
             }

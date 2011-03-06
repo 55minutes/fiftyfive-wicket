@@ -20,11 +20,11 @@ import java.io.Serializable;
 
 import fiftyfive.wicket.test.PageWithInlineMarkup;
 import fiftyfive.wicket.test.WicketTestUtils;
-import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.protocol.http.servlet.AbortWithWebErrorCodeException;
+import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.After;
 import org.junit.Assert;
@@ -61,8 +61,8 @@ public class ParameterSpecTest
         Assert.assertEquals(TestPage.class, link.getPageClass());
         
         PageParameters params = link.getPageParameters();
-        Assert.assertEquals(bean.getId(), (Long) params.getLong("id"));
-        Assert.assertEquals(bean.getName(), params.getString("name"));
+        Assert.assertEquals(bean.getId(), params.get("id").toLongObject());
+        Assert.assertEquals(bean.getName(), params.get("name").toString());
     }
 
     @Test
@@ -73,8 +73,8 @@ public class ParameterSpecTest
             new ParameterSpec<TestBean>(TestPage.class, "id", "name");
         
         PageParameters params = builder.createParameters(bean);
-        Assert.assertEquals(bean.getId(), (Long) params.getLong("id"));
-        Assert.assertEquals(bean.getName(), params.getString("name"));
+        Assert.assertEquals(bean.getId(), params.get("id").toLongObject());
+        Assert.assertEquals(bean.getName(), params.get("name").toString());
     }
 
     @Test
@@ -85,8 +85,8 @@ public class ParameterSpecTest
         
         TestBean bean = new TestBean();
         PageParameters params = new PageParameters();
-        params.put("id", "5");
-        params.put("name", "hello");
+        params.set("id", "5");
+        params.set("name", "hello");
         
         builder.parseParameters(params, bean);
         
@@ -106,16 +106,16 @@ public class ParameterSpecTest
         
         TestBean bean = new TestBean();
         PageParameters params = new PageParameters();
-        params.put("id", "notparseableaslong");
+        params.set("id", "notparseableaslong");
         
         try
         {
             builder.parseParameters(params, bean);
-            Assert.fail("AbortWithWebErrorCodeException was not thrown.");
+            Assert.fail("AbortWithHttpErrorCodeException was not thrown.");
         }
-        catch(AbortWithWebErrorCodeException awwece)
+        catch(AbortWithHttpErrorCodeException awhece)
         {
-            Assert.assertEquals(404, awwece.getErrorCode());
+            Assert.assertEquals(404, awhece.getErrorCode());
         }
     }
 
@@ -131,7 +131,7 @@ public class ParameterSpecTest
         
         TestBean bean = new TestBean();
         PageParameters params = new PageParameters();
-        params.put("id", "notparseableaslong");
+        params.set("id", "notparseableaslong");
         
         builder.parseParameters(params, bean, false);
         
@@ -172,8 +172,8 @@ public class ParameterSpecTest
         Assert.assertEquals(TestPage.class, link.getPageClass());
         
         PageParameters params = link.getPageParameters();
-        Assert.assertEquals(bean.getId(), (Long) params.getLong("beanId"));
-        Assert.assertEquals(bean.getName(), params.getString("beanName"));
+        Assert.assertEquals(bean.getId(), params.get("beanId").toLongObject());
+        Assert.assertEquals(bean.getName(), params.get("beanName").toString());
     }
 
     @Test
@@ -185,8 +185,8 @@ public class ParameterSpecTest
         builder.registerParameter("beanName", "name");
         
         PageParameters params = builder.createParameters(bean);
-        Assert.assertEquals(bean.getId(), (Long) params.getLong("beanId"));
-        Assert.assertEquals(bean.getName(), params.getString("beanName"));
+        Assert.assertEquals(bean.getId(), params.get("beanId").toLongObject());
+        Assert.assertEquals(bean.getName(), params.get("beanName").toString());
     }    
 
     @Test
@@ -198,8 +198,8 @@ public class ParameterSpecTest
         
         TestBean bean = new TestBean();
         PageParameters params = new PageParameters();
-        params.put("beanId", "5");
-        params.put("beanName", "hello");
+        params.set("beanId", "5");
+        params.set("beanName", "hello");
         
         builder.parseParameters(params, bean);
         

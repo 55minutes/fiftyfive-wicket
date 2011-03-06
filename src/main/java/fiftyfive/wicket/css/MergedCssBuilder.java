@@ -17,11 +17,15 @@
 package fiftyfive.wicket.css;
 
 import fiftyfive.wicket.resource.MergedResourceBuilder;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.markup.html.CSSPackageResource;
-import org.apache.wicket.markup.html.IHeaderContributor;
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
+ * <b>This class is not yet compatible with Wicket 1.5.</b>
+ * <p>
  * Instructs Wicket to merge a list of CSS resources into a single file
  * when the application is in deployment mode. Consider using this in your
  * application as a performance optimization.
@@ -92,7 +96,7 @@ public class MergedCssBuilder extends MergedResourceBuilder
      */
     public MergedCssBuilder addCss(Class<?> scope, String path)
     {
-        return addCss(new ResourceReference(scope, path));
+        return addCss(new PackageResourceReference(scope, path));
     }
 
     /**
@@ -106,8 +110,14 @@ public class MergedCssBuilder extends MergedResourceBuilder
         return this;
     }
     
-    protected IHeaderContributor newContributor(ResourceReference ref)
+    protected Behavior newContributor(final ResourceReference ref)
     {
-        return CSSPackageResource.getHeaderContribution(ref, _media);
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderCSSReference(ref, _media);
+            }
+        };
     }
 }

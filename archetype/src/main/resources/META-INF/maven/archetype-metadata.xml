@@ -21,8 +21,8 @@
     <requiredProperty key="app_classname">
       <defaultValue>WicketApplication</defaultValue>
     </requiredProperty>
-    <requiredProperty key="requestcycle_classname">
-      <defaultValue>WicketRequestCycle</defaultValue>
+    <requiredProperty key="exceptionmapper_classname">
+      <defaultValue>WicketExceptionMapper</defaultValue>
     </requiredProperty>
     <requiredProperty key="session_classname">
       <defaultValue>WicketSession</defaultValue>

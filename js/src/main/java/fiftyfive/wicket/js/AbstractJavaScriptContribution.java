@@ -16,12 +16,12 @@
 package fiftyfive.wicket.js;
 
 import fiftyfive.wicket.js.locator.DependencyCollection;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.request.http.WebRequest;
 
 /**
  * Base class for fiftyfive-wicket-js JavaScript {@code <head>} behaviors.
@@ -34,7 +34,7 @@ import org.apache.wicket.protocol.http.WebRequest;
  * 
  * @since 2.0
  */
-public abstract class AbstractJavaScriptContribution extends AbstractBehavior
+public abstract class AbstractJavaScriptContribution extends Behavior
 {
     /**
      * Renders a collection of JavaScript dependencies to the {@code <head>}
@@ -62,7 +62,7 @@ public abstract class AbstractJavaScriptContribution extends AbstractBehavior
         {
             if(ref != null && (exclude == null || !ref.equals(exclude)))
             {
-                response.renderJavascriptReference(ref);
+                response.renderJavaScriptReference(ref);
             }
         }
     }
@@ -72,7 +72,7 @@ public abstract class AbstractJavaScriptContribution extends AbstractBehavior
      * the {@code <head>}.
      * <p>
      * If we are within an ajax request, use Wicket's standard
-     * {@link IHeaderResponse#renderOnDomReadyJavascript renderOnDomReadyJavascript()}
+     * {@link IHeaderResponse#renderOnDomReadyJavaScript renderOnDomReadyJavaScript()}
      * method to add javascript to the
      * &lt;head&gt;. During non-ajax requests, instead add the following
      * jQuery snippet to execute the javacript on DOM ready:
@@ -89,16 +89,16 @@ public abstract class AbstractJavaScriptContribution extends AbstractBehavior
 
         // Ensure that jQuery is present
         ResourceReference jQuery = settings().getJQueryResource();
-        if(jQuery != null) response.renderJavascriptReference(jQuery);
+        if(jQuery != null) response.renderJavaScriptReference(jQuery);
 
         Request request = request();
         if((request instanceof WebRequest) && ((WebRequest)request).isAjax())
         {
-            response.renderOnDomReadyJavascript(script);
+            response.renderOnDomReadyJavaScript(script);
         }
         else
         {
-            response.renderJavascript(
+            response.renderJavaScript(
                 String.format("jQuery(function(){%s;});", script), null
             );
         }

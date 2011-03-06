@@ -66,7 +66,7 @@ public class TruncatedRawMarkup extends WebComponent
     }
     
     @Override
-    protected void onComponentTagBody(MarkupStream markup, ComponentTag tag)
+    public void onComponentTagBody(MarkupStream markup, ComponentTag tag)
     {
         // We assume the body of the component is raw HTML
         // (i.e. not nested wicket components or wicket tags).

@@ -17,7 +17,7 @@ package fiftyfive.wicket.js;
 
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.MockJavaScriptDependencyLocator;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,14 +56,14 @@ public class JavaScriptDependencyTest extends BaseJSTest
         expected.add(_script3);
         _locator.setLibraryScripts(expected);
         
-        dep.renderHead(_response);
+        dep.renderHead(null, _response);
 
         verify(_response).renderCSSReference(_css);
 
         InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavascriptReference(_script1);
-        inOrder.verify(_response).renderJavascriptReference(_script2);
-        inOrder.verify(_response).renderJavascriptReference(_script3);
+        inOrder.verify(_response).renderJavaScriptReference(_script1);
+        inOrder.verify(_response).renderJavaScriptReference(_script2);
+        inOrder.verify(_response).renderJavaScriptReference(_script3);
         
         verifyNoMoreInteractions(_response);
     }
@@ -77,9 +77,9 @@ public class JavaScriptDependencyTest extends BaseJSTest
         expected.add(_script1);
         _locator.setAssociatedScripts(expected);
         
-        dep.renderHead(_response);
+        dep.renderHead(null, _response);
 
-        verify(_response).renderJavascriptReference(_script1);
+        verify(_response).renderJavaScriptReference(_script1);
         verifyNoMoreInteractions(_response);
     }
     
@@ -94,9 +94,9 @@ public class JavaScriptDependencyTest extends BaseJSTest
         expected.add(_script1);
         _locator.setResourceScripts(expected);
         
-        dep.renderHead(_response);
+        dep.renderHead(null, _response);
 
-        verify(_response).renderJavascriptReference(_script1);
+        verify(_response).renderJavaScriptReference(_script1);
         verifyNoMoreInteractions(_response);
     }
     

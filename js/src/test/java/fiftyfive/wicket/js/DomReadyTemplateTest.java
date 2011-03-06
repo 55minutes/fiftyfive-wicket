@@ -33,7 +33,7 @@ public class DomReadyTemplateTest extends BaseJSTest
         DomReadyTemplate tmpl = new DomReadyTemplate(DomReadyTemplateTest.class);
         try
         {
-            tmpl.renderHead(_response);
+            tmpl.renderHead(null, _response);
             Assert.fail("Did not throw exception as expected.");
         }
         catch(WicketRuntimeException wre)

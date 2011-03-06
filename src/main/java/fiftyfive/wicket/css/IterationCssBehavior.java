@@ -27,6 +27,7 @@ import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.Loop;
+import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
 
@@ -193,7 +194,7 @@ public class IterationCssBehavior extends CssClassModifier
     
     /**
      * Assume that the component is a {@link ListItem},
-     * {@link org.apache.wicket.markup.html.list.Loop.LoopItem LoopItem}, or {@link Item}
+     * {@link LoopItem}, or {@link Item}
      * and get its index. Note that the index begins from zero.
      * 
      * @throws UnsupportedOperationException if the component is not one of the three supported
@@ -205,9 +206,9 @@ public class IterationCssBehavior extends CssClassModifier
         {
             return ((ListItem) component).getIndex();
         }
-        if(component instanceof Loop.LoopItem)
+        if(component instanceof LoopItem)
         {
-            return ((Loop.LoopItem) component).getIteration();
+            return ((LoopItem) component).getIndex();
         }
         if(component instanceof Item)
         {
@@ -215,7 +216,7 @@ public class IterationCssBehavior extends CssClassModifier
         }
         throw new UnsupportedOperationException(String.format(
             "Don't know how to find the index of component %s (%s). " +
-            "Only list.ListItem, list.Loop.LoopItem and repeater.Item are supported. " +
+            "Only list.ListItem, list.LoopItem and repeater.Item are supported. " +
             "Perhaps you attached IterationCssBehavior to the wrong component?",
             component.getPath(),
             component.getClass()));
@@ -259,7 +260,7 @@ public class IterationCssBehavior extends CssClassModifier
         throw new IllegalStateException(String.format(
             "Don't know how to find the size of the repeater that contains component " +
             "%s (%s). " +
-            "Only list.ListItem, list.Loop.LoopItem and repeater.Item are supported. " +
+            "Only list.ListItem, list.LoopItem and repeater.Item are supported. " +
             "Perhaps you attached IterationCssBehavior to the wrong component?",
             component.getPath(),
             component.getClass()));

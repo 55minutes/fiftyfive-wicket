@@ -1,9 +1,9 @@
 package ${package};
 
-import org.apache.wicket.Request;
 import org.apache.wicket.Session;
-import org.apache.wicket.protocol.http.RequestLogger.ISessionLogInfo;
+import org.apache.wicket.protocol.http.IRequestLogger.ISessionLogInfo;
 import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.request.Request;
 
 /**
  * Session information for ${project_name}.

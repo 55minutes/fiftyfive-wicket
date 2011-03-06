@@ -141,8 +141,8 @@ public class LabelWithPlaceholder extends Label
      * @see Shortcuts#empty
      */
     @Override
-    protected void onComponentTagBody(MarkupStream markupStream,
-                                      ComponentTag openTag)
+    public void onComponentTagBody(MarkupStream markupStream,
+                                   ComponentTag openTag)
     {
         String str = internalGetDefaultModelObjectAsString();
         if(_placeholderValue != null && Shortcuts.empty(str))

@@ -19,17 +19,19 @@ import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.resource.MergedResourceBuilder;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.WicketAjaxReference;
-import org.apache.wicket.behavior.AbstractHeaderContributor;
-import org.apache.wicket.markup.html.IHeaderContributor;
-import org.apache.wicket.markup.html.JavascriptPackageResource;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WicketEventReference;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * <b>This class is not yet compatible with Wicket 1.5.</b>
+ * <p>
  * Instructs Wicket to merge a list of JavaScript resources into a single file
  * when the application is in deployment mode. Consider using this in your
  * application as a performance optimization.
@@ -175,7 +177,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     }
     
     @Override
-    public AbstractHeaderContributor build(WebApplication app)
+    public Behavior build(WebApplication app)
     {
         for(ResourceReference ref : _deps)
         {
@@ -185,9 +187,15 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         return super.build(app);
     }
     
-    protected IHeaderContributor newContributor(ResourceReference ref)
+    protected Behavior newContributor(final ResourceReference ref)
     {
-        return JavascriptPackageResource.getHeaderContribution(ref);
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                response.renderJavaScriptReference(ref);
+            }
+        };
     }
 
     private JavaScriptDependencyLocator getDependencyLocator()

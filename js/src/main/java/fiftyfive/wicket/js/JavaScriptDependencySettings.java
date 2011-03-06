@@ -26,9 +26,8 @@ import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.SearchLocation;
 import org.apache.wicket.Application;
 import org.apache.wicket.MetaDataKey;
-import org.apache.wicket.ResourceReference;
-import org.apache.wicket.markup.html.resources.CompressedResourceReference;
-import org.apache.wicket.markup.html.resources.JavascriptResourceReference;
+import org.apache.wicket.request.resource.CompressedResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.time.Duration;
 
 /**
@@ -121,11 +120,11 @@ public class JavaScriptDependencySettings
         addLibraryPath(c, "lib/jquery-scrollto-1.4.2");
         addLibraryPath(c, "lib/strftime");
         
-        _jQueryResource = new JavascriptResourceReference(
+        _jQueryResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-1.5.1/jquery.noconflict.min.js"
         );
-        _jQueryUIResource = new JavascriptResourceReference(
+        _jQueryUIResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-ui-1.8.10/jquery-ui.min.js"
         );
@@ -275,7 +274,7 @@ public class JavaScriptDependencySettings
         // Interpret null based on application mode
         if(null == _traversalCacheDuration)
         {
-            if(Application.DEPLOYMENT.equals(_app.getConfigurationType()))
+            if(_app.usesDeploymentConfig())
             {
                 // Cache indefinitely
                 return Duration.MAXIMUM;

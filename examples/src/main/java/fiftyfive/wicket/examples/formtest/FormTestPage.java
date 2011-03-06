@@ -16,19 +16,16 @@
 package fiftyfive.wicket.examples.formtest;
 
 
-import fiftyfive.wicket.datetime.CalendarControl;
-import fiftyfive.wicket.examples.BasePage;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.wicket.PageParameters;
+import fiftyfive.wicket.datetime.CalendarControl;
+import fiftyfive.wicket.examples.BasePage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
-
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.wicketstuff.annotation.mount.MountPath;
 import org.wicketstuff.annotation.strategy.MountQueryString;
-
 
 @MountPath(path="form")
 @MountQueryString
@@ -54,20 +51,17 @@ public class FormTestPage extends BasePage
                                         String endDate)
     {
         PageParameters params = new PageParameters();
-        params.put(INITIAL_MONTH_PARAM, initialDate);
-        params.put(START_DATE_PARAM, startDate);
-        params.put(END_DATE_PARAM, endDate);
+        params.set(INITIAL_MONTH_PARAM, initialDate);
+        params.set(START_DATE_PARAM, startDate);
+        params.set(END_DATE_PARAM, endDate);
         return params;
     }
-
-    /**
-     * FormTest constructor
-     */
+    
     public FormTestPage(final PageParameters params) throws Exception
     {
         super(params);
-        
-        _body.setMarkupId("form-test");
+
+        getBody().setMarkupId("form-test");
         
         Form form = new Form("form");
         
@@ -77,7 +71,7 @@ public class FormTestPage extends BasePage
             {
                 try
                 {
-                    String startDate = params.getString(START_DATE_PARAM);
+                    String startDate = params.get(START_DATE_PARAM).toString();
                     if(startDate == null || startDate.equals(""))
                     {
                         return null;
@@ -96,7 +90,7 @@ public class FormTestPage extends BasePage
             {
                 try
                 {
-                    String endDate = params.getString(END_DATE_PARAM);
+                    String endDate = params.get(END_DATE_PARAM).toString();
                     if(endDate == null || endDate.equals(""))
                     {
                         return null;
@@ -113,7 +107,7 @@ public class FormTestPage extends BasePage
             }
         };
 
-        String initialDate = params.getString(INITIAL_MONTH_PARAM);
+        String initialDate = params.get(INITIAL_MONTH_PARAM).toString();
         if(initialDate != null && !initialDate.equals(""))
         {
             cc.getDatePicker().setInitialDateModel(

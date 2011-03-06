@@ -18,6 +18,7 @@ package fiftyfive.wicket.js;
 import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.IHeaderResponse;
 
 /**
@@ -142,7 +143,7 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
      * {@link JavaScriptDependencyLocator} to first find the files.
      */
     @Override
-    public void renderHead(IHeaderResponse response)
+    public void renderHead(Component comp, IHeaderResponse response)
     {
         JavaScriptDependencyLocator locator = settings().getLocator();
         DependencyCollection scripts = new DependencyCollection();

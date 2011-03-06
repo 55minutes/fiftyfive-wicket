@@ -1,0 +1,205 @@
+/**
+ * Copyright 2011 55 Minutes (http://www.55minutes.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package fiftyfive.wicket.experimental;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.wicket.Component;
+import org.apache.wicket.behavior.Behavior;
+import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.IRequestMapper;
+import org.apache.wicket.request.UrlEncoder;
+import org.apache.wicket.request.mapper.CompoundRequestMapper;
+import org.apache.wicket.request.mapper.ICompoundRequestMapper;
+import org.apache.wicket.request.mapper.ResourceMapper;
+import org.apache.wicket.request.resource.ResourceReference;
+
+
+/**
+ * TODO
+ */
+public abstract class MergedResourceBuilder
+{
+    private String path;
+    private boolean frozen = false;
+    private List<ResourceReference> references;
+    
+    protected MergedResourceBuilder()
+    {
+        this.references = new ArrayList<ResourceReference>();
+    }
+    
+    /**
+     * Sets the path at which the merged resources will be mounted.
+     * For example, "styles/all.css".
+     * 
+     * @return {@code this} for chaining
+     */
+    public MergedResourceBuilder setPath(String path)
+    {
+        this.path = path;
+        return this;
+    }
+    
+    /**
+     * @deprecated Please use {@link #install install()} instead.
+     */
+    public Behavior build(WebApplication app)
+    {
+        install(app);
+        return buildHeaderContributor();
+    }
+    
+    /**
+     * Constructs a special merged resource using the path and resources options specified in this
+     * builder, and mounts the result in the application by calling
+     * {@link WebApplication#mount(IRequestMapper) WebApplication.mount()}.
+     * The resources will remain separate in development mode,
+     * but will be merged together into a single file in deployment mode.
+     * <p>
+     * This method may only be called after all of the options have been set.
+     *
+     * @return {@code this} for chaining
+     *
+     * @throws IllegalStateException if a path or resources have not been
+     *         specified prior to calling this method.
+     * 
+     * @since 3.0
+     */
+    public MergedResourceBuilder install(WebApplication app)
+    {
+        app.mount(buildRequestMapper(app));
+        return this;
+    }
+    
+    /**
+     * Constructs and returns a special merged resource request mapper using the path and resources
+     * options specified in this builder. The resources will remain separate in development mode,
+     * but will be merged together into a single file in deployment mode.
+     * <p>
+     * This method may only be called after all of the options have been set.
+     * <p>
+     * Use this method if your application has a complex configuration that requires you to deal
+     * with request mappers directly (e.g. you need to wrap or combine them in clever ways).
+     * Most applications will be better served by {@link #install install()}, which
+     * handles creating the mapper and mounting it in one easy step.
+     * 
+     * @throws IllegalStateException if a path or resources have not been
+     *         specified prior to calling this method.
+     *
+     * @since 3.0
+     */
+    public IRequestMapper buildRequestMapper(WebApplication app)
+    {
+        if(!this.frozen) assertRequiredOptionsAndFreeze();
+        if(app.usesDevelopmentConfig())
+        {
+            CompoundRequestMapper compound = new CompoundRequestMapper();
+            mountIndividualResources(compound);
+            return compound;
+        }
+        else
+        {
+            return new MergedResourceMapper(this.path, this.references);
+        }
+    }
+    
+    /**
+     * Constructs and returns a {@link Behavior} that will contribute all resources of this
+     * builder to the {@code <head>}. This could be useful on your base page, for example, to
+     * ensure that all pages of your app have a common set of resources.
+     * 
+     * @since 3.0
+     */
+    public Behavior buildHeaderContributor()
+    {
+        if(!this.frozen) assertRequiredOptionsAndFreeze();
+        return new Behavior() {
+            @Override
+            public void renderHead(Component comp, IHeaderResponse response)
+            {
+                for(int i=0; i<MergedResourceBuilder.this.references.size(); i++)
+                {
+                    ResourceReference ref = MergedResourceBuilder.this.references.get(i);
+                    newContributor(ref).renderHead(comp, response);
+                }
+            }
+        };
+    }
+    
+    /**
+     * Add a resource to the list of merged resources.
+     * 
+     * @since 2.0
+     */
+    protected void add(ResourceReference ref)
+    {
+        if(this.frozen)
+        {
+            throw new IllegalStateException(
+                "Resources cannot be added once build() or install() methods have been called.");
+        }
+        this.references.add(ref);
+    }
+    
+    /**
+     * Constructs a header contributor for the given resource.
+     * Subclasses should implement the appropriate CSS or JS contributor.
+     * 
+     * @since 2.0
+     */
+    protected abstract Behavior newContributor(ResourceReference ref);
+    
+    /**
+     * TODO
+     */
+    private void mountIndividualResources(ICompoundRequestMapper compound)
+    {
+        int i = 0;
+        for(ResourceReference ref : this.references)
+        {
+            ResourceReference.Key key = new ResourceReference.Key(ref);
+            String name = key.toString().replaceAll("/", "-");
+            String uniquePath = String.format(
+                "%s-%s",
+                this.path,
+                UrlEncoder.PATH_INSTANCE.encode(name, "UTF-8")
+            );
+            compound.add(new ResourceMapper(uniquePath, ref));
+        }
+    }
+    
+    /**
+     * TODO
+     */
+    protected void assertRequiredOptionsAndFreeze()
+    {
+        if(null == this.path)
+        {
+            throw new IllegalStateException("path must be set");
+        }
+        if(this.references.size() == 0)
+        {
+            throw new IllegalStateException(
+                "at least one resource must be added"
+            );
+        }
+        this.frozen = true;
+    }
+}

@@ -20,7 +20,7 @@ import fiftyfive.wicket.BaseWicketTest;
 
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.parser.XmlTag;
+import org.apache.wicket.markup.parser.XmlTag.TagType;
 import org.junit.Test;
 
 
@@ -42,6 +42,6 @@ public class IterationCssBehaviorTest extends BaseWicketTest
     {
         Label label = new Label("hello", "world");
         IterationCssBehavior behavior = new IterationCssBehavior("first");
-        behavior.onComponentTag(label, new ComponentTag("span", XmlTag.OPEN));
+        behavior.onComponentTag(label, new ComponentTag("span", TagType.OPEN));
     }
 }

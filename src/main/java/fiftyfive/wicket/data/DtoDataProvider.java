@@ -95,7 +95,7 @@ import org.apache.wicket.model.Model;
  * By implementing {@code size()} and {@code iterator()} with a single backend
  * query, this class goes against the Wicket developers' original intentions
  * for the IDataProvider interface. We accomplish this feat by
- * using the Java reflection API to access private and protected data within
+ * using the Java reflection API to access private data within
  * {@link AbstractPageableView}.
  * 
  * @since 2.0
@@ -287,16 +287,14 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     
     /**
      * Obtains the maximum rows per page needed by the pageable view by
-     * using the Java reflection API to call the protected
-     * {@link AbstractPageableView#internalGetRowsPerPage internalGetRowsPerPage()}
+     * calling the
+     * {@link AbstractPageableView#getItemsPerPage getItemsPerPage()}
      * method.
      */
     protected int getPageableRowsPerPage()
     {
         assertPageableView();
-        return (Integer) ReflectUtils.invokeZeroArgMethod(
-            _pageableView, "internalGetRowsPerPage"
-        );
+        return _pageableView.getItemsPerPage();
     }
     
     /**

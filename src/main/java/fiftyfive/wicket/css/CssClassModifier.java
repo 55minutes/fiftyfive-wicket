@@ -21,10 +21,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.behavior.AbstractBehavior;
+import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.parser.XmlTag;
+import org.apache.wicket.markup.parser.XmlTag.TagType;
 import org.apache.wicket.util.string.Strings;
+
 
 /**
  * A behavior simliar to {@link org.apache.wicket.AttributeModifier AttributeModifier} but
@@ -42,7 +43,7 @@ import org.apache.wicket.util.string.Strings;
  * @since 2.0.4
  * @see fiftyfive.wicket.util.Shortcuts#toggledCssClass(String,org.apache.wicket.model.IModel)
  */
-public abstract class CssClassModifier extends AbstractBehavior
+public abstract class CssClassModifier extends Behavior
 {
     /**
      * Implemented by subclasses to specify what CSS classes should be added or subtracted
@@ -66,7 +67,7 @@ public abstract class CssClassModifier extends AbstractBehavior
     @Override
     public void onComponentTag(Component component, ComponentTag tag)
     {
-        if(tag.getType() != XmlTag.CLOSE)
+        if(tag.getType() != TagType.CLOSE)
         {
             Set<String> values = new LinkedHashSet<String>();
             String existing = tag.getAttribute("class");

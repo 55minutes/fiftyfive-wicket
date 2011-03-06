@@ -17,6 +17,7 @@ package fiftyfive.wicket.js;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.request.resource.caching.NoOpResourceCachingStrategy;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Test;
 
@@ -35,6 +36,9 @@ public class IntegrationTest
             protected void init()
             {
                 super.init();
+                getResourceSettings().setCachingStrategy(
+                    NoOpResourceCachingStrategy.INSTANCE
+                );
                 JavaScriptDependencySettings.get()
                     .addLibraryPath(IntegrationTest.class, "customlib");
             }

@@ -18,11 +18,11 @@ package fiftyfive.wicket.js;
 import java.util.regex.Pattern;
 
 import fiftyfive.wicket.test.WicketTestUtils;
-import org.apache.wicket.Request;
-import org.apache.wicket.ResourceReference;
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.request.http.WebRequest;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.mockito.Mock;
@@ -45,7 +45,7 @@ public class DomReadyScriptTest extends BaseJSTest
         final String js = "alert('ready!')";
         when(_response.wasRendered(js)).thenReturn(true);
         
-        mockedDomReadyScript(js).renderHead(_response);
+        mockedDomReadyScript(js).renderHead(null, _response);
         
         verify(_response).wasRendered(js);
         verifyNoMoreInteractions(_response);
@@ -57,7 +57,7 @@ public class DomReadyScriptTest extends BaseJSTest
     @Test
     public void testRenderHead_null() throws Exception
     {
-        mockedDomReadyScript(null).renderHead(_response);
+        mockedDomReadyScript(null).renderHead(null, _response);
         verifyNoMoreInteractions(_response);
     }
 
@@ -71,11 +71,11 @@ public class DomReadyScriptTest extends BaseJSTest
         when(_response.wasRendered(js)).thenReturn(false);
         when(_request.isAjax()).thenReturn(false);
         
-        mockedDomReadyScript(js).renderHead(_response);
+        mockedDomReadyScript(js).renderHead(null, _response);
         
         InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavascriptReference(_jquery);
-        inOrder.verify(_response).renderJavascript(
+        inOrder.verify(_response).renderJavaScriptReference(_jquery);
+        inOrder.verify(_response).renderJavaScript(
             "jQuery(function(){" + js + ";});", null
         );
         
@@ -94,11 +94,11 @@ public class DomReadyScriptTest extends BaseJSTest
         when(_response.wasRendered(js)).thenReturn(false);
         when(_request.isAjax()).thenReturn(true);
         
-        mockedDomReadyScript(js).renderHead(_response);
+        mockedDomReadyScript(js).renderHead(null, _response);
         
         InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavascriptReference(_jquery);
-        inOrder.verify(_response).renderOnDomReadyJavascript(js);
+        inOrder.verify(_response).renderJavaScriptReference(_jquery);
+        inOrder.verify(_response).renderOnDomReadyJavaScript(js);
 
         verify(_response).wasRendered(js);
         verify(_response).markRendered(js);

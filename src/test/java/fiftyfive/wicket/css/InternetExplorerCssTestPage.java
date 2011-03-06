@@ -16,18 +16,19 @@
 
 package fiftyfive.wicket.css;
 
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.request.resource.PackageResourceReference;
 
 public class InternetExplorerCssTestPage extends WebPage
 {
     public InternetExplorerCssTestPage()
     {
         add(InternetExplorerCss.getConditionalHeaderContribution(
-            "IE 7", new ResourceReference(getClass(), "ie-7.css")
+            "IE 7", new PackageResourceReference(getClass(), "ie-7.css")
         ));
         add(InternetExplorerCss.getConditionalHeaderContribution(
-            "IE 7", new ResourceReference(getClass(), "ie-7-print.css"), "print"
+            "IE 7", new PackageResourceReference(getClass(), "ie-7-print.css"),
+            "print"
         ));
         add(InternetExplorerCss.getConditionalHeaderContribution(
             "IE 7", "styles/ie-7.css"

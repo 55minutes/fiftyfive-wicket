@@ -23,11 +23,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.protocol.http.servlet.ServletWebRequest;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.util.string.Strings;
 
 /**
  * Provides easy access to the HTTP information that triggered the current
@@ -45,13 +44,12 @@ public class HttpUtils
      */
     public static HttpServletRequest getHttpServletRequest()
     {
-        HttpServletRequest http = null;
-        Request request = RequestCycle.get().getRequest();
-        if(request instanceof WebRequest)
+        Object req = RequestCycle.get().getRequest().getContainerRequest();
+        if(req instanceof HttpServletRequest)
         {
-            http = ((WebRequest) request).getHttpServletRequest();
+            return (HttpServletRequest) req;
         }
-        return http;
+        return null;
     }
     
     /**
@@ -60,13 +58,12 @@ public class HttpUtils
      */
     public static HttpServletResponse getHttpServletResponse()
     {
-        HttpServletResponse http = null;
-        Response response = RequestCycle.get().getResponse();
-        if(response instanceof WebResponse)
+        Object resp = RequestCycle.get().getResponse().getContainerResponse();
+        if(resp instanceof HttpServletResponse)
         {
-            http = ((WebResponse) response).getHttpServletResponse();
+            return (HttpServletResponse) resp;
         }
-        return http;
+        return null;
     }
     
     /**
@@ -105,12 +102,53 @@ public class HttpUtils
         return headers;
     }
     
-    // TODO: does this work during ajax?
+    /**
+     * Returns the entire URL that was used to render the current page,
+     * which should match what the user sees in the browser location bar.
+     * Includes protocol, host, port absolute path and query string.
+     * <p>
+     * <b>If the current request is an ajax one, this URL will not match
+     * the actual ajax HTTP request being handled by the server.</b> Instead
+     * this URL will be most recent non-ajax request, as observed in the
+     * browser location bar.
+     * 
+     * @see Request#getClientUrl
+     * @since 3.0
+     */
+    public static String getAbsolutePageUrl()
+    {
+        String absolute = null;
+        RequestCycle rc = RequestCycle.get();
+        Url url = rc.getRequest().getClientUrl();
+        
+        HttpServletRequest http = getHttpServletRequest();
+        if(url != null && http != null)
+        {
+            ServletWebRequest webRequest = (ServletWebRequest) rc.getRequest();
+            String port = ":" + http.getServerPort();
+            if(http.getServerPort() == 80 && http.getScheme().equals("http"))
+            {
+                port = "";
+            }
+            absolute = Strings.join("/",
+                http.getScheme() + "://" + http.getServerName() + port,
+                http.getServerName(),
+                http.getContextPath(),
+                webRequest.getFilterPrefix(),
+                url.toString()
+            );
+        }
+        return absolute;
+    }
     
     /**
      * Returns the entire URL that was used to make the current request,
      * including protocol, host, port, absolute path and query string.
      * May return {@code null} if the current request is not an HTTP one.
+     * <p>
+     * <b>Note that if the current request is an ajax one, this URL will be
+     * different from the URL that the user sees in the browser location
+     * bar.</b>
      */
     public static String getAbsoluteRequestUrl()
     {
@@ -131,31 +169,14 @@ public class HttpUtils
      * Returns the Wicket portion of the URL that was used to make the current
      * request, including relative path and query string. The protocol, host,
      * port, and base Wicket path are not included.
-     * May return {@code null} if the current request is not an HTTP one.
+     * <p>
+     * <b>Note that if the current request is an ajax one, this URL will be
+     * different from the URL that the user sees in the browser location
+     * bar.</b>
      */
     public static String getRelativeRequestUrl()
     {
-        HttpServletRequest http = getHttpServletRequest();
-        if(null == http) return null;
-        
-        String path = RequestCycle.get().getRequest().getPath();
-        String query = http.getQueryString();
-        
-        StringBuffer url = new StringBuffer();
-
-        if(!path.startsWith("/"))
-        {
-            url.append("/");
-        }
-        url.append(path);
-
-        if(query != null)
-        {
-            url.append("?");
-            url.append(query);
-        }
-        
-        return url.toString();
+        return RequestCycle.get().getRequest().getUrl().toString();
     }
     
     /**

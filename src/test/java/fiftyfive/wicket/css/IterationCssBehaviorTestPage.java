@@ -23,6 +23,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.list.Loop;
+import org.apache.wicket.markup.html.list.LoopItem;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
@@ -62,7 +63,7 @@ public class IterationCssBehaviorTestPage extends WebPage
     {
         return new Loop(id, iterations) {
             @Override
-            protected void populateItem(Loop.LoopItem it)
+            protected void populateItem(LoopItem it)
             {
                 it.add(new IterationCssBehavior("odd", "even", "first", "last", "iteration"));
             }
