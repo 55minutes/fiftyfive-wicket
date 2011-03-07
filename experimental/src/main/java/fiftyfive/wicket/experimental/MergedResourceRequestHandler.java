@@ -26,30 +26,49 @@ import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
 import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.time.Time;
 
 
 public class MergedResourceRequestHandler implements IRequestHandler
 {
     private List<ResourceReference> resources;
     private PageParameters pageParameters;
+    private Time lastModified;
     
-    public MergedResourceRequestHandler(List<ResourceReference> resources, PageParameters params)
+    public MergedResourceRequestHandler(List<ResourceReference> resources,
+                                        PageParameters params,
+                                        Time lastModified)
     {
         this.resources = resources;
         this.pageParameters = params;
+        this.lastModified = lastModified;
     }
     
     // TODO: calculate total content-length?
     
     public void respond(IRequestCycle requestCycle)
     {
-        requestCycle.setResponse(new MergedResponse((WebResponse) requestCycle.getResponse()));
+        WebResponse orig = (WebResponse) requestCycle.getResponse();
+        if(this.lastModified != null)
+        {
+            orig.setLastModifiedTime(this.lastModified.getMilliseconds());
+        }
+        
+        MergedResponse merged = new MergedResponse(orig);
+        requestCycle.setResponse(merged);
+        
         for(ResourceReference ref : this.resources)
         {
             ResourceRequestHandler handler = new ResourceRequestHandler(
                 ref.getResource(),
                 this.pageParameters);
             handler.respond(requestCycle);
+            
+            // if first resource sent 304 then we can break out of the loop
+            if(304 == merged.status)
+            {
+                break;
+            }
         }
     }
     
@@ -67,6 +86,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
      */
     private class MergedResponse extends WebResponse
     {
+        private int status = 200;
         private WebResponse wrapped;
         private boolean headersOpen = true;
         
@@ -165,7 +185,11 @@ public class MergedResourceRequestHandler implements IRequestHandler
         @Override
         public void setStatus(int sc)
         {
-            if(this.headersOpen) this.wrapped.setStatus(sc);
+            if(this.headersOpen)
+            {
+                this.status = sc;
+                this.wrapped.setStatus(sc);
+            }
         }
 
         @Override

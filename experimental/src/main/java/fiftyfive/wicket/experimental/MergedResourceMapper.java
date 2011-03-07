@@ -26,27 +26,30 @@ import org.apache.wicket.request.handler.resource.ResourceReferenceRequestHandle
 import org.apache.wicket.request.mapper.AbstractMapper;
 import org.apache.wicket.request.mapper.parameter.IPageParametersEncoder;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
 import org.apache.wicket.request.resource.ResourceReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
+import org.apache.wicket.request.resource.caching.ResourceUrl;
+import org.apache.wicket.util.IProvider;
+import org.apache.wicket.util.time.Time;
 
 
 public class MergedResourceMapper extends AbstractMapper implements IRequestMapper
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MergedResourceMapper.class);
+    protected final String[] mountSegments;
+    protected final List<ResourceReference> resources;
+    protected final IPageParametersEncoder parametersEncoder;
+    protected final IProvider<? extends IResourceCachingStrategy> cachingStrategy;
     
-    private final String[] mountSegments;
-    private final List<ResourceReference> resources;
-    private final IPageParametersEncoder parametersEncoder;
-    
-    public MergedResourceMapper(String path, List<ResourceReference> resources)
+    public MergedResourceMapper(String path,
+                                List<ResourceReference> resources,
+                                IPageParametersEncoder parametersEncoder,
+                                IProvider<? extends IResourceCachingStrategy> cachingStrategy)
     {
         // TODO: validate arguments
-        // TODO: constructor that takes explicit IPageParametersEncoder
         this.resources = resources;
         this.mountSegments = getMountSegments(path);
-        this.parametersEncoder = new PageParametersEncoder();
+        this.parametersEncoder = parametersEncoder;
+        this.cachingStrategy = cachingStrategy;
     }
     
     public int getCompatibilityScore(Request request)
@@ -56,16 +59,37 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
     
     public IRequestHandler mapRequest(Request request)
     {
-        if(!urlStartsWith(request.getUrl(), this.mountSegments)) return null;
+        PageParameters parameters = null;
+        List<String> requestSegments = request.getUrl().getSegments();
         
-        // TODO: Make sure to override lastUpdatedTime() based on the merged resources, rather than
-        //       the timestamp of the temp file.
-        PageParameters parameters = extractPageParameters(
-            request,
-            this.mountSegments.length,
-            this.parametersEncoder);
-            
-        return new MergedResourceRequestHandler(this.resources, parameters);
+        if(requestSegments.size() < this.mountSegments.length)
+        {
+            return null;
+        }
+        for(int i=0; i<this.mountSegments.length; i++)
+        {
+            String segment = requestSegments.get(i);
+            if(i+1 == this.mountSegments.length)
+            {
+                parameters = extractPageParameters(
+                    request,
+                    this.mountSegments.length,
+                    this.parametersEncoder);
+                
+                ResourceUrl resourceUrl = new ResourceUrl(segment, parameters);
+                this.cachingStrategy.get().undecorateUrl(resourceUrl);
+                segment = resourceUrl.getFileName();
+            }
+            if(!segment.equals(this.mountSegments[i]))
+            {
+                return null;
+            }
+        }
+        
+        return new MergedResourceRequestHandler(
+            this.resources,
+            parameters,
+            getLastModifiedReference().getLastModified());
     }
 
     public Url mapHandler(IRequestHandler requestHandler)
@@ -90,7 +114,7 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
         for(int i=0; i<this.mountSegments.length; i++)
         {
             String segment = mountSegments[i];
-            if(i-1 == this.mountSegments.length)
+            if(i+1 == this.mountSegments.length)
             {
                 segment = applyCachingStrategy(segment, parameters);
             }
@@ -102,9 +126,24 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
     
     protected String applyCachingStrategy(String fileName, PageParameters parameters)
     {
-        // TODO: loop through all resources, determine which has been modified most recently,
-        //       and pass that to caching strategy using technique found in
-        //       BasicResourceReferenceMapper.java
-        return fileName;
+        ResourceUrl resourceUrl = new ResourceUrl(fileName, parameters);
+        this.cachingStrategy.get().decorateUrl(resourceUrl, getLastModifiedReference());
+        return resourceUrl.getFileName();
+    }
+    
+    protected ResourceReference getLastModifiedReference()
+    {
+        ResourceReference lastModifiedRef = null;
+        long lastMillis = -1;
+        for(ResourceReference ref : this.resources)
+        {
+            Time refModified = ref.getLastModified();
+            if(refModified != null && refModified.getMilliseconds() > lastMillis)
+            {
+                lastMillis = refModified.getMilliseconds();
+                lastModifiedRef = ref;
+            }
+        }
+        return lastModifiedRef != null ? lastModifiedRef : this.resources.get(0);
     }
 }

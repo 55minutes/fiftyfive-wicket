@@ -28,7 +28,10 @@ import org.apache.wicket.request.UrlEncoder;
 import org.apache.wicket.request.mapper.CompoundRequestMapper;
 import org.apache.wicket.request.mapper.ICompoundRequestMapper;
 import org.apache.wicket.request.mapper.ResourceMapper;
+import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
+import org.apache.wicket.util.IProvider;
 
 
 /**
@@ -105,7 +108,7 @@ public abstract class MergedResourceBuilder
      *
      * @since 3.0
      */
-    public IRequestMapper buildRequestMapper(WebApplication app)
+    public IRequestMapper buildRequestMapper(final WebApplication app)
     {
         if(!this.frozen) assertRequiredOptionsAndFreeze();
         if(app.usesDevelopmentConfig())
@@ -116,7 +119,17 @@ public abstract class MergedResourceBuilder
         }
         else
         {
-            return new MergedResourceMapper(this.path, this.references);
+            return new MergedResourceMapper(
+                this.path,
+                this.references,
+                new PageParametersEncoder(),
+                new IProvider<IResourceCachingStrategy>()
+                {
+                    public IResourceCachingStrategy get()
+                    {
+                        return app.getResourceSettings().getCachingStrategy();
+                    }
+                });
         }
     }
     
