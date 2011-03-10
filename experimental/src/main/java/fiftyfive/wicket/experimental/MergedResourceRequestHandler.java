@@ -206,7 +206,10 @@ public class MergedResourceRequestHandler implements IRequestHandler
         @Override
         public void setDateHeader(String name, long date)
         {
-            if(this.headersOpen) this.wrapped.setDateHeader(name, date);
+            if(this.headersOpen && name != null && !name.equalsIgnoreCase("Last-Modified"))
+            {
+                this.wrapped.setDateHeader(name, date);
+            }
         }
 
         @Override
