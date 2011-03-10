@@ -316,6 +316,12 @@ public class MergedResourceRequestHandler implements IRequestHandler
                     // force all resources to respond with data.
                     headerMillis = -1;
                 }
+                else
+                {
+                    // Our merged data in aggregate has not changed. Set the If-Modified-Since
+                    // header to an extremely high value to force all resources to respond 304.
+                    headerMillis = Long.MAX_VALUE;
+                }
             }
             return headerMillis;
         }
