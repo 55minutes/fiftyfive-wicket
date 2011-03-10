@@ -33,6 +33,10 @@ import org.apache.wicket.util.IProvider;
 import org.apache.wicket.util.time.Time;
 
 
+/**
+ * Maps a single, static URL to a list of resources. When that URL is requested, respond by
+ * merging all the resources together by delegating to {@link MergedResourceRequestHandler}.
+ */
 public class MergedResourceMapper extends AbstractMapper implements IRequestMapper
 {
     protected final String[] mountSegments;

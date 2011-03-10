@@ -31,9 +31,8 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- * Instructs Wicket to merge a list of JavaScript resources into a single file
- * when the application is in deployment mode. Consider using this in your
- * application as a performance optimization.
+ * Instructs Wicket to merge a list of JavaScript resources into a single file. Consider using this
+ * in your application as a performance optimization.
  * <p>
  * Example usage:
  * <pre class="example">
@@ -46,16 +45,13 @@ import org.slf4j.LoggerFactory;
  * 
  *         new MergedJavaScriptBuilder()
  *             .setPath("/scripts/all.js")
- *             .addWicketAjaxLibraries()
  *             .addJQueryUI()
  *             .addLibrary("jquery.scrollTo")
  *             .addLibrary("jquery.55_utils")
  *             .addLibrary("55_utils")
  *             .addLibrary("strftime")
- *             .build(this);
- * 
- *         // The return value from build() can be used on your base page to
- *         // inject all these JavaScript resources in one shot, if desired.
+ *             .addWicketAjaxLibraries()
+ *             .install(this);
  *     }
  * }</pre>
  * 
@@ -80,6 +76,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         _deps = new DependencyCollection();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public MergedJavaScriptBuilder setPath(String path)
     {
         return (MergedJavaScriptBuilder) super.setPath(path);
@@ -175,6 +174,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         return this;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void assertRequiredOptionsAndFreeze()
     {
@@ -186,6 +188,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         super.assertRequiredOptionsAndFreeze();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     protected Behavior newContributor(final ResourceReference ref)
     {
         return new Behavior() {

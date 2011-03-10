@@ -16,19 +16,49 @@
 
 package fiftyfive.wicket.experimental;
 
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.Cookie;
 
 import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.IRequestParameters;
+import org.apache.wicket.request.Url;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
+import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.http.WebResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.time.Time;
 
 
+/**
+ * Handles a request by delegating to {@link ResourceRequestHandler} for each of a list of
+ * {@link ResourceReference} objects. In other words, merge the streams of several resources
+ * into a single response.
+ * <p>
+ * Delegating most of the work to each individual resource makes this handler's implementation
+ * quite simple, but it results in a few important limitations:
+ * <ol>
+ * <li><b>All resources must be the same content type.</b> For example, if you mix CSS and JS
+ *     resources in a single response, the browser will obviously be very confused. A more subtle
+ *     pitfall is if some resources are compressed and others are not: this would result in a
+ *     single stream of clear text mixed with gzipped data, which again would confuse the browser.
+ *     </li>
+ * <li><b>The Content-Length header is not sent.</b> Although it is technically possible to loop
+ *     through the resources twice -- once to sum up the total content length, and then again to
+ *     respond with the actual content -- for simplicity and performance this implementation does
+ *     not calculate the merged content length. Instead, the header is omitted from the response.
+ *     </li>
+ * <li><b>A failure of one resource to respond will corrupt the merged response.</b> Headers are
+ *     committed and bytes are written as soon as the first resource is processed. If a later
+ *     resource in the list of resources to merge fails to respond for whatever reason, this will
+ *     result in an incomplete merged response.</li>
+ * </ol>
+ */
 public class MergedResourceRequestHandler implements IRequestHandler
 {
     private List<ResourceReference> resources;
@@ -44,31 +74,51 @@ public class MergedResourceRequestHandler implements IRequestHandler
         this.lastModified = lastModified;
     }
     
-    // TODO: calculate total content-length?
-    
     public void respond(IRequestCycle requestCycle)
     {
-        WebResponse orig = (WebResponse) requestCycle.getResponse();
+        WebRequest origRequest = (WebRequest) requestCycle.getRequest();
+
+        // Explicitly set the last modified header of the response based on the last modified
+        // time of the aggregate. Do this on the original response because our wrapped response
+        // ignores the last modified headers contributed by each individual resource.
+        WebResponse origResponse = (WebResponse) requestCycle.getResponse();
         if(this.lastModified != null)
         {
-            orig.setLastModifiedTime(this.lastModified.getMilliseconds());
+            origResponse.setLastModifiedTime(this.lastModified.getMilliseconds());
         }
         
-        MergedResponse merged = new MergedResponse(orig);
-        requestCycle.setResponse(merged);
-        
-        for(ResourceReference ref : this.resources)
+        try
         {
-            ResourceRequestHandler handler = new ResourceRequestHandler(
-                ref.getResource(),
-                this.pageParameters);
-            handler.respond(requestCycle);
+            // Make a special response object that merges the contributions of each resource,
+            // but maintains a single set of headers.
+            MergedResponse merged = new MergedResponse(origResponse);
+            requestCycle.setResponse(merged);
             
-            // if first resource sent 304 then we can break out of the loop
-            if(304 == merged.status)
+            // Make a special request object that tweaks the If-Modified-Since header to ensure
+            // we don't end up in a situation where some resources respond 200 and others 304.
+            // Yes, calling RequestCycle#setRequest() is frowned upon so this is a bit of a hack.
+            ((RequestCycle)requestCycle).setRequest(new MergedRequest(origRequest));
+        
+            for(ResourceReference ref : this.resources)
             {
-                break;
+                ResourceRequestHandler handler = new ResourceRequestHandler(
+                    ref.getResource(),
+                    this.pageParameters);
+                handler.respond(requestCycle);
+            
+                // If first resource sent 304 Not Modified that means all will.
+                // We can therefore skip the rest.
+                if(304 == merged.status)
+                {
+                    break;
+                }
             }
+        }
+        finally
+        {
+            // Restore the original request once we're done. We don't need to restore the
+            // original response because Wicket takes care of that automatically.
+            ((RequestCycle)requestCycle).setRequest(origRequest);
         }
     }
     
@@ -76,6 +126,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
     {
         this.resources = null;
         this.pageParameters = null;
+        this.lastModified = null;
     }
     
     /**
@@ -214,6 +265,95 @@ public class MergedResourceRequestHandler implements IRequestHandler
         public void flush()
         {
             this.wrapped.flush();
+        }
+    }
+    
+    /**
+     * A WebRequest wrapper than allows all method calls to pass through to the wrapped request,
+     * except for getDateHeader(). We need to take special action for the If-Modified-Since header
+     * to fool the individual resources into behaving as a single resource with a single
+     * modification date.
+     */
+    private class MergedRequest extends WebRequest
+    {
+        private final WebRequest wrapped;
+        
+        MergedRequest(WebRequest original)
+        {
+            this.wrapped = original;
+        }
+        
+        @Override
+        public Url getUrl()
+        {
+            return this.wrapped.getUrl();
+        }
+
+        @Override
+        public IRequestParameters getPostParameters()
+        {
+            return this.wrapped.getPostParameters();
+        }
+
+        @Override
+        public List<Cookie> getCookies()
+        {
+            return this.wrapped.getCookies();
+        }
+
+        @Override
+        public long getDateHeader(final String name)
+        {
+            long headerMillis = this.wrapped.getDateHeader(name);
+            if(headerMillis >= 0 && name != null && name.equalsIgnoreCase("If-Modified-Since"))
+            {
+                // Truncate milliseconds since the modified since header has only second precision
+                long modified = lastModified.getMilliseconds() / 1000 * 1000;
+                if(headerMillis < modified)
+                {
+                    // Our merged data in aggregate is newer than what the browser has cached.
+                    // Therefore remove the If-Modified-Since header from the request to
+                    // force all resources to respond with data.
+                    headerMillis = -1;
+                }
+            }
+            return headerMillis;
+        }
+
+        @Override
+        public Locale getLocale()
+        {
+            return this.wrapped.getLocale();
+        }
+
+        @Override
+        public String getHeader(final String name)
+        {
+            return this.wrapped.getHeader(name);
+        }
+
+        @Override
+        public List<String> getHeaders(final String name)
+        {
+            return this.wrapped.getHeaders(name);
+        }
+
+        @Override
+        public Charset getCharset()
+        {
+            return this.wrapped.getCharset();
+        }
+
+        @Override
+        public Url getClientUrl()
+        {
+            return this.wrapped.getClientUrl();
+        }
+
+        @Override
+        public Object getContainerRequest()
+        {
+            return this.wrapped.getContainerRequest();
         }
     }
 }

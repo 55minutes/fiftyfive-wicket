@@ -24,26 +24,43 @@ import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.IRequestMapper;
-import org.apache.wicket.request.UrlEncoder;
-import org.apache.wicket.request.mapper.CompoundRequestMapper;
-import org.apache.wicket.request.mapper.ICompoundRequestMapper;
-import org.apache.wicket.request.mapper.ResourceMapper;
 import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
+import org.apache.wicket.request.resource.CompressedResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
 import org.apache.wicket.util.IProvider;
 
 
 /**
- * TODO
+ * Provides a simple builder API for constructing and mounting a virtual resource that merges
+ * together several actual resources. This is a common web optimization technique for reducing
+ * browser requests: instead of the browser making several small requests to download various
+ * CSS or JavaScript files, the browser can instead make one large request. Since each request
+ * brings its own latency and HTTP overhead, merging resources together can therefore lead to a
+ * noticable performance improvement.
+ * <p>
+ * The actual merging is done by {@link MergedResourceMapper} and its helper class,
+ * {@link MergedResourceRequestHandler}. This {@code MergedJavaScriptBuilder} class simply provides
+ * a builder API that makes constructing and mounting the mapper more self-explanatory. Advanced
+ * users may wish to use the mapper directly.
+ * <p>
+ * Note that this class is abstract. Refer to the concrete subclasses
+ * {@link MergedJavaScriptBuilder} and {@link MergedCssBuilder} for example usage.
+ * <p>
+ * <em>This class was rewritten in fiftyfive-wicket 3.0 to remove all dependencies on
+ * third-party libraries. The wicketstuff-merged-resources project is no longer used.
+ * Unlike previous versions that merged resources only in deployment mode, this implementation
+ * always merges resources, both in deployment and development modes.</em>
  */
 public abstract class MergedResourceBuilder
 {
     private String path;
     private boolean frozen = false;
+    private boolean convertToCompressed = true;
     private List<ResourceReference> references;
     
-    protected MergedResourceBuilder()
+    public MergedResourceBuilder()
     {
         this.references = new ArrayList<ResourceReference>();
     }
@@ -61,6 +78,19 @@ public abstract class MergedResourceBuilder
     }
     
     /**
+     * Resources to be merged must all be compressed or all be uncompressed; mixing compressed and
+     * uncompressed content in the same response would not work. To prevent this mistake from
+     * happening, this builder will automatically convert plain {@link PackageResourceReference}
+     * objects into {@code CompressedResourceReference} ones, ensuring that all resources added to
+     * this builder are compressed. To disable this feature, set this property to {@code false}.
+     * The default is {@code true}.
+     */
+    public void setConvertToCompressed(boolean convertToCompressed)
+    {
+        this.convertToCompressed = convertToCompressed;
+    }
+    
+    /**
      * @deprecated Please use {@link #install install()} instead.
      */
     public Behavior build(WebApplication app)
@@ -73,8 +103,6 @@ public abstract class MergedResourceBuilder
      * Constructs a special merged resource using the path and resources options specified in this
      * builder, and mounts the result in the application by calling
      * {@link WebApplication#mount(IRequestMapper) WebApplication.mount()}.
-     * The resources will remain separate in development mode,
-     * but will be merged together into a single file in deployment mode.
      * <p>
      * This method may only be called after all of the options have been set.
      *
@@ -93,8 +121,7 @@ public abstract class MergedResourceBuilder
     
     /**
      * Constructs and returns a special merged resource request mapper using the path and resources
-     * options specified in this builder. The resources will remain separate in development mode,
-     * but will be merged together into a single file in deployment mode.
+     * options specified in this builder.
      * <p>
      * This method may only be called after all of the options have been set.
      * <p>
@@ -111,26 +138,18 @@ public abstract class MergedResourceBuilder
     public IRequestMapper buildRequestMapper(final WebApplication app)
     {
         if(!this.frozen) assertRequiredOptionsAndFreeze();
-        if(app.usesDevelopmentConfig())
-        {
-            CompoundRequestMapper compound = new CompoundRequestMapper();
-            mountIndividualResources(compound);
-            return compound;
-        }
-        else
-        {
-            return new MergedResourceMapper(
-                this.path,
-                this.references,
-                new PageParametersEncoder(),
-                new IProvider<IResourceCachingStrategy>()
+
+        return new MergedResourceMapper(
+            this.path,
+            this.references,
+            new PageParametersEncoder(),
+            new IProvider<IResourceCachingStrategy>()
+            {
+                public IResourceCachingStrategy get()
                 {
-                    public IResourceCachingStrategy get()
-                    {
-                        return app.getResourceSettings().getCachingStrategy();
-                    }
-                });
-        }
+                    return app.getResourceSettings().getCachingStrategy();
+                }
+            });
     }
     
     /**
@@ -168,6 +187,17 @@ public abstract class MergedResourceBuilder
             throw new IllegalStateException(
                 "Resources cannot be added once build() or install() methods have been called.");
         }
+        if(this.convertToCompressed
+           && ref instanceof PackageResourceReference
+           && !(ref instanceof CompressedResourceReference))
+        {
+            ref = new CompressedResourceReference(
+                ref.getScope(),
+                ref.getName(),
+                ref.getLocale(),
+                ref.getStyle(),
+                ref.getVariation());
+        }
         this.references.add(ref);
     }
     
@@ -180,26 +210,12 @@ public abstract class MergedResourceBuilder
     protected abstract Behavior newContributor(ResourceReference ref);
     
     /**
-     * TODO
-     */
-    private void mountIndividualResources(ICompoundRequestMapper compound)
-    {
-        int i = 0;
-        for(ResourceReference ref : this.references)
-        {
-            ResourceReference.Key key = new ResourceReference.Key(ref);
-            String name = key.toString().replaceAll("/", "-");
-            String uniquePath = String.format(
-                "%s-%s",
-                this.path,
-                UrlEncoder.PATH_INSTANCE.encode(name, "UTF-8")
-            );
-            compound.add(new ResourceMapper(uniquePath, ref));
-        }
-    }
-    
-    /**
-     * TODO
+     * Called when one of the build or install methods is invoked to verify that all required
+     * properties have been provided. After this method is called the builder will be considered
+     * "frozen"; that is, no more resources may be added.
+     * 
+     * @throws IllegalStateException if the path has not been set or if no resources have been
+     *                               added to the builder
      */
     protected void assertRequiredOptionsAndFreeze()
     {
