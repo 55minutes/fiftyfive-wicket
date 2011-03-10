@@ -1,0 +1,194 @@
+/**
+ * Copyright 2011 55 Minutes (http://www.55minutes.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package fiftyfive.wicket.experimental;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.wicket.request.Request;
+import org.apache.wicket.request.component.IRequestablePage;
+import org.apache.wicket.request.mapper.MountedMapper;
+import org.apache.wicket.request.mapper.parameter.IPageParametersEncoder;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
+import org.apache.wicket.util.ClassProvider;
+import org.apache.wicket.util.string.StringValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+/**
+ * An improved version of Wicket's standard {@link MountedMapper} that additionally allows
+ * regular expressions inside placeholders. This feature is inspired by the pattern matching
+ * behavior of the JAX-RS {@code @Path} annotation.
+ * <pre class="example">
+ * mount(new PatternMountedMapper("people/${personId:\\d+}", PersonPage.class));</pre>
+ * This will map URLs like {@code people/12345} but yield a 404 not found for something like
+ * {@code people/abc} since {@code abc} doesn't match the {@code \d+} regular expression.
+ */
+public class PatternMountedMapper extends MountedMapper
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatternMountedMapper.class);
+
+    private final List<PatternPlaceholder> patternPlaceholders;
+
+    /**
+     * {@inheritDoc}
+     */
+    public PatternMountedMapper(String mountPath, Class<? extends IRequestablePage> pageClass)
+    {
+        this(mountPath, pageClass, new PageParametersEncoder());
+    }
+
+    /**
+    * {@inheritDoc}
+     */
+    public PatternMountedMapper(String mountPath,
+                                ClassProvider<? extends IRequestablePage> pageClassProvider)
+    {
+        this(mountPath, pageClassProvider, new PageParametersEncoder());
+    }
+
+
+    /**
+    * {@inheritDoc}
+     */
+    public PatternMountedMapper(String mountPath,
+                                Class<? extends IRequestablePage> pageClass,
+                                IPageParametersEncoder pageParametersEncoder)
+    {
+        this(mountPath, ClassProvider.of(pageClass), pageParametersEncoder);
+    }
+
+    /**
+    * {@inheritDoc}
+     */
+    public PatternMountedMapper(String mountPath,
+                                ClassProvider<? extends IRequestablePage> pageClassProvider,
+                                IPageParametersEncoder pageParametersEncoder)
+    {
+        super(removePatternsFromPlaceholders(mountPath), pageClassProvider, pageParametersEncoder);
+
+        this.patternPlaceholders = new ArrayList<PatternPlaceholder>(1);
+        for(String seg: getMountSegments(mountPath))
+        {
+            String placeholder = getPlaceholder(seg);
+            if(placeholder != null)
+            {
+                this.patternPlaceholders.add(new PatternPlaceholder(placeholder));
+            }
+        }
+    }
+    
+    @Override
+    protected UrlInfo parseRequest(Request request)
+    {
+        // Parse the request normally. If the standard impl can't parse it, we won't either.
+        UrlInfo info = super.parseRequest(request);
+        if(null == info || null == info.getPageParameters())
+        {
+            return info;
+        }
+        
+        PageParameters params = info.getPageParameters();
+        for(PatternPlaceholder pp : getPatternPlaceholders())
+        {
+            List<StringValue> values = params.getValues(pp.getName());
+            if(values != null && values.size() > 0)
+            {
+                for(StringValue val : values)
+                {
+                    if(!pp.matches(val.toString()))
+                    {
+                        if(LOGGER.isDebugEnabled())
+                        {
+                            LOGGER.debug(String.format(
+                                "Parameter \"%s\" did not match pattern placeholder %s", val, pp));
+                            return null;
+                        }
+                    }
+                }
+            }
+        }
+        return info;
+    }
+    
+    protected List<PatternPlaceholder> getPatternPlaceholders()
+    {
+        return this.patternPlaceholders;
+    }
+    
+    protected static String removePatternsFromPlaceholders(String path)
+    {
+        if(null == path)
+        {
+            return null;
+        }
+        return path.replaceAll("(\\$\\{[^:]+):[^\\}]+\\}", "$1}");
+    }
+    
+    protected static class PatternPlaceholder
+    {
+        private final String placeholder;
+        private final String pattern;
+        private final String name;
+        
+        public PatternPlaceholder(String placeholder)
+        {
+            this.placeholder = placeholder;
+
+            int colon = placeholder.indexOf(":");
+            if(colon > 0 && colon < placeholder.length() - 2)
+            {
+                this.name = placeholder.substring(0, colon);
+                this.pattern = placeholder.substring(colon + 1);
+            }
+            else
+            {
+                this.name = placeholder;
+                this.pattern = null;
+            }
+        }
+        
+        /**
+         * Return {@code true} if this placeholder has a regex pattern and that pattern matches
+         * the specified value. If this placeholder doesn't have a regex, always return
+         * {@code true} always.
+         */
+        public boolean matches(CharSequence value)
+        {
+            return null == this.pattern || Pattern.matches(this.pattern, value);
+        }
+        
+        /**
+         * The name of this placeholder with the {@code :regex} portion removed.
+         */
+        public String getName()
+        {
+            return this.name;
+        }
+        
+        /**
+         * For debugging.
+         */
+        public String toString()
+        {
+            return "${" + this.placeholder + "}";
+        }
+    }
+}
