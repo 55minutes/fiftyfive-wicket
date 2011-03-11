@@ -58,6 +58,8 @@ import org.apache.wicket.util.time.Time;
  *     resource in the list of resources to merge fails to respond for whatever reason, this will
  *     result in an incomplete merged response.</li>
  * </ol>
+ * 
+ * @since 3.0
  */
 public class MergedResourceRequestHandler implements IRequestHandler
 {
