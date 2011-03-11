@@ -17,6 +17,7 @@
 package fiftyfive.wicket.experimental;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -40,6 +41,8 @@ import org.slf4j.LoggerFactory;
  * mount(new PatternMountedMapper("people/${personId:\\d+}", PersonPage.class));</pre>
  * This will map URLs like {@code people/12345} but yield a 404 not found for something like
  * {@code people/abc} since {@code abc} doesn't match the {@code \d+} regular expression.
+ * 
+ * @since 3.0
  */
 public class PatternMountedMapper extends MountedMapper
 {
@@ -95,6 +98,10 @@ public class PatternMountedMapper extends MountedMapper
         }
     }
     
+    /**
+     * First delegate to the superclass to parse the request as normal, then additionally
+     * verify that all regular expressions specified in the placeholders match.
+     */
     @Override
     protected UrlInfo parseRequest(Request request)
     {
@@ -105,22 +112,26 @@ public class PatternMountedMapper extends MountedMapper
             return info;
         }
         
+        // Loop through each placeholder and verify that the regex of the placeholder matches
+        // the value that was provided in the request url. If any of the values don't match,
+        // immediately return null signifying that the url is not matched by this mapper.
         PageParameters params = info.getPageParameters();
         for(PatternPlaceholder pp : getPatternPlaceholders())
         {
             List<StringValue> values = params.getValues(pp.getName());
-            if(values != null && values.size() > 0)
+            if(null == values || values.size() == 0)
             {
-                for(StringValue val : values)
+                values = Arrays.asList(StringValue.valueOf(""));
+            }
+            for(StringValue val : values)
+            {
+                if(!pp.matches(val.toString()))
                 {
-                    if(!pp.matches(val.toString()))
+                    if(LOGGER.isDebugEnabled())
                     {
-                        if(LOGGER.isDebugEnabled())
-                        {
-                            LOGGER.debug(String.format(
-                                "Parameter \"%s\" did not match pattern placeholder %s", val, pp));
-                            return null;
-                        }
+                        LOGGER.debug(String.format(
+                            "Parameter \"%s\" did not match pattern placeholder %s", val, pp));
+                        return null;
                     }
                 }
             }
@@ -128,20 +139,45 @@ public class PatternMountedMapper extends MountedMapper
         return info;
     }
     
+    /**
+     * The list of placeholders (in other words, the <code>${name:regex}</code> components of the
+     * mount path).
+     */
     protected List<PatternPlaceholder> getPatternPlaceholders()
     {
         return this.patternPlaceholders;
     }
     
+    /**
+     * Remove the regular expression portion of all placeholders from the given path so that
+     * the standard {@link MountedMapper} isn't confused by them. This allows us to reuse all 
+     * the existing code of the superclass. This method must be static because we need to call it
+     * before invoking the superclass constructor.
+     * <pre class="example">
+     * removePatternsFromPlaceholders("people/${personId:\\d+}");
+     * // "people/${personId}"</pre>
+     */
     protected static String removePatternsFromPlaceholders(String path)
     {
         if(null == path)
         {
             return null;
         }
-        return path.replaceAll("(\\$\\{[^:]+):[^\\}]+\\}", "$1}");
+        StringBuilder result = new StringBuilder();
+        for(String seg : path.split("/"))
+        {
+            if(result.length() > 0 || path.startsWith("/"))
+            {
+                result.append("/");
+            }
+            result.append(seg.replaceAll("^(\\$\\{[^:]+):.+\\}$", "$1}"));
+        }
+        return result.toString();
     }
     
+    /**
+     * Represents a placeholder that optionally contains a regular expression.
+     */
     protected static class PatternPlaceholder
     {
         private final String placeholder;
