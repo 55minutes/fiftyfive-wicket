@@ -43,9 +43,9 @@ public class RestrictedDatePicker extends DatePicker
     ** to, and an initial date that determines which month is displayed at
     ** load time.
     */
-    private IModel _initialDateModel;
-    private IModel _startDateModel;
-    private IModel _endDateModel;
+    private IModel initialDateModel;
+    private IModel startDateModel;
+    private IModel endDateModel;
 
     /**
      * RestrictedDatePicker constructor
@@ -75,17 +75,17 @@ public class RestrictedDatePicker extends DatePicker
         
         if(initialDateModel != null)
         {
-            _initialDateModel = initialDateModel;
+            this.initialDateModel = initialDateModel;
         }
         
         if(startDateModel != null)
         {
-            _startDateModel = startDateModel;
+            this.startDateModel = startDateModel;
         }
         
         if(endDateModel != null)
         {
-            _endDateModel = endDateModel;
+            this.endDateModel = endDateModel;
         }
     }
     
@@ -97,9 +97,9 @@ public class RestrictedDatePicker extends DatePicker
     public void detach(Component component)
     {
         super.detach(component);
-        if(_initialDateModel != null) _initialDateModel.detach();
-        if(_startDateModel != null) _startDateModel.detach();
-        if(_endDateModel != null) _endDateModel.detach();
+        if(this.initialDateModel != null) this.initialDateModel.detach();
+        if(this.startDateModel != null) this.startDateModel.detach();
+        if(this.endDateModel != null) this.endDateModel.detach();
     }
 
     /**
@@ -111,7 +111,7 @@ public class RestrictedDatePicker extends DatePicker
      */
     public void setInitialDateModel(IModel newInitialDateModel)
     {
-        _initialDateModel = newInitialDateModel;
+        this.initialDateModel = newInitialDateModel;
     }
 
     /**
@@ -124,7 +124,7 @@ public class RestrictedDatePicker extends DatePicker
      */
     public void setStartDateModel(IModel newStartDateModel)
     {
-        _startDateModel = newStartDateModel;
+        this.startDateModel = newStartDateModel;
     }
 
     /**
@@ -137,7 +137,7 @@ public class RestrictedDatePicker extends DatePicker
      */
     public void setEndDateModel(IModel newEndDateModel)
     {
-        _endDateModel = newEndDateModel;
+        this.endDateModel = newEndDateModel;
     }
     
     /**
@@ -155,9 +155,9 @@ public class RestrictedDatePicker extends DatePicker
         ** If the initial, start and end date model objects exist, add pagedate,
         ** mindate and maxdate properties to the widget configuration.
         */
-        if(_initialDateModel != null)
+        if(this.initialDateModel != null)
         {
-            Date id = (Date )_initialDateModel.getObject();
+            Date id = (Date )this.initialDateModel.getObject();
             if(id != null)
             {
                 widgetProperties.put(
@@ -167,9 +167,9 @@ public class RestrictedDatePicker extends DatePicker
             }
         }
 
-        if(_startDateModel != null)
+        if(this.startDateModel != null)
         {
-            Date sd = (Date )_startDateModel.getObject();
+            Date sd = (Date )this.startDateModel.getObject();
             if(sd != null)
             {
                 widgetProperties.put(
@@ -179,9 +179,9 @@ public class RestrictedDatePicker extends DatePicker
             }
         }
 
-        if(_endDateModel != null)
+        if(this.endDateModel != null)
         {
-            Date ed = (Date )_endDateModel.getObject();
+            Date ed = (Date )this.endDateModel.getObject();
             if(ed != null)
             {
                 widgetProperties.put(

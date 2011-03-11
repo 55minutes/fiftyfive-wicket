@@ -22,16 +22,16 @@ import fiftyfive.wicket.data.DtoDataProvider;
 
 public class BeanResultProvider extends DtoDataProvider<BeanResult,Bean>
 {
-    private int _loadCount = 0;
+    private int loadCount = 0;
     
     public int getLoadCount()
     {
-        return _loadCount;
+        return this.loadCount;
     }
     
     protected BeanResult load(int offset, int amount)
     {
-        _loadCount ++;
+        this.loadCount ++;
         return new BeanResult(offset, amount);
     }
     

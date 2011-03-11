@@ -46,7 +46,7 @@ import org.apache.wicket.model.Model;
  */
 public class DomReadyScript extends AbstractJavaScriptContribution
 {
-    private IModel<String> _readyScript;
+    private IModel<String> readyScript;
     
     /**
      * Creates a Behavior object that will add the given javascript
@@ -64,7 +64,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     public DomReadyScript(IModel<String> readyScript)
     {
         super();
-        _readyScript = readyScript;
+        this.readyScript = readyScript;
     }
     
     /**
@@ -74,7 +74,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     @Override
     public void detach(Component component)
     {
-        if(_readyScript != null) _readyScript.detach();
+        if(this.readyScript != null) this.readyScript.detach();
     }
     
     /**
@@ -89,9 +89,9 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     @Override
     public void renderHead(Component comp, IHeaderResponse response)
     {
-        if(_readyScript != null)
+        if(this.readyScript != null)
         {
-            renderDomReady(response, _readyScript.getObject());
+            renderDomReady(response, this.readyScript.getObject());
         }
     }
 }

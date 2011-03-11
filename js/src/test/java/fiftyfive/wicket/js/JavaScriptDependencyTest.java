@@ -27,21 +27,21 @@ import static org.mockito.Mockito.*;
 
 public class JavaScriptDependencyTest extends BaseJSTest
 {
-    @Mock IHeaderResponse _response;
-    @Mock ResourceReference _css;
-    @Mock ResourceReference _script1;
-    @Mock ResourceReference _script2;
-    @Mock ResourceReference _script3;
-    @Mock JavaScriptDependencySettings _settings;
+    @Mock IHeaderResponse response;
+    @Mock ResourceReference css;
+    @Mock ResourceReference script1;
+    @Mock ResourceReference script2;
+    @Mock ResourceReference script3;
+    @Mock JavaScriptDependencySettings settings;
 
-    MockJavaScriptDependencyLocator _locator;
+    MockJavaScriptDependencyLocator locator;
 
     
     @Before
     public void setUpLocator()
     {
-        _locator = new MockJavaScriptDependencyLocator();
-        when(_settings.getLocator()).thenReturn(_locator);
+        this.locator = new MockJavaScriptDependencyLocator();
+        when(this.settings.getLocator()).thenReturn(this.locator);
     }
 
     @Test
@@ -50,22 +50,22 @@ public class JavaScriptDependencyTest extends BaseJSTest
         JavaScriptDependency dep = new MockedJavaScriptDependency("library");
         
         DependencyCollection expected = new DependencyCollection();
-        expected.setCss(_css);
-        expected.add(_script1);
-        expected.add(_script2);
-        expected.add(_script3);
-        _locator.setLibraryScripts(expected);
+        expected.setCss(this.css);
+        expected.add(this.script1);
+        expected.add(this.script2);
+        expected.add(this.script3);
+        this.locator.setLibraryScripts(expected);
         
-        dep.renderHead(null, _response);
+        dep.renderHead(null, this.response);
 
-        verify(_response).renderCSSReference(_css);
+        verify(this.response).renderCSSReference(this.css);
 
-        InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavaScriptReference(_script1);
-        inOrder.verify(_response).renderJavaScriptReference(_script2);
-        inOrder.verify(_response).renderJavaScriptReference(_script3);
+        InOrder inOrder = inOrder(this.response);
+        inOrder.verify(this.response).renderJavaScriptReference(this.script1);
+        inOrder.verify(this.response).renderJavaScriptReference(this.script2);
+        inOrder.verify(this.response).renderJavaScriptReference(this.script3);
         
-        verifyNoMoreInteractions(_response);
+        verifyNoMoreInteractions(this.response);
     }
 
     @Test
@@ -74,13 +74,13 @@ public class JavaScriptDependencyTest extends BaseJSTest
         JavaScriptDependency dep = new MockedJavaScriptDependency(getClass());
         
         DependencyCollection expected = new DependencyCollection();
-        expected.add(_script1);
-        _locator.setAssociatedScripts(expected);
+        expected.add(this.script1);
+        this.locator.setAssociatedScripts(expected);
         
-        dep.renderHead(null, _response);
+        dep.renderHead(null, this.response);
 
-        verify(_response).renderJavaScriptReference(_script1);
-        verifyNoMoreInteractions(_response);
+        verify(this.response).renderJavaScriptReference(this.script1);
+        verifyNoMoreInteractions(this.response);
     }
     
     @Test
@@ -91,13 +91,13 @@ public class JavaScriptDependencyTest extends BaseJSTest
         );
         
         DependencyCollection expected = new DependencyCollection();
-        expected.add(_script1);
-        _locator.setResourceScripts(expected);
+        expected.add(this.script1);
+        this.locator.setResourceScripts(expected);
         
-        dep.renderHead(null, _response);
+        dep.renderHead(null, this.response);
 
-        verify(_response).renderJavaScriptReference(_script1);
-        verifyNoMoreInteractions(_response);
+        verify(this.response).renderJavaScriptReference(this.script1);
+        verifyNoMoreInteractions(this.response);
     }
     
     /**
@@ -123,7 +123,7 @@ public class JavaScriptDependencyTest extends BaseJSTest
         @Override
         protected JavaScriptDependencySettings settings()
         {
-            return _settings;
+            return JavaScriptDependencyTest.this.settings;
         }
     }
 }

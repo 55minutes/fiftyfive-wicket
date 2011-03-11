@@ -55,7 +55,7 @@ import org.apache.wicket.model.Model;
  */
 public class LabelWithPlaceholder extends Label
 {
-    private IModel<?> _placeholderValue;
+    private IModel<?> placeholderValue;
     
     /**
      * @see Label#Label(String)
@@ -111,7 +111,7 @@ public class LabelWithPlaceholder extends Label
      */
     public LabelWithPlaceholder setPlaceholder(IModel<?> valueIfEmpty)
     {
-        _placeholderValue = valueIfEmpty;
+        this.placeholderValue = valueIfEmpty;
         return this;
     }
     
@@ -130,7 +130,7 @@ public class LabelWithPlaceholder extends Label
     @Override
     protected void onDetach()
     {
-        if(null != _placeholderValue) _placeholderValue.detach();
+        if(null != this.placeholderValue) this.placeholderValue.detach();
         super.onDetach();
     }
 
@@ -145,9 +145,9 @@ public class LabelWithPlaceholder extends Label
                                    ComponentTag openTag)
     {
         String str = internalGetDefaultModelObjectAsString();
-        if(_placeholderValue != null && Shortcuts.empty(str))
+        if(this.placeholderValue != null && Shortcuts.empty(str))
         {
-            str = getDefaultModelObjectAsString(_placeholderValue.getObject());
+            str = getDefaultModelObjectAsString(this.placeholderValue.getObject());
         }
         replaceComponentTagBody(markupStream, openTag, str);
     }

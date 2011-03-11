@@ -77,7 +77,7 @@ public class Shortcuts
      * }
      * private Person loadPerson()
      * {
-     *     return _personService.loadPerson(getPageParameters().get("id"));
+     *     return personService.loadPerson(getPageParameters().get("id"));
      * }</pre>
      * 
      * @throws IllegalArgumentException if the loadMethod does not exist, or

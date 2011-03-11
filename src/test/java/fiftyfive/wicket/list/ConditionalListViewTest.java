@@ -37,29 +37,29 @@ public class ConditionalListViewTest extends BaseWicketTest
     public void testRender_null() throws Exception
     {
         doRender(null);
-        assertXPath(0, _tester, "//ul");
+        assertXPath(0, this.tester, "//ul");
     }
 
     @Test
     public void testRender_empty() throws Exception
     {
         doRender(Collections.EMPTY_LIST);
-        assertXPath(0, _tester, "//ul");
+        assertXPath(0, this.tester, "//ul");
     }
 
     @Test
     public void testRender_some() throws Exception
     {
         doRender(Arrays.asList("a", "b", "c"));
-        assertXPath(3, _tester, "//li");
-        assertXPath(_tester, "//ul/li/span[text()='a']");
-        assertXPath(_tester, "//ul/li/span[text()='b']");
-        assertXPath(_tester, "//ul/li/span[text()='c']");
+        assertXPath(3, this.tester, "//li");
+        assertXPath(this.tester, "//ul/li/span[text()='a']");
+        assertXPath(this.tester, "//ul/li/span[text()='b']");
+        assertXPath(this.tester, "//ul/li/span[text()='c']");
     }
     
     private void doRender(List<String> list) throws Exception
     {
-        startComponentWithXHtml(_tester, new TestListView("c", list), HTML);
+        startComponentWithXHtml(this.tester, new TestListView("c", list), HTML);
     }
     
     private static class TestListView extends ConditionalListView<String>

@@ -42,7 +42,7 @@ import org.apache.wicket.util.convert.IConverter;
  */
 public class FormattedLabel extends LabelWithPlaceholder
 {
-    private String _format;
+    private String format;
     
     /**
      * Construct the label using an implied model.
@@ -53,7 +53,7 @@ public class FormattedLabel extends LabelWithPlaceholder
     public FormattedLabel(String id, String format)
     {
         super(id);
-        _format = format;
+        this.format = format;
     }
 
     /**
@@ -66,7 +66,7 @@ public class FormattedLabel extends LabelWithPlaceholder
     public FormattedLabel(String id, String format, IModel<?> model)
     {
         super(id, model);
-        _format = format;
+        this.format = format;
     }
     
     @Override
@@ -76,7 +76,7 @@ public class FormattedLabel extends LabelWithPlaceholder
             public String convertToString(C value, Locale locale)
             {
                 if(null == value) return null;
-                return String.format(locale, _format, value);
+                return String.format(locale, FormattedLabel.this.format, value);
             }
             public C convertToObject(String value, Locale locale)
             {

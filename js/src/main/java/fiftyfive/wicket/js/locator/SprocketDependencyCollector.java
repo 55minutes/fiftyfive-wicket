@@ -43,7 +43,7 @@ public class SprocketDependencyCollector extends SprocketParser
         SprocketDependencyCollector.class
     );
     
-    private JavaScriptDependencyLocator _locator;
+    private JavaScriptDependencyLocator locator;
     
     /**
      * Constructs a instance that will use the given
@@ -53,7 +53,7 @@ public class SprocketDependencyCollector extends SprocketParser
     public SprocketDependencyCollector(JavaScriptDependencyLocator locator)
     {
         super();
-        _locator = locator;
+        this.locator = locator;
     }
     
     /**
@@ -85,12 +85,12 @@ public class SprocketDependencyCollector extends SprocketParser
         {
             if(sp.isLibrary())
             {
-                _locator.findLibraryScripts(sp.getPath(), dependencies);
+                this.locator.findLibraryScripts(sp.getPath(), dependencies);
             }
             else
             {
                 Class<?> scope = ref.getScope();
-                _locator.findResourceScripts(
+                this.locator.findResourceScripts(
                     scope,
                     concatPaths(ref.getName(), sp.getPath()),
                     dependencies

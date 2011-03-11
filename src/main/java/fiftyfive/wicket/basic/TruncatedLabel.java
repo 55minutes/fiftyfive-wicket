@@ -55,8 +55,8 @@ import org.apache.wicket.util.string.Strings;
  */
 public class TruncatedLabel extends LabelWithPlaceholder
 {
-    private int _length;
-    private TruncateHelper _helper = new TruncateHelper();
+    private int length;
+    private TruncateHelper helper = new TruncateHelper();
     
     /**
      * @see LabelWithPlaceholder#LabelWithPlaceholder(String)
@@ -80,7 +80,7 @@ public class TruncatedLabel extends LabelWithPlaceholder
     public TruncatedLabel(final String id, int length, IModel<?> model)
     {
         super(id, model);
-        _length = length;
+        this.length = length;
     }
     
     // Override to change return type.
@@ -113,7 +113,7 @@ public class TruncatedLabel extends LabelWithPlaceholder
         setEscapeModelStrings(origEscape);
         
         // Do the truncation
-        String trunc = getTruncateHelper().truncate(value, _length);
+        String trunc = getTruncateHelper().truncate(value, this.length);
         
         // Escape the truncated value if desired.
         if(trunc != null && origEscape)
@@ -125,7 +125,7 @@ public class TruncatedLabel extends LabelWithPlaceholder
     
     public TruncateHelper getTruncateHelper()
     {
-        return _helper;
+        return this.helper;
     }
 
     /**
@@ -138,7 +138,7 @@ public class TruncatedLabel extends LabelWithPlaceholder
      */
     public TruncatedLabel setTruncateHelper(TruncateHelper helper)
     {
-        this._helper = helper;
+        this.helper = helper;
         return this;
     }
 }

@@ -27,7 +27,7 @@ import org.apache.wicket.model.IModel;
  */
 public class TransientModel<T> implements IModel<T>
 {
-    private transient T _object;
+    private transient T object;
     
     /**
      * Convience method for constructing a TransientModel instance.
@@ -52,12 +52,12 @@ public class TransientModel<T> implements IModel<T>
     
     public T getObject()
     {
-        return _object;
+        return this.object;
     }
     
     public void setObject(T value)
     {
-        _object = value;
+        this.object = value;
     }
     
     public void detach()

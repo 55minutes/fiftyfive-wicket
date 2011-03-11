@@ -164,8 +164,8 @@ public abstract class InternetExplorerCss extends Behavior
         };
     }
     
-    private String _condition;
-    private List<? extends Serializable> _token;
+    private String condition;
+    private List<? extends Serializable> token;
     
     /**
      * Internal use only.
@@ -173,8 +173,8 @@ public abstract class InternetExplorerCss extends Behavior
     protected InternetExplorerCss(String condition,
                                   List<? extends Serializable> token)
     {
-        _condition = condition;
-        _token = token;
+        this.condition = condition;
+        this.token = token;
     }
     
     /**
@@ -184,15 +184,15 @@ public abstract class InternetExplorerCss extends Behavior
     @Override
     public void renderHead(Component comp, IHeaderResponse response)
     {
-        if(!response.wasRendered(_token))
+        if(!response.wasRendered(this.token))
         {
             response.getResponse().write(String.format(
                 "<!--[if %s]>%n",
-                _condition
+                this.condition
             ));
             doLinkRender(response);
             response.getResponse().write(String.format("<![endif]-->%n"));
-            response.markRendered(_token);
+            response.markRendered(this.token);
         }
     }
     

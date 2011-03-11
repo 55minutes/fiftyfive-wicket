@@ -37,10 +37,10 @@ import org.apache.wicket.request.resource.ResourceReference;
  */
 public class DependencyCollection implements Iterable<ResourceReference>
 {
-    private boolean _frozen;
-    private int _position;
-    private ResourceReference _css;
-    private List<ResourceReference> _resources;
+    private boolean frozen;
+    private int position;
+    private ResourceReference css;
+    private List<ResourceReference> resources;
     
     /**
      * Creates an empty collection.
@@ -48,10 +48,10 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public DependencyCollection()
     {
         super();
-        _frozen = false;
-        _position = 0;
-        _css = null;
-        _resources = new ArrayList<ResourceReference>();
+        this.frozen = false;
+        this.position = 0;
+        this.css = null;
+        this.resources = new ArrayList<ResourceReference>();
     }
     
     /**
@@ -67,8 +67,8 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public boolean add(ResourceReference ref)
     {
         assertMutable();
-        if(null == ref || _resources.contains(ref)) return false;
-        _resources.add(_position++, ref);
+        if(null == ref || this.resources.contains(ref)) return false;
+        this.resources.add(this.position++, ref);
         return true;
     }
     
@@ -83,7 +83,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public void descend()
     {
         assertMutable();
-        _position--;
+        this.position--;
     }
     
     /**
@@ -96,7 +96,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public void ascend()
     {
         assertMutable();
-        _position++;
+        this.position++;
     }
     
     /**
@@ -105,7 +105,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
      */
     public ResourceReference getCss()
     {
-        return _css;
+        return this.css;
     }
     
     /**
@@ -115,7 +115,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public void setCss(ResourceReference css)
     {
         assertMutable();
-        this._css = css;
+        this.css = css;
     }
     
     /**
@@ -124,12 +124,12 @@ public class DependencyCollection implements Iterable<ResourceReference>
      */
     public Iterator<ResourceReference> iterator()
     {
-        return _resources.iterator();
+        return this.resources.iterator();
     }
     
     public ResourceReference getRootReference()
     {
-        return isEmpty() ? null : _resources.get(_resources.size() - 1);
+        return isEmpty() ? null : this.resources.get(this.resources.size() - 1);
     }
     
     /**
@@ -138,7 +138,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
      */
     public boolean isEmpty()
     {
-        return _resources.size() == 0;
+        return this.resources.size() == 0;
     }
     
     /**
@@ -147,7 +147,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
      */
     public void freeze()
     {
-        _frozen = true;
+        this.frozen = true;
     }
     
     /**
@@ -157,14 +157,14 @@ public class DependencyCollection implements Iterable<ResourceReference>
     public void copyTo(DependencyCollection other)
     {
         Assert.notNull(other);
-        other._position = this._position;
-        other._css = this._css;
-        other._resources = new ArrayList<ResourceReference>(this._resources);
+        other.position = this.position;
+        other.css = this.css;
+        other.resources = new ArrayList<ResourceReference>(this.resources);
     }
     
     private void assertMutable()
     {
-        if(_frozen)
+        if(this.frozen)
         {
             throw new IllegalStateException("Frozen. Cannot be modified.");
         }

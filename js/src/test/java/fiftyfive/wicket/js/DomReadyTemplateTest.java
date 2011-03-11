@@ -25,7 +25,7 @@ import org.mockito.Mock;
 
 public class DomReadyTemplateTest extends BaseJSTest
 {
-    @Mock IHeaderResponse _response;
+    @Mock IHeaderResponse response;
 
     @Test
     public void testExceptionThrownWhenNoTemplateFound()
@@ -33,7 +33,7 @@ public class DomReadyTemplateTest extends BaseJSTest
         DomReadyTemplate tmpl = new DomReadyTemplate(DomReadyTemplateTest.class);
         try
         {
-            tmpl.renderHead(null, _response);
+            tmpl.renderHead(null, this.response);
             Assert.fail("Did not throw exception as expected.");
         }
         catch(WicketRuntimeException wre)

@@ -20,15 +20,15 @@ import java.io.Serializable;
 
 public class Bean implements Serializable
 {
-    private int _num;
+    private int num;
     
     public Bean(int num)
     {
-        this._num = num;
+        this.num = num;
     }
     
     public String toString()
     {
-        return Integer.toString(_num);
+        return Integer.toString(this.num);
     }
 }

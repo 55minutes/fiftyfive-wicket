@@ -25,8 +25,8 @@ import fiftyfive.util.Assert;
  */
 public class SearchLocation
 {
-    private Class<?> _scope;
-    private String _path;
+    private Class<?> scope;
+    private String path;
     
     public SearchLocation(Class<?> scope, String path)
     {
@@ -34,17 +34,17 @@ public class SearchLocation
         Assert.notNull(path, "path cannot be null");
         Assert.isFalse(path.startsWith("/"), "path cannot start with \"/\"");
         
-        _scope = scope;
-        _path = path;
+        this.scope = scope;
+        this.path = path;
     }
     
     public Class<?> getScope()
     {
-        return _scope;
+        return this.scope;
     }
     
     public String getPath()
     {
-        return _path;
+        return this.path;
     }
 }

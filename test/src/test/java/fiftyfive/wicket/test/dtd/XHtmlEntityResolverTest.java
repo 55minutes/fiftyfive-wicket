@@ -27,7 +27,7 @@ import org.junit.Test;
 
 public class XHtmlEntityResolverTest
 {
-    private List<String> _missing = new ArrayList();
+    private List<String> missing = new ArrayList();
     
     @Test
     public void testXHtml10Frameset() throws Exception
@@ -65,16 +65,16 @@ public class XHtmlEntityResolverTest
             builder.setEntityResolver(new XHtmlEntityResolver() {
                 @Override protected void onNotFound(String pubId, String sysId)
                 {
-                    _missing.add(sysId);
+                    XHtmlEntityResolverTest.this.missing.add(sysId);
                 }
             });
-            _missing.clear();
+            this.missing.clear();
             
             builder.parse(in);
             
-            if(_missing.size() > 0)
+            if(this.missing.size() > 0)
             {
-                Assert.fail("Entities not found: " + _missing);
+                Assert.fail("Entities not found: " + this.missing);
             }
         }
         finally

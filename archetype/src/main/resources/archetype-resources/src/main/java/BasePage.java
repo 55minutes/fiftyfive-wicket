@@ -29,7 +29,7 @@ import static fiftyfive.wicket.util.Shortcuts.*;
  */
 public abstract class BasePage extends WebPage
 {
-    private WebMarkupContainer _body;
+    private WebMarkupContainer body;
     
     public BasePage()
     {
@@ -61,8 +61,8 @@ public abstract class BasePage extends WebPage
         // Copyright year in footer
         body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
         
-        // From now on add() will add to _body instead of page
-        this._body = body;
+        // From now on add() will add to body instead of page
+        this.body = body;
     }
     
     /**
@@ -71,7 +71,7 @@ public abstract class BasePage extends WebPage
      */
     public WebMarkupContainer getBody()
     {
-        return _body;
+        return this.body;
     }
 
     /**
@@ -90,14 +90,14 @@ public abstract class BasePage extends WebPage
             // HtmlHeaderContainer and adds it to the page. Make sure this
             // is registered as a direct child of the page itself, not the
             // body.
-            if(null == _body || c instanceof HtmlHeaderContainer)
+            if(null == this.body || c instanceof HtmlHeaderContainer)
             {
                 super.add(c);
             }
             // Everything else goes into the <body>.
             else
             {
-                _body.add(c);
+                this.body.add(c);
             }
         }
         return this;

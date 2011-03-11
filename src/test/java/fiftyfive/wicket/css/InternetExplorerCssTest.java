@@ -25,9 +25,9 @@ public class InternetExplorerCssTest extends BaseWicketTest
     @Test
     public void testRender() throws Exception
     {
-        _tester.startPage(InternetExplorerCssTestPage.class);
-        _tester.assertRenderedPage(InternetExplorerCssTestPage.class);
-        _tester.assertResultPage(
+        this.tester.startPage(InternetExplorerCssTestPage.class);
+        this.tester.assertRenderedPage(InternetExplorerCssTestPage.class);
+        this.tester.assertResultPage(
             InternetExplorerCssTestPage.class,
             "InternetExplorerCssTestPage-expected.html"
         );

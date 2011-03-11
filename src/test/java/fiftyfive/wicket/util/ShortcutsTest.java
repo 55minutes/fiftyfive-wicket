@@ -30,9 +30,9 @@ public class ShortcutsTest extends BaseWicketTest
     @Test
     public void testShortcutsPage() throws Exception
     {
-        _tester.startPage(ShortcutsTestPage.class);
-        _tester.assertRenderedPage(ShortcutsTestPage.class);
-        _tester.assertResultPage(
+        this.tester.startPage(ShortcutsTestPage.class);
+        this.tester.assertRenderedPage(ShortcutsTestPage.class);
+        this.tester.assertResultPage(
             ShortcutsTestPage.class,
             "ShortcutsTestPage-expected.html"
         );
@@ -78,17 +78,17 @@ public class ShortcutsTest extends BaseWicketTest
     
     private static class TestBean
     {
-        private List<String> _values;
+        private List<String> values;
         
         public TestBean(List<String> values)
         {
-            _values = values;
+            this.values = values;
         }
         
         public List<String> load()
         {
-            _values.add("foo");
-            return _values;
+            this.values.add("foo");
+            return this.values;
         }
     }
 }

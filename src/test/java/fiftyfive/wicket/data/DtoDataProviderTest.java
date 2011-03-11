@@ -43,14 +43,14 @@ public class DtoDataProviderTest extends BaseWicketTest
     private void assertRenderAndClickNext(int clicks) throws Exception
     {
         DtoDataProviderTestPage page = new DtoDataProviderTestPage();
-        _tester.startPage(page);
+        this.tester.startPage(page);
         
         for(int i=0; i<clicks; i++)
         {
-            _tester.clickLink("paging:next");
+            this.tester.clickLink("paging:next");
         }
         
-        _tester.assertResultPage(
+        this.tester.assertResultPage(
             DtoDataProviderTestPage.class,
             String.format("DtoDataProviderTestPage-%d-expected.html", clicks)
         );

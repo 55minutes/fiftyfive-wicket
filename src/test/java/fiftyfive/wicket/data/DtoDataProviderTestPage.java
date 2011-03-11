@@ -24,20 +24,20 @@ import static fiftyfive.wicket.util.Shortcuts.label;
 
 public class DtoDataProviderTestPage extends WebPage
 {
-    private BeanResultProvider _provider;
+    private BeanResultProvider provider;
     
     public DtoDataProviderTestPage()
     {
         super();
         
-        _provider = new BeanResultProvider();
-        DataView<Bean> dataView = new DataView<Bean>("beans", _provider) {
+        this.provider = new BeanResultProvider();
+        DataView<Bean> dataView = new DataView<Bean>("beans", this.provider) {
             protected void populateItem(Item<Bean> item)
             {
                 item.add(label("label", item.getModel()));
             }
         };
-        _provider.setPageableView(dataView);
+        this.provider.setPageableView(dataView);
         dataView.setItemsPerPage(10);
         add(dataView);
         
@@ -46,6 +46,6 @@ public class DtoDataProviderTestPage extends WebPage
     
     public int getLoadCount()
     {
-        return _provider.getLoadCount();
+        return this.provider.getLoadCount();
     }
 }

@@ -102,13 +102,13 @@ import org.apache.wicket.model.Model;
  */
 public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
 {
-    private transient R _transientResult;
-    private transient Integer _transientOffset;
-    private transient Integer _transientRowsPerPage;
+    private transient R transientResult;
+    private transient Integer transientOffset;
+    private transient Integer transientRowsPerPage;
     
-    private boolean _loaded = false;
-    private Integer _cachedDataSize;
-    private AbstractPageableView _pageableView;
+    private boolean loaded = false;
+    private Integer cachedDataSize;
+    private AbstractPageableView pageableView;
     
     /**
      * Constructs an empty provider. You must call
@@ -127,7 +127,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     public DtoDataProvider(AbstractPageableView pageableView)
     {
         super();
-        this._pageableView = pageableView;
+        this.pageableView = pageableView;
     }
     
     /**
@@ -141,7 +141,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public void flushSizeCache()
     {
-        _cachedDataSize = null;
+        this.cachedDataSize = null;
     }
     
     /**
@@ -149,7 +149,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public AbstractPageableView getPageableView()
     {
-        return _pageableView;
+        return this.pageableView;
     }
     
     /**
@@ -160,7 +160,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public void setPageableView(AbstractPageableView pageableView)
     {
-        this._pageableView = pageableView;
+        this.pageableView = pageableView;
     }
     
     /**
@@ -219,12 +219,12 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public int size()
     {
-        if(null == _cachedDataSize)
+        if(null == this.cachedDataSize)
         {
-            // Force load(), which will set _cachedDataSize
+            // Force load(), which will set cachedDataSize
             getResult();
         }
-        return _cachedDataSize;
+        return this.cachedDataSize;
     }
     
     // loadable detachable support
@@ -236,13 +236,13 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public R getResult()
     {
-        if(!_loaded)
+        if(!this.loaded)
         {
-            _loaded = true;
-            _transientResult = load();
-            _cachedDataSize = size(_transientResult);
+            this.loaded = true;
+            this.transientResult = load();
+            this.cachedDataSize = size(this.transientResult);
         }
-        return _transientResult;
+        return this.transientResult;
     }
     
     /**
@@ -252,9 +252,9 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     protected R load()
     {
-        _transientOffset = getPageableViewOffset();
-        _transientRowsPerPage = getPageableRowsPerPage();
-        return load(_transientOffset, _transientRowsPerPage);
+        this.transientOffset = getPageableViewOffset();
+        this.transientRowsPerPage = getPageableRowsPerPage();
+        return load(this.transientOffset, this.transientRowsPerPage);
     }
     
     /**
@@ -263,10 +263,10 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public void detach()
     {
-        _loaded = false;
-        _transientResult = null;
-        _transientOffset = null;
-        _transientRowsPerPage = null;
+        this.loaded = false;
+        this.transientResult = null;
+        this.transientOffset = null;
+        this.transientRowsPerPage = null;
     }
     
     // Pageable reflection "magic"
@@ -280,7 +280,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     {
         assertPageableView();
         int page = (Integer) ReflectUtils.readField(
-            _pageableView, "currentPage"
+            this.pageableView, "currentPage"
         );
         return page * getPageableRowsPerPage();
     }
@@ -294,7 +294,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     protected int getPageableRowsPerPage()
     {
         assertPageableView();
-        return _pageableView.getItemsPerPage();
+        return this.pageableView.getItemsPerPage();
     }
     
     /**
@@ -305,11 +305,11 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     {
         boolean changed = false;
         
-        if(null == _transientOffset || null == _transientRowsPerPage)
+        if(null == this.transientOffset || null == this.transientRowsPerPage)
         {
             // Data hasn't been loaded yet, so nothing has changed.
         }
-        else if(_transientOffset != offset || _transientRowsPerPage < amount)
+        else if(this.transientOffset != offset || this.transientRowsPerPage < amount)
         {
             changed = true;
         }
@@ -317,12 +317,12 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     }
     
     /**
-     * Asserts that {@code _pageableView} is not {@code null}.
+     * Asserts that {@code pageableView} is not {@code null}.
      */
     private void assertPageableView()
     {
         Assert.notNull(
-            _pageableView,
+            this.pageableView,
             "setPageableView() must be called before provider can load"
         );
     }

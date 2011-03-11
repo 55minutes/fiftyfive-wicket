@@ -34,7 +34,7 @@ import org.apache.wicket.util.convert.IConverter;
  */
 public abstract class ChoicesListView<T> extends ListView<T>
 {
-    private IChoiceRenderer<? super T> _choiceRenderer;
+    private IChoiceRenderer<? super T> choiceRenderer;
     
     /**
      * Construct a list view that will expose the specified IChoiceRenderer for
@@ -45,7 +45,7 @@ public abstract class ChoicesListView<T> extends ListView<T>
                            IChoiceRenderer<? super T> renderer)
     {
         super(id, choices);
-        _choiceRenderer = renderer;
+        this.choiceRenderer = renderer;
     }
     
     /**
@@ -53,7 +53,7 @@ public abstract class ChoicesListView<T> extends ListView<T>
      */
     public IChoiceRenderer<? super T> getChoiceRenderer()
     {
-        return _choiceRenderer;
+        return this.choiceRenderer;
     }
     
     /**

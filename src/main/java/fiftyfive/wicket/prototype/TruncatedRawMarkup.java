@@ -56,13 +56,13 @@ import org.apache.wicket.markup.html.WebComponent;
  */
 public class TruncatedRawMarkup extends WebComponent
 {
-    private int _length;
-    private TruncateHelper _helper = new TruncateHelper();
+    private int length;
+    private TruncateHelper helper = new TruncateHelper();
     
     public TruncatedRawMarkup(String id, int length)
     {
         super(id);
-        _length = length;
+        this.length = length;
     }
     
     @Override
@@ -72,13 +72,13 @@ public class TruncatedRawMarkup extends WebComponent
         // (i.e. not nested wicket components or wicket tags).
         RawMarkup raw = (RawMarkup) markup.get();
         getResponse().write(
-            getTruncateHelper().truncate(raw.toString(), _length)
+            getTruncateHelper().truncate(raw.toString(), this.length)
         );
         markup.next();
     }
     
     protected TruncateHelper getTruncateHelper()
     {
-        return _helper;
+        return this.helper;
     }
 }

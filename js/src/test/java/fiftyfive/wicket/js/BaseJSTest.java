@@ -26,18 +26,18 @@ import org.mockito.MockitoAnnotations;
  */
 public abstract class BaseJSTest
 {
-    protected WicketTester _tester;
+    protected WicketTester tester;
     
     @Before
     public void setUp()
     {
-        _tester = new WicketTester();
+        this.tester = new WicketTester();
         MockitoAnnotations.initMocks(this);
     }
     
     @After
     public void tearDown()
     {
-        if(_tester != null) _tester.destroy();
+        if(this.tester != null) this.tester.destroy();
     }
 }

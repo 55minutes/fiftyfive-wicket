@@ -50,12 +50,8 @@ import static org.apache.wicket.RuntimeConfigurationType.DEVELOPMENT;
  */
 public abstract class FoundationApplication extends WebApplication
 {
-    private static final Logger _logger = LoggerFactory.getLogger(
-        FoundationApplication.class
-    );    
-    
-    private Date    _startupDate;
-    private Version _version;
+    private Date    startupDate;
+    private Version version;
     
     public FoundationApplication()
     {
@@ -68,7 +64,7 @@ public abstract class FoundationApplication extends WebApplication
      */
     public Version getVersion()
     {
-        return _version;
+        return this.version;
     }
     
     /**
@@ -77,7 +73,7 @@ public abstract class FoundationApplication extends WebApplication
      */
     public Date getStartupDate()
     {
-        return _startupDate;
+        return this.startupDate;
     }
     
     /**
@@ -128,7 +124,7 @@ public abstract class FoundationApplication extends WebApplication
     @Override
     protected void init()
     {
-        _startupDate = new Date();
+        this.startupDate = new Date();
 
         super.init();
 
@@ -221,7 +217,7 @@ public abstract class FoundationApplication extends WebApplication
      */
     protected void initVersionInformation()
     {
-        _version = Version.ofWebapp(getServletContext());
+        this.version = Version.ofWebapp(getServletContext());
     }
     
     /**

@@ -25,12 +25,12 @@ import org.junit.Before;
 
 public abstract class BaseWicketTest
 {
-    protected WicketTester _tester;
+    protected WicketTester tester;
     
     @Before
     public void createTester()
     {
-        _tester = new WicketTester(new FoundationApplication() {
+        this.tester = new WicketTester(new FoundationApplication() {
             public Class getHomePage()
             {
                 return DummyHomePage.class;
@@ -52,9 +52,9 @@ public abstract class BaseWicketTest
     @After
     public void destroyTester()
     {
-        if(_tester != null)
+        if(this.tester != null)
         {
-            _tester.destroy();
+            this.tester.destroy();
         }
     }
 }

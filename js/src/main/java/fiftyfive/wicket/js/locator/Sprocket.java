@@ -28,13 +28,13 @@ package fiftyfive.wicket.js.locator;
  */
 public class Sprocket
 {
-    private boolean _library;
-    private String _path;
+    private boolean library;
+    private String path;
     
     public Sprocket(boolean isLibrary, String path)
     {
-        _library = isLibrary;
-        _path = path;
+        this.library = isLibrary;
+        this.path = path;
     }
     
     /**
@@ -43,7 +43,7 @@ public class Sprocket
      */
     public boolean isLibrary()
     {
-        return _library;
+        return this.library;
     }
     
     /**
@@ -52,6 +52,6 @@ public class Sprocket
      */
     public String getPath()
     {
-        return _path;
+        return this.path;
     }
 }

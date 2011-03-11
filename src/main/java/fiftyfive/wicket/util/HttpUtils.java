@@ -192,23 +192,23 @@ public class HttpUtils
      */
     private static class Header implements Map.Entry<String,String>
     {
-        private String _key;
-        private String _value;
+        private String key;
+        private String value;
         
         private Header(String key, String value)
         {
-            _key = key;
-            _value = value;
+            this.key = key;
+            this.value = value;
         }
         
         public String getKey()
         {
-            return _key;
+            return this.key;
         }
         
         public String getValue()
         {
-            return _value;
+            return this.value;
         }
         
         public String setValue(String value)

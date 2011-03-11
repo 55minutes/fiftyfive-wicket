@@ -17,13 +17,13 @@ import org.springframework.web.context.support.StaticWebApplicationContext;
  */
 public abstract class BaseWicketUnitTest
 {
-    protected ${session_classname} _session;
-    protected WicketTester _tester;
+    protected ${session_classname} session;
+    protected WicketTester tester;
     
     @Before
     public void createTester()
     {
-        _tester = new WicketTester(new ${app_classname}() {
+        this.tester = new WicketTester(new ${app_classname}() {
             @Override
             public RuntimeConfigurationType getConfigurationType()
             {
@@ -47,11 +47,11 @@ public abstract class BaseWicketUnitTest
                 // Enforce a singleton session object to be used for the entire
                 // test. This allows us to modify the contents of the session
                 // with prerequisite values before starting a test.
-                if(null == _session)
+                if(null == BaseWicketUnitTest.this.session)
                 {
-                    _session = super.newSession(request, response);
+                    BaseWicketUnitTest.this.session = super.newSession(request, response);
                 }
-                return _session;
+                return BaseWicketUnitTest.this.session;
             }
         });
     }
@@ -59,9 +59,9 @@ public abstract class BaseWicketUnitTest
     @After
     public void destroyTester()
     {
-        if(_tester != null) _tester.destroy();
-        _tester = null;
-        _session = null;
+        if(this.tester != null) this.tester.destroy();
+        this.tester = null;
+        this.session = null;
     }
     
     /**

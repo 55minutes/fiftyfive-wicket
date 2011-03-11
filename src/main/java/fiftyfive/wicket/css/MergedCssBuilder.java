@@ -58,7 +58,7 @@ import org.apache.wicket.request.resource.ResourceReference;
  */
 public class MergedCssBuilder extends MergedResourceBuilder
 {
-    private String _media;
+    private String media;
     
     /**
      * Creates an empty builder object. See the
@@ -83,7 +83,7 @@ public class MergedCssBuilder extends MergedResourceBuilder
      */
     public MergedCssBuilder setCssMedia(String media)
     {
-        _media = media;
+        this.media = media;
         return this;
     }
     
@@ -116,7 +116,7 @@ public class MergedCssBuilder extends MergedResourceBuilder
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(ref, _media);
+                response.renderCSSReference(ref, MergedCssBuilder.this.media);
             }
         };
     }

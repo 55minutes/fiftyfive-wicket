@@ -75,11 +75,11 @@ import org.apache.wicket.model.StringResourceModel;
  */
 public class CountMessageModel extends AbstractReadOnlyModel<String>
 {
-    private Component _component;
-    private StringResourceModel _stringModel;
-    private IModel<? extends Number> _countModel;
-    private Class<? extends Page> _linkPage;
-    private PageParameters _linkParams;
+    private Component component;
+    private StringResourceModel stringModel;
+    private IModel<? extends Number> countModel;
+    private Class<? extends Page> linkPage;
+    private PageParameters linkParams;
     
     /**
      * Constructs a CountMessageModel that will choose the appropriate
@@ -104,9 +104,9 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
         Assert.notNull(component, "component cannot be null");
         Assert.notNull(count, "count model cannot be null");
         
-        _component = component;
-        _countModel = count;
-        _stringModel = new StringResourceModel(
+        this.component = component;
+        this.countModel = count;
+        this.stringModel = new StringResourceModel(
             messageKey + "${resourceSuffix}",
             component,
             new AbstractReadOnlyModel<CountMessageModel>()
@@ -126,8 +126,8 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
     @Override
     public void detach()
     {
-        _countModel.detach();
-        _stringModel.detach();
+        this.countModel.detach();
+        this.stringModel.detach();
         super.detach();
     }
 
@@ -136,7 +136,7 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
      */
     public String getObject()
     {
-        return _stringModel.getObject();
+        return this.stringModel.getObject();
     }
     
     /**
@@ -161,8 +161,8 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
     public CountMessageModel setLink(Class<? extends Page> page,
                                      PageParameters params)
     {
-        _linkPage = page;
-        _linkParams = params;
+        this.linkPage = page;
+        this.linkParams = params;
         return this;
     }
     
@@ -172,7 +172,7 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
      */
     public int getCount()
     {
-        Number num = _countModel.getObject();
+        Number num = this.countModel.getObject();
         return num != null ? num.intValue() : 0;
     }
     
@@ -184,10 +184,10 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
      */
     public CharSequence getHref()
     {
-        if(_linkPage != null)
+        if(this.linkPage != null)
         {
             return HtmlUtils.escapeAttribute(
-                _component.urlFor(_linkPage, _linkParams)
+                this.component.urlFor(this.linkPage, this.linkParams)
             );
         }
         return null;

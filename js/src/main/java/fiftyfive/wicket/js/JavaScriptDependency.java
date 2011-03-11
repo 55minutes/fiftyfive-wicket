@@ -87,9 +87,9 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     public static final JavaScriptDependency JQUERY =
         new JavaScriptDependency("jquery");
     
-    private Class<?> _class;
-    private String _fileName;
-    private String _libraryName;
+    private Class<?> clazz;
+    private String fileName;
+    private String libraryName;
     
     /**
      * Creates a JavaScriptDependency for a JavaScript file that accompanies
@@ -103,7 +103,7 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     {
         super();
         Assert.notNull(cls);
-        _class = cls;
+        this.clazz = cls;
     }
     
     /**
@@ -119,7 +119,7 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     {
         super();
         Assert.notNull(libraryName);
-        _libraryName = libraryName;
+        this.libraryName = libraryName;
     }
     
     /**
@@ -134,8 +134,8 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
         super();
         Assert.notNull(cls, "cls cannot be null");
         Assert.notNull(fileName, "fileName cannot be null");
-        _class = cls;
-        _fileName = fileName;
+        this.clazz = cls;
+        this.fileName = fileName;
     }
     
     /**
@@ -148,17 +148,17 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
         JavaScriptDependencyLocator locator = settings().getLocator();
         DependencyCollection scripts = new DependencyCollection();
         
-        if(_libraryName != null)
+        if(this.libraryName != null)
         {
-            locator.findLibraryScripts(_libraryName, scripts);
+            locator.findLibraryScripts(this.libraryName, scripts);
         }
-        else if(_fileName != null)
+        else if(this.fileName != null)
         {
-            locator.findResourceScripts(_class, _fileName, scripts);
+            locator.findResourceScripts(this.clazz, this.fileName, scripts);
         }
         else
         {
-            locator.findAssociatedScripts(_class, scripts);
+            locator.findAssociatedScripts(this.clazz, scripts);
         }
         
         renderDependencies(response, scripts, null);

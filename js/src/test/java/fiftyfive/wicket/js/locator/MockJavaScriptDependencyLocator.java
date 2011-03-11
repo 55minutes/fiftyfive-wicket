@@ -18,41 +18,41 @@ package fiftyfive.wicket.js.locator;
 public class MockJavaScriptDependencyLocator
     implements JavaScriptDependencyLocator
 {
-    private DependencyCollection _libraryScripts;
-    private DependencyCollection _resourceScripts;
-    private DependencyCollection _associatedScripts;
+    private DependencyCollection libraryScripts;
+    private DependencyCollection resourceScripts;
+    private DependencyCollection associatedScripts;
     
     public void findLibraryScripts(String libraryName,
                                    DependencyCollection scripts)
     {
-        _libraryScripts.copyTo(scripts);
+        this.libraryScripts.copyTo(scripts);
     }
     
     public void findResourceScripts(Class<?> cls,
                                     String fileName,
                                     DependencyCollection scripts)
     {
-        _resourceScripts.copyTo(scripts);
+        this.resourceScripts.copyTo(scripts);
     }
     
     public void findAssociatedScripts(Class<?> cls,
                                       DependencyCollection scripts)
     {
-        _associatedScripts.copyTo(scripts);
+        this.associatedScripts.copyTo(scripts);
     }
     
     public void setLibraryScripts(DependencyCollection libraryScripts)
     {
-        this._libraryScripts = libraryScripts;
+        this.libraryScripts = libraryScripts;
     }
     
     public void setResourceScripts(DependencyCollection resourceScripts)
     {
-        this._resourceScripts = resourceScripts;
+        this.resourceScripts = resourceScripts;
     }
     
     public void setAssociatedScripts(DependencyCollection associatedScripts)
     {
-        this._associatedScripts = associatedScripts;
+        this.associatedScripts = associatedScripts;
     }
 }

@@ -29,9 +29,9 @@ public class IterationCssBehaviorTest extends BaseWicketTest
     @Test
     public void testRender() throws Exception
     {
-        _tester.startPage(IterationCssBehaviorTestPage.class);
-        _tester.assertRenderedPage(IterationCssBehaviorTestPage.class);
-        _tester.assertResultPage(
+        this.tester.startPage(IterationCssBehaviorTestPage.class);
+        this.tester.assertRenderedPage(IterationCssBehaviorTestPage.class);
+        this.tester.assertResultPage(
             IterationCssBehaviorTestPage.class,
             "IterationCssBehaviorTestPage-expected.html"
         );

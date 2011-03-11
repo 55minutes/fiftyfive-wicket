@@ -63,7 +63,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         MergedJavaScriptBuilder.class
     );
     
-    private DependencyCollection _deps;
+    private DependencyCollection deps;
     
     /**
      * Creates an empty builder object. See the
@@ -73,7 +73,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     public MergedJavaScriptBuilder()
     {
         super();
-        _deps = new DependencyCollection();
+        this.deps = new DependencyCollection();
     }
     
     /**
@@ -94,7 +94,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      */
     public MergedJavaScriptBuilder addScript(Class<?> scope, String path)
     {
-        getDependencyLocator().findResourceScripts(scope, path, _deps);
+        getDependencyLocator().findResourceScripts(scope, path, this.deps);
         return this;
     }
     
@@ -111,7 +111,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         getDependencyLocator().findResourceScripts(
             ref.getScope(),
             ref.getName(),
-            _deps
+            this.deps
         );
         return this;
     }
@@ -132,7 +132,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      */
     public MergedJavaScriptBuilder addAssociatedScript(Class<?> cls)
     {
-        getDependencyLocator().findAssociatedScripts(cls, _deps);
+        getDependencyLocator().findAssociatedScripts(cls, this.deps);
         return this;
     }
 
@@ -170,7 +170,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     public MergedJavaScriptBuilder addLibrary(String libraryName)
     {
         Assert.notNull(libraryName);
-        getDependencyLocator().findLibraryScripts(libraryName, _deps);
+        getDependencyLocator().findLibraryScripts(libraryName, this.deps);
         return this;
     }
     
@@ -180,7 +180,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     @Override
     protected void assertRequiredOptionsAndFreeze()
     {
-        for(ResourceReference ref : _deps)
+        for(ResourceReference ref : this.deps)
         {
             LOGGER.debug("Added script to merged builder: {}", ref);
             add(ref);

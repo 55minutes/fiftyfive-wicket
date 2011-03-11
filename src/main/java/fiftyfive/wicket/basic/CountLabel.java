@@ -59,8 +59,6 @@ import org.apache.wicket.model.IModel;
  */
 public class CountLabel extends Label
 {
-    private CountMessageModel _messageModel;
-    
     /**
      * Constructs a label that will a display zero, singular or plural
      * variation based on the value of the specified {@code count} model.

@@ -35,8 +35,8 @@ import static fiftyfive.wicket.util.Shortcuts.*;
  */
 public class CalendarControl extends Panel
 {
-    private DateTextField _field;
-    private RestrictedDatePicker _picker;
+    private DateTextField field;
+    private RestrictedDatePicker picker;
     
     /**
      * CalendarControl constructor
@@ -79,7 +79,7 @@ public class CalendarControl extends Panel
      */
     public RestrictedDatePicker getDatePicker()
     {
-        return _picker;
+        return this.picker;
     }
     
     /**
@@ -87,7 +87,7 @@ public class CalendarControl extends Panel
      */
     protected DateTextField getDateField()
     {
-        return _field;
+        return this.field;
     }
     
     /*
@@ -96,13 +96,13 @@ public class CalendarControl extends Panel
     */
     private void internalInit()
     {
-        _field = new DateTextField("date-text-field", (IModel)getDefaultModel());
+        this.field = new DateTextField("date-text-field", (IModel)getDefaultModel());
                               
-        _picker = new RestrictedDatePicker(
+        this.picker = new RestrictedDatePicker(
                 null, prop(this, "startDate"), prop(this, "endDate")
         );
         
-        _field.add(_picker);
-        add(_field);
+        this.field.add(this.picker);
+        add(this.field);
     }
 }

@@ -26,45 +26,45 @@ public class LabelWithPlaceholderTest extends BaseWicketTest
     public void testRender_normal() throws Exception
     {
         startComponentWithXHtml(
-            _tester,
+            this.tester,
             new LabelWithPlaceholder("test", "hello!").setPlaceholder("foo"),
             "<p wicket:id=\"test\">blah</p>"
         );
-        _tester.assertContains("<p>hello!</p>");
+        this.tester.assertContains("<p>hello!</p>");
     }
 
     @Test
     public void testRender_emptyNoDefault() throws Exception
     {
         startComponentWithXHtml(
-            _tester,
+            this.tester,
             new LabelWithPlaceholder("test"),
             "<p wicket:id=\"test\">blah</p>"
         );
-        _tester.assertContains("<p class=\"empty\"></p>");
+        this.tester.assertContains("<p class=\"empty\"></p>");
     }
 
     @Test
     public void testRender_emptyWithDefault() throws Exception
     {
         startComponentWithXHtml(
-            _tester,
+            this.tester,
             new LabelWithPlaceholder("test").setPlaceholder("foo & bar"),
             "<p wicket:id=\"test\">blah</p>"
         );
-        _tester.assertContains("<p class=\"empty\">foo &amp; bar</p>");
+        this.tester.assertContains("<p class=\"empty\">foo &amp; bar</p>");
     }
 
     @Test
     public void testRender_emptyWithDefaultNoEscape() throws Exception
     {
         startComponentWithXHtml(
-            _tester,
+            this.tester,
             new LabelWithPlaceholder("test")
                 .setPlaceholder("foo & bar")
                 .setEscapeModelStrings(false),
             "<p wicket:id=\"test\">blah</p>"
         );
-        _tester.assertContains("<p class=\"empty\">foo & bar</p>");
+        this.tester.assertContains("<p class=\"empty\">foo & bar</p>");
     }
 }

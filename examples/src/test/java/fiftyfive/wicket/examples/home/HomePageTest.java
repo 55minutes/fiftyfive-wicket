@@ -24,8 +24,8 @@ public class HomePageTest extends BaseWicketUnitTest
     @Test
     public void testRender() throws Exception
     {
-        _tester.startPage(HomePage.class);
-        _tester.assertRenderedPage(HomePage.class);
-        WicketTestUtils.assertValidMarkup(_tester);
+        this.tester.startPage(HomePage.class);
+        this.tester.assertRenderedPage(HomePage.class);
+        WicketTestUtils.assertValidMarkup(this.tester);
     }
 }

@@ -73,12 +73,12 @@ import org.wicketstuff.mergedresources.ResourceMount;
  */
 public abstract class MergedResourceBuilder
 {
-    private String _path;
-    private List<ResourceReference> _references;
+    private String path;
+    private List<ResourceReference> references;
     
     protected MergedResourceBuilder()
     {
-        _references = new ArrayList<ResourceReference>();
+        this.references = new ArrayList<ResourceReference>();
         throw new UnsupportedOperationException(
             "MergedResourceBuilder is not yet compatible with Wicket 1.5.");
     }
@@ -89,7 +89,7 @@ public abstract class MergedResourceBuilder
      */
     public MergedResourceBuilder setPath(String path)
     {
-        _path = path;
+        this.path = path;
         return this;
     }
     
@@ -137,7 +137,7 @@ public abstract class MergedResourceBuilder
      */
     protected void add(ResourceReference ref)
     {
-        _references.add(ref);
+        this.references.add(ref);
     }
     
     /**
@@ -157,13 +157,13 @@ public abstract class MergedResourceBuilder
     private void mountIndividualResources(WebApplication app)
     {
         int i = 0;
-        for(ResourceReference ref : _references)
+        for(ResourceReference ref : this.references)
         {
             ResourceReference.Key key = new ResourceReference.Key(ref);
             String name = key.toString().replaceAll("/", "-");
             String uniquePath = String.format(
                 "%s-%s",
-                _path,
+                this.path,
                 UrlEncoder.PATH_INSTANCE.encode(name, "UTF-8")
             );
             app.mountResource(uniquePath, ref);
@@ -189,8 +189,8 @@ public abstract class MergedResourceBuilder
         mountConfig.setMinifyJs(false);
 
         // Apply requested configuration
-        mountConfig.setPath(_path);
-        for(ResourceReference ref : _references)
+        mountConfig.setPath(this.path);
+        for(ResourceReference ref : this.references)
         {
             mountConfig.addResourceSpec(ref);
         }
@@ -204,9 +204,9 @@ public abstract class MergedResourceBuilder
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                for(int i=0; i<_references.size(); i++)
+                for(int i=0; i<MergedResourceBuilder.this.references.size(); i++)
                 {
-                    ResourceReference ref = _references.get(i);
+                    ResourceReference ref = MergedResourceBuilder.this.references.get(i);
                     newContributor(ref).renderHead(comp, response);
                 }
             }
@@ -215,11 +215,11 @@ public abstract class MergedResourceBuilder
     
     private void assertRequiredOptions()
     {
-        if(null == _path)
+        if(null == this.path)
         {
             throw new IllegalStateException("path must be set");
         }
-        if(_references.size() == 0)
+        if(this.references.size() == 0)
         {
             throw new IllegalStateException(
                 "at least one resource must be added"

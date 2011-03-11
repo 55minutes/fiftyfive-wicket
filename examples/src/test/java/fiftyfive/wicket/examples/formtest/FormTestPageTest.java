@@ -24,8 +24,8 @@ public class FormTestPageTest extends BaseWicketUnitTest
     @Test
     public void testRender() throws Exception
     {
-        _tester.startPage(FormTestPage.class);
-        _tester.assertRenderedPage(FormTestPage.class);
-        WicketTestUtils.assertValidMarkup(_tester);
+        this.tester.startPage(FormTestPage.class);
+        this.tester.assertRenderedPage(FormTestPage.class);
+        WicketTestUtils.assertValidMarkup(this.tester);
     }
 }

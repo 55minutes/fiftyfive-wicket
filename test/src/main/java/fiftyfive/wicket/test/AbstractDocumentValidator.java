@@ -35,11 +35,11 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
 {
     static final int DEF_NUM_LINES_CONTEXT = 10;
     
-    private int     _numLinesContext = DEF_NUM_LINES_CONTEXT;
-    private boolean _parsed = false;
-    private String[] _lines = null;
-    private List<String> _errors = new ArrayList();
-    private Document _doc;
+    private int     numLinesContext = DEF_NUM_LINES_CONTEXT;
+    private boolean parsed = false;
+    private String[] lines = null;
+    private List<String> errors = new ArrayList();
+    private Document doc;
     
     /**
      * Sets the number of lines of context that will be listed along with
@@ -54,7 +54,7 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
                 "numLinesContext cannot be zero or negative"
             );
         }
-        _numLinesContext = newNumLinesContext;
+        this.numLinesContext = newNumLinesContext;
     }
     
     /**
@@ -64,7 +64,7 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
      */
     public void parse(String document) throws IOException
     {
-        if(_parsed)
+        if(this.parsed)
         {
             throw new IllegalStateException(
                 "parse() can only be used once. " +
@@ -73,9 +73,9 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
         }
         try
         {
-            _lines = document.split("\\r?\\n");
-            _doc = builder().parse(new InputSource(new StringReader(document)));
-            _parsed = true;
+            this.lines = document.split("\\r?\\n");
+            this.doc = builder().parse(new InputSource(new StringReader(document)));
+            this.parsed = true;
         }
         catch(SAXException saxe)
         {
@@ -89,19 +89,19 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
      */
     public boolean isValid()
     {
-        return _errors.size() == 0 && _parsed;
+        return this.errors.size() == 0 && this.parsed;
     }
     
     public Document getDocument()
     {
-        if(!_parsed)
+        if(!this.parsed)
         {
             throw new IllegalStateException(
                 "A document does not exist because parse() has not yet been " +
                 "called. Parse first and then call getDocument()."
             );
         }
-        return _doc;
+        return this.doc;
     }
     
     /**
@@ -110,7 +110,7 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
      */
     public List<String> getErrors()
     {
-        return Collections.unmodifiableList(_errors);
+        return Collections.unmodifiableList(this.errors);
     }
     
     
@@ -118,17 +118,17 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
     
     public void error(SAXParseException exception)
     {
-        _errors.add(format(exception));
+        this.errors.add(format(exception));
     }
     
     public void fatalError(SAXParseException exception)
     {
-        _errors.add(format(exception));
+        this.errors.add(format(exception));
     }
     
     public void warning(SAXParseException exception)
     {
-        _errors.add(format(exception));
+        this.errors.add(format(exception));
     }
 
     // ==== End ErrorHandler callbacks ======================================
@@ -152,11 +152,11 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
         buf.append(ex.getMessage());
         buf.append("\n");
         
-        final int ctx = _numLinesContext;
+        final int ctx = this.numLinesContext;
         for(int offset = -1 * ctx/2; offset <= ctx/2; offset++)
         {
             int line = ex.getLineNumber() + offset;
-            if(line >= 1 && line <= _lines.length)
+            if(line >= 1 && line <= this.lines.length)
             {
                 buf.append("   ");
                 if(line == ex.getLineNumber())
@@ -169,7 +169,7 @@ public abstract class AbstractDocumentValidator implements ErrorHandler
                 }
                 buf.append(String.format("%-5d", line));
                 buf.append("| ");
-                buf.append(_lines[line-1]);
+                buf.append(this.lines[line-1]);
                 buf.append("\n");
             }
         }

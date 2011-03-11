@@ -54,14 +54,14 @@ public class DefaultJavaScriptDependencyLocator
     );
     
     
-    private Map<ResourceReference,CacheEntry> _cache;
-    private SprocketDependencyCollector _collector;
+    private Map<ResourceReference,CacheEntry> cache;
+    private SprocketDependencyCollector collector;
     
     public DefaultJavaScriptDependencyLocator()
     {
         super();
-        _cache = new ConcurrentHashMap<ResourceReference,CacheEntry>();
-        _collector = new SprocketDependencyCollector(this);
+        this.cache = new ConcurrentHashMap<ResourceReference,CacheEntry>();
+        this.collector = new SprocketDependencyCollector(this);
     }
     
     public void findLibraryScripts(String libraryName,
@@ -157,7 +157,7 @@ public class DefaultJavaScriptDependencyLocator
                 "JavaScript file does not exist: " + ref
             );
         }
-        _collector.collectDependencies(ref, stream, scripts);
+        this.collector.collectDependencies(ref, stream, scripts);
         scripts.ascend();
         
         putIntoCache(ref, scripts);
@@ -175,7 +175,7 @@ public class DefaultJavaScriptDependencyLocator
     {
         if(null == ref) return false;
         
-        CacheEntry ce = _cache.get(ref);
+        CacheEntry ce = this.cache.get(ref);
         if(ce != null && ce.isActive())
         {
             ce.populate(scripts);
@@ -196,7 +196,7 @@ public class DefaultJavaScriptDependencyLocator
         Duration duration = settings().getTraversalCacheDuration();
         if(duration.getMilliseconds() > 0)
         {
-            _cache.put(ref, new CacheEntry(scripts, duration));
+            this.cache.put(ref, new CacheEntry(scripts, duration));
         }
     }
     
@@ -282,29 +282,29 @@ public class DefaultJavaScriptDependencyLocator
      */
     private static class CacheEntry
     {
-        private long _start;
-        private long _timeToLive;
-        private DependencyCollection _scripts;
+        private long start;
+        private long timeToLive;
+        private DependencyCollection scripts;
         
         private CacheEntry(DependencyCollection orig, Duration duration)
         {
             super();
             // Make a private copy so that the cached copy is never mutated
-            _scripts = new DependencyCollection();
-            orig.copyTo(_scripts);
-            _scripts.freeze();
-            _start = System.currentTimeMillis();
-            _timeToLive = duration.getMilliseconds();
+            this.scripts = new DependencyCollection();
+            orig.copyTo(this.scripts);
+            this.scripts.freeze();
+            this.start = System.currentTimeMillis();
+            this.timeToLive = duration.getMilliseconds();
         }
         
         private void populate(DependencyCollection other)
         {
-            _scripts.copyTo(other);
+            this.scripts.copyTo(other);
         }
         
         private boolean isActive()
         {
-            return System.currentTimeMillis() - _start < _timeToLive;
+            return System.currentTimeMillis() - this.start < this.timeToLive;
         }
     }
 }

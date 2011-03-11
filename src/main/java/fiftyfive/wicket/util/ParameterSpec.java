@@ -95,8 +95,8 @@ import org.apache.wicket.util.lang.PropertyResolver;
  */
 public class ParameterSpec<T> implements Serializable
 {
-    private Class <? extends WebPage> _pageClass;
-    private Map<String,String>        _mapping = new HashMap();
+    private Class <? extends WebPage> pageClass;
+    private Map<String,String>        mapping = new HashMap();
     
     /**
      * Construct a ParameterSpec that will build links to the specified WebPage.
@@ -125,7 +125,7 @@ public class ParameterSpec<T> implements Serializable
      */
     public ParameterSpec(Class <? extends WebPage> page, String... expressions)
     {
-        _pageClass = page;
+        this.pageClass = page;
         for(int i=0; i<expressions.length; i++)
         {
             registerParameter(expressions[i], expressions[i]);
@@ -147,7 +147,7 @@ public class ParameterSpec<T> implements Serializable
      */
     public ParameterSpec registerParameter(String parameter, String propExpr)
     {
-        _mapping.put(parameter, propExpr);
+        this.mapping.put(parameter, propExpr);
         return this;
     }
     
@@ -166,7 +166,7 @@ public class ParameterSpec<T> implements Serializable
      */
     public BookmarkablePageLink createLink(String id, final IModel<T> model)
     {
-        BookmarkablePageLink bpl = new BookmarkablePageLink(id, _pageClass) {
+        BookmarkablePageLink bpl = new BookmarkablePageLink(id, this.pageClass) {
             @Override
             protected void onBeforeRender()
             {
@@ -197,7 +197,7 @@ public class ParameterSpec<T> implements Serializable
     public void redirect(IModel<T> model)
     {
         CharSequence url = RequestCycle.get().urlFor(
-            _pageClass,
+            this.pageClass,
             createParameters(model.getObject())
         );
         throw new RedirectToUrlException(url.toString(), 302);
@@ -214,9 +214,9 @@ public class ParameterSpec<T> implements Serializable
     public PageParameters createParameters(T bean)
     {
         PageParameters params = new PageParameters();
-        for(String key : _mapping.keySet())
+        for(String key : this.mapping.keySet())
         {
-            String expression = _mapping.get(key);
+            String expression = this.mapping.get(key);
             Object value = PropertyResolver.getValue(expression, bean);
             if(value != null)
             {
@@ -276,7 +276,7 @@ public class ParameterSpec<T> implements Serializable
         for(PageParameters.NamedPair pair : params.getAllNamed())
         {
             String key = pair.getKey();
-            String expr = _mapping.get(key);
+            String expr = this.mapping.get(key);
             String val = pair.getValue();
             if(val != null)
             {

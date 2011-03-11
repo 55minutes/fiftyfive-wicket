@@ -21,26 +21,26 @@ import java.util.List;
 
 public class BeanResult
 {
-    private List<Bean> _beans;
-    private int _total;
+    private List<Bean> beans;
+    private int total;
     
     public BeanResult(int offset, int amount)
     {
-        _beans = new ArrayList<Bean>();
+        this.beans = new ArrayList<Bean>();
         for(int i=0; i<amount; i++)
         {
-            _beans.add(new Bean(offset + i));
+            this.beans.add(new Bean(offset + i));
         }
-        _total = 100;
+        this.total = 100;
     }
     
     public int getTotal()
     {
-        return _total;
+        return this.total;
     }
     
     public List<Bean> getBeans()
     {
-        return _beans;
+        return this.beans;
     }
 }

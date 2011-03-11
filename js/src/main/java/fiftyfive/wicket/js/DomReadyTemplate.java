@@ -113,10 +113,10 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     private static final DefaultJavaScriptCompressor DEFAULT_COMPRESSOR = 
         new DefaultJavaScriptCompressor();
         
-    private Class<?> _templateLocation;
-    private transient DependencyCollection _dependencies;
-    private transient ResourceReference _template;
-    private transient String _readyScript;
+    private Class<?> templateLocation;
+    private transient DependencyCollection dependencies;
+    private transient ResourceReference template;
+    private transient String readyScript;
     
     /**
      * Constructs a {@code DomReadyTemplate} to be used with a panel.
@@ -168,7 +168,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     
     private void internalInit(Class<?> templateLocation)
     {
-        _templateLocation = templateLocation;
+        this.templateLocation = templateLocation;
     }
     
     /**
@@ -205,9 +205,9 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     public void detach(Component component)
     {
         super.detach(component);
-        _dependencies = null;
-        _template = null;
-        _readyScript = null;
+        this.dependencies = null;
+        this.template = null;
+        this.readyScript = null;
     }
     
     /**
@@ -219,10 +219,10 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     @Override
     public void renderHead(Component comp, IHeaderResponse response)
     {
-        if(null == _dependencies) load(comp);
+        if(null == this.dependencies) load(comp);
         
-        renderDependencies(response, _dependencies, _template);
-        renderDomReady(response, _readyScript);
+        renderDependencies(response, this.dependencies, this.template);
+        renderDomReady(response, this.readyScript);
     }
     
     /**
@@ -234,22 +234,22 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
     private void load(Component comp)
     {
         JavaScriptDependencyLocator locator = settings().getLocator();
-        _dependencies = new DependencyCollection();
-        locator.findAssociatedScripts(_templateLocation, _dependencies);
+        this.dependencies = new DependencyCollection();
+        locator.findAssociatedScripts(this.templateLocation, this.dependencies);
         
-        _template = _dependencies.getRootReference();
-        if(null == _template)
+        this.template = this.dependencies.getRootReference();
+        if(null == this.template)
         {
             throw new WicketRuntimeException(String.format(
                 "Failed to locate JavaScript template for %s. The JavaScript file must be " +
                 "the same name as the class but with a '.js' extension and be present in " +
                 "the same classpath location.",
-                _templateLocation));
+                this.templateLocation));
         }
         
         TextTemplate tt = new PackagedTextTemplate(
-            _template.getScope(),
-            _template.getName(),
+            this.template.getScope(),
+            this.template.getName(),
             "application/javascript",
             settings().getEncoding()
         );
@@ -258,7 +258,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
         map.put("component", comp);
         map.put("behavior", this);
         
-        _readyScript = getCompressor().compress(
+        this.readyScript = getCompressor().compress(
             PropertyVariableInterpolator.interpolate(tt.getString(), map)
         );
     }

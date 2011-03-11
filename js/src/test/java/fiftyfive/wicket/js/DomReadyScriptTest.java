@@ -30,10 +30,10 @@ import static org.mockito.Mockito.*;
 
 public class DomReadyScriptTest extends BaseJSTest
 {
-    @Mock WebRequest _request;
-    @Mock IHeaderResponse _response;
-    @Mock ResourceReference _jquery;
-    @Mock JavaScriptDependencySettings _settings;
+    @Mock WebRequest request;
+    @Mock IHeaderResponse response;
+    @Mock ResourceReference jquery;
+    @Mock JavaScriptDependencySettings settings;
 
     /**
      * Verify that the ready script is not rendered if wasRendered
@@ -43,12 +43,12 @@ public class DomReadyScriptTest extends BaseJSTest
     public void testRenderHead_wasRendered() throws Exception
     {
         final String js = "alert('ready!')";
-        when(_response.wasRendered(js)).thenReturn(true);
+        when(this.response.wasRendered(js)).thenReturn(true);
         
-        mockedDomReadyScript(js).renderHead(null, _response);
+        mockedDomReadyScript(js).renderHead(null, this.response);
         
-        verify(_response).wasRendered(js);
-        verifyNoMoreInteractions(_response);
+        verify(this.response).wasRendered(js);
+        verifyNoMoreInteractions(this.response);
     }
 
     /**
@@ -57,8 +57,8 @@ public class DomReadyScriptTest extends BaseJSTest
     @Test
     public void testRenderHead_null() throws Exception
     {
-        mockedDomReadyScript(null).renderHead(null, _response);
-        verifyNoMoreInteractions(_response);
+        mockedDomReadyScript(null).renderHead(null, this.response);
+        verifyNoMoreInteractions(this.response);
     }
 
     /**
@@ -68,20 +68,20 @@ public class DomReadyScriptTest extends BaseJSTest
     public void testRenderHead_nonAjax() throws Exception
     {
         final String js = "alert('ready!')";
-        when(_response.wasRendered(js)).thenReturn(false);
-        when(_request.isAjax()).thenReturn(false);
+        when(this.response.wasRendered(js)).thenReturn(false);
+        when(this.request.isAjax()).thenReturn(false);
         
-        mockedDomReadyScript(js).renderHead(null, _response);
+        mockedDomReadyScript(js).renderHead(null, this.response);
         
-        InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavaScriptReference(_jquery);
-        inOrder.verify(_response).renderJavaScript(
+        InOrder inOrder = inOrder(this.response);
+        inOrder.verify(this.response).renderJavaScriptReference(this.jquery);
+        inOrder.verify(this.response).renderJavaScript(
             "jQuery(function(){" + js + ";});", null
         );
         
-        verify(_response).wasRendered(js);
-        verify(_response).markRendered(js);
-        verifyNoMoreInteractions(_response);
+        verify(this.response).wasRendered(js);
+        verify(this.response).markRendered(js);
+        verifyNoMoreInteractions(this.response);
     }
 
     /**
@@ -91,18 +91,18 @@ public class DomReadyScriptTest extends BaseJSTest
     public void testRenderHead_ajax() throws Exception
     {
         final String js = "alert('ready!')";
-        when(_response.wasRendered(js)).thenReturn(false);
-        when(_request.isAjax()).thenReturn(true);
+        when(this.response.wasRendered(js)).thenReturn(false);
+        when(this.request.isAjax()).thenReturn(true);
         
-        mockedDomReadyScript(js).renderHead(null, _response);
+        mockedDomReadyScript(js).renderHead(null, this.response);
         
-        InOrder inOrder = inOrder(_response);
-        inOrder.verify(_response).renderJavaScriptReference(_jquery);
-        inOrder.verify(_response).renderOnDomReadyJavaScript(js);
+        InOrder inOrder = inOrder(this.response);
+        inOrder.verify(this.response).renderJavaScriptReference(this.jquery);
+        inOrder.verify(this.response).renderOnDomReadyJavaScript(js);
 
-        verify(_response).wasRendered(js);
-        verify(_response).markRendered(js);
-        verifyNoMoreInteractions(_response);
+        verify(this.response).wasRendered(js);
+        verify(this.response).markRendered(js);
+        verifyNoMoreInteractions(this.response);
     }
 
     /**
@@ -116,14 +116,14 @@ public class DomReadyScriptTest extends BaseJSTest
         comp.add(new DomReadyScript("alert('ready!')"));
         
         WicketTestUtils.startComponentWithHtml(
-            _tester, comp, "<span wicket:id=\"c\"></span>"
+            this.tester, comp, "<span wicket:id=\"c\"></span>"
         );
         // Assert DOM ready script was rendered
-        _tester.assertContains(Pattern.quote(
+        this.tester.assertContains(Pattern.quote(
             "jQuery(function(){alert('ready!');});"
         ));
         // And jQuery was automatically included
-        _tester.assertContains("<script .*src=\".*jquery.*\"></script>");
+        this.tester.assertContains("<script .*src=\".*jquery.*\"></script>");
     }
     
     /**
@@ -131,18 +131,18 @@ public class DomReadyScriptTest extends BaseJSTest
      */
     private DomReadyScript mockedDomReadyScript(String js)
     {
-        when(_settings.getJQueryResource()).thenReturn(_jquery);
+        when(this.settings.getJQueryResource()).thenReturn(this.jquery);
         
         return new DomReadyScript(js) {
             @Override
             protected JavaScriptDependencySettings settings()
             {
-                return _settings;
+                return DomReadyScriptTest.this.settings;
             }
             @Override
             protected Request request()
             {
-                return _request;
+                return DomReadyScriptTest.this.request;
             }
         };
     }

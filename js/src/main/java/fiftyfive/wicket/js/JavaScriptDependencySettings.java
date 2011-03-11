@@ -67,14 +67,14 @@ public class JavaScriptDependencySettings
     private static final MetaDataKey<JavaScriptDependencySettings> SETTINGS_KEY
         = new MetaDataKey<JavaScriptDependencySettings>() {};
     
-    private Application _app;
-    private List<SearchLocation> _locations;
-    private ResourceReference _jQueryResource;
-    private ResourceReference _jQueryUIResource;
-    private ResourceReference _jQueryUICSSResource;
-    private Duration _traversalCacheDuration;
-    private String _encoding;
-    private JavaScriptDependencyLocator _locator;
+    private Application app;
+    private List<SearchLocation> locations;
+    private ResourceReference jQueryResource;
+    private ResourceReference jQueryUIResource;
+    private ResourceReference jQueryUICSSResource;
+    private Duration traversalCacheDuration;
+    private String encoding;
+    private JavaScriptDependencyLocator locator;
     
     /**
      * Returns the JavaScriptDependencySettings associated with the current
@@ -108,10 +108,10 @@ public class JavaScriptDependencySettings
     protected JavaScriptDependencySettings(Application app)
     {
         super();
-        _app = app;
-        _locator = new DefaultJavaScriptDependencyLocator();
+        this.app = app;
+        this.locator = new DefaultJavaScriptDependencyLocator();
 
-        _locations = new ArrayList<SearchLocation>();
+        this.locations = new ArrayList<SearchLocation>();
 
         Class<?> c = JavaScriptDependencySettings.class;
         addLibraryPath(c, "");
@@ -120,15 +120,15 @@ public class JavaScriptDependencySettings
         addLibraryPath(c, "lib/jquery-scrollto-1.4.2");
         addLibraryPath(c, "lib/strftime");
         
-        _jQueryResource = new CompressedResourceReference(
+        this.jQueryResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-1.5.1/jquery.noconflict.min.js"
         );
-        _jQueryUIResource = new CompressedResourceReference(
+        this.jQueryUIResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-ui-1.8.10/jquery-ui.min.js"
         );
-        _jQueryUICSSResource = new CompressedResourceReference(
+        this.jQueryUICSSResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-ui-1.8.10/themes/redmond/jquery-ui-1.8.10.redmond.css"
         );
@@ -139,7 +139,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencyLocator getLocator()
     {
-        return _locator;
+        return this.locator;
     }
     
     /**
@@ -152,7 +152,7 @@ public class JavaScriptDependencySettings
     public JavaScriptDependencySettings setLocator(JavaScriptDependencyLocator loc)
     {
         Assert.notNull(loc);
-        this._locator = loc;
+        this.locator = loc;
         return this;
     }
     
@@ -162,7 +162,7 @@ public class JavaScriptDependencySettings
      */
     public List<SearchLocation> getLibraryPaths()
     {
-        return Collections.unmodifiableList(_locations);
+        return Collections.unmodifiableList(this.locations);
     }
 
     /**
@@ -188,7 +188,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings addLibraryPath(Class<?> cls, String path)
     {
-        _locations.add(0, new SearchLocation(cls, path));
+        this.locations.add(0, new SearchLocation(cls, path));
         return this;
     }
     
@@ -197,7 +197,7 @@ public class JavaScriptDependencySettings
      */
     public ResourceReference getJQueryResource()
     {
-        return _jQueryResource;
+        return this.jQueryResource;
     }
     
     /**
@@ -212,7 +212,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setJQueryResource(ResourceReference r)
     {
-        this._jQueryResource = r;
+        this.jQueryResource = r;
         return this;
     }
     
@@ -221,7 +221,7 @@ public class JavaScriptDependencySettings
      */
     public ResourceReference getJQueryUIResource()
     {
-        return _jQueryUIResource;
+        return this.jQueryUIResource;
     }
 
     /**
@@ -236,7 +236,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setJQueryUIResource(ResourceReference r)
     {
-        this._jQueryUIResource = r;
+        this.jQueryUIResource = r;
         return this;
     }
     
@@ -245,7 +245,7 @@ public class JavaScriptDependencySettings
      */
     public ResourceReference getJQueryUICSSResource()
     {
-        return _jQueryUICSSResource;
+        return this.jQueryUICSSResource;
     }
 
     /**
@@ -260,7 +260,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setJQueryUICSSResource(ResourceReference r)
     {
-        this._jQueryUICSSResource = r;
+        this.jQueryUICSSResource = r;
         return this;
     }
     
@@ -272,9 +272,9 @@ public class JavaScriptDependencySettings
     public Duration getTraversalCacheDuration()
     {
         // Interpret null based on application mode
-        if(null == _traversalCacheDuration)
+        if(null == this.traversalCacheDuration)
         {
-            if(_app.usesDeploymentConfig())
+            if(this.app.usesDeploymentConfig())
             {
                 // Cache indefinitely
                 return Duration.MAXIMUM;
@@ -282,7 +282,7 @@ public class JavaScriptDependencySettings
             // Disable cache
             return Duration.NONE;
         }
-        return _traversalCacheDuration;
+        return this.traversalCacheDuration;
     }
 
     /**
@@ -299,7 +299,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setTraversalCacheDuration(Duration d)
     {
-        this._traversalCacheDuration = d;
+        this.traversalCacheDuration = d;
         return this;
     }
     
@@ -309,16 +309,16 @@ public class JavaScriptDependencySettings
      */
     public String getEncoding()
     {
-        if(null == _encoding)
+        if(null == this.encoding)
         {
-            String enc = _app.getMarkupSettings().getDefaultMarkupEncoding();
+            String enc = this.app.getMarkupSettings().getDefaultMarkupEncoding();
             if(null == enc)
             {
                 enc = Charset.defaultCharset().name();
             }
             return enc;
         }
-        return _encoding;
+        return this.encoding;
     }
 
     /**
@@ -331,7 +331,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setEncoding(String encoding)
     {
-        this._encoding = encoding;
+        this.encoding = encoding;
         return this;
     }
 }

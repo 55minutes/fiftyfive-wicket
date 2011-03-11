@@ -69,7 +69,7 @@ public class JQueryDatePicker extends DomReadyTemplate
         DEFAULT_IMAGE = defaultImage;
     }
     
-    private ResourceReference _buttonImage;
+    private ResourceReference buttonImage;
     
     /**
      * Sets the button image (a calendar icon, for example) that will be
@@ -84,13 +84,13 @@ public class JQueryDatePicker extends DomReadyTemplate
     public JQueryDatePicker setButtonImage(ResourceReference buttonImage)
     {
         Assert.notNull(buttonImage);
-        this._buttonImage = buttonImage;
+        this.buttonImage = buttonImage;
         return this;
     }
     
     public ResourceReference getButtonImage()
     {
-        return _buttonImage != null ? _buttonImage : DEFAULT_IMAGE;
+        return this.buttonImage != null ? this.buttonImage : DEFAULT_IMAGE;
     }
     
     /**

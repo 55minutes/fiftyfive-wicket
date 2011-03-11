@@ -30,7 +30,7 @@ import org.apache.wicket.util.resource.StringResourceStream;
  */
 public class PageWithInlineMarkup extends WebPage
 {
-    private String _htmlMarkup;
+    private String htmlMarkup;
     
     public PageWithInlineMarkup(String htmlMarkup)
     {
@@ -43,13 +43,13 @@ public class PageWithInlineMarkup extends WebPage
     public PageWithInlineMarkup(String htmlMarkup, PageParameters parameters)
     {
         super(parameters);
-        _htmlMarkup = htmlMarkup;
+        this.htmlMarkup = htmlMarkup;
     }
     
     @Override
     public Markup getAssociatedMarkup()
     {
-        StringResourceStream stream = new StringResourceStream(_htmlMarkup);
+        StringResourceStream stream = new StringResourceStream(this.htmlMarkup);
         MarkupResourceStream mrs = new MarkupResourceStream(
             stream, new ContainerInfo(this), null
         );

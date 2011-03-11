@@ -33,18 +33,18 @@ import org.junit.Test;
 
 public class ParameterSpecTest
 {
-    private WicketTester _tester;
+    private WicketTester tester;
     
     @Before
     public void createTester()
     {
-        _tester = new WicketTester();
+        this.tester = new WicketTester();
     }
     
     @After
     public void destroyTester()
     {
-        _tester.destroy();
+        this.tester.destroy();
     }
     
     @Test
@@ -55,7 +55,7 @@ public class ParameterSpecTest
             new ParameterSpec<TestBean>(TestPage.class, "id", "name");
         
         BookmarkablePageLink link = builder.createLink("bar", new Model(bean));
-        _tester.startComponent(link);
+        this.tester.startComponent(link);
         
         Assert.assertEquals("bar", link.getId());
         Assert.assertEquals(TestPage.class, link.getPageClass());
@@ -166,7 +166,7 @@ public class ParameterSpecTest
         builder.registerParameter("beanName", "name");
         
         BookmarkablePageLink link = builder.createLink("bar", new Model(bean));
-        _tester.startComponent(link);
+        this.tester.startComponent(link);
 
         Assert.assertEquals("bar", link.getId());
         Assert.assertEquals(TestPage.class, link.getPageClass());
@@ -218,7 +218,7 @@ public class ParameterSpecTest
         
         // Force the redirect during wicket's normal request processing.
         // For example, when a link is clicked.
-        WicketTestUtils.startComponentWithXHtml(_tester, new Link("link") {
+        WicketTestUtils.startComponentWithXHtml(this.tester, new Link("link") {
             public void onClick()
             {
                 spec.redirect(Model.of(new TestBean()));
@@ -226,10 +226,10 @@ public class ParameterSpecTest
         }, "<a wicket:id=\"link\">link</a>");
         
         // Click the link that we just rendered
-        _tester.clickLink("link");
+        this.tester.clickLink("link");
         
         // The redirect should have forced wicket to render TestPage
-        _tester.assertRenderedPage(TestPage.class);
+        this.tester.assertRenderedPage(TestPage.class);
     }
     
     public static class TestPage extends PageWithInlineMarkup
@@ -242,8 +242,8 @@ public class ParameterSpecTest
     
     public static class TestBean implements Serializable
     {
-        private Long _id;
-        private String _name;
+        private Long id;
+        private String name;
         
         public TestBean()
         {
@@ -252,28 +252,28 @@ public class ParameterSpecTest
         
         public TestBean(Long id, String name)
         {
-            _id = id;
-            _name = name;
+            this.id = id;
+            this.name = name;
         }
         
         public Long getId()
         {
-            return _id;
+            return this.id;
         }
 
         public void setId(Long newId)
         {
-            _id = newId;
+            this.id = newId;
         }
         
         public String getName()
         {
-            return _name;
+            return this.name;
         }
 
         public void setName(String newName)
         {
-            _name = newName;
+            this.name = newName;
         }
     }
 }
