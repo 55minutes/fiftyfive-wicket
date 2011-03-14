@@ -16,7 +16,9 @@
 package fiftyfive.wicket.examples.home;
 
 import fiftyfive.wicket.js.DomReadyTemplate;
+
 import org.apache.wicket.markup.html.panel.Panel;
+
 
 public class HelloPanel extends Panel
 {

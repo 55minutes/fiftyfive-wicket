@@ -16,13 +16,12 @@
 package fiftyfive.wicket.examples.home;
 
 import fiftyfive.wicket.examples.BasePage;
-import fiftyfive.wicket.examples.formtest.FormTestPage;
 import fiftyfive.wicket.js.JavaScriptDependency;
 import fiftyfive.wicket.js.datetime.JQueryDatePicker;
+
 import org.apache.wicket.markup.html.WebComponent;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import static fiftyfive.wicket.util.Shortcuts.label;
+
 
 public class HomePage extends BasePage
 {
@@ -34,10 +33,6 @@ public class HomePage extends BasePage
 
         add(new JavaScriptDependency(HomePage.class));
         add(new ExtendedHelloPanel("hi"));
-
-        PageParameters ftParams = FormTestPage.params("10.2007", "10.03.2007", "11.10.2007");
-        add(new BookmarkablePageLink("form-test", FormTestPage.class, ftParams));
-        
         add(new WebComponent("input").add(new JQueryDatePicker()));
     }
 }

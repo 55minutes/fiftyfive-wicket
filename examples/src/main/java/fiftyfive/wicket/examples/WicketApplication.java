@@ -19,8 +19,8 @@ import fiftyfive.wicket.examples.error.ForbiddenErrorPage;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.home.HomePage;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
-import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
+
 import org.apache.wicket.Application;
 import org.apache.wicket.request.IExceptionMapper;
 import org.apache.wicket.request.Request;
@@ -28,6 +28,7 @@ import org.apache.wicket.request.Response;
 import org.apache.wicket.util.ValueProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * Wicket framework configuration for 55 Minutes Wicket Examples.

@@ -20,6 +20,7 @@ import org.apache.wicket.protocol.http.IRequestLogger.ISessionLogInfo;
 import org.apache.wicket.protocol.http.WebSession;
 import org.apache.wicket.request.Request;
 
+
 /**
  * Session information for 55 Minutes Wicket Examples.
  * Any variables added to this class will automatically be persisted in
