@@ -112,7 +112,7 @@ public class HttpUtils
      * this URL will be most recent non-ajax request, as observed in the
      * browser location bar.
      * 
-     * @see Request#getClientUrl
+     * @see org.apache.wicket.request.Request#getClientUrl
      * @since 3.0
      */
     public static String getAbsolutePageUrl()

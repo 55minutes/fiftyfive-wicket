@@ -80,7 +80,7 @@ public class DomReadyScript extends AbstractJavaScriptContribution
     /**
      * Renders the DOM-ready script in the {@code <head>}.
      * If we are within an ajax request, use Wicket's standard
-     * {@link IHeaderResponse#renderOnDomReadyJavascript renderOnDomReadyJavascript()}
+     * {@link IHeaderResponse#renderOnDomReadyJavaScript renderOnDomReadyJavaScript()}
      * method to add javascript to the
      * &lt;head&gt;. During non-ajax requests, instead add the following
      * jQuery snippet to execute the javacript on DOM ready:

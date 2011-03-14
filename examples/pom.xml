@@ -264,7 +264,9 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
         <executions>
           <execution>
             <id>prep-settings</id>
@@ -273,7 +275,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <copy file="${basedir}/src/main/resources/fiftyfive-wicket-examples.properties.SAMPLE"
                       tofile="${basedir}/fiftyfive-wicket-examples.properties"
                       overwrite="false" />
@@ -283,7 +285,7 @@
                 <copy file="${basedir}/src/main/resources/log4j.properties.SAMPLE"
                       tofile="${basedir}/log4j.properties"
                       overwrite="false" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>

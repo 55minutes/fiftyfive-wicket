@@ -5,7 +5,7 @@
 
 mkdir temp
 cd temp
-/opt/local/bin/mvn2 archetype:generate -B -U \
+mvn archetype:generate -B -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
     -DarchetypeRepository=http://opensource.55minutes.com/maven \
@@ -16,4 +16,4 @@ cd temp
     -Dpackage=fiftyfive.test \
     -Dproject_name=Test && \
 cd test-project && \
-/opt/local/bin/mvn2 -B test
+mvn -B test

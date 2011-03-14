@@ -202,6 +202,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -212,27 +213,16 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.0</version>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>[2.0,3.0)</version>
-                </requireMavenVersion>
-              </rules>    
-            </configuration>
-          </execution>
-        </executions>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+        <configuration>
+          <encoding>utf-8</encoding>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
+        <version>2.1.1</version>
         <configuration>
           <archive>
             <manifest>
@@ -246,12 +236,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <encoding>utf-8</encoding>
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
         <executions>
           <execution>
             <id>prep-settings</id>
@@ -260,7 +253,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
                 <copy file="${symbol_dollar}{basedir}/src/main/resources/${artifactId}.properties.SAMPLE"
                       tofile="${symbol_dollar}{basedir}/${artifactId}.properties"
                       overwrite="false" />
@@ -270,7 +263,7 @@
                 <copy file="${symbol_dollar}{basedir}/src/main/resources/log4j.properties.SAMPLE"
                       tofile="${symbol_dollar}{basedir}/log4j.properties"
                       overwrite="false" />
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
@@ -293,6 +286,14 @@
           </webAppConfig>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <encoding>utf-8</encoding>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
@@ -306,6 +307,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
         <configuration>
           <encoding>utf-8</encoding>
           <links>
