@@ -305,6 +305,7 @@
         <version>2.7</version>
         <configuration>
           <encoding>utf-8</encoding>
+          <stylesheetfile>${parent.dir}/etc/javadoc/stylesheets/screen.css</stylesheetfile>
         </configuration>
       </plugin>
       <plugin>
