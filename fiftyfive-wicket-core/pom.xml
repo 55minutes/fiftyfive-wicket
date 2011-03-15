@@ -16,6 +16,7 @@
     limitations under the License.
 
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -29,10 +30,10 @@
     <groupId>com.55minutes</groupId>
     <artifactId>fiftyfive-wicket-parent</artifactId>
     <version>3.0-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>com.55minutes</groupId>
-  <artifactId>fiftyfive-wicket-test</artifactId>
+  <artifactId>fiftyfive-wicket-core</artifactId>
   <packaging>jar</packaging>
 
 
@@ -40,9 +41,10 @@
   <!-- ==================================================================== -->
   <!-- Project Description                                                  -->
   <!-- ==================================================================== -->
-  <name>55 Minutes Wicket Test</name>
+  <name>55 Minutes Wicket Core</name>
   <description>
-    Utilities for Wicket unit testing.
+    A library of best practices, improved components, and helper classes
+    inspired by years of Wicket development experience.
   </description>
   <organization>
     <name>55 Minutes</name>
@@ -62,7 +64,7 @@
   <!-- ==================================================================== -->
 
   <properties>
-    <parent.dir>${basedir}/../parent</parent.dir>
+    <parent.dir>${basedir}/..</parent.dir>
   </properties>
 
 
@@ -78,32 +80,56 @@
       <artifactId>fiftyfive-util</artifactId>
     </dependency>
     <dependency>
-      <groupId>net.sourceforge.htmlcleaner</groupId>
-      <artifactId>htmlcleaner</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-core</artifactId>
     </dependency>    
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-datetime</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-extensions</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-spring</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.wicketstuff</groupId>
+      <artifactId>wicketstuff-merged-resources</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>nu.validator.htmlparser</groupId>
-      <artifactId>htmlparser</artifactId>
-    </dependency>
     
     <!-- ==== Test dependencies =========================================== -->
+    <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-test</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
@@ -148,6 +174,6 @@
       </plugin>
     </plugins>
   </build>
-  
+
 
 </project>

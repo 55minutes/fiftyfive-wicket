@@ -16,9 +16,7 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
 
@@ -29,10 +27,10 @@
     <groupId>com.55minutes</groupId>
     <artifactId>fiftyfive-wicket-parent</artifactId>
     <version>3.0-SNAPSHOT</version>
-    <relativePath>../parent/pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>com.55minutes</groupId>
-  <artifactId>fiftyfive-wicket-experimental</artifactId>
+  <artifactId>fiftyfive-wicket-all</artifactId>
   <packaging>jar</packaging>
 
 
@@ -40,11 +38,9 @@
   <!-- ==================================================================== -->
   <!-- Project Description                                                  -->
   <!-- ==================================================================== -->
-  <name>55 Minutes Wicket Experimental</name>
+  <name>55 Minutes Wicket - All Classes</name>
   <description>
-    Experimental additions to the fiftyfive-wicket library of Wicket tools.
-    If these additions prove useful, they will be migrated out of this module
-    and into a more appropriate permanent location.
+    Combines fiftyfive-wicket-core, -experimental, -js and -test into a single JAR.
   </description>
   <organization>
     <name>55 Minutes</name>
@@ -60,19 +56,27 @@
 
 
   <!-- ==================================================================== -->
-  <!-- Dependencies                                                         -->
+  <!-- Properties                                                           -->
   <!-- ==================================================================== -->
 
   <properties>
-    <parent.dir>${basedir}/../parent</parent.dir>
+    <parent.dir>${basedir}/..</parent.dir>
   </properties>
 
-  <dependencies>
 
-    <!-- ==== Compile dependencies ======================================== -->
+  <!-- ==================================================================== -->
+  <!-- Dependencies                                                         -->
+  <!-- ==================================================================== -->
+
+  <dependencies>
     <dependency>
       <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket</artifactId>
+      <artifactId>fiftyfive-wicket-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-experimental</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -81,19 +85,10 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <!-- ==== Test dependencies =========================================== -->
-    <dependency>
       <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-test</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
     </dependency>
-
   </dependencies>
 
 
@@ -110,18 +105,30 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2.1</version>
         <executions>
           <execution>
+            <id>package-all</id>
+            <phase>package</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>single</goal>
             </goals>
+            <configuration>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>src/main/assembly/all-jar.xml</descriptor>
+              </descriptors>
+            </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <sourcepath>${basedir}/../fiftyfive-wicket-core/src/main/java;${basedir}/../fiftyfive-wicket-experimental/src/main/java;${basedir}/../fiftyfive-wicket-js/src/main/java;${basedir}/../fiftyfive-wicket-test/src/main/java</sourcepath>
+        </configuration>
         <executions>
           <execution>
             <goals>

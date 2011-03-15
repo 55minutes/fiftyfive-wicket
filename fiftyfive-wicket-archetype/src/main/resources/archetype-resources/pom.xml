@@ -44,7 +44,7 @@
     <!-- ==== Compile dependencies ======================================== -->
     <dependency>
       <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket</artifactId>
+      <artifactId>fiftyfive-wicket-core</artifactId>
       <version>${symbol_dollar}{fiftyfive.version}</version>
     </dependency>
     <dependency>
