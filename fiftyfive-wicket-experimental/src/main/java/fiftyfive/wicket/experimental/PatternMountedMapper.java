@@ -131,8 +131,8 @@ public class PatternMountedMapper extends MountedMapper
                     {
                         LOGGER.debug(String.format(
                             "Parameter \"%s\" did not match pattern placeholder %s", val, pp));
-                        return null;
                     }
+                    return null;
                 }
             }
         }
@@ -164,13 +164,15 @@ public class PatternMountedMapper extends MountedMapper
             return null;
         }
         StringBuilder result = new StringBuilder();
-        for(String seg : path.split("/"))
+        String [] segments = path.split("/");
+        for(int i=0; i<segments.length; i++)
         {
-            if(result.length() > 0 || path.startsWith("/"))
+            String seg = segments[i];
+            result.append(seg.replaceAll("^(\\$\\{[^:]+):.+\\}$", "$1}"));
+            if(i < segments.length-1 || path.endsWith("/"))
             {
                 result.append("/");
             }
-            result.append(seg.replaceAll("^(\\$\\{[^:]+):.+\\}$", "$1}"));
         }
         return result.toString();
     }
