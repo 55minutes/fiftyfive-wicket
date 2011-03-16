@@ -80,6 +80,11 @@
     </dependency>
     <dependency>
       <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-experimental</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-js</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -123,10 +128,6 @@
           <artifactId>spring-core</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.wicketstuff</groupId>
-      <artifactId>wicketstuff-merged-resources</artifactId>
     </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->
@@ -321,6 +322,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.7</version>
         <configuration>
           <encoding>utf-8</encoding>
           <links>

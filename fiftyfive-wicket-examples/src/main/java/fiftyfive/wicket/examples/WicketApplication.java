@@ -35,9 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WicketApplication extends FoundationSpringApplication
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-        WicketApplication.class
-    );
+    private static final Logger LOGGER = LoggerFactory.getLogger(WicketApplication.class);
     
     
     /**
@@ -60,56 +58,28 @@ public class WicketApplication extends FoundationSpringApplication
     {
         super.init();
         
-        // Enable annotations for mounting pages
-        // TODO: uncomment once wicketstuff annotation supports Wicket 1.5!!
-        // AnnotatedMountScanner scanner = new AnnotatedMountScanner();
-        // scanner.scanPackage("fiftyfive.wicket.examples").mount(this);
+        // -- Configure pretty URL mappings ("routes") --
+        mount(new WicketMappings(this));
         
-        // Configure merged resources
-        initMergedResources();
+        // -- Configure resources --
+        // Tell fiftyfive-wicket-js where to find custom JS libs for this app
+        // (i.e. those that can be referenced via //= require <lib>).
+        // This corresponds to src/main/resources/.../scripts.
+        JavaScriptDependencySettings.get().addLibraryPath(WicketApplication.class, "scripts");
         
-        // Configure error pages
+        // -- Configure error pages --
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());
         getApplicationSettings().setAccessDeniedPage(ForbiddenErrorPage.class);
-        getApplicationSettings().setInternalErrorPage(
-            InternalServerErrorPage.class
-        );
+        getApplicationSettings().setInternalErrorPage(InternalServerErrorPage.class);
         
-        // Configure exception handling
+        // -- Configure exception handling --
         setExceptionMapperProvider(new ValueProvider<IExceptionMapper>(
             new WicketExceptionMapper()
         ));
 
-        // Custom initialization goes here
+        // -- Custom initialization goes here --
         
         LOGGER.info("Initialized!");
-    }
-    
-    /**
-     * Use the wicketstuff mergedresources feature to serve out our common
-     * JavaScript in an efficient manner.
-     */
-    protected void initMergedResources()
-    {
-        // Tell fiftyfive-wicket-js where to find custom JS libs for this app
-        // (i.e. those that can be referenced via //= require <lib>).
-        // This corresponds to src/main/resources/fiftyfive/examples/scripts.
-        JavaScriptDependencySettings.get().addLibraryPath(
-            WicketApplication.class, "scripts"
-        );
-
-        // Mount merged JS
-        // Not yet compatible with Wicket 1.5!
-        // new MergedJavaScriptBuilder()
-        //     .setPath("/scripts/all.js")
-        //     .addJQueryUI()
-        //     .addLibrary("cookies")
-        //     .addLibrary("strftime")
-        //     .addLibrary("55_utils")
-        //     .addLibrary("jquery.55_utils")
-        //     .addAssociatedScript(BasePage.class)
-        //     .addWicketAjaxLibraries()
-        //     .build(this);
     }
 
     /**

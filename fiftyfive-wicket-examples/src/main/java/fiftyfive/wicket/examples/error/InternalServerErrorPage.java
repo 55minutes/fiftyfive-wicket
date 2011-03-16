@@ -15,9 +15,6 @@
  */
 package fiftyfive.wicket.examples.error;
 
-import org.wicketstuff.annotation.mount.MountPath;
-
-@MountPath(path="error/500")
 public class InternalServerErrorPage extends BaseErrorPage
 {
     /**

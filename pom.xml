@@ -380,13 +380,6 @@
       <releases><enabled>true</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
-    <repository>
-      <!-- Needed for wicketstuff-merged-resources -->
-      <id>wicketstuff</id>
-      <url>http://wicketstuff.org/maven/repository</url>
-      <releases><enabled>true</enabled></releases>
-      <snapshots><enabled>false</enabled></snapshots>
-    </repository>
   </repositories>
 
 
