@@ -11,18 +11,18 @@ import org.apache.wicket.request.Request;
  * the Servlet HttpSession. Each browser session gets its own instance of
  * this class.
  */
-public class ${session_classname} extends WebSession implements ISessionLogInfo
+public class WicketSession extends WebSession implements ISessionLogInfo
 {
     /**
-     * Returns the instance of {@code ${session_classname}} associated with
+     * Returns the instance of {@code WicketSession} associated with
      * the current request. This method only works inside a Wicket thread.
      */
-    public static ${session_classname} get()
+    public static WicketSession get()
     {
-        return (${session_classname}) Session.get();
+        return (WicketSession) Session.get();
     }
     
-    public ${session_classname}(Request request)
+    public WicketSession(Request request)
     {
         super(request);
     }

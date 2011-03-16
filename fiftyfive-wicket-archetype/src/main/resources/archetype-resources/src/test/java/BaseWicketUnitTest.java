@@ -17,13 +17,13 @@ import org.springframework.web.context.support.StaticWebApplicationContext;
  */
 public abstract class BaseWicketUnitTest
 {
-    protected ${session_classname} session;
+    protected WicketSession session;
     protected WicketTester tester;
     
     @Before
     public void createTester()
     {
-        this.tester = new WicketTester(new ${app_classname}() {
+        this.tester = new WicketTester(new WicketApplication() {
             @Override
             public RuntimeConfigurationType getConfigurationType()
             {
@@ -42,7 +42,7 @@ public abstract class BaseWicketUnitTest
                 return context;
             }
             @Override
-            public ${session_classname} newSession(Request request, Response response)
+            public WicketSession newSession(Request request, Response response)
             {
                 // Enforce a singleton session object to be used for the entire
                 // test. This allows us to modify the contents of the session

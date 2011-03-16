@@ -18,15 +18,6 @@
 -->
   <requiredProperties>
     <requiredProperty key="project_name"/>
-    <requiredProperty key="app_classname">
-      <defaultValue>WicketApplication</defaultValue>
-    </requiredProperty>
-    <requiredProperty key="exceptionmapper_classname">
-      <defaultValue>WicketExceptionMapper</defaultValue>
-    </requiredProperty>
-    <requiredProperty key="session_classname">
-      <defaultValue>WicketSession</defaultValue>
-    </requiredProperty>
   </requiredProperties>
   <fileSets>
     <fileSet filtered="true" packaged="false" encoding="UTF-8">

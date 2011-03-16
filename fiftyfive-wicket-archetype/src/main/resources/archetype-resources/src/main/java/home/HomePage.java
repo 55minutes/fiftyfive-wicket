@@ -3,8 +3,8 @@ package ${package}.home;
 import ${package}.BasePage;
 
 import fiftyfive.wicket.js.JavaScriptDependency;
-import static fiftyfive.wicket.util.Shortcuts.*;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import static fiftyfive.wicket.util.Shortcuts.*;
 
 /**
  * Home page for ${project_name}.

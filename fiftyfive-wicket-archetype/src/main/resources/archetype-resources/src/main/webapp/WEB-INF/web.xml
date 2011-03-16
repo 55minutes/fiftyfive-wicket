@@ -58,7 +58,7 @@
     <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
     <init-param>
       <param-name>applicationClassName</param-name>
-      <param-value>${package}.${app_classname}</param-value>
+      <param-value>${package}.WicketApplication</param-value>
     </init-param>
     <init-param>
       <!-- This is overridden to be "development" when using jetty:run -->

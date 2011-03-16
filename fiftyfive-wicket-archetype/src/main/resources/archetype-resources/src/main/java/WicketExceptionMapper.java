@@ -15,11 +15,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Custom exception handling for ${project_name}.
  */
-public class ${exceptionmapper_classname} extends DefaultExceptionMapper
+public class WicketExceptionMapper extends DefaultExceptionMapper
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(
-        ${exceptionmapper_classname}.class
-    );
+    private static final Logger LOGGER = LoggerFactory.getLogger(WicketExceptionMapper.class);
     
     /**
      * Exception types we consider "recoverable", meaning we don't have to

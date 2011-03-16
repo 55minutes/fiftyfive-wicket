@@ -49,6 +49,11 @@
     </dependency>
     <dependency>
       <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-experimental</artifactId>
+      <version>${symbol_dollar}{fiftyfive.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-js</artifactId>
       <version>${symbol_dollar}{fiftyfive.version}</version>
     </dependency>
@@ -92,22 +97,6 @@
           <artifactId>commons-logging</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.wicketstuff</groupId>
-      <artifactId>annotation</artifactId>
-      <version>1.4.16</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.wicketstuff</groupId>
-      <artifactId>wicketstuff-merged-resources</artifactId>
-      <version>3.0</version>
     </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->
