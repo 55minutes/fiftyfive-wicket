@@ -6,7 +6,7 @@ import ${package}.error.NotFoundErrorPage;
 import ${package}.home.HomePage;
 
 import fiftyfive.wicket.experimental.MergedJavaScriptBuilder;
-import fiftyfive.wicket.experimental.PatternMountedMapper;
+import fiftyfive.wicket.mapper.PatternMountedMapper;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;

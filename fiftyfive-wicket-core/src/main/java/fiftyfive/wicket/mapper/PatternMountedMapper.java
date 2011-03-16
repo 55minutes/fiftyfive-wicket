@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fiftyfive.wicket.experimental;
+package fiftyfive.wicket.mapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
