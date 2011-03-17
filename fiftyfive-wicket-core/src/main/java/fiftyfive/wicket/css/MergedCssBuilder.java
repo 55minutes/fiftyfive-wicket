@@ -17,18 +17,18 @@
 package fiftyfive.wicket.css;
 
 import fiftyfive.wicket.resource.MergedResourceBuilder;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
+
 /**
- * <b>This class is not yet compatible with Wicket 1.5.</b>
  * <p>
- * Instructs Wicket to merge a list of CSS resources into a single file
- * when the application is in deployment mode. Consider using this in your
- * application as a performance optimization.
+ * Instructs Wicket to merge a list of CSS resources into a single file. Consider using this in
+ * your application as a performance optimization.
  * <p>
  * Example usage:
  * <pre class="example">
@@ -47,10 +47,7 @@ import org.apache.wicket.request.resource.ResourceReference;
  *             .addCss(WicketApplication.class, "styles/content.css")
  *             .addCss(WicketApplication.class, "styles/forms.css")
  *             .addCss(WicketApplication.class, "styles/page-specific.css")
- *             .build(this);
- * 
- *         // The return value from build() can be used on your base page to
- *         // inject all these CSS resources in one shot.
+ *             .install(this);
  *     }
  * }</pre>
  * 
@@ -70,6 +67,9 @@ public class MergedCssBuilder extends MergedResourceBuilder
         super();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public MergedCssBuilder setPath(String path)
     {
        return (MergedCssBuilder) super.setPath(path);
@@ -91,8 +91,7 @@ public class MergedCssBuilder extends MergedResourceBuilder
      * Adds a CSS resource to the list of merged resources.
      *
      * @param scope The class relative to which the resource will be resolved.
-     * @param path  The path, relative to the scope, where the CSS file is
-     *              is located.
+     * @param path  The path, relative to the scope, where the CSS file is is located.
      */
     public MergedCssBuilder addCss(Class<?> scope, String path)
     {

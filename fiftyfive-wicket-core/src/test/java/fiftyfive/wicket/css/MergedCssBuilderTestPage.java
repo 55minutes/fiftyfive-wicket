@@ -18,7 +18,9 @@ package fiftyfive.wicket.css;
 
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
+
 import static fiftyfive.wicket.css.MergedCssBuilderTest.*;
+
 
 public class MergedCssBuilderTestPage extends WebPage
 {
