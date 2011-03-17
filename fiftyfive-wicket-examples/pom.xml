@@ -113,17 +113,6 @@
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.wicketstuff</groupId>
-      <artifactId>annotation</artifactId>
-      <version>1.4.16</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework</groupId>
-          <artifactId>spring-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
 
     <!-- ==== Runtime dependencies ======================================== -->
     <dependency>

@@ -108,11 +108,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.wicketstuff</groupId>
-      <artifactId>wicketstuff-merged-resources</artifactId>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
