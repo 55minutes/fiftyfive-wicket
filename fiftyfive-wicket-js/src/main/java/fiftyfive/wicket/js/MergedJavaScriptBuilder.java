@@ -16,25 +16,24 @@
 package fiftyfive.wicket.js;
 
 import fiftyfive.util.Assert;
+import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.resource.MergedResourceBuilder;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.WicketAjaxReference;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WicketEventReference;
-import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
- * <b>This class is not yet compatible with Wicket 1.5.</b>
- * <p>
- * Instructs Wicket to merge a list of JavaScript resources into a single file
- * when the application is in deployment mode. Consider using this in your
- * application as a performance optimization.
+ * Instructs Wicket to merge a list of JavaScript resources into a single file. Consider using this
+ * in your application as a performance optimization.
  * <p>
  * Example usage:
  * <pre class="example">
@@ -47,16 +46,13 @@ import org.slf4j.LoggerFactory;
  * 
  *         new MergedJavaScriptBuilder()
  *             .setPath("/scripts/all.js")
- *             .addWicketAjaxLibraries()
  *             .addJQueryUI()
  *             .addLibrary("jquery.scrollTo")
  *             .addLibrary("jquery.55_utils")
  *             .addLibrary("55_utils")
  *             .addLibrary("strftime")
- *             .build(this);
- * 
- *         // The return value from build() can be used on your base page to
- *         // inject all these JavaScript resources in one shot, if desired.
+ *             .addWicketAjaxLibraries()
+ *             .install(this);
  *     }
  * }</pre>
  * 
@@ -81,6 +77,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         this.deps = new DependencyCollection();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     public MergedJavaScriptBuilder setPath(String path)
     {
         return (MergedJavaScriptBuilder) super.setPath(path);
@@ -176,17 +175,23 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         return this;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Behavior build(WebApplication app)
+    protected void assertRequiredOptionsAndFreeze()
     {
         for(ResourceReference ref : this.deps)
         {
             LOGGER.debug("Added script to merged builder: {}", ref);
             add(ref);
         }
-        return super.build(app);
+        super.assertRequiredOptionsAndFreeze();
     }
     
+    /**
+     * {@inheritDoc}
+     */
     protected Behavior newContributor(final ResourceReference ref)
     {
         return new Behavior() {
