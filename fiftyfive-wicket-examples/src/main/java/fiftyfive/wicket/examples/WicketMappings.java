@@ -19,7 +19,7 @@ package fiftyfive.wicket.examples;
 import fiftyfive.wicket.examples.error.ForbiddenErrorPage;
 import fiftyfive.wicket.examples.error.InternalServerErrorPage;
 import fiftyfive.wicket.examples.error.NotFoundErrorPage;
-import fiftyfive.wicket.experimental.MergedJavaScriptBuilder;
+import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.mapper.PatternMountedMapper;
 
 import org.apache.wicket.Page;

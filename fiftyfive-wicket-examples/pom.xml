@@ -80,11 +80,6 @@
     </dependency>
     <dependency>
       <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-experimental</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-js</artifactId>
       <version>${project.version}</version>
     </dependency>

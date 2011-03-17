@@ -5,7 +5,7 @@ import ${package}.error.InternalServerErrorPage;
 import ${package}.error.NotFoundErrorPage;
 import ${package}.home.HomePage;
 
-import fiftyfive.wicket.experimental.MergedJavaScriptBuilder;
+import fiftyfive.wicket.js.MergedJavaScriptBuilder;
 import fiftyfive.wicket.mapper.PatternMountedMapper;
 
 import org.apache.wicket.Page;

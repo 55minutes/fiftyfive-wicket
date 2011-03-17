@@ -49,11 +49,6 @@
     </dependency>
     <dependency>
       <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-experimental</artifactId>
-      <version>${symbol_dollar}{fiftyfive.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-js</artifactId>
       <version>${symbol_dollar}{fiftyfive.version}</version>
     </dependency>
