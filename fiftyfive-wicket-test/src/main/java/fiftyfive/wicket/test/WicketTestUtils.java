@@ -50,7 +50,7 @@ public abstract class WicketTestUtils
 {
     /**
      * Parses the most recently rendered Wicket page into an XML Document
-     * object. Uses <a href="http://htmlcleaner.sourceforge.net/>HtmlCleaner</a>
+     * object. Uses <a href="http://htmlcleaner.sourceforge.net/">HtmlCleaner</a>
      * under the hood to parse even the sloppiest HTML. You can then use
      * things like xpath expressions against the document.
      * 
@@ -68,7 +68,7 @@ public abstract class WicketTestUtils
     /**
      * Asserts that an XPath expression can be found in the most recently
      * rendered Wicket page. Uses
-     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * <a href="http://htmlcleaner.sourceforge.net/">HtmlCleaner</a>
      * under the hood to parse even the sloppiest HTML into XML that can be
      * queryied by XPath. It is therefore possible that the XPath assertion
      * will pass, even though {@link #assertValidMarkup(WicketTester) assertValidMarkup()}
@@ -92,7 +92,7 @@ public abstract class WicketTestUtils
      * Asserts that exactly {@code count} number of instances of a given
      * XPath expression can be found in the most recently
      * rendered Wicket page. Uses
-     * <a href="http://mercury.ccil.org/~cowan/XML/tagsoup/">TagSoup</a>
+     * <a href="http://htmlcleaner.sourceforge.net/">HtmlCleaner</a>
      * under the hood to parse even the sloppiest HTML into XML that can be
      * queryied by XPath. It is therefore possible that the XPath assertion
      * will pass, even though {@link #assertValidMarkup(WicketTester) assertValidMarkup()}
