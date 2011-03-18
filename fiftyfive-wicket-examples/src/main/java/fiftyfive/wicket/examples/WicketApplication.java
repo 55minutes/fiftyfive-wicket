@@ -62,6 +62,11 @@ public class WicketApplication extends FoundationSpringApplication
         mount(new WicketMappings(this));
         
         // -- Configure resources --
+        // Wicket will not allow you to use "../" to construct relative paths to resources
+        // (e.g. new PackageResourceReference(MyPage.class, "../common/file.png"))
+        // unless you specify a parentFolderPlaceholder. This is a security precaution.
+        getResourceSettings().setParentFolderPlaceholder("$up$");
+        
         // Tell fiftyfive-wicket-js where to find custom JS libs for this app
         // (i.e. those that can be referenced via //= require <lib>).
         // This corresponds to src/main/resources/.../scripts.
