@@ -28,7 +28,7 @@ import org.apache.wicket.javascript.IJavaScriptCompressor;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.string.interpolator.PropertyVariableInterpolator;
-import org.apache.wicket.util.template.PackagedTextTemplate;
+import org.apache.wicket.util.template.PackageTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
 
 
@@ -247,7 +247,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
                 this.templateLocation));
         }
         
-        TextTemplate tt = new PackagedTextTemplate(
+        TextTemplate tt = new PackageTextTemplate(
             this.template.getScope(),
             this.template.getName(),
             "application/javascript",
