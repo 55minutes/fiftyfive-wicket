@@ -16,7 +16,7 @@
 package fiftyfive.wicket.test;
 
 import org.apache.wicket.markup.ContainerInfo;
-import org.apache.wicket.markup.Markup;
+import org.apache.wicket.markup.IMarkupFragment;
 import org.apache.wicket.markup.MarkupFactory;
 import org.apache.wicket.markup.MarkupResourceStream;
 import org.apache.wicket.markup.html.WebPage;
@@ -47,7 +47,7 @@ public class PageWithInlineMarkup extends WebPage
     }
     
     @Override
-    public Markup getAssociatedMarkup()
+    public IMarkupFragment getMarkup()
     {
         StringResourceStream stream = new StringResourceStream(this.htmlMarkup);
         MarkupResourceStream mrs = new MarkupResourceStream(
