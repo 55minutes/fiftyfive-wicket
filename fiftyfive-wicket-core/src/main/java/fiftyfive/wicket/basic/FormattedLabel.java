@@ -17,7 +17,6 @@
 package fiftyfive.wicket.basic;
 
 import java.util.Locale;
-
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.convert.IConverter;
 

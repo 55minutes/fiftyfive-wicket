@@ -19,6 +19,7 @@ package fiftyfive.wicket;
 import java.util.Date;
 
 import fiftyfive.util.Version;
+
 import org.apache.wicket.protocol.http.DummyRequestLogger;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;

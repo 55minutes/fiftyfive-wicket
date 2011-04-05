@@ -18,9 +18,9 @@ package fiftyfive.wicket.basic;
 
 import fiftyfive.wicket.model.CountMessageModel;
 import org.apache.wicket.Page;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * Displays a label with up to three different variations based on

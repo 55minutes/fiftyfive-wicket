@@ -17,7 +17,6 @@
 package fiftyfive.wicket.css;
 
 import fiftyfive.wicket.resource.MergedResourceBuilder;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;

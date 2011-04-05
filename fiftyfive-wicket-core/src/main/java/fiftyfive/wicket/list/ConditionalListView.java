@@ -17,7 +17,6 @@
 package fiftyfive.wicket.list;
 
 import java.util.List;
-
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 
