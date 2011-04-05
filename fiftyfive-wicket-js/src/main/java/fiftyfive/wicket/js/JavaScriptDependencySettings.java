@@ -122,7 +122,7 @@ public class JavaScriptDependencySettings
         
         this.jQueryResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-1.5.1/jquery.noconflict.min.js"
+            "lib/jquery-1.5.2/jquery.noconflict.min.js"
         );
         this.jQueryUIResource = new CompressedResourceReference(
             JavaScriptDependencySettings.class,
