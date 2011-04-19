@@ -27,7 +27,7 @@ import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import org.apache.wicket.Application;
 import org.apache.wicket.WicketRuntimeException;
 
-import org.apache.wicket.request.resource.CompressedResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
 import org.apache.wicket.util.lang.Classes;
@@ -268,7 +268,7 @@ public class DefaultJavaScriptDependencyLocator
         {
             name = name + ".js";
         }
-        return new CompressedResourceReference(scope, name);
+        return new PackageResourceReference(scope, name);
     }
     
     /**

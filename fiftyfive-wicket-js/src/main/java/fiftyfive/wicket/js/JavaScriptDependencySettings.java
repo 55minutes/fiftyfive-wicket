@@ -26,7 +26,7 @@ import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.SearchLocation;
 import org.apache.wicket.Application;
 import org.apache.wicket.MetaDataKey;
-import org.apache.wicket.request.resource.CompressedResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.time.Duration;
 
@@ -120,15 +120,15 @@ public class JavaScriptDependencySettings
         addLibraryPath(c, "lib/jquery-scrollto-1.4.2");
         addLibraryPath(c, "lib/strftime");
         
-        this.jQueryResource = new CompressedResourceReference(
+        this.jQueryResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-1.5.2/jquery.noconflict.min.js"
         );
-        this.jQueryUIResource = new CompressedResourceReference(
+        this.jQueryUIResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-ui-1.8.11/jquery-ui.min.js"
         );
-        this.jQueryUICSSResource = new CompressedResourceReference(
+        this.jQueryUICSSResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
             "lib/jquery-ui-1.8.11/themes/redmond/jquery-ui-1.8.11.redmond.css"
         );

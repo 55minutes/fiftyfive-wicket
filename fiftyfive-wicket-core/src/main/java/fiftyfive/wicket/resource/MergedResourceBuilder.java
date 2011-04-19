@@ -29,7 +29,6 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 import org.apache.wicket.request.IRequestMapper;
 import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
-import org.apache.wicket.request.resource.CompressedResourceReference;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
@@ -62,7 +61,6 @@ public abstract class MergedResourceBuilder
 {
     private String path;
     private boolean frozen = false;
-    private boolean convertToCompressed = true;
     private List<ResourceReference> references;
     
     public MergedResourceBuilder()
@@ -80,19 +78,6 @@ public abstract class MergedResourceBuilder
     {
         this.path = path;
         return this;
-    }
-    
-    /**
-     * Resources to be merged must all be compressed or all be uncompressed; mixing compressed and
-     * uncompressed content in the same response would not work. To prevent this mistake from
-     * happening, this builder will automatically convert plain {@link PackageResourceReference}
-     * objects into {@code CompressedResourceReference} ones, ensuring that all resources added to
-     * this builder are compressed. To disable this feature, set this property to {@code false}.
-     * The default is {@code true}.
-     */
-    public void setConvertToCompressed(boolean convertToCompressed)
-    {
-        this.convertToCompressed = convertToCompressed;
     }
     
     /**
@@ -191,17 +176,6 @@ public abstract class MergedResourceBuilder
         {
             throw new IllegalStateException(
                 "Resources cannot be added once build() or install() methods have been called.");
-        }
-        if(this.convertToCompressed
-           && ref instanceof PackageResourceReference
-           && !(ref instanceof CompressedResourceReference))
-        {
-            ref = new CompressedResourceReference(
-                ref.getScope(),
-                ref.getName(),
-                ref.getLocale(),
-                ref.getStyle(),
-                ref.getVariation());
         }
         this.references.add(ref);
     }

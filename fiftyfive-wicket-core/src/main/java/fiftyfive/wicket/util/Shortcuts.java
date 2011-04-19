@@ -40,7 +40,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
 import org.apache.wicket.request.Response;
-import org.apache.wicket.request.resource.CompressedResourceReference;
+import org.apache.wicket.request.resource.PackageResourceReference;
 
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
@@ -304,7 +304,7 @@ public class Shortcuts
      * This is equivalent to:
      * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
-     *     new CompressedResourceReference(
+     *     new PackageResourceReference(
      *         cls, Classes.simpleName(cls) + ".css"
      *     )
      * );</pre>
@@ -318,7 +318,7 @@ public class Shortcuts
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(new CompressedResourceReference(
+                response.renderCSSReference(new PackageResourceReference(
                     cls, Classes.simpleName(cls) + ".css"
                 ));
             }
@@ -338,7 +338,7 @@ public class Shortcuts
      * This is equivalent to:
      * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
-     *     new CompressedResourceReference(
+     *     new PackageResourceReference(
      *         Application.get().getClass(), "screen.css"
      *     )
      * );</pre>
@@ -352,7 +352,7 @@ public class Shortcuts
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(new CompressedResourceReference(
+                response.renderCSSReference(new PackageResourceReference(
                     Application.get().getClass(), filename
                 ));
             }
@@ -372,7 +372,7 @@ public class Shortcuts
      * This is equivalent to:
      * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
-     *     new CompressedResourceReference(
+     *     new PackageResourceReference(
      *         BasePage.class, "screen.css"
      *     )
      * );</pre>
@@ -388,7 +388,7 @@ public class Shortcuts
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(new CompressedResourceReference(
+                response.renderCSSReference(new PackageResourceReference(
                     scope, filename
                 ));
             }
@@ -410,7 +410,7 @@ public class Shortcuts
      * This is equivalent to:
      * <pre class="example">
      * CSSPackageResource.getHeaderContribution(
-     *     new CompressedResourceReference(
+     *     new PackageResourceReference(
      *         Application.get().getClass(), "print.css"
      *     ),
      *     "print"
@@ -426,7 +426,7 @@ public class Shortcuts
             public void renderHead(Component comp, IHeaderResponse response)
             {
                 response.renderCSSReference(
-                    new CompressedResourceReference(
+                    new PackageResourceReference(
                         Application.get().getClass(), filename
                     ),
                     "print"
@@ -452,7 +452,7 @@ public class Shortcuts
      * <pre class="example">
      * InternetExplorerCss.getConditionalHeaderContribution(
      *     "IE 7"
-     *     new CompressedResourceReference(
+     *     new PackageResourceReference(
      *         Application.get().getClass(), "ie-7.css")
      *     )
      * );</pre>
@@ -465,7 +465,7 @@ public class Shortcuts
         Assert.notNull(filename, "filename cannot be null");
         return InternetExplorerCss.getConditionalHeaderContribution(
             cond,
-            new CompressedResourceReference(
+            new PackageResourceReference(
                 Application.get().getClass(), filename
             )
         );

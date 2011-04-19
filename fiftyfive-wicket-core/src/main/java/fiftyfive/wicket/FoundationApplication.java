@@ -35,7 +35,6 @@ import static org.apache.wicket.RuntimeConfigurationType.DEVELOPMENT;
  * <ul>
  * <li>Provides a {@link #getStartupDate} method</li>
  * <li>Exposes version and build timestamp information</li>
- * <li>Enables timestamps and gzip for classpath resources</li>
  * <li>Removes Wicket tags, wicket:id attributes, and other cruft from
  *     generated markup to ensure XHTML compliance</li>
  * <li>Enables Wicket's request logging facility if an appropriate SLF4J
@@ -222,15 +221,11 @@ public abstract class FoundationApplication extends WebApplication
     }
     
     /**
-     * Enables gzip and the last modified timestamp on resource URLs. These
-     * are resources you've added to your page via things like
-     * JavascriptPackageResource and CssPackageResource. Also set the
-     * cache duration for resources to zero if in development mode
+     * Set the cache duration for resources to zero if in development mode
      * (discouraging browser cache), or 1 year if in deployment mode.
      */
     protected void initResources()
     {
-        getResourceSettings().setDisableGZipCompression(false);
         getResourceSettings().setDefaultCacheDuration(
             usesDevelopmentConfig() ? Duration.NONE : Duration.days(365)
         );
