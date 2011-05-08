@@ -26,12 +26,18 @@ import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.IRequestParameters;
 import org.apache.wicket.request.Url;
+
 import org.apache.wicket.request.cycle.RequestCycle;
+
 import org.apache.wicket.request.handler.resource.ResourceRequestHandler;
+
 import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.http.WebResponse;
+
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+
 import org.apache.wicket.request.resource.ResourceReference;
+
 import org.apache.wicket.util.time.Time;
 
 
@@ -86,7 +92,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
         WebResponse origResponse = (WebResponse) requestCycle.getResponse();
         if(this.lastModified != null)
         {
-            origResponse.setLastModifiedTime(this.lastModified.getMilliseconds());
+            origResponse.setLastModifiedTime(this.lastModified);
         }
         
         try
@@ -206,7 +212,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
         }
 
         @Override
-        public void setDateHeader(String name, long date)
+        public void setDateHeader(String name, Time date)
         {
             if(this.headersOpen && name != null && !name.equalsIgnoreCase("Last-Modified"))
             {
@@ -307,28 +313,28 @@ public class MergedResourceRequestHandler implements IRequestHandler
         }
 
         @Override
-        public long getDateHeader(final String name)
+        public Time getDateHeader(final String name)
         {
-            long headerMillis = this.wrapped.getDateHeader(name);
-            if(headerMillis >= 0 && name != null && name.equalsIgnoreCase("If-Modified-Since"))
+            Time headerTime = this.wrapped.getDateHeader(name);
+            if(headerTime != null && name != null && name.equalsIgnoreCase("If-Modified-Since"))
             {
                 // Truncate milliseconds since the modified since header has only second precision
                 long modified = lastModified.getMilliseconds() / 1000 * 1000;
-                if(headerMillis < modified)
+                if(headerTime.getMilliseconds() < modified)
                 {
                     // Our merged data in aggregate is newer than what the browser has cached.
                     // Therefore remove the If-Modified-Since header from the request to
                     // force all resources to respond with data.
-                    headerMillis = -1;
+                    headerTime = null;
                 }
                 else
                 {
                     // Our merged data in aggregate has not changed. Set the If-Modified-Since
                     // header to an extremely high value to force all resources to respond 304.
-                    headerMillis = Long.MAX_VALUE;
+                    headerTime = Time.millis(Long.MAX_VALUE);
                 }
             }
-            return headerMillis;
+            return headerTime;
         }
 
         @Override
