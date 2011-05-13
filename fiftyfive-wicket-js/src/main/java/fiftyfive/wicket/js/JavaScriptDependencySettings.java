@@ -122,7 +122,7 @@ public class JavaScriptDependencySettings
         
         this.jQueryResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-1.6/jquery.noconflict.min.js"
+            "lib/jquery-1.6.1/jquery.noconflict.min.js"
         );
         this.jQueryUIResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
