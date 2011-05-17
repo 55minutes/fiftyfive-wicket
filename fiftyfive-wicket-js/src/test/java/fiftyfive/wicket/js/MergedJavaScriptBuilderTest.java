@@ -50,7 +50,7 @@ public class MergedJavaScriptBuilderTest extends MergedResourceBuilderTest
             tester,
             "scripts/all.js",
             "/fiftyfive/wicket/js/lib/jquery-1.6.1/jquery.noconflict.min.js",
-            "/fiftyfive/wicket/js/lib/jquery-ui-1.8.12/jquery-ui.min.js",
+            "/fiftyfive/wicket/js/lib/jquery-ui-1.8.13/jquery-ui.min.js",
             "/fiftyfive/wicket/js/lib/cookies/cookies.js",
             "/fiftyfive/wicket/js/lib/strftime/strftime.js",
             "/fiftyfive/wicket/js/lib/fiftyfive-utils/55_utils.js",

@@ -126,11 +126,11 @@ public class JavaScriptDependencySettings
         );
         this.jQueryUIResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.12/jquery-ui.min.js"
+            "lib/jquery-ui-1.8.13/jquery-ui.min.js"
         );
         this.jQueryUICSSResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.12/themes/redmond/jquery-ui-1.8.12.redmond.css"
+            "lib/jquery-ui-1.8.13/themes/redmond/jquery-ui-1.8.13.redmond.css"
         );
     }
     
