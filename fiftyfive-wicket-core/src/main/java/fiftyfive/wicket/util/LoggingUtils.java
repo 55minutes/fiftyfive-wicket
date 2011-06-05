@@ -542,7 +542,7 @@ public class LoggingUtils
      */
     public static Duration getRequestDuration()
     {
-        Time start = Time.valueOf(RequestCycle.get().getStartTime());
+        Time start = Time.millis(RequestCycle.get().getStartTime());
         return Duration.elapsed(start);
     }
     

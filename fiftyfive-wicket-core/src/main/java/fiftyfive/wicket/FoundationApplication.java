@@ -20,7 +20,7 @@ import java.util.Date;
 
 import fiftyfive.util.Version;
 
-import org.apache.wicket.protocol.http.DummyRequestLogger;
+import org.apache.wicket.protocol.http.RequestLogger;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;
 import org.apache.wicket.util.time.Duration;
@@ -244,7 +244,7 @@ public abstract class FoundationApplication extends WebApplication
      */
     protected void initRequestLogger()
     {
-        Logger log = LoggerFactory.getLogger(DummyRequestLogger.class);
+        Logger log = LoggerFactory.getLogger(RequestLogger.class);
         if(log.isInfoEnabled())
         {
             getRequestLoggerSettings().setRequestLoggerEnabled(true);

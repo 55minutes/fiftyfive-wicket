@@ -176,7 +176,7 @@ public class ParameterSpec<T> implements Serializable
                 PageParameters params = createParameters(model.getObject());
                 for(PageParameters.NamedPair pair : params.getAllNamed())
                 {
-                    setParameter(pair.getKey(), pair.getValue());
+                    getPageParameters().set(pair.getKey(), pair.getValue());
                 }
                 super.onBeforeRender();
             }
