@@ -4,15 +4,15 @@ import java.util.Date;
 
 import fiftyfive.wicket.js.JavaScriptDependency;
 import fiftyfive.wicket.link.HomeLink;
-import org.apache.wicket.Component;
+import static fiftyfive.wicket.util.Shortcuts.*;
+
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.devutils.debugbar.DebugBar;
+import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.internal.HtmlHeaderContainer;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import static fiftyfive.wicket.util.Shortcuts.*;
 
 /**
  * Base class for all pages. Provides markup for the HTML5 doctype.
@@ -52,17 +52,14 @@ public abstract class BasePage extends WebPage
         add(cssPrintResource("styles/print.css"));
         
         // Allow subclasses to register CSS classes on the body tag
-        WebMarkupContainer body = new WebMarkupContainer("body");
-        body.setOutputMarkupId(true);
-        add(body);
+        this.body = new TransparentWebMarkupContainer("body");
+        this.body.setOutputMarkupId(true);
+        add(this.body);
         
-        body.add(new DebugBar("debug"));
+        this.body.add(new DebugBar("debug"));
 
         // Copyright year in footer
-        body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
-        
-        // From now on add() will add to body instead of page
-        this.body = body;
+        this.body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
     }
     
     /**
@@ -72,34 +69,5 @@ public abstract class BasePage extends WebPage
     public WebMarkupContainer getBody()
     {
         return this.body;
-    }
-
-    /**
-     * When subclasses of BasePage add components to the page, in reality
-     * they need to be added as children of the {@code <body>} container.
-     * This implementation ensures the page hierarchy is correctly enforced.
-     * 
-     * @return {@code this} to allow chaining
-     */
-    @Override
-    public BasePage add(Component... childs)
-    {
-        for(Component c : childs)
-        {
-            // Wicket automatically translates <head> into an
-            // HtmlHeaderContainer and adds it to the page. Make sure this
-            // is registered as a direct child of the page itself, not the
-            // body.
-            if(null == this.body || c instanceof HtmlHeaderContainer)
-            {
-                super.add(c);
-            }
-            // Everything else goes into the <body>.
-            else
-            {
-                this.body.add(c);
-            }
-        }
-        return this;
     }
 }
