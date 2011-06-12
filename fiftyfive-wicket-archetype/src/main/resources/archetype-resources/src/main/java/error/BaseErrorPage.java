@@ -1,7 +1,7 @@
 package ${package}.error;
 
 import ${package}.BasePage;
-import fiftyfive.wicket.util.HttpUtils;
+import org.apache.wicket.request.http.WebResponse;
 
 /**
  * Base class for custom error pages.
@@ -26,10 +26,10 @@ public abstract class BaseErrorPage extends BasePage
      * Make sure we emit the proper HTTP status.
      */
     @Override
-    protected void configureResponse()
+    protected void configureResponse(final WebResponse response)
     {
-        super.configureResponse();
-        HttpUtils.getHttpServletResponse().setStatus(getErrorCode());
+        super.configureResponse(response);
+        response.setStatus(getErrorCode());
     }
 
     /**
