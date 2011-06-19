@@ -63,10 +63,8 @@ public class WicketApplication extends FoundationSpringApplication
         getApplicationSettings().setAccessDeniedPage(ForbiddenErrorPage.class);
         getApplicationSettings().setInternalErrorPage(InternalServerErrorPage.class);
         
-        // -- Configure exception handling --
-        setExceptionMapperProvider(new ValueProvider<IExceptionMapper>(
-            new WicketExceptionMapper()
-        ));
+        // -- Configure custom request cycle handling --
+        getRequestCycleListeners().add(new WicketRequestCycleListener());
 
         // -- Custom initialization goes here --
         

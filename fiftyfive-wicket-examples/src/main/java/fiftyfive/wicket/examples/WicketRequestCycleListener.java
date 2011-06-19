@@ -21,22 +21,26 @@ import java.util.List;
 
 import fiftyfive.wicket.util.LoggingUtils;
 
-import org.apache.wicket.DefaultExceptionMapper;
 import org.apache.wicket.authorization.AuthorizationException;
 import org.apache.wicket.protocol.http.PageExpiredException;
 import org.apache.wicket.request.IRequestHandler;
+import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
+import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.mapper.StalePageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * Custom exception handling for 55 Minutes Wicket Examples.
+ * Customization of Wicket's request cycle processing. The superclass provides a template
+ * for providing callbacks that will be invoked during Wicket's request-response flow.
+ * Consider this as a place to put your application's web "middleware". The current implementation
+ * simply does more detailed logging when an exception occurs.
  */
-public class WicketExceptionMapper extends DefaultExceptionMapper
+public class WicketRequestCycleListener extends AbstractRequestCycleListener
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
-        WicketExceptionMapper.class
+        WicketRequestCycleListener.class
     );
     
     /**
@@ -50,17 +54,18 @@ public class WicketExceptionMapper extends DefaultExceptionMapper
     );
     
     /**
-     * Consider putting custom exception handling logic here. For now we
-     * just log the exception and delegate to the superclass for Wicket's
-     * default exception handling.
+     * Consider putting custom exception handling logic here.
+     * For example, you could catch an {@code ObjectNotFoundException} here and redirect
+     * to a 404 page. For now we just log.
      */
     @Override
-    public IRequestHandler map(Exception e)
+    public IRequestHandler onException(RequestCycle cycle, Exception ex)
     {
-        if(! RECOVERABLE_EXCEPTIONS.contains(e.getClass()))
+        if(! RECOVERABLE_EXCEPTIONS.contains(ex.getClass()))
         {
-            LoggingUtils.logException(LOGGER, e);
+            LoggingUtils.logException(LOGGER, ex);
         }
-        return super.map(e);
+        // null means we want Wicket's default onException behavior to be used
+        return null;
     }
 }
