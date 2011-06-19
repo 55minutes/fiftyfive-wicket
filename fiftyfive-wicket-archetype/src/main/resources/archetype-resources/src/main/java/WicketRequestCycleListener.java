@@ -5,12 +5,21 @@ import java.util.List;
 
 import fiftyfive.wicket.util.LoggingUtils;
 
+import org.apache.wicket.Page;
+
 import org.apache.wicket.authorization.AuthorizationException;
+
 import org.apache.wicket.protocol.http.PageExpiredException;
+
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.AbstractRequestCycleListener;
 import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.handler.PageProvider;
+import org.apache.wicket.request.handler.RenderPageRequestHandler;
+import org.apache.wicket.request.handler.RenderPageRequestHandler.RedirectPolicy;
+import org.apache.wicket.request.http.WebRequest;
 import org.apache.wicket.request.mapper.StalePageException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,11 +54,32 @@ public class WicketRequestCycleListener extends AbstractRequestCycleListener
     @Override
     public IRequestHandler onException(RequestCycle cycle, Exception ex)
     {
+        // Example: show 404 page if ObjectNotFoundException is thrown
+        // if(ex instanceof ObjectNotFoundException)
+        // {
+        //     return createErrorPageHandler(cycle, NonFoundErrorPage.class);
+        // }
         if(! RECOVERABLE_EXCEPTIONS.contains(ex.getClass()))
         {
             LoggingUtils.logException(LOGGER, ex);
         }
         // null means we want Wicket's default onException behavior to be used
         return null;
+    }
+
+    /**
+     * Create a {@link IRequestHandler} for displaying the given error page without performing
+     * a redirect. However, if the request is an ajax one, force a redirect, as that is the
+     * only way to make the browser show the error page.
+     */
+    private IRequestHandler createErrorPageHandler(RequestCycle cycle, Class<? extends Page> page)
+    {
+        RedirectPolicy redirectPolicy = RedirectPolicy.NEVER_REDIRECT;
+        
+        if(cycle.getRequest() instanceof WebRequest && ((WebRequest) cycle.getRequest()).isAjax())
+        {
+            redirectPolicy = RedirectPolicy.ALWAYS_REDIRECT;
+        }
+        return new RenderPageRequestHandler(new PageProvider(page), redirectPolicy);
     }
 }
