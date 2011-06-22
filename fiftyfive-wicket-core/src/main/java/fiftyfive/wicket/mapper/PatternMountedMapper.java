@@ -49,7 +49,9 @@ public class PatternMountedMapper extends MountedMapper
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatternMountedMapper.class);
 
+    private final int numSegments;
     private final List<PatternPlaceholder> patternPlaceholders;
+    private boolean exact = false;
 
     /**
      * {@inheritDoc}
@@ -88,8 +90,10 @@ public class PatternMountedMapper extends MountedMapper
     {
         super(removePatternsFromPlaceholders(mountPath), pageClassProvider, pageParametersEncoder);
 
+        String[] segments = getMountSegments(mountPath);
+        this.numSegments = segments.length;
         this.patternPlaceholders = new ArrayList<PatternPlaceholder>(1);
-        for(String seg: getMountSegments(mountPath))
+        for(String seg: segments)
         {
             String placeholder = getPlaceholder(seg);
             if(placeholder != null)
@@ -97,6 +101,28 @@ public class PatternMountedMapper extends MountedMapper
                 this.patternPlaceholders.add(new PatternPlaceholder(placeholder));
             }
         }
+    }
+    
+    /**
+     * Set to {@code true}, to force this mapper to strictly match URLs by disallowing any extra
+     * path elements that come after the matched pattern.
+     * <pre class="example">
+     * PatternMountedMapper m = new PatternMountedMapper(MyPage.class, "page/${id:\\d+}");
+     * // These will always be matched: "page/1", "page/2", "page/30", etc.
+     * // By default, these will be matched as well: "page/1/whatever/foo/bar", "page/2/baz"
+     * m.setExact(true);
+     * // Now these will not be matched: "page/1/whatever/foo/bar", "page/2/baz"</pre>
+     * 
+     * In other words, if {@code exact} is set to {@code false}, extra path elements after the
+     * specified pattern will be allowed. The default is {@code false}, to match the default
+     * behavior of Wicket's {@link MountedMapper}.
+     * 
+     * @return {@code this} to allow chaining
+     */
+    public PatternMountedMapper setExact(boolean exact)
+    {
+        this.exact = exact;
+        return this;
     }
     
     /**
@@ -111,6 +137,16 @@ public class PatternMountedMapper extends MountedMapper
         if(null == info || null == info.getPageParameters())
         {
             return info;
+        }
+        
+        // If exact matching, reject URLs that have more than expected number of segments
+        if(exact)
+        {
+            int requestNumSegments = request.getUrl().getSegments().size();
+            if(requestNumSegments > this.numSegments)
+            {
+                return null;
+            }
         }
         
         // Loop through each placeholder and verify that the regex of the placeholder matches

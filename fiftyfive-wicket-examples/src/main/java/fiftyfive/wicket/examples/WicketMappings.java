@@ -55,6 +55,6 @@ public class WicketMappings extends CompoundRequestMapper
     
     private void addPage(String path, Class<? extends Page> page)
     {
-        add(new PatternMountedMapper(path, page));
+        add(new PatternMountedMapper(path, page).setExact(true));
     }
 }

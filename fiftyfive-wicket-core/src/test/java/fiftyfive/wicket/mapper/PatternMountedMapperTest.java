@@ -57,6 +57,7 @@ public class PatternMountedMapperTest
     {
         final String[][] patternAndRequestUrls = new String[][] {
             new String[] { "products/${productId:\\d+}/${slug}", "products/123/123" },
+            new String[] { "products/${productId:\\d+}/${slug}", "products/123/123/456" },
             new String[] { "products/${productId:\\d+}/${slug}", "products/4/abc" },
             new String[] { "products/${productId:\\d+}/${slug}", "products/900000/1" },
             new String[] { "products/${productId}/${slug}", "products/abc/123" }
@@ -70,7 +71,45 @@ public class PatternMountedMapperTest
         }
     }
     
+    @Test
+    public void testMapRequestReturnsHandlerExactMatch()
+    {
+        final String[][] patternAndRequestUrls = new String[][] {
+            new String[] { "products/${productId:\\d+}/${slug}", "products/123/123" },
+            new String[] { "products/${productId:\\d+}/${slug}", "products/4/abc" },
+            new String[] { "products/${productId:\\d+}/${slug}", "products/900000/1" },
+            new String[] { "products/${productId}/${slug}", "products/abc/123" }
+        };
+        for(String[] pair : patternAndRequestUrls)
+        {
+            String pattern = pair[0];
+            String requestUrl = pair[1];
+            IRequestHandler handler = invokeMapRequest(pattern, requestUrl, true);
+            Assert.assertNotNull(requestUrl + " should match pattern " + pattern, handler);
+        }
+    }
+    
+    @Test
+    public void testMapRequestReturnsNullOnInexactMatch()
+    {
+        final String[][] patternAndRequestUrls = new String[][] {
+            new String[] { "products/${productId:\\d+}/${slug}", "products/123/123/456" }
+        };
+        for(String[] pair : patternAndRequestUrls)
+        {
+            String pattern = pair[0];
+            String requestUrl = pair[1];
+            IRequestHandler handler = invokeMapRequest(pattern, requestUrl, true);
+            Assert.assertNull(requestUrl + " should not match pattern " + pattern, handler);
+        }
+    }
+    
     private IRequestHandler invokeMapRequest(String pattern, String requestUrl)
+    {
+        return invokeMapRequest(pattern, requestUrl, false);
+    }
+
+    private IRequestHandler invokeMapRequest(String pattern, String requestUrl, boolean exact)
     {
         final IMapperContext mockContext = mock(IMapperContext.class);
         PatternMountedMapper mapper = new PatternMountedMapper(pattern, DummyHomePage.class) {
@@ -80,6 +119,10 @@ public class PatternMountedMapperTest
                 return mockContext;
             }
         };
+        if(exact)
+        {
+            mapper.setExact(true);
+        }
         
         Url url = Url.parse(requestUrl);
         return mapper.mapRequest(createRequest(url));
