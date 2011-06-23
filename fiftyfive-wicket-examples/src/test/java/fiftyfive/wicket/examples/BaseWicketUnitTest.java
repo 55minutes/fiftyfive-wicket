@@ -19,9 +19,12 @@ import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.util.tester.WicketTester;
+
 import org.junit.After;
 import org.junit.Before;
+
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.StaticWebApplicationContext;
 

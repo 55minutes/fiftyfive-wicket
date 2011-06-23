@@ -61,8 +61,6 @@ public abstract class FoundationSpringApplication extends FoundationApplication
      */
     protected ApplicationContext getApplicationContext()
     {
-        return WebApplicationContextUtils.getRequiredWebApplicationContext(
-            getServletContext()
-        );
+        return WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
     }
 }

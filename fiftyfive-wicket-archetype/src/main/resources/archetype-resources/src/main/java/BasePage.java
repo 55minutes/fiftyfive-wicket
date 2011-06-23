@@ -29,7 +29,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
  */
 public abstract class BasePage extends WebPage
 {
-    private WebMarkupContainer body;
+    private final WebMarkupContainer body;
     
     public BasePage()
     {
