@@ -22,8 +22,7 @@ import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
 /**
- * A simple jQuery UI-based replacement for Wicket’s YUI-based
- * {@link org.apache.wicket.extensions.yui.calendar.DatePicker DatePicker}.
+ * A simple jQuery UI-based replacement for Wicket’s YUI-based {@code DatePicker}.
  * This implementation has the following behavior:
  * <ul>
  * <li>The

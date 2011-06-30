@@ -50,7 +50,8 @@ import org.apache.wicket.util.IProvider;
  * users may wish to use the mapper directly.
  * <p>
  * Note that this class is abstract. Refer to the concrete subclasses
- * {@link MergedJavaScriptBuilder} and {@link MergedCssBuilder} for example usage.
+ * {@link fiftyfive.wicket.js.MergedJavaScriptBuilder MergedJavaScriptBuilder} and
+ * {@link fiftyfive.wicket.css.MergedCssBuilder MergedCssBuilder} for example usage.
  * <p>
  * <em>This class was rewritten in fiftyfive-wicket 3.0 to remove all dependencies on
  * third-party libraries. The wicketstuff-merged-resources project is no longer used.

@@ -111,7 +111,7 @@ public class ParameterSpec<T> implements Serializable
      * URLs to look like "/person/[id]/[slug]", where id and slug are provided
      * by <code>PersonBean.getId()</code> and <code>PersonBean.getSlug()</code>,
      * you would mount the page using
-     * {@link org.apache.wicket.request.target.coding.MixedParamUrlCodingStrategy}
+     * {@link org.apache.wicket.request.mapper.MountedMapper MountedMapper}
      * and then construct the ParameterSpec like this:
      * <pre class="example">
      * new ParameterSpec(PersonPage.class, "id", "slug");</pre>

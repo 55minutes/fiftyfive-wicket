@@ -54,7 +54,7 @@ public class PatternMountedMapper extends MountedMapper
     private boolean exact = false;
 
     /**
-     * {@inheritDoc}
+     * @see MountedMapper#MountedMapper(String, Class)
      */
     public PatternMountedMapper(String mountPath, Class<? extends IRequestablePage> pageClass)
     {
@@ -62,7 +62,7 @@ public class PatternMountedMapper extends MountedMapper
     }
 
     /**
-    * {@inheritDoc}
+     * @see MountedMapper#MountedMapper(String, ClassProvider)
      */
     public PatternMountedMapper(String mountPath,
                                 ClassProvider<? extends IRequestablePage> pageClassProvider)
@@ -72,7 +72,7 @@ public class PatternMountedMapper extends MountedMapper
 
 
     /**
-    * {@inheritDoc}
+     * @see MountedMapper#MountedMapper(String, Class, IPageParametersEncoder)
      */
     public PatternMountedMapper(String mountPath,
                                 Class<? extends IRequestablePage> pageClass,
@@ -82,7 +82,7 @@ public class PatternMountedMapper extends MountedMapper
     }
 
     /**
-    * {@inheritDoc}
+     * @see MountedMapper#MountedMapper(String, ClassProvider, IPageParametersEncoder)
      */
     public PatternMountedMapper(String mountPath,
                                 ClassProvider<? extends IRequestablePage> pageClassProvider,
