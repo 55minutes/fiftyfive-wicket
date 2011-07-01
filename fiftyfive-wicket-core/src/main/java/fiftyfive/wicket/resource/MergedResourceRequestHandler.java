@@ -210,6 +210,12 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             if(this.headersOpen) this.wrapped.setHeader(name, value);
         }
+        
+        @Override
+        public void addHeader(String name, String value)
+        {
+            if(this.headersOpen) this.wrapped.addHeader(name, value);
+        }
 
         @Override
         public void setDateHeader(String name, Time date)
