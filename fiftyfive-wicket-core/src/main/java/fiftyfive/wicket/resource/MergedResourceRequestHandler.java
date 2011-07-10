@@ -277,6 +277,12 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             return this.wrapped.isRedirect();
         }
+        
+        @Override
+        public String encodeRedirectURL(CharSequence url)
+        {
+            return this.wrapped.encodeRedirectURL(url);
+        }
 
         @Override
         public void flush()
