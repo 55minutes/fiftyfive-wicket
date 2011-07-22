@@ -32,10 +32,10 @@ import org.mockito.Mockito;
  * During your tests, mock the authentication state like this:
  * <pre class="example">
  * // Simulate authenticated user
- * when(this.mockSubject.isAuthenticated()).thenReturn(true);</pre>
+ * when(this.mockSubject.isAuthenticated()).thenReturn(true);
  * 
  * // Simulate absence of "admin" role
- * doThrow(new AuthorizationException()).when(this.mockSubject).checkRole("admin");
+ * doThrow(new AuthorizationException()).when(this.mockSubject).checkRole("admin");</pre>
  * <p>
  * If you're not using JUnit 4 and Mockito or otherwise can't subclass this class,
  * you can implement the same technique that this class uses with the testing frameworks of your
