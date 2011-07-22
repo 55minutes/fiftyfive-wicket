@@ -16,6 +16,7 @@
 package fiftyfive.wicket.shiro.markup;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -46,9 +47,15 @@ public class LoginPage extends WebPage
     @Override
     protected void onBeforeRender()
     {
+        // Redirect to home page if user already authenticated
         if(SecurityUtils.getSubject().isAuthenticated())
         {
-            throw new RestartResponseException(getApplication().getHomePage());
+            // Prevent redirecting to ourself if home page == LoginPage
+            Class<? extends Page> home = getApplication().getHomePage();
+            if(!getClass().equals(home))
+            {
+                throw new RestartResponseException(home);
+            }
         }
         super.onBeforeRender();
     }
