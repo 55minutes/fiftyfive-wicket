@@ -33,6 +33,9 @@ import org.mockito.Mockito;
  * <pre class="example">
  * // Simulate authenticated user
  * when(this.mockSubject.isAuthenticated()).thenReturn(true);</pre>
+ * 
+ * // Simulate absence of "admin" role
+ * doThrow(new AuthorizationException()).when(this.mockSubject).checkRole("admin");
  * <p>
  * If you're not using JUnit 4 and Mockito or otherwise can't subclass this class,
  * you can implement the same technique that this class uses with the testing frameworks of your
