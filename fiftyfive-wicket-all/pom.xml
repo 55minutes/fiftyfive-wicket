@@ -40,7 +40,7 @@
   <!-- ==================================================================== -->
   <name>55 Minutes Wicket - All Classes</name>
   <description>
-    Combines fiftyfive-wicket-core, -js and -test into a single JAR.
+    Combines fiftyfive-wicket-core, -js, -shiro and -test into a single JAR.
   </description>
   <organization>
     <name>55 Minutes</name>
@@ -81,8 +81,23 @@
     </dependency>
     <dependency>
       <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-shiro</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.55minutes</groupId>
       <artifactId>fiftyfive-wicket-test</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-core</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.shiro</groupId>
+      <artifactId>shiro-web</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
@@ -92,6 +107,11 @@
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-spring</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -142,7 +162,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <sourcepath>${basedir}/../fiftyfive-wicket-core/src/main/java;${basedir}/../fiftyfive-wicket-js/src/main/java;${basedir}/../fiftyfive-wicket-test/src/main/java</sourcepath>
+          <sourcepath>${basedir}/../fiftyfive-wicket-core/src/main/java;${basedir}/../fiftyfive-wicket-js/src/main/java;${basedir}/../fiftyfive-wicket-test/src/main/java;${basedir}/../fiftyfive-wicket-shiro/src/main/java</sourcepath>
         </configuration>
         <executions>
           <execution>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Overview</title>
+</head>
+<body>
+  
+  The fiftyfive-wicket-shiro project is a simple set of classes that allow you
+  to use the full power of Shiro secure to your Wicket applications.
+  <p>
+  To enable Shiro in your Wicket application, you must do three things:
+  add the necessary JAR dependencies to your project, set up your
+  {@code web.xml}, and configure your Wicket application instance.
+  <h3>Dependencies</h3>
+  <p>
+  First, add the necessary Shiro JARs to your project. The easiest way,
+  using Maven, is to declare the following dependency. This will
+  automatically pull in the shiro-core and shiro-web JARs:
+  <pre class="example">
+  &lt;dependency&gt;
+    &lt;groupId&gt;com.55minutes&lt;/groupId&gt;
+    &lt;artifactId&gt;fiftyfive-wicket-shiro&lt;/artifactId&gt;
+    &lt;version&gt;3.0-SNAPSHOT&lt;/version&gt;
+  &lt;/dependency&gt;</pre>
+  <h3>Shiro Filter Configuration</h3>
+  <p>
+  Next, add the Shiro filter to your {@code web.xml}. This is the core of
+  Shiro's configuration; it is not Wicket-specific. The JDBC, LDAP or other
+  backend for loading the underlying authentication and authorization data
+  is configured here (a
+  <a href="http://shiro.apache.org/spring.html#Spring-WebApplications">Spring-based configuration</a>
+  is also possible). In this example we will configure an extremely simple
+  plaintext list of accounts and passwords. See the Shiro
+  <a href="http://shiro.apache.org/configuration.html">configuration reference</a>
+  for more examples.
+  <p>
+  <strong>Note that the Shiro filter must appear <em>before</em> the Wicket
+  filter.</strong>
+  <pre class="example">
+  &lt;filter&gt;
+    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.apache.shiro.web.servlet.IniShiroFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;&lt;param-name&gt;config&lt;/param-name&gt;&lt;param-value&gt;
+      [users]
+      # Format is: username = password, roleName1, roleName2, ..., roleNameN
+      admin = secret, admin
+      testaccount = test
+    &lt;/param-value&gt;&lt;/init-param&gt;
+  &lt;/filter&gt;
+  
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;ShiroFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;</pre>
+  <h3>Wicket Installation</h3>
+  <p>
+  Finally, connect Shiro to your Wicket application using the instructions
+  in {@link fiftyfive.wicket.shiro.ShiroWicketPlugin ShiroWicketPlugin}.
+  
+</body>
+</html>
