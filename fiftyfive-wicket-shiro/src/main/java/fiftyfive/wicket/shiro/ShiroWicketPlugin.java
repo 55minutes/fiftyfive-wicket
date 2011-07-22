@@ -111,7 +111,7 @@ import org.apache.wicket.settings.ISecuritySettings;
  * <h2>Installation</h2>
  * Before you can use the {@code ShiroWicketPlugin}, you must have Shiro
  * properly added to your application's {@code web.xml} file. Refer to the
- * <a href="../../../overview-summary.html">overview section</a> of this Javadoc
+ * <a href="package-summary.html">package summary</a> of this Javadoc
  * for a brief tutorial.
  * <h3>{@code Application.init()}</h3>
  * Once Shiro itself is installed, adding {@code ShiroWicketPlugin} can be as
