@@ -90,6 +90,23 @@ public class PatternMountedMapperTest
     }
     
     @Test
+    public void testMapRequestReturnsHandlerOptionalMatch()
+    {
+        final String[][] patternAndRequestUrls = new String[][] {
+            new String[] { "products/${productId:\\d+}/#{slug}", "products/123" },
+            new String[] { "products/#{productId:\\d+}", "products/4" },
+            new String[] { "products/#{productId:\\d+}", "products" },
+        };
+        for(String[] pair : patternAndRequestUrls)
+        {
+            String pattern = pair[0];
+            String requestUrl = pair[1];
+            IRequestHandler handler = invokeMapRequest(pattern, requestUrl, true);
+            Assert.assertNotNull(requestUrl + " should match pattern " + pattern, handler);
+        }
+    }
+    
+    @Test
     public void testMapRequestReturnsNullOnInexactMatch()
     {
         final String[][] patternAndRequestUrls = new String[][] {
