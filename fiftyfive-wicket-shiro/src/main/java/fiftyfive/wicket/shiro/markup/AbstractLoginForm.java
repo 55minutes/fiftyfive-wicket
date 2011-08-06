@@ -51,6 +51,13 @@ public abstract class AbstractLoginForm extends StatelessForm<Void>
     {
         String email = getEmailField().getDefaultModelObjectAsString();
         String password = getPasswordField().getDefaultModelObjectAsString();
+        
+        // Convert email to lowercase just in case the backend authentication system
+        // is case sensitive and the user accidentally typed in uppercase.
+        if(email != null)
+        {
+            email = email.toLowerCase();
+        }
 
         if(loginShiro(email, password, remember()))
         {
