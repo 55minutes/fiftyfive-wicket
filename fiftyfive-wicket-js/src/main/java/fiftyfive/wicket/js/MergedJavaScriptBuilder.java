@@ -88,7 +88,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     /**
      * Adds a JavaScript file to the list of merged resources. The
      * dependencies of the script, if declared using
-     * <a href="http://getsprockets.org/>Sprockets</p> syntax within
+     * <a href="http://getsprockets.org/">Sprockets</p> syntax within
      * the JS file, will also be added automatically.
      *
      * @see JavaScriptDependencySettings
