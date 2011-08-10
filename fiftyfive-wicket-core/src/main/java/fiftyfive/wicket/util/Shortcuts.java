@@ -195,14 +195,14 @@ public class Shortcuts
         {
             return EMPTY_BEHAVIOR;
         }
-        return new AttributeAppender("class", true, cssClass, " ") {
+        return new AttributeAppender("class", cssClass) {
             @Override
             protected String newValue(String current, String append)
             {
                 if(null == current && null == append) return null;
                 return super.newValue(current, append);
             }
-        };
+        }.setSeparator(" ");
     }
 
     /**
