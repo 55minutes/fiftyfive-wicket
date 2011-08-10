@@ -29,12 +29,14 @@ import org.apache.wicket.request.mapper.AbstractMapper;
 import org.apache.wicket.request.mapper.parameter.IPageParametersEncoder;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import org.apache.wicket.request.resource.PackageResourceReference;
+import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.caching.IResourceCachingStrategy;
+import org.apache.wicket.request.resource.caching.IStaticCacheableResource;
 import org.apache.wicket.request.resource.caching.ResourceUrl;
 
 import org.apache.wicket.util.IProvider;
+import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.time.Time;
 
 
@@ -100,7 +102,7 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
         return new MergedResourceRequestHandler(
             this.resources,
             parameters,
-            getLastModifiedReference().getLastModified());
+            getLastModifiedTime(getLastModifiedReference()));
     }
 
     public Url mapHandler(IRequestHandler requestHandler)
@@ -139,9 +141,10 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
     {
         ResourceUrl resourceUrl = new ResourceUrl(fileName, parameters);
         ResourceReference lastMod = getLastModifiedReference();
-        if(lastMod instanceof PackageResourceReference)
+        IResource res = lastMod.getResource();
+        if(res instanceof IStaticCacheableResource)
         {
-            this.cachingStrategy.get().decorateUrl(resourceUrl, (PackageResourceReference) lastMod);
+            this.cachingStrategy.get().decorateUrl(resourceUrl, (IStaticCacheableResource) res);
         }
         return resourceUrl.getFileName();
     }
@@ -152,7 +155,7 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
         long lastMillis = -1;
         for(ResourceReference ref : this.resources)
         {
-            Time refModified = ref.getLastModified();
+            Time refModified = getLastModifiedTime(ref);
             if(refModified != null && refModified.getMilliseconds() > lastMillis)
             {
                 lastMillis = refModified.getMilliseconds();
@@ -160,5 +163,20 @@ public class MergedResourceMapper extends AbstractMapper implements IRequestMapp
             }
         }
         return lastModifiedRef != null ? lastModifiedRef : this.resources.get(0);
+    }
+    
+    /**
+     * De-reference the resource and open its stream to determine the last modified time.
+     */
+    protected Time getLastModifiedTime(ResourceReference ref)
+    {
+        Time modified = null;
+        IResource res = ref.getResource();
+        if(res instanceof IStaticCacheableResource)
+        {
+            IResourceStream stream = ((IStaticCacheableResource) res).getCacheableResourceStream();
+            modified = stream.lastModifiedTime();
+        }
+        return modified;
     }
 }
