@@ -35,54 +35,63 @@ That's it! Your project is up and running at http://localhost:8080/. Explore the
 
 To add the core 55 Minutes Wicket library to an existing project, use the following maven dependency:
 
-    <dependency>
-      <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-core</artifactId>
-      <version>3.0-SNAPSHOT</version>
-    </dependency>
-
+```xml
+<dependency>
+  <groupId>com.55minutes</groupId>
+  <artifactId>fiftyfive-wicket-core</artifactId>
+  <version>3.0-SNAPSHOT</version>
+</dependency>
+```
 
 For the unit testing support:
 
-    <dependency>
-      <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-test</artifactId>
-      <version>3.0-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
+```xml
+<dependency>
+  <groupId>com.55minutes</groupId>
+  <artifactId>fiftyfive-wicket-test</artifactId>
+  <version>3.0-SNAPSHOT</version>
+  <scope>test</scope>
+</dependency>
+```
 
 For the JavaScript portion of the library, include:
 
-    <dependency>
-      <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-js</artifactId>
-      <version>3.0-SNAPSHOT</version>
-    </dependency>
+```xml
+<dependency>
+  <groupId>com.55minutes</groupId>
+  <artifactId>fiftyfive-wicket-js</artifactId>
+  <version>3.0-SNAPSHOT</version>
+</dependency>
+```
 
 You may also be interested in our integration with [Shiro](http://shiro.apache.org):
 
-    <dependency>
-      <groupId>com.55minutes</groupId>
-      <artifactId>fiftyfive-wicket-shiro</artifactId>
-      <version>3.0-SNAPSHOT</version>
-    </dependency>
+```xml
+<dependency>
+  <groupId>com.55minutes</groupId>
+  <artifactId>fiftyfive-wicket-shiro</artifactId>
+  <version>3.0-SNAPSHOT</version>
+</dependency>
+```
 
 Finally, since our artifacts aren't in the root maven repository, you'll also need to include the following snippet:
 
-    <repository>
-      <id>fiftyfive-opensource-snapshots</id>
-      <name>55 Minutes Open Source Maven Snapshots Repository</name>
-      <url>http://opensource.55minutes.com/maven-snapshots</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-    <repository>
-      <id>fiftyfive-opensource-releases</id>
-      <name>55 Minutes Open Source Maven Releases Repository</name>
-      <url>http://opensource.55minutes.com/maven-releases</url>
-      <releases><enabled>true</enabled></releases>
-      <snapshots><enabled>false</enabled></snapshots>
-    </repository>
+```xml
+<repository>
+  <id>fiftyfive-opensource-snapshots</id>
+  <name>55 Minutes Open Source Maven Snapshots Repository</name>
+  <url>http://opensource.55minutes.com/maven-snapshots</url>
+  <releases><enabled>false</enabled></releases>
+  <snapshots><enabled>true</enabled></snapshots>
+</repository>
+<repository>
+  <id>fiftyfive-opensource-releases</id>
+  <name>55 Minutes Open Source Maven Releases Repository</name>
+  <url>http://opensource.55minutes.com/maven-releases</url>
+  <releases><enabled>true</enabled></releases>
+  <snapshots><enabled>false</enabled></snapshots>
+</repository>
+```
 
 ## More Resources and Documentation
 
