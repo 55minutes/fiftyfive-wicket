@@ -92,7 +92,3 @@ Finally, since our artifacts aren't in the root maven repository, you'll also ne
   <snapshots><enabled>false</enabled></snapshots>
 </repository>
 ```
-
-## More Resources and Documentation
-
-Please [browse the wiki](https://github.com/55minutes/fiftyfive-wicket/wiki).
