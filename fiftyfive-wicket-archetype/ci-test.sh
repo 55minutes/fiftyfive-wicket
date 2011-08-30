@@ -3,6 +3,7 @@
 # This script is for continuous integration. Generates a test project from
 # the archetype and then runs `mvn test` on it to make sure everything works.
 
+mvn clean
 mkdir temp
 cd temp
 mvn archetype:generate -B -U \
