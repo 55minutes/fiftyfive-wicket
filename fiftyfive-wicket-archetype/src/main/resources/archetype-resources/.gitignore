@@ -1,0 +1,4 @@
+target/
+${artifactId}.properties
+log4j.properties
+src/test/resources/log4j.properties
