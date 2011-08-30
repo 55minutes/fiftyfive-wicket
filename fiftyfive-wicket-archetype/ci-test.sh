@@ -9,7 +9,7 @@ cd temp
 mvn archetype:generate -B -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
-    -DarchetypeRepository=http://opensource.55minutes.com/maven \
+    -DarchetypeRepository=http://opensource.55minutes.com/maven-snapshots \
     -DarchetypeVersion=3.0-SNAPSHOT \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
