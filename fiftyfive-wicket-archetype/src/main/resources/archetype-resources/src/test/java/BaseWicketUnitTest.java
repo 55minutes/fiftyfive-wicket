@@ -1,5 +1,7 @@
 package ${package};
 
+import fiftyfive.wicket.shiro.test.AbstractShiroJUnit4Tests;
+
 import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
@@ -18,7 +20,7 @@ import org.springframework.web.context.support.StaticWebApplicationContext;
  * easily tested in isolation. For pages or components that rely on Spring
  * dependency injection, consider overriding {@link #initSpringContext}.
  */
-public abstract class BaseWicketUnitTest
+public abstract class BaseWicketUnitTest extends AbstractShiroJUnit4Tests
 {
     protected WicketSession session;
     protected WicketTester tester;

@@ -1,5 +1,6 @@
 package ${package};
 
+import ${package}.admin.AdministrationPage;
 import ${package}.error.ForbiddenErrorPage;
 import ${package}.error.InternalServerErrorPage;
 import ${package}.error.NotFoundErrorPage;
@@ -23,6 +24,7 @@ public class WicketMappings extends CompoundRequestMapper
     public WicketMappings(WebApplication app)
     {
         // Pretty URLs for bookmarkable pages
+        addPage("admin", AdministrationPage.class);
         addPage("error/403", ForbiddenErrorPage.class);
         addPage("error/404", NotFoundErrorPage.class);
         addPage("error/500", InternalServerErrorPage.class);

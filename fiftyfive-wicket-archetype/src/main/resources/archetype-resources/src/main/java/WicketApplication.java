@@ -3,8 +3,10 @@ package ${package};
 import ${package}.error.ForbiddenErrorPage;
 import ${package}.error.InternalServerErrorPage;
 import ${package}.home.HomePage;
+import ${package}.security.LoginPage;
 
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
+import fiftyfive.wicket.shiro.ShiroWicketPlugin;
 import fiftyfive.wicket.spring.FoundationSpringApplication;
 import org.apache.wicket.Application;
 import org.apache.wicket.request.Request;
@@ -57,8 +59,13 @@ public class WicketApplication extends FoundationSpringApplication
         
         // -- Configure error pages --
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());
-        getApplicationSettings().setAccessDeniedPage(ForbiddenErrorPage.class);
         getApplicationSettings().setInternalErrorPage(InternalServerErrorPage.class);
+        
+        // -- Shiro integration --
+        new ShiroWicketPlugin()
+            .mountLoginPage("/login", LoginPage.class)
+            .setUnauthorizedPage(ForbiddenErrorPage.class)
+            .install(this);
         
         // -- Configure custom request cycle handling --
         getRequestCycleListeners().add(new WicketRequestCycleListener());

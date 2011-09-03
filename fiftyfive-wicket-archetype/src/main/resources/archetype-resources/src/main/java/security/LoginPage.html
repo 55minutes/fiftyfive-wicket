@@ -1,0 +1,31 @@
+<wicket:head>
+  <title>Please Log In</title>
+</wicket:head>
+<wicket:extend>
+  <h1>Please Log In</h1>
+  
+  <wicket:container wicket:id="feedback"></wicket:container>
+  
+  <form wicket:id="login" method="post">
+    <fieldset class="login">
+      
+      <label for="email">Email</label>
+      <input type="email" id="email" wicket:id="email"
+             autocapitalize="off" autocorrect="off" autofocus="autofocus" />
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" wicket:id="password" />
+      
+      <div class="button-bar group">
+        <input type="submit" value="Log in" />
+      </div> <!-- /.button-bar -->
+      
+    </fieldset> <!-- /.login -->
+  </form>
+  
+  <h2>Valid Accounts</h2>
+  <ul>
+    <li>admin@mycompany.com/secret (has <em>admin</em> role)</li>
+    <li>testaccount@mycompany.com/test (no roles)</li>
+  </ul>
+</wicket:extend>

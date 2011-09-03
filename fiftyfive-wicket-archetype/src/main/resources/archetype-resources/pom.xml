@@ -53,6 +53,11 @@
       <version>${symbol_dollar}{fiftyfive.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.55minutes</groupId>
+      <artifactId>fiftyfive-wicket-shiro</artifactId>
+      <version>${symbol_dollar}{fiftyfive.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-core</artifactId>
       <version>${symbol_dollar}{wicket.version}</version>

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import fiftyfive.wicket.js.JavaScriptDependency;
 import fiftyfive.wicket.link.HomeLink;
+import fiftyfive.wicket.shiro.markup.AuthenticationStatusPanel;
 import static fiftyfive.wicket.util.Shortcuts.*;
 
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
@@ -57,6 +58,9 @@ public abstract class BasePage extends WebPage
         add(this.body);
         
         this.body.add(new DebugBar("debug"));
+
+        // Login/logout link
+        this.body.add(new AuthenticationStatusPanel("authStatus"));
 
         // Copyright year in footer
         this.body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));

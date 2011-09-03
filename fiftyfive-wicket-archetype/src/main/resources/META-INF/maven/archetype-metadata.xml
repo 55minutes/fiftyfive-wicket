@@ -68,6 +68,7 @@
       <includes>
         <include>*.xml</include>
         <include>*.SAMPLE</include>
+        <include>*.ini</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" encoding="UTF-8">
