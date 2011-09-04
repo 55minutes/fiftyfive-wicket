@@ -35,7 +35,7 @@
     <fiftyfive.version>3.0-SNAPSHOT</fiftyfive.version>
     <jetty.version>6.1.26</jetty.version>
     <slf4j.version>1.6.1</slf4j.version>
-    <spring.version>3.0.5.RELEASE</spring.version>
+    <spring.version>3.0.6.RELEASE</spring.version>
     <wicket.version>1.5-SNAPSHOT</wicket.version>
   </properties>
 
