@@ -58,7 +58,6 @@
     <module>fiftyfive-wicket-test</module>
     <module>fiftyfive-wicket-core</module>
     <module>fiftyfive-wicket-js</module>
-    <module>fiftyfive-wicket-examples</module>
     <module>fiftyfive-wicket-archetype</module>
     <module>fiftyfive-wicket-shiro</module>
     <module>fiftyfive-wicket-all</module>
@@ -261,7 +260,6 @@
             <exclude>**/src/main/javadoc/**</exclude>
             <exclude>**/src/main/resources/archetype-resources/**</exclude>
             <exclude>**/src/main/resources/fiftyfive/wicket/js/lib/**</exclude>
-            <exclude>**/src/main/resources/fiftyfive/wicket/examples/**</exclude>
             <exclude>**/src/test/**/*.html</exclude>
             <exclude>**/src/test/**/*.css</exclude>
             <exclude>**/src/test/**/*.js</exclude>

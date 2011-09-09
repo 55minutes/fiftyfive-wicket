@@ -1,5 +1,0 @@
-# Environment-specific settings for 55 Minutes Wicket Examples.
-
-jdbc.username = sample
-jdbc.password = sample
-jdbc.url = sample
