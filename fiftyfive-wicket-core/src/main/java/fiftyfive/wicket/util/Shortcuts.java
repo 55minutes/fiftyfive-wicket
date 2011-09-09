@@ -301,28 +301,18 @@ public class Shortcuts
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code MyPanel.css},
      * found in the same classpath location as {@code MyPanel.class}.
      * <p>
-     * This is equivalent to:
+     * This is equivalent to overriding {@code renderHead()} with:
      * <pre class="example">
-     * CSSPackageResource.getHeaderContribution(
-     *     new PackageResourceReference(
-     *         cls, Classes.simpleName(cls) + ".css"
-     *     )
+     * response.renderCSSReference(
+     *     new PackageResourceReference(MyPanel.class, "MyPanel.css")
      * );</pre>
      * 
      * @since 2.0
      */
-    public static Behavior cssResource(final Class<?> cls)
+    public static Behavior cssResource(Class<?> cls)
     {
         Assert.notNull(cls);
-        return new Behavior() {
-            @Override
-            public void renderHead(Component comp, IHeaderResponse response)
-            {
-                response.renderCSSReference(new PackageResourceReference(
-                    cls, Classes.simpleName(cls) + ".css"
-                ));
-            }
-        };
+        return cssResource(cls, Classes.simpleName(cls) + ".css");
     }
         
     /**
@@ -335,52 +325,89 @@ public class Shortcuts
      * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
      * found in the same classpath location as your wicket application class.
      * <p>
-     * This is equivalent to:
+     * This is equivalent to overriding {@code renderHead()} with:
      * <pre class="example">
-     * CSSPackageResource.getHeaderContribution(
-     *     new PackageResourceReference(
-     *         Application.get().getClass(), "screen.css"
-     *     )
+     * response.renderCSSReference(
+     *     new PackageResourceReference(Application.get().getClass(), "screen.css")
      * );</pre>
      * 
      * @since 2.0
      */
-    public static Behavior cssResource(final String filename)
+    public static Behavior cssResource(String filename)
     {
-        Assert.notNull(filename);
-        return new Behavior() {
-            @Override
-            public void renderHead(Component comp, IHeaderResponse response)
-            {
-                response.renderCSSReference(new PackageResourceReference(
-                    Application.get().getClass(), filename
-                ));
-            }
-        };
+        return cssResource(filename, null);
     }
 
     /**
      * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
-     * the specified name, relative to the given class.
+     * the specified name and media; the name is resolved relative to the current
+     * application class.
      * For example:
      * <pre class="example">
-     * add(cssResource(BasePage.class, "screen.css"));</pre>
+     * add(cssResource("application.css", "screen"));</pre>
      * <p>
-     * will add a &lt;link&gt; to the &lt;head&gt; for {@code screen.css},
+     * will add a {@code <link media="screen">} to the &lt;head&gt; for {@code application.css},
+     * found in the same classpath location as your wicket application class.
+     * <p>
+     * This is equivalent to overriding {@code renderHead()} with:
+     * <pre class="example">
+     * response.renderCSSReference(
+     *     new PackageResourceReference(Application.get().getClass(), "application.css"),
+     *     "screen"
+     * );</pre>
+     * 
+     * @since 3.0
+     */
+    public static Behavior cssResource(String filename, String media)
+    {
+        return cssResource(Application.get().getClass(), filename, media);
+    }
+
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
+     * the specified name, which resolved relative to the given class.
+     * For example:
+     * <pre class="example">
+     * add(cssResource(BasePage.class, "application.css"));</pre>
+     * <p>
+     * will add a &lt;link&gt; to the &lt;head&gt; for {@code application.css},
      * found in the same classpath location as BasePage.
      * <p>
-     * This is equivalent to:
+     * This is equivalent to overriding {@code renderHead()} with:
      * <pre class="example">
-     * CSSPackageResource.getHeaderContribution(
-     *     new PackageResourceReference(
-     *         BasePage.class, "screen.css"
-     *     )
+     * response.renderCSSReference(
+     *     new PackageResourceReference(BasePage.class, "application.css")
      * );</pre>
      * 
      * @since 2.0
      */
+    public static Behavior cssResource(Class<?> scope, String filename)
+    {
+        return cssResource(scope, filename, null);
+    }
+    
+    /**
+     * Creates a header contributor that adds a &lt;link&gt; to a CSS file with
+     * the specified name and media; the name is resolved relative to the given class.
+     * For example:
+     * <pre class="example">
+     * add(cssResource(BasePage.class, "application.css", "screen"));</pre>
+     * <p>
+     * will add a {@code <link media="screen">} to the &lt;head&gt; for {@code application.css},
+     * found in the same classpath location as BasePage.
+     * <p>
+     * This is equivalent to overriding {@code renderHead()} with:
+     * <pre class="example">
+     * response.renderCSSReference(
+     *     new PackageResourceReference(BasePage.class, "application.css"),
+     *     "screen"
+     * );</pre>
+     * 
+     * @since 3.0
+     */
     public static Behavior cssResource(final Class<?> scope,
-                                        final String filename)
+                                       final String filename,
+                                       final String media)
     {
         Assert.notNull(scope, "scope cannot be null");
         Assert.notNull(filename, "filename cannot be null");
@@ -388,9 +415,9 @@ public class Shortcuts
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(new PackageResourceReference(
-                    scope, filename
-                ));
+                response.renderCSSReference(
+                    new PackageResourceReference(scope, filename),
+                    media);
             }
         };
     }
@@ -407,12 +434,10 @@ public class Shortcuts
      * found in the same classpath location as your wicket application class.
      * The &lt;link&gt; will have a print media type.
      * <p>
-     * This is equivalent to:
+     * This is equivalent to overriding {@code renderHead()} with:
      * <pre class="example">
-     * CSSPackageResource.getHeaderContribution(
-     *     new PackageResourceReference(
-     *         Application.get().getClass(), "print.css"
-     *     ),
+     * response.renderCSSReference(
+     *     new PackageResourceReference(Application.get().getClass(), filename),
      *     "print"
      * );</pre>
      * 
@@ -420,19 +445,7 @@ public class Shortcuts
      */
     public static Behavior cssPrintResource(final String filename)
     {
-        Assert.notNull(filename);
-        return new Behavior() {
-            @Override
-            public void renderHead(Component comp, IHeaderResponse response)
-            {
-                response.renderCSSReference(
-                    new PackageResourceReference(
-                        Application.get().getClass(), filename
-                    ),
-                    "print"
-                );
-            }
-        };
+        return cssResource(filename, "print");
     }
 
     /**

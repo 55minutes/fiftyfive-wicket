@@ -116,21 +116,22 @@ public class JavaScriptDependencySettings
         Class<?> c = JavaScriptDependencySettings.class;
         addLibraryPath(c, "");
         addLibraryPath(c, "lib/cookies");
+        addLibraryPath(c, "lib/dump");
         addLibraryPath(c, "lib/fiftyfive-utils");
-        addLibraryPath(c, "lib/jquery-scrollto-1.4.2");
+        addLibraryPath(c, "lib/modernizr/2.0.6");
         addLibraryPath(c, "lib/strftime");
         
         this.jQueryResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-1.6.2/jquery.noconflict.min.js"
+            "lib/jquery/1.6.3/jquery.min.js"
         );
         this.jQueryUIResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.14/jquery-ui.min.js"
+            "lib/jquery-ui/1.8.16/jquery-ui.min.js"
         );
         this.jQueryUICSSResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jquery-ui-1.8.14/themes/redmond/jquery-ui-1.8.14.redmond.css"
+            "lib/jquery-ui/1.8.16/themes/redmond/jquery-ui.redmond.css"
         );
     }
     

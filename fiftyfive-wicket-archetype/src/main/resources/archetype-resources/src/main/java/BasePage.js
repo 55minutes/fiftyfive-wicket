@@ -5,6 +5,6 @@
 // This allows conditional styling for IE.
 (function($) {
     $(function() {
-        $("html").addClass(getIEClass());
+        $("html").addClass(fiftyfive.util.getIEClass());
     });
 })(jQuery);

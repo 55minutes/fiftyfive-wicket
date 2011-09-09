@@ -32,11 +32,13 @@ public class WicketMappings extends CompoundRequestMapper
         // Common JavaScript merged together and mapped to scripts/all.js
         add(new MergedJavaScriptBuilder()
             .setPath("/scripts/all.js")
-            .addJQueryUI()
-            .addLibrary("cookies")
-            .addLibrary("strftime")
             .addLibrary("55_utils")
+            .addLibrary("dump")
+            // .addLibrary("cookies")
+            // .addLibrary("strftime")
+            .addJQueryUI()
             .addLibrary("jquery.55_utils")
+            // .addLibrary("jquery.ui.forminputplaceholdertext")
             .addAssociatedScript(BasePage.class)
             .addWicketAjaxLibraries()
             .buildRequestMapper(app));

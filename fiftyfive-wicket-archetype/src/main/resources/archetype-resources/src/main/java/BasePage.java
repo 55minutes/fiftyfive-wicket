@@ -1,6 +1,8 @@
 package ${package};
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import fiftyfive.wicket.js.JavaScriptDependency;
 import fiftyfive.wicket.link.HomeLink;
@@ -48,9 +50,16 @@ public abstract class BasePage extends WebPage
         add(new JavaScriptDependency(BasePage.class));
         
         // Set up CSS
-        add(cssResource("styles/screen.css"));
-        add(cssConditionalResource("IE", "styles/ie.css"));
-        add(cssPrintResource("styles/print.css"));
+        add(cssResource("styles-compiled/application.css"));
+        List<String> breakPoints = Arrays.asList("480", "768", "1024", "1200");
+        for(String width : breakPoints)
+        {
+            add(cssResource(
+                "styles-compiled/" + width + ".css",
+                "only screen and (min-width: " + width + "px)"));
+        }
+        add(cssConditionalResource("IE", "styles-compiled/ie.css"));
+        add(cssPrintResource("styles-compiled/print.css"));
         
         // Allow subclasses to register CSS classes on the body tag
         this.body = new TransparentWebMarkupContainer("body");

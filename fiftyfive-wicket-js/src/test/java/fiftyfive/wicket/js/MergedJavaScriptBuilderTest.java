@@ -49,8 +49,8 @@ public class MergedJavaScriptBuilderTest extends MergedResourceBuilderTest
         assertDownloaded(
             tester,
             "scripts/all.js",
-            "/fiftyfive/wicket/js/lib/jquery-1.6.2/jquery.noconflict.min.js",
-            "/fiftyfive/wicket/js/lib/jquery-ui-1.8.14/jquery-ui.min.js",
+            "/fiftyfive/wicket/js/lib/jquery/1.6.3/jquery.min.js",
+            "/fiftyfive/wicket/js/lib/jquery-ui/1.8.16/jquery-ui.min.js",
             "/fiftyfive/wicket/js/lib/cookies/cookies.js",
             "/fiftyfive/wicket/js/lib/strftime/strftime.js",
             "/fiftyfive/wicket/js/lib/fiftyfive-utils/55_utils.js",

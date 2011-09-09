@@ -30,6 +30,11 @@ public class ShortcutsTestPage extends WebPage
     public ShortcutsTestPage()
     {
         super();
+        
+        add(cssResource(ShortcutsTestPage.class));
+        add(cssResource(ShortcutsTestPage.class, "all.css"));
+        add(cssResource(ShortcutsTestPage.class, "screen.css", "screen"));
+        
         setDefaultModel(new CompoundPropertyModel(this));
         add(new Label("testProp", prop(this, "testProperty")));
         add(label("testLabel", this, "testProperty"));
