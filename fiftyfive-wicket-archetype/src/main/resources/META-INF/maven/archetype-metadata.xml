@@ -24,6 +24,7 @@
       <directory></directory>
       <includes>
         <include>.gitignore</include>
+        <include>README.md</include>
       </includes>
     </fileSet>
     <fileSet filtered="true" packaged="true" encoding="UTF-8">
