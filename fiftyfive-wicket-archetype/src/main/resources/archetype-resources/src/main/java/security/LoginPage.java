@@ -14,6 +14,7 @@ public class LoginPage extends BasePage
     public LoginPage()
     {
         super();
+        getBody().setMarkupId("login");
         add(new LoginForm("login"));
         add(new FeedbackPanel("feedback"));
     }

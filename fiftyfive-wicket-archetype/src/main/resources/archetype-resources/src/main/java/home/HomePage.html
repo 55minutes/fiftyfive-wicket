@@ -1,39 +1,34 @@
 
 <wicket:head>
-  <style type="text/css">
-    a:hover, a:active
-    {
-      color: #8fa3a1;
-    }
-  
-    #main
-    {
-      margin: 200px auto;
-      padding: 10px 10px;
-      width: 470px;
-      border: 5px solid #c2dcd8;
-    }
-    
-    #main h1
-    {
-      margin-bottom: 9px;
-      text-align: center;
-    }
-  </style>
-  
-
   <title>Home</title>
 </wicket:head>
 
 <wicket:extend>
-  <div id="main">
-    <h1>It works!</h1>
-    <p>Current timestamp: <span id="timestamp">xxxx</span> <a href="javascript://" id="update-timestamp">Refresh</a></p>
+  <section id="about">
+    <h1>fiftyfive-wicket Archetype Project</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis metus augue. Maecenas quis dolor in est egestas lobortis vel in mauris. In hac habitasse platea dictumst. Etiam euismod nisi id tellus auctor cursus.</p>
+    
+    <h2>Phasellus id arcu</h2>
+    
+    <h3>id felis congue condimentum</h3>
+    <p>sed ac risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed purus nec nunc dignissim lobortis ac id justo. Cras aliquam, nisl at blandit dictum</p>
+    
+    <h3>metus leo ullamcorper ante</h3>
+    <p>vitae sodales sem lacus at nisl. Morbi condimentum ullamcorper dapibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed fermentum, dolor sit amet imperdiet rutrum, mauris purus vehicula quam, eget congue mi diam sit amet ante. Nulla eu elit vitae arcu aliquet volutpat. Aliquam eget massa eros, vel lacinia felis.</p>
     <wicket:link>
       <p>
         <a href="../admin/AdministrationPage.html">AdministrationPage</a>
         (requires <em>admin</em> role)
       </p>
     </wicket:link>
-  </div> <!-- /main -->
+  </section> <!-- /#about -->
+  
+  <section id="resources">
+    <h1>Resources</h1>
+    <ul>
+      <li><a href="javascript://">resource 1</a></li>
+      <li><a href="javascript://">resource 2</a></li>
+      <li><a href="javascript://">resource 3</a></li>
+    </ul>
+  </section> <!-- /#resources -->
 </wicket:extend>

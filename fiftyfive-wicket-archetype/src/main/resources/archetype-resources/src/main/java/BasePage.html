@@ -11,12 +11,16 @@
 
 <body wicket:id="body">
 
-  <div wicket:id="debug"></div>
-  <div wicket:id="authStatus"></div>
-  <wicket:child/>
+  <div id="page" class="group">
+    <div wicket:id="debug"></div>
+    <div wicket:id="authStatus"></div>
+    <wicket:child/>
 
-  Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
-  Your Name Here.
+    <footer>
+      Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
+      Your Name Here.
+    </footer>
+  </div> <!-- /#page -->
 
 </body>
 </html>
