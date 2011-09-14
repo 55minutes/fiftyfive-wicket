@@ -15,8 +15,11 @@
  */
 package fiftyfive.wicket.shiro.handler;
 
+import fiftyfive.wicket.shiro.ShiroWicketPlugin;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.wicket.Application;
+import org.apache.wicket.Session;
 import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
 import org.apache.wicket.request.cycle.RequestCycle;
@@ -30,6 +33,11 @@ import org.apache.wicket.util.string.StringValue;
  * {@link fiftyfive.wicket.shiro.ShiroWicketPlugin ShiroWicketPlugin} (on {@code /logout} by
  * default), and you can link to it by using the
  * {@link fiftyfive.wicket.shiro.markup.LogoutLink LogoutLink}.
+ * <p> 
+ * Upon successful logout, a message will be added as a feedback message to the
+ * session that says "you have been logged out". To override or localize this message,
+ * define the {@link ShiroWicketPlugin#LOGGED_OUT_MESSAGE_KEY LOGGED_OUT_MESSAGE_KEY} in
+ * your application.properties.
  * 
  * @author Matt Brictson
  * @since 3.0
@@ -40,9 +48,20 @@ public class LogoutRequestHandler implements IRequestHandler
     
     public void respond(IRequestCycle requestCycle)
     {
-        // Note that the default web implementation of Shiro's logout()
-        // also invalidates the HTTP session.
         SecurityUtils.getSubject().logout();
+        
+        // Invalidate current session and create a new one.
+        // We need a new session because otherwise our feedback message won't "stick".
+        Session session = Session.get();
+        session.replaceSession();
+        
+        // Add localized "you have been logged out" message to session
+        session.info(Application.get().getResourceSettings().getLocalizer().getString(
+            ShiroWicketPlugin.LOGGED_OUT_MESSAGE_KEY,
+            null,
+            null,
+            "You have been logged out."
+        ));
 
         StringValue to = requestCycle.getRequest().getQueryParameters().getParameterValue("to");
         

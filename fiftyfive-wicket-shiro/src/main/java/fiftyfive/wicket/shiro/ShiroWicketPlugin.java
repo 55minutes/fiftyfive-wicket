@@ -152,9 +152,16 @@ public class ShiroWicketPlugin
 {
     /**
      * The key that will be used to obtain a localized message
-     * when access is denied due to the user be unauthenticated.
+     * when access is denied due to the user be unauthenticated,
+     * e.g. "you need to be logged in to continue".
      */
     public static final String LOGIN_REQUIRED_MESSAGE_KEY = "loginRequired";
+
+    /**
+     * The key that will be used to obtain a localized message
+     * when logout is performed, e.g. "you have been logged out".
+     */
+    public static final String LOGGED_OUT_MESSAGE_KEY = "loggedOut";
 
     private static final MetaDataKey<AuthorizationException> EXCEPTION_KEY =
         new MetaDataKey<AuthorizationException>() {};
