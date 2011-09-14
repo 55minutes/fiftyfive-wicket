@@ -70,12 +70,23 @@ public abstract class AbstractLoginForm extends StatelessForm<Void>
     
     /**
      * Peform the actual authentication using Shiro's {@link Subject#login login()}.
+     * <p>
+     * <b>Important:</b> this method is written to ensure that the user's session
+     * is replaced with a new session before authentication is performed. This is to
+     * prevent a <a href="https://www.owasp.org/index.php/Session_Fixation">session fixation</a>
+     * attack. As a side effect, any existing session data will therefore be lost.
      * 
      * @return {@code true} if authentication succeeded
      */
     protected boolean loginShiro(String email, String password, boolean remember)
     {
         Subject currentUser = SecurityUtils.getSubject();
+
+        // Force a new session to prevent fixation attack.
+        // We have to invalidate via both Shiro and Wicket; otherwise it doesn't work.
+        currentUser.getSession().stop(); // Shiro
+        getSession().replaceSession();   // Wicket
+        
         UsernamePasswordToken token;
         token = new UsernamePasswordToken(email, password, remember);
         try
