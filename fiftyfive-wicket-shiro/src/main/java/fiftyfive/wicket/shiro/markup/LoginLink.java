@@ -21,12 +21,12 @@ import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.markup.html.link.StatelessLink;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * A link that sends the user to the login page. Upon successful login, the
- * user will be returned to the page that contained the login link, or
- * to a pre-determined page. This link is not visible to
- * authenticated/remembered users.
+ * user will be returned to the home page, or to a pre-determined page specified via the
+ * constructor. This link is not visible to authenticated/remembered users.
  * 
  * @author Matt Brictson
  * @since 3.0
@@ -34,15 +34,16 @@ import org.apache.wicket.markup.html.link.StatelessLink;
 @RequiresGuest
 public class LoginLink extends StatelessLink
 {
-    private Class<? extends Page> destination;
+    private Class<? extends Page> destinationPage;
+    private PageParameters destinationParams;
     
     /**
-     * Construct a login link that will cause the user to remain on the
-     * current page after login has succeeded.
+     * Construct a login link that will cause the user to be redirect to the home page
+     * after login has succeeded.
      */
     public LoginLink(String id)
     {
-        this(id, null);
+        this(id, null, null);
     }
 
     /**
@@ -51,28 +52,57 @@ public class LoginLink extends StatelessLink
      */
     public LoginLink(String id, Class<? extends Page> destinationPage)
     {
-        super(id);
-        this.destination = destinationPage;
+        this(id, destinationPage, null);
     }
     
     /**
-     * Throws {@link RestartResponseAtInterceptPageException} to redirect
-     * the user to the login page. If the user is already authenticated,
-     * do nothing.
+     * Construct a login link that will cause the user to be redirected to
+     * the specified page+parameters after login has succeeded.
+     */
+    public LoginLink(String id,
+                     Class<? extends Page> destinationPage,
+                     PageParameters destinationParams)
+    {
+        super(id);
+        this.destinationPage = destinationPage;
+        this.destinationParams = destinationParams;
+    }
+    
+    /**
+     * If a specific destination page was specified in the constructor, throw
+     * {@link RestartResponseAtInterceptPageException} to redirect to the login page, after
+     * which the flow will continue to that destination. Otherwise simply navigate to the login
+     * and follow the standard login-to-home page flow.
      */
     public void onClick()
     {
         // The way RestartResponseAtInterceptPageException works, after the
         // user successfully authenticates she will be redirected back to this
-        // onClick() handler. This if-statement ensures that on the second
-        // trip the user won't be sent to the login page again.
+        // onClick() handler to continue the flow. Test whether we are in that
+        // continuation be looking at the authenticated status.
         if(!SecurityUtils.getSubject().isAuthenticated())
         {
-            throw new RestartResponseAtInterceptPageException(getLoginPage());
+            // User hasn't logged in yet. Send to login page.
+            if(this.destinationPage != null)
+            {
+                throw new RestartResponseAtInterceptPageException(getLoginPage());
+            }
+            else
+            {
+                setResponsePage(getLoginPage());
+            }
         }
-        if(this.destination != null)
+        else
         {
-            setResponsePage(this.destination);
+            // User has completed login. Send to destination or home page.
+            if(this.destinationPage != null)
+            {
+                setResponsePage(this.destinationPage, this.destinationParams);
+            }
+            else
+            {
+                setResponsePage(getApplication().getHomePage());
+            }
         }
     }
     
