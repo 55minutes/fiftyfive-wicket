@@ -24,9 +24,15 @@ import org.apache.wicket.markup.html.form.StatelessForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: docs
-
 /**
+ * A form that authenticates the user via Shiro when an email and password are submitted.
+ * Also supports "remember me". Subclasses are expected to provide the actual markup and Wicket
+ * components for the email and password fields. Refer to {@link LoginForm} for a reference
+ * implementation.
+ *
+ * @see #getEmailField
+ * @see #getPasswordField
+ * @see #remember
  * @since 3.0
  */
 public abstract class AbstractLoginForm extends StatelessForm<Void>
@@ -38,7 +44,20 @@ public abstract class AbstractLoginForm extends StatelessForm<Void>
         super(id);
     }
 
+    /**
+     * Returns the email form field component. It is the responsibility of the subclass to
+     * construct this component, give it a String model, and insert it into the component
+     * hierarchy according to the desired markup. When the form is submitted the model of
+     * this email field component will be used as the email address for authentication.
+     */
     protected abstract Component getEmailField();
+
+    /**
+     * Returns the password form field component. It is the responsibility of the subclass to
+     * construct this component, give it a String model, and insert it into the component
+     * hierarchy according to the desired markup. When the form is submitted the model of
+     * this password field component will be used as the password for authentication.
+     */
     protected abstract Component getPasswordField();
     
     /**
