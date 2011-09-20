@@ -15,11 +15,11 @@
  */
 package fiftyfive.wicket.js;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.util.lang.Args;
 
 /**
  * Represents a JavaScript file, or group of files, that will be injected into
@@ -102,7 +102,7 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     public JavaScriptDependency(Class<?> cls)
     {
         super();
-        Assert.notNull(cls);
+        Args.notNull(cls, "cls");
         this.clazz = cls;
     }
     
@@ -118,7 +118,7 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     public JavaScriptDependency(String libraryName)
     {
         super();
-        Assert.notNull(libraryName);
+        Args.notNull(libraryName, "libraryName");
         this.libraryName = libraryName;
     }
     
@@ -132,8 +132,8 @@ public class JavaScriptDependency extends AbstractJavaScriptContribution
     public JavaScriptDependency(Class<?> cls, String fileName)
     {
         super();
-        Assert.notNull(cls, "cls cannot be null");
-        Assert.notNull(fileName, "fileName cannot be null");
+        Args.notNull(cls, "cls");
+        Args.notNull(fileName, "fileName");
         this.clazz = cls;
         this.fileName = fileName;
     }

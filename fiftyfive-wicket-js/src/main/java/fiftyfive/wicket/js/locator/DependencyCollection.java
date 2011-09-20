@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fiftyfive.util.Assert;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.lang.Args;
 
 /**
  * Holds a tree of JavaScript dependencies as they are traversed, ensuring
@@ -156,7 +156,7 @@ public class DependencyCollection implements Iterable<ResourceReference>
      */
     public void copyTo(DependencyCollection other)
     {
-        Assert.notNull(other);
+        Args.notNull(other, "other");
         other.position = this.position;
         other.css = this.css;
         other.resources = new ArrayList<ResourceReference>(this.resources);

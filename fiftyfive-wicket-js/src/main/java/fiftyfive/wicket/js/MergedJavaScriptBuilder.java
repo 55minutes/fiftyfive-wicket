@@ -15,7 +15,6 @@
  */
 package fiftyfive.wicket.js;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
@@ -27,6 +26,7 @@ import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WicketEventReference;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.lang.Args;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,7 +170,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      */
     public MergedJavaScriptBuilder addLibrary(String libraryName)
     {
-        Assert.notNull(libraryName);
+        Args.notNull(libraryName, "libraryName");
         getDependencyLocator().findLibraryScripts(libraryName, this.deps);
         return this;
     }

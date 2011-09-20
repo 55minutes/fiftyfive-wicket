@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
-import fiftyfive.util.Assert;
 import fiftyfive.util.ReflectUtils;
 import fiftyfive.wicket.basic.LabelWithPlaceholder;
 import fiftyfive.wicket.css.CssClassModifier;
@@ -42,6 +41,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.resource.PackageResourceReference;
 
+import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
 
@@ -311,7 +311,7 @@ public class Shortcuts
      */
     public static Behavior cssResource(Class<?> cls)
     {
-        Assert.notNull(cls);
+        Args.notNull(cls, "cls");
         return cssResource(cls, Classes.simpleName(cls) + ".css");
     }
         
@@ -409,8 +409,8 @@ public class Shortcuts
                                        final String filename,
                                        final String media)
     {
-        Assert.notNull(scope, "scope cannot be null");
-        Assert.notNull(filename, "filename cannot be null");
+        Args.notNull(scope, "scope");
+        Args.notNull(filename, "filename");
         return new Behavior() {
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
@@ -474,8 +474,8 @@ public class Shortcuts
      */
     public static Behavior cssConditionalResource(String cond, String filename)
     {
-        Assert.notNull(cond, "condition cannot be null");
-        Assert.notNull(filename, "filename cannot be null");
+        Args.notNull(cond, "cond");
+        Args.notNull(filename, "filename");
         return InternetExplorerCss.getConditionalHeaderContribution(
             cond,
             new PackageResourceReference(

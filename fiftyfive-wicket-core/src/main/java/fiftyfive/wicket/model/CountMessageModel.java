@@ -16,7 +16,6 @@
 
 package fiftyfive.wicket.model;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.util.HtmlUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
@@ -24,6 +23,7 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.util.lang.Args;
 
 /**
  * Selects an appropriate localized string based on whether a count value
@@ -99,9 +99,9 @@ public class CountMessageModel extends AbstractReadOnlyModel<String>
                              IModel<? extends Number> count)
     {
         super();
-        Assert.notNull(messageKey, "messageKey cannot be null");
-        Assert.notNull(component, "component cannot be null");
-        Assert.notNull(count, "count model cannot be null");
+        Args.notNull(messageKey, "messageKey");
+        Args.notNull(component, "component");
+        Args.notNull(count, "count");
         
         this.component = component;
         this.countModel = count;

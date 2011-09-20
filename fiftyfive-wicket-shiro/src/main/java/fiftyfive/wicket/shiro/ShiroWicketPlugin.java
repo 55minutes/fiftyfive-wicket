@@ -70,6 +70,8 @@ import org.apache.wicket.request.mapper.mount.MountMapper;
 
 import org.apache.wicket.settings.ISecuritySettings;
 
+import org.apache.wicket.util.lang.Args;
+
 
 /**
  * Enhances Wicket to integrate closely with the Apache Shiro security
@@ -282,6 +284,7 @@ public class ShiroWicketPlugin
      */
     public ShiroWicketPlugin setLogoutPath(String logoutPath)
     {
+        Args.notNull(logoutPath, "logoutPath");
         this.logoutPath = logoutPath;
         return this;
     }
@@ -298,6 +301,8 @@ public class ShiroWicketPlugin
      */
     public void install(WebApplication app)
     {
+        Args.notNull(app, "app");
+        
         ISecuritySettings settings = app.getSecuritySettings();
         settings.setAuthorizationStrategy(this);
         settings.setUnauthorizedComponentInstantiationListener(this);

@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.FoundationApplication;
 
 import org.apache.wicket.Application;
@@ -44,6 +43,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.handler.IComponentRequestHandler;
 import org.apache.wicket.request.handler.IPageClassRequestHandler;
 
+import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.util.lang.Bytes;
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.string.Strings;
@@ -271,8 +271,8 @@ public class LoggingUtils
      */
     public static void logException(Logger logger, Exception e)
     {
-        Assert.notNull(logger, "logger cannot be null");
-        Assert.notNull(e, "exception cannot be null");
+        Args.notNull(logger, "logger");
+        Args.notNull(e, "e");
         
         try
         {
@@ -315,7 +315,7 @@ public class LoggingUtils
      */
     public static Throwable unwrap(Throwable e)
     {
-        Assert.notNull(e);
+        Args.notNull(e, "e");
         
         Throwable unwrapped = e;
         while(true)

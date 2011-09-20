@@ -15,11 +15,11 @@
  */
 package fiftyfive.wicket.js.datetime;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.DomReadyTemplate;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.lang.Args;
 
 /**
  * A simple jQuery UI-based replacement for Wicket’s YUI-based {@code DatePicker}.
@@ -64,7 +64,7 @@ public class JQueryDatePicker extends DomReadyTemplate
      */
     public static void setDefaultButtonImage(ResourceReference defaultImage)
     {
-        Assert.notNull(defaultImage);
+        Args.notNull(defaultImage, "defaultImage");
         DEFAULT_IMAGE = defaultImage;
     }
     
@@ -82,7 +82,7 @@ public class JQueryDatePicker extends DomReadyTemplate
      */
     public JQueryDatePicker setButtonImage(ResourceReference buttonImage)
     {
-        Assert.notNull(buttonImage);
+        Args.notNull(buttonImage, "buttonImage");
         this.buttonImage = buttonImage;
         return this;
     }

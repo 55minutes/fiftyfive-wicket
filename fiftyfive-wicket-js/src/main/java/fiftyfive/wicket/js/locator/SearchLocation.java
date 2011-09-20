@@ -15,7 +15,7 @@
  */
 package fiftyfive.wicket.js.locator;
 
-import fiftyfive.util.Assert;
+import org.apache.wicket.util.lang.Args;
 
 /**
  * Holds an immutable classpath search location, consisting of a class
@@ -30,9 +30,9 @@ public class SearchLocation
     
     public SearchLocation(Class<?> scope, String path)
     {
-        Assert.notNull(scope, "scope cannot be null");
-        Assert.notNull(path, "path cannot be null");
-        Assert.isFalse(path.startsWith("/"), "path cannot start with \"/\"");
+        Args.notNull(scope, "scope");
+        Args.notNull(path, "path");
+        Args.isFalse(path.startsWith("/"), "path cannot start with \"/\": %s", path);
         
         this.scope = scope;
         this.path = path;

@@ -16,7 +16,6 @@
 
 package fiftyfive.wicket.data;
 
-import fiftyfive.util.Assert;
 import fiftyfive.util.ReflectUtils;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -24,6 +23,7 @@ import org.apache.wicket.markup.repeater.AbstractPageableView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.lang.Checks;
 
 /**
  * An IDataProvider that implements the DTO pattern. Suitable for full-text
@@ -320,7 +320,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     private void assertPageableView()
     {
-        Assert.notNull(
+        Checks.notNull(
             this.pageableView,
             "setPageableView() must be called before provider can load"
         );

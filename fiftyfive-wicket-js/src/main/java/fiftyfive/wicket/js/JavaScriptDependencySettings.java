@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.locator.DefaultJavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.SearchLocation;
@@ -28,6 +27,7 @@ import org.apache.wicket.Application;
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.util.time.Duration;
 
 /**
@@ -152,7 +152,7 @@ public class JavaScriptDependencySettings
      */
     public JavaScriptDependencySettings setLocator(JavaScriptDependencyLocator loc)
     {
-        Assert.notNull(loc);
+        Args.notNull(loc, "loc");
         this.locator = loc;
         return this;
     }

@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
-import fiftyfive.util.Assert;
 import fiftyfive.wicket.js.JavaScriptDependencySettings;
 
 import org.apache.wicket.Application;
@@ -30,6 +29,7 @@ import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
+import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.util.lang.Classes;
 import org.apache.wicket.util.lang.Packages;
 import org.apache.wicket.util.resource.IResourceStream;
@@ -102,8 +102,8 @@ public class DefaultJavaScriptDependencyLocator
     public void findAssociatedScripts(final Class<?> cls,
                                       final DependencyCollection scripts)
     {
-        Assert.notNull(cls, "cls cannot be null");
-        Assert.notNull(scripts, "scripts cannot be null");
+        Args.notNull(cls, "cls");
+        Args.notNull(scripts, "scripts");
         
         // Traverse up the class hierarchy until we find
         // a valid JavaScript resource or we run out of super classes.
