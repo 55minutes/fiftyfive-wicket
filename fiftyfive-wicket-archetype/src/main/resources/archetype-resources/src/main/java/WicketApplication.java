@@ -1,6 +1,5 @@
 package ${package};
 
-import ${package}.error.ForbiddenErrorPage;
 import ${package}.error.InternalServerErrorPage;
 import ${package}.home.HomePage;
 import ${package}.security.LoginPage;
