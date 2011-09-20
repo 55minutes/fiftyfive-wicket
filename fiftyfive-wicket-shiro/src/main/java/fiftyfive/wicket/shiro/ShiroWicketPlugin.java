@@ -103,7 +103,8 @@ import org.apache.wicket.util.lang.Args;
  * <li>Any uncaught Shiro
  *     {@link AuthorizationException AuthorizationExceptions}
  *     will be handled gracefully by redirecting the user to the
- *     login page or an unauthorized error page. This allows you to implement
+ *     login page or an unauthorized page (by default, the home page).
+ *     This allows you to implement
  *     comprehensive security rules using Shiro at any tier of your
  *     application and be confident that your UI will handle them
  *     appropriately.
@@ -128,7 +129,7 @@ import org.apache.wicket.util.lang.Args;
  *         new ShiroWicketPlugin().install(this);
  *     }
  * }</pre>
- * Most developers will want to customize the login page and error pages.
+ * Most developers will want to customize the login page.
  * The more complex real-world installation is thus:
  * <pre class="example">
  * public class MyApplication extends WebApplication
@@ -139,7 +140,6 @@ import org.apache.wicket.util.lang.Args;
  *         super.init();
  *         new ShiroWicketPlugin()
  *             .mountLoginPage("login", MyLoginPage.class)
- *             .setUnauthorizedPage(MyAccessDeniedPage.class)
  *             .install(this);
  *     }
  * }</pre>
@@ -154,14 +154,21 @@ public class ShiroWicketPlugin
 {
     /**
      * The key that will be used to obtain a localized message
-     * when access is denied due to the user be unauthenticated,
-     * e.g. "you need to be logged in to continue".
+     * when access is denied due to the user be unauthorized;
+     * for example, "you are not allowed to access that page".
+     */
+    public static final String UNAUTHORIZED_MESSAGE_KEY = "unauthorized";
+
+    /**
+     * The key that will be used to obtain a localized message
+     * when access is denied due to the user be unauthenticated;
+     * for example, "you need to be logged in to continue".
      */
     public static final String LOGIN_REQUIRED_MESSAGE_KEY = "loginRequired";
 
     /**
      * The key that will be used to obtain a localized message
-     * when logout is performed, e.g. "you have been logged out".
+     * when logout is performed; for example, "you have been logged out".
      */
     public static final String LOGGED_OUT_MESSAGE_KEY = "loggedOut";
 
@@ -216,8 +223,13 @@ public class ShiroWicketPlugin
     private String loginPath = "login";
     private String logoutPath = "logout";
     private Class<? extends Page> loginPage = LoginPage.class;
-    private Class<? extends Page> unauthorizedPage = AccessDeniedPage.class;
+    private Class<? extends Page> unauthorizedPage = null;
+    private boolean unauthorizedRedirect = true;
     
+    /**
+     * The login page class as provided to {@link #mountLoginPage}; the default is
+     * {@link LoginPage}.
+     */
     public Class<? extends Page> getLoginPage()
     {
         return loginPage;
@@ -242,33 +254,63 @@ public class ShiroWicketPlugin
      */
     public ShiroWicketPlugin mountLoginPage(String mountPath, Class<? extends Page> loginPage)
     {
+        Args.notNull(loginPage, "loginPage");
         this.loginPath = mountPath;
         this.loginPage = loginPage;
         return this;
     }
     
+    /**
+     * The page class that was set via {@link #setUnauthorizedPage}; otherwise the
+     * application home page.
+     */
     public Class<? extends Page> getUnauthorizedPage()
     {
-        return unauthorizedPage;
+        return unauthorizedPage != null ? unauthorizedPage : Application.get().getHomePage();
+    }
+    
+    /**
+     * The redirect flag that was set via {@link #setUnauthorizedPage}; {@code true} by default.
+     */
+    public boolean getUnauthorizedRedirect()
+    {
+        return unauthorizedRedirect;
     }
     
     /**
      * Set the bookmarkable page that will be displayed when an <em>authenticated</em> user
-     * attempts to access a page that they are not allowed to see.
+     * attempts to access a page that they are not allowed to see. By default it is
+     * {@code null}, indicating that the application home page should be used.
+     * 
+     * @param page The page to display when the user is unauthorized; if {@code null}, the
+     *             application home page will be used
+     *
+     * @param redirect If {@code true}, a 302 redirect will be performed to display the page;
+     *                 if {@code false}, no redirect will occur and the URL will not change.
+     *                 The latter is appropriate for an error page.
      * 
      * @return {@code this} to allow chaining
      */
-    public ShiroWicketPlugin setUnauthorizedPage(Class<? extends Page> page)
+    public ShiroWicketPlugin setUnauthorizedPage(Class<? extends Page> page, boolean redirect)
     {
         this.unauthorizedPage = page;
+        this.unauthorizedRedirect = redirect;
         return this;
     }
     
+    /**
+     * The mount path for the login page as provided to {@link #mountLoginPage}; the default is
+     * {@code "login"}.
+     */
     public String getLoginPath()
     {
         return loginPath;
     }
 
+    /**
+     * The mount path for the logout action as provided to {@link #setLogoutPath}; the default is
+     * {@code "logout"}.
+     */
     public String getLogoutPath()
     {
         return logoutPath;
@@ -319,6 +361,82 @@ public class ShiroWicketPlugin
         app.setMetaData(PLUGIN_KEY, this);
     }
     
+    // Start feedback message callbacks --------------------------------------
+    
+    /**
+     * Called by {@link LogoutRequestHandler} once the user has been logged out.
+     * The default implementation adds a feedback message to the session that says
+     * "you have been logged out". To override or localize this message,
+     * define {@code loggedOut} in your application properties. You can disable the
+     * message entirely by defining {@code loggedOut} as an empty string.
+     */
+    public void onLoggedOut()
+    {
+        String message = getLocalizedMessage(LOGGED_OUT_MESSAGE_KEY, "You have been logged out.");
+        if(message != null && !message.matches("^\\s*$"))
+        {
+            // Invalidate current session and create a new one.
+            // We need a new session because otherwise our feedback message won't "stick".
+            Session session = Session.get();
+            session.replaceSession();
+        
+            // Add localized "you have been logged out" message to session
+            session.info(message);
+        }
+    }
+    
+    /**
+     * Invoked by {@code ShiroWicketPlugin} when an anonymous or remembered user has tried to
+     * access a page that requires authentication. The default implementation places a
+     * "you need to be logged in to continue" feedback message in the session.
+     * To override or localize this message,
+     * define {@code loginRequired} in your application properties. You can disable the
+     * message entirely by defining {@code loginRequired} as an empty string.
+     */
+    public void onLoginRequired()
+    {
+        String message = getLocalizedMessage(
+            LOGIN_REQUIRED_MESSAGE_KEY,
+            "You need to be logged in to continue.");
+        
+        if(message != null && !message.matches("^\\s*$"))
+        {
+            // We need a new session because otherwise our feedback message won't "stick".
+            Session session = Session.get();
+            session.bind();
+        
+            // Add localized "you have been logged out" message to session
+            session.info(message);
+        }
+    }
+    
+    /**
+     * Invoked by {@code ShiroWicketPlugin} when the user has tried to access a page
+     * but lacks the necessary role or permission. The default implementation places a
+     * "sorry, you are not allowed to access that page" feedback message in the session.
+     * To override or localize this message,
+     * define {@code unauthorized} in your application properties. You can disable the
+     * message entirely by defining {@code unauthorized} as an empty string.
+     */
+    public void onUnauthorized()
+    {
+        String message = getLocalizedMessage(
+            UNAUTHORIZED_MESSAGE_KEY,
+            "Sorry, you are not allowed to access that page.");
+        
+        if(message != null && !message.matches("^\\s*$"))
+        {
+            // We need a new session because otherwise our feedback message won't "stick".
+            Session session = Session.get();
+            session.bind();
+        
+            // Add localized "sorry, you are not allowed to access that page" message to session
+            session.error(message);
+        }
+    }
+    
+    // End feedback message callbacks ----------------------------------------
+    
     // Start IRequestCycleListener methods -----------------------------------
     
     /**
@@ -353,9 +471,6 @@ public class ShiroWicketPlugin
         Class<? extends Page> respondWithPage = null;
         RedirectPolicy redirectPolicy = RedirectPolicy.NEVER_REDIRECT;
         
-        // TODO: how to determine what page caused the exception?
-        Component component = null;
-        
         if(error instanceof AuthorizationException)
         {
             AuthorizationException ae = (AuthorizationException) error;
@@ -363,7 +478,8 @@ public class ShiroWicketPlugin
             {
                 if(loginPage != null)
                 {
-                    Session.get().error(getLoginRequiredMessage(component));
+                    onLoginRequired();
+                    
                     // Create a RestartResponseAtInterceptPageException to set the intercept,
                     // even though we don't throw the exception. (The magic happens in the
                     // RestartResponseAtInterceptPageException constructor.)
@@ -372,14 +488,17 @@ public class ShiroWicketPlugin
                     redirectPolicy = RedirectPolicy.ALWAYS_REDIRECT;
                 }
             }
-            else if(unauthorizedPage != null)
+            else
             {
-                if(cycle.getRequest() instanceof WebRequest &&
-                   ((WebRequest) cycle.getRequest()).isAjax())
+                onUnauthorized();
+                
+                if(this.unauthorizedRedirect || (
+                    cycle.getRequest() instanceof WebRequest &&
+                    ((WebRequest) cycle.getRequest()).isAjax()))
                 {
                     redirectPolicy = RedirectPolicy.ALWAYS_REDIRECT;
                 }
-                respondWithPage = unauthorizedPage;
+                respondWithPage = getUnauthorizedPage();
             }
         }
         if(respondWithPage != null)
@@ -397,18 +516,18 @@ public class ShiroWicketPlugin
      * Determine what caused the unauthorized instantiation of the given
      * component. If access was denied due to being unauthenticated, and
      * the login page specified in the constructor was not {@code null},
-     * redirect to the login page. Place a localized error feedback message
-     * in the Session using the key {@code loginRequired}.
+     * call {@link #onLoginRequired} and redirect to the login page.
      * <p>
      * Otherwise, access was denied due to authorization failure (e.g. insufficient privileges),
-     * render the unauthorized error page.
+     * call {@link #onUnauthorized} and render the unauthorized page (which is the home page by
+     * default).
      * 
      * @param component The component that failed to initialize due to 
      *                  authorization or authentication failure
      * 
      * @throws {@link ResetResponseException} to render the login page or unauthorized page
      * 
-     * @throws UnauthorizedInstantiationException the login page or unauthorized page
+     * @throws UnauthorizedInstantiationException the login page
      *                                            has not been configured (i.e. is {@code null})
      */
     public void onUnauthorizedInstantiation(Component component)
@@ -522,20 +641,19 @@ public class ShiroWicketPlugin
     }
 
     // End IAuthorizationStrategy methods ------------------------------------
-
+    
     /**
-     * Returns the localized message for the {@code loginRequired} key.
+     * Looks up a localized string from the application properties.
      */
-    protected String getLoginRequiredMessage(Component component)
+    protected String getLocalizedMessage(String key, String theDefault)
     {
         return Application.get().getResourceSettings().getLocalizer().getString(
-            LOGIN_REQUIRED_MESSAGE_KEY,
-            component,
+            key,
             null,
-            "You need to be logged in to continue."
-        );
+            null,
+            theDefault);
     }
-    
+
     /**
      * Returns {@code true} if the reason the user was denied access is
      * because she needs to authenticate.

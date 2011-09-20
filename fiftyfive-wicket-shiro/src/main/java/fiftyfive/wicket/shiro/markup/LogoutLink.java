@@ -22,9 +22,10 @@ import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.protocol.http.RequestUtils;
 import org.apache.wicket.request.UrlEncoder;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
- * Logs out the current user and optionally redirects to another page.
+ * Logs out the current user and redirects to another page.
  * The current Wicket session will be invalidated. This link is only visible
  * to authenticated/remembered users.
  * <p>
@@ -49,19 +50,16 @@ import org.apache.wicket.request.UrlEncoder;
 @RequiresUser
 public class LogoutLink extends WebMarkupContainer
 {
-    private final Class<? extends Page> destination;
+    private final Class<? extends Page> destinationPage;
+    private final PageParameters destinationParams;
     
     /**
-     * Construct a logout link that will cause the user to remain on the
-     * current page after the logout operation is performed.
-     * <b>Take care when using this constructor for a logout link to be placed on a page
-     * that requires authentication.</b> If you do, the user experience might be awkward: the
-     * logout link will log the user out, then the current page will be reloaded and the user
-     * will be prompted to log in again.
+     * Construct a logout link that will cause the user to be redirected to
+     * the home page after the logout operation is performed.
      */
     public LogoutLink(String id)
     {
-        this(id, null);
+        this(id, null, null);
     }
     
     /**
@@ -70,8 +68,20 @@ public class LogoutLink extends WebMarkupContainer
      */
     public LogoutLink(String id, Class<? extends Page> destination)
     {
+        this(id, destination, null);
+    }
+    
+    /**
+     * Construct a logout link that will cause the user to be redirected to
+     * the specified page and parameters after the logout operation is performed.
+     */
+    public LogoutLink(String id,
+                      Class<? extends Page> destinationPage,
+                      PageParameters destinationParams)
+    {
         super(id);
-        this.destination = destination;
+        this.destinationPage = destinationPage;
+        this.destinationParams = destinationParams;
     }
     
     /**
@@ -83,11 +93,15 @@ public class LogoutLink extends WebMarkupContainer
     {
         super.onComponentTag(tag);
         
-        String to = getRequest().getClientUrl().toString();
-        if(this.destination != null)
+        Class<? extends Page> dest = this.destinationPage;
+        if(null == dest)
         {
-            to = RequestUtils.toAbsolutePath(to, urlFor(this.destination, null).toString());
+            dest = getApplication().getHomePage();
         }
+        
+        String to = RequestUtils.toAbsolutePath(
+            getRequest().getClientUrl().toString(),
+            urlFor(dest, this.destinationParams).toString());
 
         CharSequence logoutUrl = urlFor(LogoutRequestHandler.INSTANCE);
         StringBuilder href = new StringBuilder(logoutUrl);

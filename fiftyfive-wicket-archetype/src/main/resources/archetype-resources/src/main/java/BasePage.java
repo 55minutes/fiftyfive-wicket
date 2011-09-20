@@ -14,6 +14,7 @@ import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -70,6 +71,9 @@ public abstract class BasePage extends WebPage
 
         // Login/logout link
         this.body.add(new AuthenticationStatusPanel("authStatus"));
+        
+        // For general "you have been logged out", etc. messages
+        this.body.add(new FeedbackPanel("feedback"));
 
         // Copyright year in footer
         this.body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
@@ -82,5 +86,16 @@ public abstract class BasePage extends WebPage
     public WebMarkupContainer getBody()
     {
         return this.body;
+    }
+    
+    /**
+     * Gives subclasses access to the feedback panel just in case they want to change the
+     * feedback filter. This is useful if a particular page has its own feedback mechanism,
+     * like inline form feedback; in this case you might want to exclude the form field messages
+     * from the global feedback panel to avoid emitting the same messages twice.
+     */
+    public FeedbackPanel getGlobalFeedbackPanel()
+    {
+        return (FeedbackPanel) getBody().get("feedback");
     }
 }

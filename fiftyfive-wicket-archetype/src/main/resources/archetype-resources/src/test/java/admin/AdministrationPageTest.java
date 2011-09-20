@@ -1,7 +1,7 @@
 package ${package}.admin;
 
 import ${package}.BaseWicketUnitTest;
-import ${package}.error.ForbiddenErrorPage;
+import ${package}.home.HomePage;
 import ${package}.security.LoginPage;
 
 import org.apache.shiro.authz.AuthorizationException;
@@ -28,7 +28,8 @@ public class AdministrationPageTest extends BaseWicketUnitTest
     public void testRender_asUnauthorized() throws Exception
     {
         doRender(true, false);
-        this.tester.assertRenderedPage(ForbiddenErrorPage.class);
+        this.tester.assertRenderedPage(HomePage.class);
+        this.tester.assertErrorMessages("Sorry, you are not allowed to access that page.");
     }
     
     @Test

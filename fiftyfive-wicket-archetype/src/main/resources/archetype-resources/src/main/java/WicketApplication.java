@@ -62,10 +62,7 @@ public class WicketApplication extends FoundationSpringApplication
         getApplicationSettings().setInternalErrorPage(InternalServerErrorPage.class);
         
         // -- Shiro integration --
-        new ShiroWicketPlugin()
-            .mountLoginPage("/login", LoginPage.class)
-            .setUnauthorizedPage(ForbiddenErrorPage.class)
-            .install(this);
+        new ShiroWicketPlugin().mountLoginPage("/login", LoginPage.class).install(this);
         
         // -- Configure custom request cycle handling --
         getRequestCycleListeners().add(new WicketRequestCycleListener());

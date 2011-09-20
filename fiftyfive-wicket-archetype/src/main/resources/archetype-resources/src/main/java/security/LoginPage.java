@@ -2,8 +2,6 @@ package ${package}.security;
 
 import ${package}.BasePage;
 import fiftyfive.wicket.shiro.markup.LoginForm;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-
 
 /**
  * A simple login page containing a {@link LoginForm} and {@link FeedbackPanel}
@@ -16,11 +14,10 @@ public class LoginPage extends BasePage
         super();
         getBody().setMarkupId("login");
         add(new LoginForm("login"));
-        add(new FeedbackPanel("feedback"));
     }
 
     /**
-     * Hide the "log in" link on this page, as it would be redundant.
+     * Hide the BasePage's "log in" link, as it is redundant.
      */
     @Override
     protected void onConfigure()
