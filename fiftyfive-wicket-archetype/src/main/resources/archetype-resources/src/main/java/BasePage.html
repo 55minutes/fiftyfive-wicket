@@ -12,9 +12,13 @@
 <body wicket:id="body">
 
   <div id="page" class="group">
+
+    <header>
+      <nav wicket:id="authStatus"></nav>
+    </header>
+
     <div wicket:id="debug"></div>
-    <div wicket:id="authStatus"></div>
-    <div wicket:id="feedback"></div>
+    <div wicket:id="feedback" class="alerts"></div>
     <wicket:child/>
 
     <footer>
