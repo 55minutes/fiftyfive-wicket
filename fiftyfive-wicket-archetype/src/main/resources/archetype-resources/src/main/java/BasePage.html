@@ -1,31 +1,23 @@
-<!DOCTYPE html>
+<wicket:extend>
 
-<html lang="en">
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <wicket:link>
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
-  </wicket:link>
-  <link rel="home" wicket:id="home-link" />
-</head>
-
-<body wicket:id="body">
-
-  <div id="page" class="group">
-
-    <header>
-      <nav wicket:id="authStatus"></nav>
-    </header>
-
-    <div wicket:id="debug"></div>
+  <header class="group">
+    <nav wicket:id="authStatus" class="auth-status"></nav>
+    <nav class="pages">
+      <wicket:link><a href="../home/HomePage.html">Home</a></wicket:link>
+      |
+      <wicket:link><a href="../admin/AdministrationPage.html">Administration</a></wicket:link>
+      |
+      <a href="thisdoesnotexist.html">Example 404</a>
+    </nav>
+    <div class="reset">&nbsp;</div>
     <div wicket:id="feedback" class="alerts"></div>
-    <wicket:child/>
+  </header>
 
-    <footer>
-      Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
-      Your Name Here.
-    </footer>
-  </div> <!-- /#page -->
+  <wicket:child/>
 
-</body>
-</html>
+  <footer>
+    Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
+    Your Name Here.
+  </footer>
+
+</wicket:extend>

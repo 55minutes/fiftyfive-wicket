@@ -256,9 +256,9 @@
             </configuration>
           </execution>
           <!-- Runs `compass compile` to compile .scss files into .css      -->
-          <!-- during mvn compile. Note that this assumes each developer    -->
-          <!-- has compass, compass-colors and sassy-buttons ruby gems      -->
-          <!-- installed.                                                   -->
+          <!-- during mvn compile, and `compass clean` during mvn clean.    -->
+          <!-- Note that this assumes each developer has compass,           -->
+          <!-- compass-colors and sassy-buttons ruby gems installed.        -->
           <execution>
             <id>compile-scss</id>
             <phase>compile</phase>
@@ -269,8 +269,24 @@
               <target>
                 <exec executable="compass"
                       failonerror="true"
-                      dir="${symbol_dollar}{basedir}/src/main/resources/${package.replace('.','/')}/styles">
+                      dir="${symbol_dollar}{basedir}/src/main/resources/${package.replace('.','/')}">
                   <arg value="compile"/>
+                </exec>
+              </target>
+            </configuration>
+          </execution>
+          <execution>
+            <id>clean-scss</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <exec executable="compass"
+                      failonerror="true"
+                      dir="${symbol_dollar}{basedir}/src/main/resources/${package.replace('.','/')}">
+                  <arg value="clean"/>
                 </exec>
               </target>
             </configuration>

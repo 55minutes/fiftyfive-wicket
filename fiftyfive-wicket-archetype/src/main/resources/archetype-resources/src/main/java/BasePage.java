@@ -1,40 +1,15 @@
 package ${package};
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
-import fiftyfive.wicket.js.JavaScriptDependency;
-import fiftyfive.wicket.link.HomeLink;
 import fiftyfive.wicket.shiro.markup.AuthenticationStatusPanel;
-import static fiftyfive.wicket.util.Shortcuts.*;
-
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
-import org.apache.wicket.devutils.debugbar.DebugBar;
-import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-/**
- * Base class for all pages. Provides markup for the HTML5 doctype.
- * <p>
- * Also exposes a {@link #getBody} method to subclasses that can be used
- * to add <code>id</code> or <code>class</code> attributes to the
- * {@code <body>} element. For example, to add an {@code id}, do this:
- * <pre class="example">
- * getBody().setMarkupId("myId");</pre>
- * <p>
- * To add a CSS class (using {@link fiftyfive.wicket.util.Shortcuts#cssClass}):
- * <pre class="example">
- * getBody().add(cssClass("myClass"));</pre>
- */
-public abstract class BasePage extends WebPage
+public class BasePage extends EmptyPage
 {
-    private final WebMarkupContainer body;
-    
     public BasePage()
     {
         this(null);
@@ -44,58 +19,13 @@ public abstract class BasePage extends WebPage
     {
         super(params);
         
-        // Set up <head> elements
-        add(new HomeLink("home-link"));
-        
-        // Set up JS
-        add(new JavaScriptDependency(BasePage.class));
-        
-        // Set up CSS
-        add(cssResource("styles-compiled/application.css"));
-        List<String> breakPoints = Arrays.asList("480", "768", "1024", "1200");
-        for(String width : breakPoints)
-        {
-            add(cssResource(
-                "styles-compiled/" + width + ".css",
-                "only screen and (min-width: " + width + "px)"));
-        }
-        add(cssConditionalResource("IE", "styles-compiled/ie.css"));
-        add(cssPrintResource("styles-compiled/print.css"));
-        
-        // Allow subclasses to register CSS classes on the body tag
-        this.body = new TransparentWebMarkupContainer("body");
-        this.body.setOutputMarkupId(true);
-        add(this.body);
-        
-        this.body.add(new DebugBar("debug"));
-
         // Login/logout link
-        this.body.add(new AuthenticationStatusPanel("authStatus"));
+        add(new AuthenticationStatusPanel("authStatus"));
         
         // For general "you have been logged out", etc. messages
-        this.body.add(new FeedbackPanel("feedback"));
+        add(new FeedbackPanel("feedback"));
 
         // Copyright year in footer
-        this.body.add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
-    }
-    
-    /**
-     * Return a component that represents the {@code <body>} of the page.
-     * Use this to add CSS classes or set the markup ID for styling purposes.
-     */
-    public WebMarkupContainer getBody()
-    {
-        return this.body;
-    }
-    
-    /**
-     * Gives subclasses access to the feedback panel just in case they want to change the
-     * feedback filter. This is useful if a particular page has its own feedback mechanism,
-     * like inline form feedback; in this case you might want to exclude the form field messages
-     * from the global feedback panel to avoid emitting the same messages twice.
-     */
-    public FeedbackPanel getGlobalFeedbackPanel()
-    {
-        return (FeedbackPanel) getBody().get("feedback");
+        add(DateLabel.forDatePattern("year", Model.of(new Date()), "yyyy"));
     }
 }
