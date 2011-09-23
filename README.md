@@ -101,7 +101,7 @@ new LoadableDetachableModel<User>() {
     @Override
     protected User load()
     {
-        userService.currentUser();
+        return userService.currentUser();
     }
 };
 ```
