@@ -41,6 +41,7 @@
         <include>**/*.css</include>
         <include>**/*.js</include>
         <include>**/*.scss</include>
+        <include>**/*.png</include>
         <include>**/*.ico</include>
         <include>*.rb</include>
         <include>*.properties</include>
