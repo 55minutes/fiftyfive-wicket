@@ -206,7 +206,7 @@ purpose. You'll find the following Spring integration in the fiftyfive-wicket ar
 * `BaseWicketUnitTest.java` establishes a pattern for testing these Wicket pages and components in
   isolation by making it easy to provide [Mockito][mockito] mocks of `@SpringBean` injected objects.
 * Spring and its appropriate servlet helpers are initialized in `web.xml`.
-* The Spring context is defined and loaded from `src/main/resources/.../<project-name>-context.xml`.
+* The Spring context is defined and loaded from `src/main/resources/<project-name>-context.xml`.
   Your bean definitions go here.
 * Spring's powerful [property placeholder][pplace] system can be used for application configuration.
   During development, properties are loaded from `<project-name>.properties` in the project root. 
