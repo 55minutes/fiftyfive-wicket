@@ -45,24 +45,22 @@ fiftyfive-wicket.
 
 ## Compass
 
-The fiftyfive-wicket archetype includes stylesheets that are written using the SCSS syntax, which
-are then compiled down to standard CSS using [Compass][compass]. This gives you powerful tools like
-variables and mixins, and improves browser performance by merging separate CSS files into a single
-response.
+The fiftyfive-wicket archetype includes stylesheets that are written in [Sass][sass] using the SCSS
+syntax, which are then compiled down to standard CSS using [Compass][compass]. This gives you
+powerful tools like variables and mixins, and improves browser performance by merging separate CSS
+files into a single response.
 
 We've integrated Compass with the Maven build process, meaning `mvn compile` also compiles SCSS
-to CSS, and `mvn clean` also deletes the compiled CSS. We recommend stylesheet authors run `compass
-watch` as part of their workflow so that CSS files are automatically regenerated the instant you
-save an SCSS file.
+to CSS, and `mvn clean` also deletes the compiled CSS. We recommend stylesheet authors run 
+`compass watch` as part of their workflow so that CSS files are automatically regenerated the instant you save an SCSS file.
 
 Read more about how we use Compass by visiting our [css3-foundation project][cssf].
 
 
 ## Shortcuts
 
-We've identified the most common boilerplate that is repeated over and over when authoring
-Wicket pages and created static helper methods for making this code much more
-concise. We call these [Shortcuts][shortcuts].
+We've identified the most commonly reused patterns when authoring Wicket pages and created static
+helper methods for making this code much more concise. We call these [Shortcuts][shortcuts].
 
 For example, often you will want to specify a CSS class for a Wicket component in Java. Here's
 how you normally would do this in Wicket:
@@ -114,8 +112,8 @@ loadedModel(userService, "currentUser");
 
 ## Handy components
 
-The [fiftyfive-wicket-core][ffwcore] library has a bunch of small but useful components
-for making Wicket development much easier. Here are some examples:
+The [fiftyfive-wicket-core][ffwcore] library includes a bunch of small but useful components for
+making Wicket development much easier. Here are some examples:
 
 * [CountLabel][countl] helps you pluralize labels for numeric data
 * [TruncatedLabel][trunc] intelligently abbreviates long text data with an ellipsis
@@ -183,16 +181,16 @@ Here are the solutions we offer:
 
 ## Jetty
 
-Our archetype includes the necessary [Jetty][jetty] magic in the `pom.xml`, enabling you to run the
-project with a simple `mvn jetty:run`. Plus:
+Our archetype includes the necessary [Jetty][jetty] magic in the `pom.xml` file, enabling you to run
+the project with a simple `mvn jetty:run`. Plus:
 
-* When run via `mvn jetty:run`, Wicket will placed into development mode by default. However when
-  you package the project as a WAR, it will run in deployment mode. If for some reason you wish to
-  run locally in deployment mode, use `mvn jetty:run -Dwicket.configuration=deployment`.
-* An embedded Jetty is also provided in `Start.java`. If you are using an IDE like Eclipse, you
-  can right-click this class and choose `Debug…` to run the project in your IDE debugger via
-  Jetty. Not only do you get debugging tools, but in many cases changes to Java files will be
-  picked up on the fly without requiring a server restart.
+* When run via `mvn jetty:run`, Wicket will be placed into development mode by default. However,
+  when you package the project as a WAR, it will run in deployment mode. If for some reason you wish
+  to run locally in deployment mode, use `mvn jetty:run -Dwicket.configuration=deployment`.
+* An embedded Jetty is also provided in `Start.java`. If you are using an IDE like Eclipse, you can
+  right-click this class and choose `Debug…` to run the project in your IDE debugger via Jetty. Not
+  only do you get debugging tools, but in many cases changes to Java files will be picked up on the
+  fly without requiring a server restart.
 
 ## Spring Framework
 
@@ -209,10 +207,9 @@ purpose. You'll find the following Spring integration in the fiftyfive-wicket ar
 * The Spring context is defined and loaded from `src/main/resources/<project-name>-context.xml`.
   Your bean definitions go here.
 * Spring's powerful [property placeholder][pplace] system can be used for application configuration.
-  During development, properties are loaded from `<project-name>.properties` in the project root. 
-  During deployment, place appropriate deployment configuration in
-  a `<project-name>.properties` file and instruct the servlet container to include this in the 
-  classpath.
+  During development, properties are loaded from `<project-name>.properties` in the project root.
+  During deployment, place appropriate deployment configuration in a `<project-name>.properties`
+  file and instruct the servlet container to include this in the classpath.
 
 See the official Wicket wiki for a good explanation of
 [how Spring and Wicket work together][wicketspring].
@@ -270,6 +267,7 @@ following snippet:
 [ffspring]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/spring/FoundationSpringApplication.html
 [mockito]:http://code.google.com/p/mockito/
 [wicketspring]:https://cwiki.apache.org/confluence/display/WICKET/Spring
+[sass]:http://sass-lang.com/
 [compass]:http://compass-style.org/
 [cssf]:https://github.com/55minutes/css3-foundation
 [shortcuts]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/util/Shortcuts.html
