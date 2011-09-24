@@ -21,8 +21,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import fiftyfive.wicket.shiro.handler.LogoutRequestHandler;
 import fiftyfive.wicket.shiro.markup.LoginPage;
+import fiftyfive.wicket.shiro.markup.LogoutPage;
 
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -219,10 +219,21 @@ public class ShiroWicketPlugin
         return plugin;
     }
     
+    /**
+     * Register the specified {@code ShiroWicketPlugin} in the application so that
+     * {@link #get} will work. You should never need to call this method directly, unless you
+     * are subclassing and overriding the {@link #install} method.
+     */
+    public static void set(Application app, ShiroWicketPlugin plugin)
+    {
+        app.setMetaData(PLUGIN_KEY, plugin);
+    }
+    
     
     private String loginPath = "login";
     private String logoutPath = "logout";
     private Class<? extends Page> loginPage = LoginPage.class;
+    private Class<? extends Page> logoutPage = LogoutPage.class;
     private Class<? extends Page> unauthorizedPage = null;
     private boolean unauthorizedRedirect = true;
     
@@ -233,6 +244,15 @@ public class ShiroWicketPlugin
     public Class<? extends Page> getLoginPage()
     {
         return loginPage;
+    }
+
+    /**
+     * The logout page class as provided to {@link #mountLogoutPage}; the default is
+     * {@link LogoutPage}.
+     */
+    public Class<? extends Page> getLogoutPage()
+    {
+        return logoutPage;
     }
 
     /**
@@ -257,6 +277,29 @@ public class ShiroWicketPlugin
         Args.notNull(loginPage, "loginPage");
         this.loginPath = mountPath;
         this.loginPage = loginPage;
+        return this;
+    }
+
+    /**
+     * Set the bookmarkable page that will be loaded to perform logout when the
+     * {@link fiftyfive.wicket.shiro.markup.LogoutLink LogoutLink} is clicked.
+     *
+     * @param mountPath The bookmarkable URI where the logout page will be mounted when
+     *                  {@link #install install} is called. The default is {@code "/logout"}.
+     * 
+     * @param logoutPage The page to load when the user clicks the
+     *                   {@link fiftyfive.wicket.shiro.markup.LogoutLink LogoutLink}. This page
+     *                   is responsible for actually logging the user out of the Shiro system.
+     *                   Cannot be {@code null}. The default is {@link LogoutPage},
+     *                   which should be sufficient for most applications.
+     * 
+     * @return {@code this} to allow chaining
+     */
+    public ShiroWicketPlugin mountLogoutPage(String mountPath, Class<? extends Page> logoutPage)
+    {
+        Args.notNull(logoutPage, "logoutPage");
+        this.logoutPath = mountPath;
+        this.logoutPage = logoutPage;
         return this;
     }
     
@@ -308,7 +351,7 @@ public class ShiroWicketPlugin
     }
 
     /**
-     * The mount path for the logout action as provided to {@link #setLogoutPath}; the default is
+     * The mount path for the logout action as provided to {@link #mountLogoutPage}; the default is
      * {@code "logout"}.
      */
     public String getLogoutPath()
@@ -317,28 +360,13 @@ public class ShiroWicketPlugin
     }
 
     /**
-     * Set the path where the logout action is mounted. The default is {@code /logout}.
-     * May not be {@code null}. The mounting occurs
-     * when {@link #install install()} is invoked. Changing this value after calling
-     * {@code install()} will therefore have no effect.
-     * 
-     * @return {@code this} to allow chaining
-     */
-    public ShiroWicketPlugin setLogoutPath(String logoutPath)
-    {
-        Args.notNull(logoutPath, "logoutPath");
-        this.logoutPath = logoutPath;
-        return this;
-    }
-    
-    /**
      * Installs this {@code ShiroWicketPlugin} by doing the following:
      * <ul>
      * <li>Sets itself as the {@link IAuthorizationStrategy}</li>
      * <li>And as the {@link IUnauthorizedComponentInstantiationListener}</li>
-     * <li>And as a {@link IRequestCycleListener}</li>
+     * <li>And as an {@link IRequestCycleListener}</li>
      * <li>Mounts the login page</li>
-     * <li>Mounts the logout action</li>
+     * <li>Mounts the logout page</li>
      * </ul>
      */
     public void install(WebApplication app)
@@ -355,16 +383,19 @@ public class ShiroWicketPlugin
         {
             app.mount(new MountedMapper(this.loginPath, this.loginPage));
         }
-        app.mount(new MountMapper(this.logoutPath, LogoutRequestHandler.INSTANCE));
+        if(this.logoutPath != null)
+        {
+            app.mount(new MountedMapper(this.logoutPath, this.logoutPage));
+        }
         
         // Install self in app metadata so that static get() can work
-        app.setMetaData(PLUGIN_KEY, this);
+        ShiroWicketPlugin.set(app, this);
     }
     
     // Start feedback message callbacks --------------------------------------
     
     /**
-     * Called by {@link LogoutRequestHandler} once the user has been logged out.
+     * Called by {@link LogoutPage} once the user has been logged out.
      * The default implementation adds a feedback message to the session that says
      * "you have been logged out". To override or localize this message,
      * define {@code loggedOut} in your application properties. You can disable the
