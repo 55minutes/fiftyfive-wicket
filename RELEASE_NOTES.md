@@ -63,7 +63,7 @@ are now stored in separate repositories. The new URLs are:
 
 ### Other new classes and methods
 
-* [PatternMountedMapper](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/mapper/PatternMountedMapper.html)
-* [HttpUtils.getAbsolutePageUrl()](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/util/HttpUtils.html#getAbsolutePageUrl())
-* [Shortcuts.cssResource(filename, media)](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/util/Shortcuts.html#cssResource(java.lang.String,%20java.lang.String))
-* [Shortcuts.cssResource(scope, filename, media)](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/util/Shortcuts.html#cssResource(java.lang.Class,%20java.lang.String,%20java.lang.String))
+* [PatternMountedMapper](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0/index.html?fiftyfive/wicket/mapper/PatternMountedMapper.html)
+* [HttpUtils.getAbsolutePageUrl()](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0/fiftyfive/wicket/util/HttpUtils.html#getAbsolutePageUrl())
+* [Shortcuts.cssResource(filename, media)](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0/fiftyfive/wicket/util/Shortcuts.html#cssResource(java.lang.String,%20java.lang.String))
+* [Shortcuts.cssResource(scope, filename, media)](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0/fiftyfive/wicket/util/Shortcuts.html#cssResource(java.lang.Class,%20java.lang.String,%20java.lang.String))
