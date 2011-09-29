@@ -1,5 +1,12 @@
 # fiftyfive-wicket Release Notes
 
+## 3.0.1
+
+* **Upgrade to Wicket 1.5.1**
+* Make minor code style improvements to SCSS included in `fiftyfive-wicket-archetype`
+* Correct an improperly-built version of modernizr bundled with `fiftyfive-wicket-js`
+
+
 ## 3.0
 
 **Please note that our maven URLs have recently changed.** Release and snapshots artifacts
