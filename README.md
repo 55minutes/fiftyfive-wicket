@@ -24,8 +24,8 @@ Then run the following command:
 mvn archetype:generate -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
-    -DarchetypeRepository=http://opensource.55minutes.com/maven-snapshots \
-    -DarchetypeVersion=3.0-SNAPSHOT
+    -DarchetypeRepository=http://opensource.55minutes.com/maven-releases \
+    -DarchetypeVersion=3.0.1
 ```
 
 This creates a project directory with all the Java, Maven POM and web.xml scaffolding you need for a
@@ -225,7 +225,7 @@ dependency:
 <dependency>
   <groupId>com.55minutes</groupId>
   <artifactId>fiftyfive-wicket-core</artifactId>
-  <version>3.0-SNAPSHOT</version>
+  <version>3.0.1</version>
 </dependency>
 ```
 
@@ -240,13 +240,6 @@ following snippet:
 
 ```xml
 <repository>
-  <id>fiftyfive-opensource-snapshots</id>
-  <name>55 Minutes Open Source Maven Snapshots Repository</name>
-  <url>http://opensource.55minutes.com/maven-snapshots</url>
-  <releases><enabled>false</enabled></releases>
-  <snapshots><enabled>true</enabled></snapshots>
-</repository>
-<repository>
   <id>fiftyfive-opensource-releases</id>
   <name>55 Minutes Open Source Maven Releases Repository</name>
   <url>http://opensource.55minutes.com/maven-releases</url>
@@ -259,29 +252,29 @@ following snippet:
 
 [jetty]:http://jetty.codehaus.org/jetty/
 [shiro]:http://shiro.apache.org/
-[ffshiro]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/shiro/ShiroWicketPlugin.html
+[ffshiro]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/shiro/ShiroWicketPlugin.html
 [admin]:http://localhost:8080/admin
-[shirotests]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/shiro/test/AbstractShiroJUnit4Tests.html
+[shirotests]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/shiro/test/AbstractShiroJUnit4Tests.html
 [pplace]:http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/beans.html#beans-factory-placeholderconfigurer
 [spring]:http://www.springsource.org/about
-[ffspring]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/spring/FoundationSpringApplication.html
+[ffspring]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/spring/FoundationSpringApplication.html
 [mockito]:http://code.google.com/p/mockito/
 [wicketspring]:https://cwiki.apache.org/confluence/display/WICKET/Spring
 [sass]:http://sass-lang.com/
 [compass]:http://compass-style.org/
 [cssf]:https://github.com/55minutes/css3-foundation
-[shortcuts]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/util/Shortcuts.html
-[ffwcore]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-core/3.0-SNAPSHOT/
-[prompt]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/feedback/Prompt.html
-[countl]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/basic/CountLabel.html
-[trunc]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/basic/TruncatedLabel.html
-[choices]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/form/RadioChoicesListView.html
-[ffwtest]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/test/package-summary.html
-[avalid]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/test/WicketTestUtils.html#assertValidMarkup(org.apache.wicket.util.tester.WicketTester)
-[startc]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/test/WicketTestUtils.html#startComponentWithHtml(org.apache.wicket.util.tester.WicketTester,%20org.apache.wicket.Component,%20java.lang.String)
-[axpath]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/fiftyfive/wicket/test/WicketTestUtils.html#assertXPath(org.apache.wicket.util.tester.WicketTester,%20java.lang.String)
-[ffwjs]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/js/package-summary.html
-[dready]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/js/DomReadyTemplate.html
-[jsdep]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/js/JavaScriptDependency.html
-[jsbuild]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0-SNAPSHOT/index.html?fiftyfive/wicket/js/MergedJavaScriptBuilder.html
+[shortcuts]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/util/Shortcuts.html
+[ffwcore]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-core/3.0.1/
+[prompt]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/feedback/Prompt.html
+[countl]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/basic/CountLabel.html
+[trunc]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/basic/TruncatedLabel.html
+[choices]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/form/RadioChoicesListView.html
+[ffwtest]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/test/package-summary.html
+[avalid]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/fiftyfive/wicket/test/WicketTestUtils.html#assertValidMarkup(org.apache.wicket.util.tester.WicketTester)
+[startc]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/fiftyfive/wicket/test/WicketTestUtils.html#startComponentWithHtml(org.apache.wicket.util.tester.WicketTester,%20org.apache.wicket.Component,%20java.lang.String)
+[axpath]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/fiftyfive/wicket/test/WicketTestUtils.html#assertXPath(org.apache.wicket.util.tester.WicketTester,%20java.lang.String)
+[ffwjs]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/js/package-summary.html
+[dready]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/js/DomReadyTemplate.html
+[jsdep]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/js/JavaScriptDependency.html
+[jsbuild]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.0.1/index.html?fiftyfive/wicket/js/MergedJavaScriptBuilder.html
 [readme]:https://github.com/55minutes/fiftyfive-wicket/blob/master/fiftyfive-wicket-archetype/src/main/resources/archetype-resources/README.md
