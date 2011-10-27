@@ -1,4 +1,4 @@
-*/target/
+target/
 fiftyfive-wicket-examples/fiftyfive-wicket-examples.properties
 fiftyfive-wicket-examples/log4j.properties
 fiftyfive-wicket-examples/src/test/resources/log4j.properties
