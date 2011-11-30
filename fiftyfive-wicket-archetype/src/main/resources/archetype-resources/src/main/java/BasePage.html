@@ -1,25 +1,29 @@
 <wicket:extend>
+  <div class="container">
+    <div class="row">
+      <header class="group twelvecol last">
+        <nav wicket:id="authStatus" class="auth-status"></nav>
+        <nav class="pages">
+          <wicket:link><a href="../home/HomePage.html">Home</a></wicket:link>
+          |
+          <wicket:link><a href="../admin/AdministrationPage.html">Administration</a></wicket:link>
+          |
+          <a href="thisdoesnotexist.html">Example 404</a>
+        </nav>
+        <div class="reset">&nbsp;</div>
+        <div wicket:id="feedback" class="alerts"></div>
+      </header>
+    </div> <!-- /.row -->
 
-  <header class="group">
-    <nav wicket:id="authStatus" class="auth-status"></nav>
-    <nav class="pages">
-      <wicket:link><a href="../home/HomePage.html">Home</a></wicket:link>
-      |
-      <wicket:link><a href="../admin/AdministrationPage.html">Administration</a></wicket:link>
-      |
-      <a href="thisdoesnotexist.html">Example 404</a>
-    </nav>
-    <div class="reset">&nbsp;</div>
-    <div wicket:id="feedback" class="alerts"></div>
-  </header>
+    <wicket:child/>
 
-  <wicket:child/>
-
-  <footer>
-    Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
-    Your Name Here.
-    Includes icons by
-    <a href="http://www.famfamfam.com/lab/icons/silk/" title="famfamfam.com: Silk Icons">famfamfam</a>.
-  </footer>
-
+    <div class="row">
+      <footer class="twelvecol last">
+        Copyright © <wicket:container wicket:id="year">xxxx</wicket:container>
+        Your Name Here.
+        Includes icons by
+        <a href="http://www.famfamfam.com/lab/icons/silk/" title="famfamfam.com: Silk Icons">famfamfam</a>.
+      </footer>
+    </div> <!-- /.row -->
+  </div> <!-- /.container -->
 </wicket:extend>

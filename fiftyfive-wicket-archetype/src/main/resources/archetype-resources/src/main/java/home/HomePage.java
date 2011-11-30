@@ -14,7 +14,6 @@ public class HomePage extends BasePage
     {
         super(parameters);
         getBody().setMarkupId("home");
-        getBody().add(cssClass("documentation"));
         // Add your components here
     }
 }

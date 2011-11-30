@@ -16,6 +16,5 @@ public class AdministrationPage extends BasePage
     public AdministrationPage()
     {
         super();
-        getBody().add(cssClass("documentation"));
     }
 }
