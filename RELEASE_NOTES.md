@@ -1,5 +1,16 @@
 # fiftyfive-wicket Release Notes
 
+## 3.1
+
+* Upgrade to Wicket 1.5.3
+* Upgrade to jQuery 1.7.1
+* Significant changes to `fiftyfive-wicket-archetype`, including:
+  * Make use of [CSS Grid](http://cssgrid.net/) in the sample pages
+  * Include examples of best practices for favicons and mobile-optimized icons ("Apple touch icons")
+  * Incorporate the latest version of 
+    [css3-foundation](https://github.com/55minutes/css3-foundation)
+  * Improve javadoc
+
 ## 3.0.2
 
 * Upgrade to Wicket 1.5.2
