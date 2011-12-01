@@ -17,8 +17,11 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 /**
  * The "bare metal" empty HTML5 template that is used by all pages in the application.
- * Provides {@code <head>} elements like global CSS and JavaScript, plus very
- * minimal markup that every page will need.
+ * Provides {@code <head>} elements like global CSS and JavaScript, favicon and
+ * "Apple touch" graphics, plus very minimal markup that every page will need.
+ * <p>
+ * Note that this base class does not provide a page {@code <title>}. It is up to each
+ * individual page to provide one, using {@code <wicket:head>}.
  * <p>
  * Also exposes a {@link #getBody} method to subclasses that can be used
  * to add <code>id</code> or <code>class</code> attributes to the
