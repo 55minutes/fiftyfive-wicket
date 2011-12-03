@@ -1,32 +1,8 @@
 55 Minutes Wicket Library
 Copyright 2011 55 Minutes
 
-This product includes software developed at 55 Minutes. 
-(http://www.55minutes.com/). 
-
-This product contains the Modernizr library, licensed under the MIT license.
-Copyright (c) 2009-2011 Faruk Ates, Paul Irish, Alex Sexton.
-(http://www.modernizr.com/)
-
-This product contains the strftime library for Javascript, licensed under the
-BSD license. Copyright 2008 Philip S Tellis.
-(http://tech.bluesmoon.info/2008/04/strftime-in-javascript.html)
-
-This product contains code from the jQuery library, licensed under the MIT
-license. Copyright 2011, John Resig.
-(http://jquery.com/)
-
-This product contains code from the jQuery UI library, licensed under the MIT
-license. Copyright 2011 Richard D. Worth, et al.
-(http://jqueryui.com/about)
-
-This product contains code from jQuery.ScrollTo, licensed under the MIT
-license. Copyright 2007-2009 Ariel Flesler.
-(http://flesler.blogspot.com/2007/10/jqueryscrollto.html)
-
-This product contains code from Techpatterns.com, licensed to the public
-domain.
-(http://techpatterns.com/downloads/javascript_cookies.php)
+This product includes software developed at 55 Minutes.
+(http://www.55minutes.com/).
 
 This product contains code from the Apache Wicket framework, licensed under
 the Apache Software License, Version 2.0. Copyright 2010 Apache Software
@@ -41,3 +17,5 @@ Fußenegger.
 The product contains the calendar.png icon from the famfamfam Silk icon set,
 licensed under the Creative Commons Attribution 2.5 License.
 (http://www.famfamfam.com/lab/icons/silk/)
+
+See css3-foundation/NOTICE for additional license information.
