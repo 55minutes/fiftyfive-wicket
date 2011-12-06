@@ -34,6 +34,9 @@ public class SimpleCDN implements IRequestMapper
     private IRequestMapper delegate;
     private boolean delegated = false;
     
+    /**
+     * @param baseUrl For example, "//age39p8hg23.cloudfront.net"
+     */
     public SimpleCDN(String baseUrl)
     {
         this.baseUrl = baseUrl;
