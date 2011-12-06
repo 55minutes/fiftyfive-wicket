@@ -1,12 +1,13 @@
 package ${package}.error;
 
-import ${package}.BasePage;
+import ${package}.EmptyPage;
+import static fiftyfive.wicket.util.Shortcuts.*;
 import org.apache.wicket.request.http.WebResponse;
 
 /**
  * Base class for custom error pages.
  */
-public abstract class BaseErrorPage extends BasePage
+public abstract class BaseErrorPage extends EmptyPage
 {
     /**
      * Error pages are not bookmarkable, hence no PageParameters.
@@ -14,6 +15,7 @@ public abstract class BaseErrorPage extends BasePage
     protected BaseErrorPage()
     {
         super(null);
+        getBody().add(cssClass("server-error"));
     }
     
     /**

@@ -13,7 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Custom Wicket request handler to support Shiro logout.
- */
-package fiftyfive.wicket.shiro.handler;
+
+package fiftyfive.wicket.shiro;
+
+public class ExceptionalPage extends BaseTestPage
+{
+    private RuntimeException exception;
+    
+    public ExceptionalPage(RuntimeException e)
+    {
+        this.exception = e;
+    }
+    
+    protected void onBeforeRender()
+    {
+        throw this.exception;
+    }
+}

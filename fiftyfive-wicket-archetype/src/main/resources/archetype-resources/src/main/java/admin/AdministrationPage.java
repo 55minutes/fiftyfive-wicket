@@ -1,6 +1,7 @@
 package ${package}.admin;
 
 import ${package}.BasePage;
+import static fiftyfive.wicket.util.Shortcuts.*;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 

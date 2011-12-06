@@ -1,5 +1,7 @@
 target/
-${artifactId}.properties
-log4j.properties
+.sass-cache/
+/${artifactId}.properties
+/log4j.properties
 src/test/resources/log4j.properties
 src/main/resources/${package.replace('.','/')}/styles-compiled/
+src/main/resources/${package.replace('.','/')}/images/icon-*

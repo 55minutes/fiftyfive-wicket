@@ -2,7 +2,6 @@ package ${package}.home;
 
 import ${package}.BasePage;
 
-import fiftyfive.wicket.js.JavaScriptDependency;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import static fiftyfive.wicket.util.Shortcuts.*;
 
@@ -15,7 +14,6 @@ public class HomePage extends BasePage
     {
         super(parameters);
         getBody().setMarkupId("home");
-        add(new JavaScriptDependency(HomePage.class));
         // Add your components here
     }
 }

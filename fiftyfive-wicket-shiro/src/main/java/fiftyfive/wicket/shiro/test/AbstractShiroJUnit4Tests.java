@@ -15,6 +15,7 @@
  */
 package fiftyfive.wicket.shiro.test;
 
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.support.SubjectThreadState;
 import org.apache.shiro.util.ThreadState;
@@ -63,6 +64,12 @@ public abstract class AbstractShiroJUnit4Tests
     protected Subject mockSubject;
     
     /**
+     * The Mockito mock that will be returned by
+     * {@link Subject#getSession() SecurityUtils.getSubject().getSession()}.
+     */
+    protected Session mockShiroSession;
+    
+    /**
      * Install a Mockito mock of {@link Subject} in Shiro's thread local. This causes the mock
      * to be returned when application code (and fiftyfive-wicket-shiro code) calls
      * {@link org.apache.shiro.SecurityUtils#getSubject() SecurityUtils.getSubject()}.
@@ -70,7 +77,9 @@ public abstract class AbstractShiroJUnit4Tests
     @Before
     public void attachSubject()
     {
+        this.mockShiroSession = Mockito.mock(Session.class);
         this.mockSubject = Mockito.mock(Subject.class);
+        Mockito.when(this.mockSubject.getSession()).thenReturn(this.mockShiroSession);
         this.threadState = new SubjectThreadState(this.mockSubject);
         this.threadState.bind();
     }
