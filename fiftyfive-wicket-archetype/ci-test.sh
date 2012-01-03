@@ -10,7 +10,7 @@ mvn archetype:generate -B -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
     -DarchetypeRepository=http://opensource.55minutes.com/maven-snapshots \
-    -DarchetypeVersion=3.1-SNAPSHOT \
+    -DarchetypeVersion=3.2-SNAPSHOT \
     -DgroupId=com.55minutes \
     -DartifactId=test-project \
     -Dversion=999 \
