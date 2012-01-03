@@ -60,7 +60,9 @@ import org.apache.wicket.util.string.Strings;
  * browser based on the enclosing web page.
  * <p>
  * <em>For those familiar with Ruby on Rails, {@code SimpleCDN} is inspired by the Rails
- * {@code action_controller.asset_host} configuration setting.</em> 
+ * {@code action_controller.asset_host} configuration setting.</em>
+ *
+ * @since 3.2
  */
 public class SimpleCDN implements IRequestMapper
 {
