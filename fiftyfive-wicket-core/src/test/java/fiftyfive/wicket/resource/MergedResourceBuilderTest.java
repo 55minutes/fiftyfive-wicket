@@ -23,8 +23,6 @@ import fiftyfive.wicket.test.WicketTestUtils;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.mock.MockHttpServletRequest;
-import org.apache.wicket.protocol.http.mock.MockHttpSession;
 import org.apache.wicket.request.resource.caching.NoOpResourceCachingStrategy;
 import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.tester.DummyHomePage;
@@ -67,18 +65,7 @@ public abstract class MergedResourceBuilderTest
                 IOUtils.closeQuietly(is);
             }
         }
-        
-        MockHttpSession session = new MockHttpSession(tester.getApplication().getServletContext());
-        MockHttpServletRequest request = new MockHttpServletRequest(
-            tester.getApplication(),
-            session,
-            tester.getApplication().getServletContext()
-        );
-        request.setURL(uri);
-        tester.processRequest(request);
-        
-        byte[] actual = tester.getLastResponse().getBinaryContent();
-        assertArrayEquals(expected.toByteArray(), actual);
+        WicketTestUtils.assertDownloadEquals(tester, uri, expected.toByteArray());
     }
     
     protected abstract void onAppInit(WebApplication app);
