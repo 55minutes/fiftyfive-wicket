@@ -27,9 +27,17 @@ import org.apache.wicket.util.string.Strings;
 /**
  * Enables a Wicket application to have its static resources proxied by a CDN, for example
  * by Amazon Cloudfront. This works by intercepting Wicket's default behavior for rendering
- * URLs resource references, and then rewriting those URLs by prepending a CDN hostname
+ * URLs of resource references, and then rewriting those URLs by prepending a CDN hostname
  * (or any arbitrary URL fragment). The web browser will therefore make requests to the
  * CDN host instead of the Wicket app.
+ * <p>
+ * Here's an example. Normally a CSS resource reference is rendered by Wicket like this:
+ * <pre class="example">
+ * /wicket/resource/com.mycompany.WicketApplication/test.css</pre>
+ * <p>
+ * With {@code SimpleCDN} installed, that resource reference URL is transformed into this:
+ * <pre class="example">
+ * //age39p8hg23.cloudfront.net/wicket/resource/com.mycompany.WicketApplication/test.css</pre>
  * <p>
  * <b>Please note: {@code SimpleCDN} will not rewrite resource reference URLs that
  * include query string parameters.</b> Our reasoning is that parameterized URLs usually
@@ -38,8 +46,8 @@ import org.apache.wicket.util.string.Strings;
  * URLs that contain query string parameters (it strips the parameters off).
  * <p>
  * When configuring the CDN host, the easiest setup is a reverse-proxy. For example, with
- * Amazon CloudFront, you would specify your Wicket app as the "custom origin", and use
- * the CloudFront host as the when constructing this SimpleCDN. It's that easy.
+ * Amazon CloudFront, you would specify your Wicket app as the <em>custom origin</em>, and specify
+ * the CloudFront host when constructing this SimpleCDN. It's that easy.
  * <pre class="example">
  * public class MyApplication extends WebApplication
  * {
