@@ -25,6 +25,8 @@ import fiftyfive.util.XPathHelper;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.mock.MockHttpServletRequest;
+import org.apache.wicket.protocol.http.mock.MockHttpSession;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.tester.WicketTester;
 import org.apache.wicket.util.tester.WicketTesterHelper;
@@ -299,6 +301,34 @@ public abstract class WicketTestUtils
         );
         page.add(c);
         tester.startPage(page);
+    }
+    
+    /**
+     * Download the requested resource and assert that the binary contents of that
+     * resource match the provided byte array.
+     *
+     * @param tester The WicketTester that was used to render the page being tested
+     * @param resourceUri A path to a resource to download, like {@code wicket/resource/...}
+     *                    (note the lack of a leading slash)
+     * @param expectedBytes The expected binary contents of that resource
+     *
+     * @since 3.2
+     */
+     public static void assertDownloadEquals(WicketTester tester,
+                                             String resourceUri,
+                                             byte[] expectedBytes)
+     {
+         MockHttpSession session = new MockHttpSession(tester.getApplication().getServletContext());
+         MockHttpServletRequest request = new MockHttpServletRequest(
+             tester.getApplication(),
+             session,
+             tester.getApplication().getServletContext());
+         
+         request.setURL(resourceUri);
+         tester.processRequest(request);
+        
+         byte[] actual = tester.getLastResponse().getBinaryContent();
+         Assert.assertArrayEquals(expectedBytes, actual);
     }
     
     /**
