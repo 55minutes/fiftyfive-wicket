@@ -37,7 +37,7 @@ import org.apache.wicket.util.string.Strings;
  * <p>
  * With {@code SimpleCDN} installed, that resource reference URL is transformed into this:
  * <pre class="example">
- * //age39p8hg23.cloudfront.net/wicket/resource/com.mycompany.WicketApplication/test.css</pre>
+ * http://age39p8hg23.cloudfront.net/wicket/resource/com.mycompany.WicketApplication/test.css</pre>
  * <p>
  * <b>Please note: {@code SimpleCDN} will not rewrite resource reference URLs that
  * include query string parameters.</b> Our reasoning is that parameterized URLs usually
