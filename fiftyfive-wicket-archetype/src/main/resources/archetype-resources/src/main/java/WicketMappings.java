@@ -39,7 +39,7 @@ public class WicketMappings extends CompoundRequestMapper
             .addJQueryUI()
             .addLibrary("jquery.55_utils")
             // .addLibrary("jquery.ui.forminputplaceholdertext")
-            .addAssociatedScript(BasePage.class)
+            .addAssociatedScript(EmptyPage.class)
             .addWicketAjaxLibraries()
             .buildRequestMapper(app));
     }
