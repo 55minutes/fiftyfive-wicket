@@ -128,7 +128,7 @@ public class JavaScriptDependencySettings
         );
         this.jQueryUICSSResource = new PackageResourceReference(
             JavaScriptDependencySettings.class,
-            "lib/jjquery-ui/themes/redmond/jquery-ui.redmond.css"
+            "lib/jquery-ui/themes/redmond/jquery-ui.redmond.css"
         );
     }
     
