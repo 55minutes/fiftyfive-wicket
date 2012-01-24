@@ -5,6 +5,17 @@ JQUERY_VER = "1.7.1"
 JQUERY_UI_VER = "1.8.17"
 MODERNIZR_VER = "2.0.6"
 
+# Given a path to a jQuery UI CSS theme file, find all the images referenced
+# by the CSS and fetch them as vendor dependencies.
+#
+def fetch_jquery_theme_images(theme_css)
+  IO.readlines(theme_css).each do |line|
+    if (m = line.match /url\((images\/[^\)]+)\)/)    
+      file m[1], "http://code.jquery.com/ui/#{JQUERY_UI_VER}/themes/redmond/#{m[1]}"
+    end
+  end
+end
+
 # External JavaScript libraries to be included with fiftyfive-wicket-js
 #
 folder "fiftyfive-wicket-js/src/main/resources/fiftyfive/wicket/js/lib" do
@@ -22,7 +33,14 @@ folder "fiftyfive-wicket-js/src/main/resources/fiftyfive/wicket/js/lib" do
   file "jquery.js",         "http://code.jquery.com/jquery-#{JQUERY_VER}.js"
   file "jquery-ui.js",      "http://code.jquery.com/ui/#{JQUERY_UI_VER}/jquery-ui.js"
 
+  # jQuery UI Redmond theme CSS and images
+  folder "jquery-ui/themes/redmond" do
+    file "jquery-ui.redmond.css", "http://code.jquery.com/ui/#{JQUERY_UI_VER}/themes/redmond/jquery-ui.css" do |css|
+      fetch_jquery_theme_images(css)
+    end
+  end
 end
+
 
 # Helper method deletes all files in the specified directory except those
 # explicitly provided. If the file to retain is a directory, move the contents
