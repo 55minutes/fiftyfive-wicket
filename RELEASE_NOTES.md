@@ -1,5 +1,14 @@
 # fiftyfive-wicket Release Notes
 
+## 3.2
+
+* Introduce [SimpleCDN](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.2-SNAPSHOT/fiftyfive/wicket/resource/SimpleCDN.html), a simple way to enable static resources of your Wicket application to be proxied by a CDN, for example by Amazon Cloudfront ([6dd4b13860](https://github.com/55minutes/fiftyfive-wicket/commit/6dd4b13860a5918db56689a966741e1d23ef12e4))
+* Introduce [WicketTestUtils.assertDownloadEquals](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.2-SNAPSHOT/fiftyfive/wicket/test/WicketTestUtils.html#assertDownloadEquals%28org.apache.wicket.util.tester.WicketTester,%20java.lang.String,%20byte[]%29) ([8da847a542](https://github.com/55minutes/fiftyfive-wicket/commit/8da847a542312ec9438545e0ea9105e5ce9eccd7))
+* Upgrade to Spring 3.1.0 ([1e3b7abe41](https://github.com/55minutes/fiftyfive-wicket/commit/1e3b7abe41a42d93d5ffbd2f3f9cf85942d1c7ad))
+* Minor tweaks to `fiftyfive-wicket-archetype`:
+  * CSS3 foundation bug fixes ([e8adece1da](https://github.com/55minutes/fiftyfive-wicket/commit/e8adece1da999c943b820ca060254de5d63c3b38))
+  * Improve how the merged JavaScript resource is configured ([9513abd85e](https://github.com/55minutes/fiftyfive-wicket/commit/9513abd85e6f2e60a0c98a98a24dfd2a05748a78), [602b2dc91d](https://github.com/55minutes/fiftyfive-wicket/commit/602b2dc91d98b3f9ad15a8fdd754364b8eec1de8))
+
 ## 3.1
 
 * Upgrade to Wicket 1.5.3
