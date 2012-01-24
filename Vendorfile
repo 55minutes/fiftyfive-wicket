@@ -10,7 +10,7 @@ MODERNIZR_VER = "2.0.6"
 #
 def fetch_jquery_theme_images(theme_css)
   IO.readlines(theme_css).each do |line|
-    if (m = line.match /url\((images\/[^\)]+)\)/)    
+    if (m = line.match /url\((images\/[^\)]+)\)/)
       file m[1], "http://code.jquery.com/ui/#{JQUERY_UI_VER}/themes/redmond/#{m[1]}"
     end
   end
@@ -63,20 +63,20 @@ end
 # rearrange and in some cases edit the files.
 #
 folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/main/resources" do
-  
+
   file "config.rb", "https://raw.github.com/55minutes/css3-foundation/master/config.rb"
-  
+
   # Clone the styles/ portion of css3-foundation under resources/styles/
   #
   folder "styles", "git://github.com/55minutes/css3-foundation" do |path|
     retain_files(path, %w(styles))
-    
+
     # Delete _documentation.scss; add _server-error.scss
     File.delete File.join(path, "_documentation.scss")
     rewrite File.join(path, "application.scss") do |scss|
       scss.sub(/@import "documentation";/, '@import "server-error";')
     end
-    
+
     # Add Wicket-specific server-error styles
     File.open File.join(path, "_server-error.scss"), "w" do |f|
       f.write <<-SCSS.gsub(/^        /, '')
@@ -89,7 +89,7 @@ folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/ma
           #page
           {
             padding: $body-text-line-height $column-width;
-    
+
             p:last-of-type,
             dl:last-of-type,
             ol:last-of-type,
@@ -119,7 +119,7 @@ folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/ma
         }
       SCSS
     end
-    
+
     # Modify selectors for validation to match Wicket markup
     #
     rewrite File.join(path, "shared", "_forms.scss") do |scss|
@@ -130,10 +130,10 @@ folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/ma
       scss.sub!(/^(\s*\.alerts)\s*$/,   '\1, \1 .feedbackPanel')
       scss.sub!(/^(\s*\.message)\s*$/,  '\1, li')
       scss.sub!(/^(\s*&\.success)\s*$/, '\1, &.feedbackPanelSUCCESS')
-      scss.sub!(/^(\s*&\.warning)\s*$/, '\1, &.feedbackPanelWARNING')
+      scss.sub!(/^(\s*&\.warning)\s*$/, '\1, &.feedbackPanelINFO, &.feedbackPanelWARNING')
       scss.sub!(/^(\s*&\.error)\s*$/, '\1, &.feedbackPanelERROR, &.feedbackPanelFATAL')
     end
-    
+
     # Add Wicket-specific header styles
     File.open File.join(path, "shared", "_header.scss"), "a" do |f|
       f.write <<-SCSS.gsub(/^        /, '')
@@ -143,13 +143,13 @@ folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/ma
           margin-bottom: $body-text-line-height - 0.1rem;
           border-bottom: 0.1rem solid $light-stroke;
           padding-bottom: $body-text-line-height / 2;
-      
+
           nav.auth-status
           {
             float: right;
           }
         }
-      
+
         .row > footer
         {
           color: $secondary-text-color;

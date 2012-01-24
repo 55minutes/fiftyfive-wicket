@@ -372,7 +372,7 @@ $icon-size: 1.6rem;
       }
     }
 
-    &.warning, &.feedbackPanelWARNING
+    &.warning, &.feedbackPanelINFO, &.feedbackPanelWARNING
     {
       background-color: lighten($warning-feedback, 48);
       color: $warning-feedback;
