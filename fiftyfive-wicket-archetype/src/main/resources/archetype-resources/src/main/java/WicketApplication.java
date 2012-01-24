@@ -42,7 +42,14 @@ public class WicketApplication extends FoundationSpringApplication
     {
         super.init();
         
+        // Tell fiftyfive-wicket-js where to find custom JS libs for this app
+        // (i.e. those that can be referenced via //= require <lib>).
+        // This corresponds to src/main/resources/.../scripts.
+        // Note: we configure JavaScriptDependencySettings before using MergedJavaScriptBuilder.
+        JavaScriptDependencySettings.get().addLibraryPath(WicketApplication.class, "scripts");
+        
         // -- Configure pretty URL mappings ("routes") --
+        // Note: merged JavaScript is also configured in WicketMappings.
         mount(new WicketMappings(this));
         
         // -- Configure resources --
@@ -50,11 +57,6 @@ public class WicketApplication extends FoundationSpringApplication
         // (e.g. new PackageResourceReference(MyPage.class, "../common/file.png"))
         // unless you specify a parentFolderPlaceholder. This is a security precaution.
         getResourceSettings().setParentFolderPlaceholder("$up$");
-        
-        // Tell fiftyfive-wicket-js where to find custom JS libs for this app
-        // (i.e. those that can be referenced via //= require <lib>).
-        // This corresponds to src/main/resources/.../scripts.
-        JavaScriptDependencySettings.get().addLibraryPath(WicketApplication.class, "scripts");
         
         // -- Configure error pages --
         getApplicationSettings().setPageExpiredErrorPage(getHomePage());
