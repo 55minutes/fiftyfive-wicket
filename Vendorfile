@@ -64,6 +64,8 @@ end
 #
 folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/main/resources" do
   
+  file "config.rb", "https://raw.github.com/55minutes/css3-foundation/master/config.rb"
+  
   # Clone the styles/ portion of css3-foundation under resources/styles/
   #
   folder "styles", "git://github.com/55minutes/css3-foundation" do |path|
