@@ -1,0 +1,222 @@
+/*-----[ style guide ]----------------------------------------------------------
+*/
+#style-guide
+{
+  #page
+  {
+    padding: $body-text-line-height $column-width;
+  }
+
+  #examples
+  {
+    & > section
+    {
+      margin-top: 2 * $body-text-line-height;
+    }
+
+    & > section > h1
+    {
+      margin-bottom: 2 * $body-text-line-height - ($page-heading-text-size + $vertical-nudge + 0.1);
+      border-bottom: 0.1rem solid $light-stroke;
+      padding-bottom: $vertical-nudge;
+      color: darken($flush-orange, 5);
+    }
+
+    .explanation h2
+    {
+      margin: 0;
+      color: darken($supernova, 10);
+    }
+
+    .explanation p
+    {
+      margin-top: 0;
+    }
+
+    .columns h2
+    {
+      margin-top: $body-text-line-height / 2;
+    }
+  }
+
+  .colors
+  {
+    table
+    {
+      margin-top: 0;
+    }
+
+    .swatch
+    {
+      padding: 0;
+      width: 2 * $column-width;
+
+      &.blackberry
+      {
+        background-color: $blackberry;
+      }
+
+      &.eucalyptus
+      {
+        background-color: $eucalyptus;
+      }
+
+      &.citrus
+      {
+        background-color: $citrus;
+      }
+
+      &.supernova
+      {
+        background-color: $supernova;
+      }
+
+      &.flush-orange
+      {
+        background-color: $flush-orange;
+      }
+
+      &.matisse
+      {
+        background-color: $matisse;
+      }
+
+      &.cinnabar
+      {
+        background-color: $cinnabar;
+      }
+
+      &.charcoal
+      {
+        background-color: $charcoal;
+      }
+
+      &.grey
+      {
+        background-color: $grey;
+      }
+
+      &.silver
+      {
+        background-color: $silver;
+      }
+
+      &.white-smoke
+      {
+        background-color: $white-smoke;
+      }
+    }
+
+    .hex-code
+    {
+      padding-left: $column-width / 2;
+    }
+  }
+
+  .tables
+  {
+    .quantity, .price
+    {
+      text-align: right;
+    }
+
+    table
+    {
+      margin-top: 0;
+    }
+
+    tr.total
+    {
+      font-weight: bold;
+    }
+  }
+
+  .forms
+  {
+    input[type=email],
+    input[type=password],
+    input[type=search],
+    input[type=tel],
+    input[type=text],
+    input[type=url],
+    select
+    {
+      width: 20rem;
+
+      &.large
+      {
+        width: 25rem;
+      }
+    }
+  }
+
+  footer
+  {
+    margin-top: $body-text-line-height;
+    font-style: italic;
+    color: $secondary-text-color;
+  }
+}
+
+@media (min-width: 480px)
+{
+  #style-guide
+  {
+    #intro, .explanation, .example
+    {
+      max-width: 60rem;
+    }
+  }
+}
+
+@media (min-width: 768px)
+{
+  #style-guide
+  {
+    #examples .columns .column
+    {
+      float: left;
+      margin-right: 2%;
+      width: 32%;
+
+      &:last-of-type
+      {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px)
+{
+  #style-guide #examples
+  {
+    .explanation, .example
+    {
+      float: left;
+      margin-bottom: $body-text-line-height;
+    }
+
+    .explanation
+    {
+      clear: left;
+      margin-right: 3%;
+      width: 32%;
+    }
+
+    .example
+    {
+      width: 65%;
+      max-width: 65rem;
+    }
+  }
+}
+
+@media (min-width: 1200px)
+{
+  #style-guide #page
+  {
+    max-width: 120rem;
+  }
+}
+

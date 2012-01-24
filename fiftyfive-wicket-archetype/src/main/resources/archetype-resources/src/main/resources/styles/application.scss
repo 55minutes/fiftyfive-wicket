@@ -1,0 +1,37 @@
+/*------------------------------------------------------------------------------
+| application.css
+| application name v1.0
+| Author(s): Author Name
+| Created: yyyy-mm-dd
+|
+| This file rolls up the main styles for the entire application. You'll need to
+| include the IE-specific and print stylesheets, as well as the display-size-
+| specific styles separately in your markup. See the readme for an explanation
+| of the directory organization.
+------------------------------------------------------------------------------*/
+
+// Reset
+@import "reset";
+
+// Third-party mixins
+@import "compass/css3";
+@import "sassybuttons";
+@import "cssgrid-1140";
+
+// Basics
+@import "colors";
+@import "typography";
+@import "grid";
+
+// Shared
+@import "mixins";
+@import "foundation";
+@import "forms";
+@import "header";
+@import "footer";
+
+// Feature-/page-specific
+@import "server-error";
+@import "login";
+@import "style-guide";
+@import "feature-1";

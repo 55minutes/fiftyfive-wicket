@@ -1,0 +1,18 @@
+/*------------------------------------------------------------------------------
+| 768.css
+| application name v1.0
+| Author(s): Richa Avasthi
+| Created: 2011-08-30
+|
+| Styles for displays 768px wide and up. Note that only major layout changes,
+| like showing or hiding a sidebar, should be in these size-specific
+| stylesheets. Other, smaller changes may be added into feature-specific styles
+| using media queries. See _home.scss for an example.
+------------------------------------------------------------------------------*/
+
+@import "compass/css3";
+// Include variables if needed.
+@import "colors";
+@import "typography";
+@import "grid";
+@import "mixins";
