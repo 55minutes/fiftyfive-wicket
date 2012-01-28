@@ -215,6 +215,21 @@ See the official Wicket wiki for a good explanation of
 [how Spring and Wicket work together][wicketspring].
 
 
+## Version Numbers Explained
+
+The latest, bleeding-edge source code for fiftyfive-wicket is developed in the `master` branch at GitHub. The version number of code in the master branch will always end with `-SNAPSHOT`.
+
+Stable releases follow the [semantic versioning][semver] pattern and are made available as [tags][tags] at GitHub. Unstable `-SNAPSHOT` code contains the latest ongoing patches to each `X.Y` version, following the conventions of the Apache Wicket project. Here are some examples:
+
+* `3.0`: the first release of the 3.x series
+* `3.0.1`: a minor bug fix to 3.0
+* `3.0.2`: a minor bug fix to 3.0.1
+* `3.0-SNAPSHOT`: the latest code in 3.0.x series (i.e. what will become 3.0.3)
+* `3.1`: new feature(s) added; backwards-compatible with 3.0.x
+* `3.1-SNAPSHOT`: the latest code in 3.1.x series (i.e. what will become 3.1.1)
+* `4.0`: major changes; incompatible with 3.x
+* `4.0-SNAPSHOT`: the latest code in 4.0.x series (i.e. what will become 4.0.1)
+
 ## Maven Dependencies
 
 If you aren't using the fiftyfive-wicket archetype (as described in the quick start section above),
@@ -285,3 +300,5 @@ following snippet:
 [jsdep]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.2-SNAPSHOT/index.html?fiftyfive/wicket/js/JavaScriptDependency.html
 [jsbuild]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.2-SNAPSHOT/index.html?fiftyfive/wicket/js/MergedJavaScriptBuilder.html
 [readme]:https://github.com/55minutes/fiftyfive-wicket/blob/master/fiftyfive-wicket-archetype/src/main/resources/archetype-resources/README.md
+[semver]:http://semver.org/
+[tags]:https://github.com/55minutes/fiftyfive-wicket/tags
