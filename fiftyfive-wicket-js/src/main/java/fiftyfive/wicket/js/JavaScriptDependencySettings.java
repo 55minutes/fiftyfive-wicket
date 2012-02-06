@@ -180,10 +180,10 @@ public class JavaScriptDependencySettings
      * precedence. The paths that you add will be consulted before the
      * defaults.
      * <p>
-     * Library paths are searched whenever you use the angle-bracket syntax
+     * Library paths are searched whenever you use the {@code //= require} syntax
      * for JavaScript dependencies, like this:
      * <pre class="example">
-     * //= require &lt;libraryname&gt;</pre>
+     * //= require libraryname</pre>
      * <p>
      * Or when you use
      * {@link JavaScriptDependency#JavaScriptDependency(String)} or

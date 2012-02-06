@@ -47,7 +47,7 @@ import org.apache.wicket.util.lang.Args;
  * in turn depends on jQuery UI. In {@code MyPanel.js} you would add this
  * line:
  * <pre class="example">
- * //= require &lt;jquery-ui&gt;</pre>
+ * //= require jquery-ui</pre>
  * <p>
  * This informs fiftyfive-wicket-js of the dependency. Then in your Java code,
  * you just need to add {@code MyPanel.js} like this:

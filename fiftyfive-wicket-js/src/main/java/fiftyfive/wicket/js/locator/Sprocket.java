@@ -16,13 +16,9 @@
 package fiftyfive.wicket.js.locator;
 
 /**
- * Represents a
- * <a href="http://getsprockets.org/">sprocket</a>
- * dependency reference. There are two types:
- * <ul>
- * <li>Library: {@code //= require <libname>}</li>
- * <li>File: {@code //= require "filename"}</li>
- * </ul>
+ * Represents a <a href="http://getsprockets.org/">sprocket</a>
+ * dependency reference. A dependency can either be a path relative to the current file,
+ * or it can a path that is resolved relative to the libarary sesarch path.
  * 
  * @since 2.0
  */

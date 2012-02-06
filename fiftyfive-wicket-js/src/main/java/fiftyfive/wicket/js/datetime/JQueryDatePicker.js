@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//= require <jquery-ui>
-//= require <strftime>
+//= require jquery-ui
+//= require strftime
 
 jQuery("#${component.markupId}").datepicker(
     { showOn: "both"

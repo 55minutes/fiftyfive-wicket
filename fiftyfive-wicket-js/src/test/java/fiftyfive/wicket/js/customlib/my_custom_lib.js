@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-//= require <jquery-ui>
-//= require <jquery.55_utils>
+//= require jquery-ui
+//= require jquery.55_utils
 
 // An example custom lib that depends on jQuery UI

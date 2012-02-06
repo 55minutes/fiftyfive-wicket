@@ -94,7 +94,7 @@ import org.apache.wicket.util.template.TextTemplate;
  * <pre class="example">
  * <b>// HelloPanel.js</b>
  * // Depends on jQuery
- * //= require &lt;jquery&gt;
+ * //= require jquery
  * jQuery("#${component.markupId}").text("Hello");</pre>
  * <p>
  * When this panel is used on a page, the {@code <head>} will automatically
