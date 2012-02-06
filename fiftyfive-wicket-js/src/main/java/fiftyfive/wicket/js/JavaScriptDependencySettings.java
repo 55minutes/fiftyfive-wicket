@@ -23,6 +23,8 @@ import java.util.List;
 import fiftyfive.wicket.js.locator.DefaultJavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.SearchLocation;
+import fiftyfive.wicket.js.locator.SprocketsParser;
+import fiftyfive.wicket.js.locator.SprocketsParserImplV4;
 import org.apache.wicket.Application;
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.request.resource.PackageResourceReference;
@@ -75,6 +77,7 @@ public class JavaScriptDependencySettings
     private Duration traversalCacheDuration;
     private String encoding;
     private JavaScriptDependencyLocator locator;
+    private SprocketsParser sprocketsParser;
     
     /**
      * Returns the JavaScriptDependencySettings associated with the current
@@ -110,6 +113,7 @@ public class JavaScriptDependencySettings
         super();
         this.app = app;
         this.locator = new DefaultJavaScriptDependencyLocator();
+        this.sprocketsParser = new SprocketsParserImplV4();
 
         this.locations = new ArrayList<SearchLocation>();
 
@@ -262,6 +266,36 @@ public class JavaScriptDependencySettings
     public JavaScriptDependencySettings setJQueryUICSSResource(ResourceReference r)
     {
         this.jQueryUICSSResource = r;
+        return this;
+    }
+    
+    /**
+     * Returns the strategy that will be used to parse Sprockets {@code //= require}
+     * directives. The default is {@link SprocketsParserImplV4}.
+     * @since 4.0
+     */
+    public SprocketsParser getSprocketsParser()
+    {
+        return this.sprocketsParser;
+    }
+    
+    /**
+     * Sets the strategy that will be used to parse Sprockets {@code //= require}
+     * directives. The default strategy changed in fiftyfive-wicket-js 4.0. Starting
+     * with 4.0 the default is {@link SprocketsParserImplV4}. If you would like to
+     * restore the Sprockets behavior of earlier versions, pass an instance of
+     * {@link fiftyfive.wicket.js.locator.SprocketsParserImplV3 SprocketsParserImplV3}.
+     * <p>
+     * The two versions differ in how they resolve paths specified in the
+     * {@code //= require} directive. Refer to the documentation for each implementation
+     * for further details.
+     * 
+     * @return {@code this} to allow chaining
+     * @since 4.0
+     */
+    public JavaScriptDependencySettings setSprocketsParser(SprocketsParser p)
+    {
+        this.sprocketsParser = p;
         return this;
     }
     

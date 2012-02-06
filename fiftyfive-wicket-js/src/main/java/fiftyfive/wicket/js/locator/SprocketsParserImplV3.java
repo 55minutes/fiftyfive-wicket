@@ -35,10 +35,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @since 2.0
  */
-public class SprocketParser
+public class SprocketsParserImplV3 implements SprocketsParser
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
-        SprocketParser.class
+        SprocketsParserImplV3.class
     );
     
     static final String PREFIX = "^\\s*//=\\s*require\\s+";

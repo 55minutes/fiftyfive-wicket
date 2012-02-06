@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Default implementation of JavaScriptDependencyLocator. Uses the Wicket
  * application's {@link IResourceStreamLocator} to load JavaScript files,
- * and our {@link SprocketDependencyCollector} to parse them for dependencies.
+ * and our {@link SprocketsDependencyCollector} to parse them for dependencies.
  * A {@link ConcurrentHashMap} is used as a simple in-memory cache for the
  * dependency trees that are discovered.
  * 
@@ -59,13 +59,11 @@ public class DefaultJavaScriptDependencyLocator
     
     
     private Map<ResourceReference,CacheEntry> cache;
-    private SprocketDependencyCollector collector;
     
     public DefaultJavaScriptDependencyLocator()
     {
         super();
         this.cache = new ConcurrentHashMap<ResourceReference,CacheEntry>();
-        this.collector = new SprocketDependencyCollector(this);
     }
     
     public void findLibraryScripts(String libraryName,
@@ -153,16 +151,21 @@ public class DefaultJavaScriptDependencyLocator
         if(scripts.isEmpty() && populateFromCache(ref, scripts)) return;
         if(!scripts.add(ref)) return;
         
-        scripts.descend();
-        IResourceStream stream = load(ref);
-        if(null == stream)
+        SprocketsParser parser = settings().getSprocketsParser();
+        if(parser != null)
         {
-            throw new WicketRuntimeException(
-                "JavaScript file does not exist: " + ref
-            );
+            SprocketsDependencyCollector coll = new SprocketsDependencyCollector(this, parser);
+            scripts.descend();
+            IResourceStream stream = load(ref);
+            if(null == stream)
+            {
+                throw new WicketRuntimeException(
+                    "JavaScript file does not exist: " + ref
+                );
+            }
+            coll.collectDependencies(ref, stream, scripts);
+            scripts.ascend();
         }
-        this.collector.collectDependencies(ref, stream, scripts);
-        scripts.ascend();
         
         putIntoCache(ref, scripts);
     }
