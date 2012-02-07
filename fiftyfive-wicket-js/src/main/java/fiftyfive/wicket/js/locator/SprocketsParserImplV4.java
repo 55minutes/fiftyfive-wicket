@@ -46,7 +46,13 @@ public class SprocketsParserImplV4 implements SprocketsParser
         SprocketsParserImplV4.class
     );
     
-    static final Pattern REQ = Pattern.compile("^\\s*//=\\s*require\\s+(\\S.*\\S)\\s*$");
+    static final String PREFIX = "^\\s*//=\\s*require\\s+";
+    static final Pattern[] PATTERNS = new Pattern[] {
+        Pattern.compile(PREFIX + "\"(.*)\"\\s*$"),
+        Pattern.compile(PREFIX + "'(.*)'\\s*$"),
+        Pattern.compile(PREFIX + "<(.*)>\\s*$"),
+        Pattern.compile(PREFIX + "(.*)\\s*$")
+    };
     
     public List<Sprocket> parseSprockets(BufferedReader javascript)
         throws IOException
@@ -58,27 +64,18 @@ public class SprocketsParserImplV4 implements SprocketsParser
             String line = javascript.readLine();
             if(null == line) break;
             
-            Matcher require = REQ.matcher(line);
-            if(!require.find()) continue;
-            
-            String path = stripQuotes(require.group(1));
-            boolean isLibrary = !(path.startsWith("./") || path.startsWith("../"));
-            sprockets.add(new Sprocket(isLibrary, path));
-        }
-        return sprockets;
-    }
-    
-    private String stripQuotes(String path)
-    {
-        String[] quotes = new String[] { "\"", "'" };
-        for(String q : quotes)
-        {
-            if(path.startsWith(q) && path.endsWith(q))
+            for(Pattern p : PATTERNS)
             {
-                path = path.substring(1, path.length() - 1);
-                break;
+                Matcher require = p.matcher(line);
+                if(require.find())
+                {
+                    String path = require.group(1);
+                    boolean isLibrary = !(path.startsWith("./") || path.startsWith("../"));
+                    sprockets.add(new Sprocket(isLibrary, path));
+                    break;
+                }
             }
         }
-        return path;
+        return sprockets;
     }
 }
