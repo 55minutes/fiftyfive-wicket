@@ -1,0 +1,428 @@
+/*-----[ foundation ]-----------------------------------------------------------
+| Reusable content styles. Define your application-wide styles, like links,
+| headers, body text, clearfix, etc. here. See the readme for information on
+| recommended rule order.
+*/
+
+/*----------[ table of contents ]-----------------------------------------------
+| tags
+| content
+| unsupported browser warning
+| alerts
+| pagination
+*/
+
+
+/*----------[ tags ]------------------------------------------------------------
+*/
+html
+{
+  font-size: 62.5%;
+}
+
+a
+{
+  color: $link;
+
+  &:visited
+  {
+    color: $visited-link;
+  }
+
+  &:hover,
+  &:active
+  {
+    color: darken($link, 10);
+  }
+}
+
+blockquote, dl, ol, p, pre, table, ul
+{
+  margin: $body-text-line-height 0;
+}
+
+blockquote
+{
+  margin-left: $column-width;
+  color: $secondary-text-color;
+}
+
+body
+{
+  background-color: $page-bg;
+  color: $body-text-color;
+  font-family: $body-text-family;
+  font-size: $body-text-size;
+  line-height: $body-text-line-height;
+  text-rendering: optimizeLegibility;
+}
+
+caption
+{
+  font-style: italic;
+}
+
+dt
+{
+  font-style: italic;
+}
+
+dd
+{
+  margin: 0 0 $body-text-line-height;
+}
+
+h1
+{
+  margin-bottom: $body-text-line-height * 2 - $page-heading-text-size;
+  padding: 0;
+  font-size: $page-heading-text-size;
+  line-height: $page-heading-text-size;
+}
+
+h2
+{
+  margin: 1.5 * $body-text-line-height 0 $body-text-line-height / 2;
+  color: $subheading-text-color;
+  font-size: $subheading-text-size;
+}
+
+h3
+{
+  margin: $body-text-line-height 0 0;
+  font-weight: normal;
+  font-style: italic;
+}
+
+h1, h2, h3
+{
+  & + blockquote,
+  & + dl,
+  & + ol,
+  & + ul,
+  & + p
+  {
+    margin-top: 0;
+  }
+}
+
+hr
+{
+
+  margin: ($body-text-line-height / 2 - 0.1) auto $body-text-line-height / 2;
+  border-style: none;
+  height: 1px;
+  background-color: #808080;
+}
+
+ol, ul
+{
+  margin-left: $column-width;
+}
+
+ol
+{
+  list-style-type: decimal;
+
+  ol
+  {
+    list-style-type: lower-alpha;
+
+    ol
+    {
+      list-style-type: lower-roman;
+    }
+  }
+}
+
+dl dl, ol ol, ul ul
+{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+pre
+{
+
+  padding: $body-text-line-height / 2 $column-width / 2;
+  overflow: auto;
+  background-color: #fff8f0;
+}
+
+table
+{
+  width: 100%;
+}
+
+table, thead th
+{
+  border-bottom: 0.2rem solid $light-stroke;
+}
+
+td, th
+{
+  padding: $vertical-nudge 0;
+  padding-right: $column-width;
+
+  &:first-of-type
+  {
+    padding-left: $horizontal-nudge;
+  }
+
+  &:last-of-type
+  {
+    padding-right: $horizontal-nudge;
+  }
+}
+
+th
+{
+  text-align: left;
+}
+
+tbody th, td
+{
+  border-bottom: 0.1rem solid $light-stroke;
+}
+
+ul
+{
+  list-style-type: disc;
+}
+
+/*----------[ content ]---------------------------------------------------------
+*/
+.align-center
+{
+  margin: 0 auto;
+}
+
+.align-left
+{
+  float: left;
+}
+
+.align-right
+{
+  float: right;
+}
+
+.annotation,
+.fine-print,
+.form-help
+{
+  color: $secondary-text-color;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.fine-print, .form-help
+{
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+}
+
+/* Clearfix style from <http://nicolasgallagher.com/micro-clearfix-hack/> */
+.group:before,
+.group:after
+{
+  content: "";
+  display: table;
+}
+
+.group:after
+{
+  clear: both;
+}
+
+span.keep-together
+{
+  white-space: nowrap;
+}
+
+.reset
+{
+  clear: both;
+  margin: 0;
+  padding: 0;
+  height: 0.1rem;
+  font-size: 0;
+}
+
+.spacer
+{
+  padding: 0;
+  height: $body-text-line-height / 2;
+  font-size: 0;
+}
+
+.subtitle
+{
+  font-weight: normal;
+}
+
+.subheading
+{
+  font-weight: bold;
+}
+
+/*----------[ unsupported browser warning ]-------------------------------------
+*/
+#unsupported-browser-warning
+{
+  display: none;
+  margin: $body-text-line-height auto;
+  border: 0.5rem solid darken($error-feedback, 5);
+  @include border-radius(1.5rem);
+  padding: $body-text-line-height $column-width;
+  background-color: white;
+
+  .unsupported-browser &
+  {
+    display: block;
+  }
+
+  h1
+  {
+    color: $error-feedback;
+  }
+
+  a.dismiss
+  {
+    float: right;
+    line-height: $page-heading-text-size;
+  }
+
+  p
+  {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 768px)
+{
+  #unsupported-browser-warning
+  {
+    max-width: 65rem;
+  }
+}
+
+/*----------[ alerts ]----------------------------------------------------------
+*/
+/*
+** Generate a sprite image by putting all the icons into a subdirectory of
+** images/. Then use the helpers sprite-url and sprite-position to place
+** the icon in the background.
+**
+** See below and the Compass documentation for more details.
+**    <http://compass-style.org/reference/compass/helpers/sprites/>
+*/
+$icons: sprite-map("icon/*.png");
+$icon-size: 1.6rem;
+
+.alerts, 
+.alerts .feedbackPanel
+{
+  margin: 0;
+  list-style-type: none;
+
+  .message, li
+  {
+    position: relative;
+    margin-bottom: $vertical-nudge;
+    padding: $vertical-nudge $column-width / 2;
+    padding-left: 1.5 * $column-width;
+
+    /*
+    ** In order for a sprite to work properly, the element the sprite is set as
+    ** the background of needs to be exactly sized to the sprite's dimensions.
+    **
+    ** But what if you want to use the sprite as a background for a much larger
+    ** element? Like a single icon background to a block of text? That's exactly
+    ** what we want to do here for the alert messages. I want the warning icon
+    ** to be a background image placed in the top left of the message block,
+    ** and so on.
+    **
+    ** So how'd I do it? By using the :after pseudo-element (:before would work
+    ** equally well), sizing it to fit the icon-sprite size (in my case 16px
+    ** square), and positioning it where my background position would have been
+    ** were I using the single icon image as a background.
+    */
+    &:after
+    {
+      position: absolute;
+      top: ($body-text-line-height + 1.5 * $vertical-nudge - $icon-size) / 2;
+      left: $horizontal-nudge;
+      width: $icon-size;
+      height: $icon-size;
+      background-repeat: no-repeat;
+      content: "";
+    }
+
+    &.success, &.feedbackPanelSUCCESS
+    {
+      background-color: desaturate(lighten($success-feedback, 55), 20);
+      color: $success-feedback;
+
+      &:after
+      {
+        background-image: sprite-url($icons);
+        background-position: sprite-position($icons, success);
+      }
+    }
+
+    &.warning, &.feedbackPanelINFO, &.feedbackPanelWARNING
+    {
+      background-color: lighten($warning-feedback, 48);
+      color: $warning-feedback;
+
+      &:after
+      {
+        background-image: sprite-url($icons);
+        background-position: sprite-position($icons, warning);
+      }
+    }
+
+    &.error, &.feedbackPanelERROR, &.feedbackPanelFATAL
+    {
+      background-color: lighten($error-feedback, 55);
+      color: $error-feedback;
+
+      &:after
+      {
+        background-image: sprite-url($icons);
+        background-position: sprite-position($icons, error);
+      }
+    }
+  }
+}
+
+
+/*----------[ pagination ]------------------------------------------------------
+*/
+.pagination
+{
+  margin-top: $body-text-line-height - (2 * $vertical-nudge);
+  white-space-collapse: discard;
+
+  .first, .prev, .page, .next, .last
+  {
+    display: inline-block;
+    margin-right: $column-width / 2;
+    @include border-radius(0.6rem);
+    background-color: darken($white-smoke, 3);
+
+    a
+    {
+      display: block;
+      text-decoration: none;
+    }
+
+    a, &.current, &.gap
+    {
+      padding: $vertical-nudge $column-width / 2;
+      background-color: transparent;
+    }
+  }
+}

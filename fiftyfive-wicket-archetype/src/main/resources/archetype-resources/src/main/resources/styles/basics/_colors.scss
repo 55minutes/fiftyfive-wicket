@@ -1,0 +1,68 @@
+/*-----[ colors ]---------------------------------------------------------------
+| Variables defining the colors to be used throughout the application. Curious
+| about the color names? Check out <www.colblindor.com/color-name-hue/> and 
+| <http://chir.ag/projects/name-that-color/>.
+*/
+
+/*----------[ table of contents ]-----------------------------------------------
+| palette
+| backgrounds and borders
+| text
+| forms
+*/
+
+
+/*----------[ palette ]---------------------------------------------------------
+*/
+// Main palette
+$blackberry   : #4a1a2b;  /* purple */
+$eucalyptus   : #207861;  /* teal */
+$citrus       : #9fad00;  /* green */
+$supernova    : #ffcc00;  /* yellow */
+$flush-orange : #ff8400;  /* orange */
+$matisse      : #1673a1;  /* blue */
+$cinnabar     : #e53b19;  /* red */
+
+// Greys
+$charcoal    : #444444;
+$grey        : #808080;
+$silver      : #c0c0c0;
+$white-smoke : #f0f0f0;
+
+/*----------[ backgrounds and borders ]-----------------------------------------
+*/
+$page-bg         : white;
+$accent-bg       : $white-smoke;
+
+$stroke          : black;
+$light-stroke    : darken($white-smoke, 10);
+$disabled-stroke : $silver;
+
+/*----------[ text ]------------------------------------------------------------
+*/
+$body-text-color        : $charcoal;
+$secondary-text-color   : $grey;
+$disabled-text-color    : $silver;
+
+$link                   : $matisse;
+$visited-link           : $blackberry;
+
+$highlighted-text-color : white;
+$subheading-text-color  : $eucalyptus;
+
+$error-feedback         : darken($cinnabar, 10);
+$warning-feedback       : darken($supernova, 10);
+$success-feedback       : darken($citrus, 3);
+
+/*----------[ forms ]-----------------------------------------------------------
+*/
+$button-base-bg                : darken($flush-orange, 3);
+$button-text-color             : white;
+
+$destructive-button-base-bg    : $cinnabar;
+$destructive-button-text-color : white;
+
+$disabled-button-base-bg       : lighten($silver, 3);
+$disabled-button-text-color    : lighten($grey, 5);
+
+
