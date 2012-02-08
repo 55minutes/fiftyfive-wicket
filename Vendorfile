@@ -3,7 +3,6 @@
 
 JQUERY_VER = "1.7.1"
 JQUERY_UI_VER = "1.8.17"
-MODERNIZR_VER = "2.0.6"
 
 # Given a path to a jQuery UI CSS theme file, find all the images referenced
 # by the CSS and fetch them as vendor dependencies.
@@ -23,10 +22,6 @@ folder "fiftyfive-wicket-js/src/main/resources/fiftyfive/wicket/js/lib" do
   # 55 Minutes JavaScript utils (master)
   #
   folder "fiftyfive-utils", "git://github.com/55minutes/fiftyfive-util-js.git"
-
-  # Modernizr
-  #
-  file "modernizr.js", "http://www.modernizr.com/downloads/modernizr-#{MODERNIZR_VER}.js"
 
   # Standard jQuery/UI dist
   #
