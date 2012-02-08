@@ -4,7 +4,7 @@
 
 * Upgrade to jQuery 1.7.1
 * Upgrade to jQuery UI 1.8.17
-* Upgrade to Modernizr 2.0.6
+* **`fiftyfive-wicket-js` no longer includes Modernizr.**
 * Upgrade JavaScript fiftyfive-utils to 4.0 (note that the authoritative source of these files is now in [a separate GitHub repository](https://github.com/55minutes/fiftyfive-util-js/))
 * Reorganize the fiftyfive-wicket repository to eliminate the messy Git submodule and symlinks, and instead use a Ruby script to fetch external CSS and JS dependencies needed from other repositories
 * **Reorganize and rename the JavaScript libraries and the Redmond jQuery UI theme CSS and images included in `fiftyfive-wicket-js`; if your application depends on exact classpath location for these files, it may break**
