@@ -37,9 +37,16 @@ import org.apache.wicket.util.time.Duration;
  * instance, use the static {@link #get get()} method.
  * <p>
  * Most applications using out-of-the-box JavaScript widgets will be served
- * well by the default settings. However there are three important scenarios
- * to consider:
+ * well by the default settings. Before changing the settings, review
+ * the <a href="package-summary.html#dependency-resolution">dependency
+ * resolution guide</a> to get a complete understanding of how
+ * fiftyfive-wicket-js loads JavaScript files and determines their
+ * dependencies.
+ * <p>
+ * Then consider these scenarios:
  * <ol>
+ * <li><b>If you want to disable dependency resolution entirely,
+ *     call {@link #setSprocketsParser setSprocketsParser(null)}.</b></li>
  * <li><b>If your application already has a mechanism for including jQuery
  *     and/or jQuery UI in the &lt;head&gt;</b> (e.g. via your base page),
  *     then you should take care that fiftyfive-wicket-js is not including its
@@ -52,7 +59,7 @@ import org.apache.wicket.util.time.Duration;
  * <li><b>If you have your own library of custom JavaScript files</b>,
  *     consider placing those files inside your classpath, and then use
  *     {@link #addLibraryPath addLibraryPath()} to make fiftyfive-wicket-js
- *     aware of them. Then you can use the angle-bracket dependency syntax
+ *     aware of them. Then you can use the {@code //=require} dependency syntax
  *     or the single argument constructor for
  *     {@link JavaScriptDependency JavaScriptDependency}, and those files will
  *     be found automatically.</li>
@@ -286,6 +293,8 @@ public class JavaScriptDependencySettings
      * The two versions differ in how they resolve paths specified in the
      * {@code //= require} directive. Refer to the documentation for each implementation
      * for further details.
+     * <p>
+     * Pass {@code null} to disable Sprockets parsing altogether.
      * 
      * @return {@code this} to allow chaining
      * @since 4.0

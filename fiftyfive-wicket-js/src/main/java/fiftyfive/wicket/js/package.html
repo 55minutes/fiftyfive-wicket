@@ -59,31 +59,37 @@
 
   <ul>
 
-    <li>JavaScriptDependency for adding a JavaScript file to the 
-    <code>&lt;head&gt;</code> from a Wicket page or component (as in the 
-    MyPanel example)</li>
+    <li><a href="JavaScriptDependency.html">JavaScriptDependency</a> for adding 
+    a JavaScript file to the <code>&lt;head&gt;</code> from a Wicket page or 
+    component (as in the MyPanel example)</li>
 
-    <li>DomReadyTemplate for injecting dynamic DOM-ready JavaScript from a 
+
+    <li><a href="DomReadyTemplate.html">DomReadyTemplate</a> for injecting dynamic DOM-ready JavaScript from a 
     component (this is how JQueryDatePicker works)</li>
 
-    <li>MergedJavaScriptBuilder for delivering many JavaScript files in a 
+    <li><a href="MergedJavaScriptBuilder.html">MergedJavaScriptBuilder</a> for 
+    delivering many JavaScript files in a
     single, efficient HTTP response (more on this below)</li>
 
   </ul>
 
   <h3>How do I change or disable it?</h3>
   
-  <p>JavaScriptDependencySettings has many methods for tweaking and disabling 
-  parts of the dependency resolution system. You can easily turn the entire 
-  thing off by calling 
+  <p><a 
+  href="JavaScriptDependencySettings.html">JavaScriptDependencySettings</a> has 
+  many methods for tweaking and disabling parts of the dependency resolution 
+  system. You can easily turn the entire thing off by calling 
   <code>JavaScriptDependencySettings.get().setSprocketsParser(null)</code>.</p>
+
 
 
   <h3>Where do I put my JavaScript files?</h3>
   
   <p>The short answer is that fiftyfive-wicket-js searches a set of 
   configurable classpath locations. You can specify these locations using 
-  JavaScriptDependencySettings. More specifically:</p>
+  <a href="JavaScriptDependencySettings.html">JavaScriptDependencySettings</a>. 
+  More specifically:</p>
+
 
   <ul>
 
@@ -91,7 +97,7 @@
     using <code>//= require jquery</code> or <code>add(new 
     JavaScriptDependency("jquery"))</code> – the <code>jQuery.js</code> file is 
     loaded from the classpath based on the 
-    <code>JavaScriptDependencySettings#getJqueryResource()</code> setting. By 
+    <code><a href="JavaScriptDependencySettings.html#getJQueryResource()">JavaScriptDependencySettings#getJqueryResource()</a></code> setting. By
     default, the latest version of jQuery is bundled with fiftyfive-wicket-js, 
     so you should be good to go. However, if you prefer a different version, or 
     if you want to disable auto-inclusion of jQuery, you can change this 
@@ -101,11 +107,14 @@
     the latest version and will load it. Furthermore, it will also 
     automatically include a link in the <code>&lt;head&gt;</code> to a jQuery 
     UI CSS theme. Again, you can change these resources or disable this 
-    behavior through JavaScriptDependencySettings.</li>
+    behavior through <a 
+    href="JavaScriptDependencySettings.html">JavaScriptDependencySettings</a>.
+    </li>
+
 
     <li>For all other files, fiftyfive-wicket-js will append a <code>.js</code> 
     extension to the library name and search for that JavaScript file in the 
-    classpath. Use JavaScriptDependencySettings#addLibraryPath() to specify the 
+    classpath. Use <code><a href="JavaScriptDependencySettings.html#addLibraryPath(java.lang.Class,%20java.lang.String)">JavaScriptDependencySettings#addLibraryPath()</a></code> to specify the 
     exact search locations. If you use the fiftyfive-wicket-archetype to 
     bootstrap your project, this will be already set up for you to point to a 
     location in <code>src/main/resources/&lt;your-package&gt;/</code>.</li>
@@ -136,14 +145,15 @@
     optional.</li>
 
     <li>Previous versions of fiftyfive-wicket-js used a slightly different 
-    syntax. See JavaScriptDependencySettings#setSprocketsParser() for further 
+    syntax. See <code><a href="JavaScriptDependencySettings.html#setSprocketsParser(fiftyfive.wicket.js.locator.SprocketsParser)">JavaScriptDependencySettings#setSprocketsParser</a></code> for further 
     explanation.</li>
 
     <li>This syntax and behavior is heavily inspired by the <a 
-    href="">Sprockets</a> project. However Sprockets is in no way included or 
-    related to fiftyfive-wicket-js. Most notably, more advanced Sprockets 
-    delcarations like <code>require_tree</code> will not work in 
-    fiftyfive-wicket-js.</li>
+    href="http://getsprockets.org/">Sprockets</a> project. However Sprockets is 
+    in no way included or related to fiftyfive-wicket-js. Most notably, more 
+    advanced Sprockets delcarations like <code>require_tree</code> are not 
+    supported by fiftyfive-wicket-js.</li>
+
 
   </ul>
   
@@ -155,10 +165,12 @@
   JavaScript files. You can merge JavaScript easily in fiftyfive-wicket-js. 
   Here's how it works.</p>
   
-  <p>A good thing to remember as you proceed: <b>fiftyfive-wicket-js tells 
-  Wicket <em>how</em> to optimize delivery of JavaScript resources. It is still 
-  up to your pages and components to tell Wicket <em>which</em> resources to 
-  send.</b></p>
+  <p>A good thing to remember as you proceed: <b>fiftyfive-wicket-js's 
+  <a href="MergedJavaScriptBuilder.html">MergedJavaScriptBuilder</a> tells 
+  Wicket <em>how</em> to optimize delivery of
+  JavaScript resources. It is still up to your pages and components to tell 
+  Wicket <em>which</em> resources to send.</b></p>
+
 
   <p>Therefore, first you should follow the standard Wicket practice of 
   declaring your JavaScript resources per Wicket page or component.</b> Don't 
@@ -169,18 +181,58 @@
 
   <p>Once your app is fully functioning, only then should you worry about 
   resource merging. In your <code>Application#init()</code>, use 
-  MergedJavaScriptBuilder to list all of the JavaScript files you would like 
+  <a href="MergedJavaScriptBuilder.html">MergedJavaScriptBuilder</a> to list 
+  all of the JavaScript files you would like
   merged together. Then, whenever it comes time for Wicket to add a JavaScript 
   file to the <code>&lt;head&gt;</code>, the merged version will be used in its 
   place.</p>
 
   
-  <p>Refer to MergedJavaScriptBuilder for a complete example.</p>
+  <p>Refer to the <a 
+  href="MergedJavaScriptBuilder.html">MergedJavaScriptBuilder documentation</a> 
+  for a complete example.</p>
+
 
 
   <h2>Integrating JavaScript with Wicket components</h2>
   
+  <p>With fiftyfive-wicket-js you have three powerful options for integrating 
+  JavaScript with your Wicket pages and components. Each is designed for a 
+  specific purpose.</p>
+
   
+  <ul>
+
+    <li><a href="JavaScriptDependency.html">JavaScriptDependency</a> allows you 
+    to programmatically add a JavaScript
+    file reference to the <code>&lt;head&gt;</code>. Wicket provides something 
+    like this out of the box with <code>Component#renderHead()</code>, but 
+    JavaScriptDependency is a more convenient API and also provides the 
+    dependency resolution feature as described above.</li>
+
+    <li><a href="DomReadyScript.html">DomReadyScript</a> is similar to 
+    JavaScriptDependency, but rather than
+    adding a file reference to the head, it adds a JavaScript code string that 
+    will run on DOM ready (i.e. after the page has rendered). Again, Wicket can 
+    do this out of the box if you override <code>Component#renderHead()</code>, 
+    but <a href="DomReadyScript.html">DomReadyScript</a> has advantages of a convenient behavior-based syntax, 
+    and faster jQuery-based DOM-ready code.</li>
+
+    <li><a href="DomReadyTemplate.html">DomReadyTemplate</a> is a dynamic 
+    mashup of JavaScriptDependency and
+    <a href="DomReadyScript.html">DomReadyScript</a>. A <a 
+    href="DomReadyTemplate.html">DomReadyTemplate</a> loads a JavaScript file, 
+    then pre-processes it, giving you the ability to dynamically alter the script 
+    based the markup ID or other data contained in your Wicket component. The 
+    resulting script is then added inline to the <code>&lt;head&gt;</code> and 
+    will execute on DOM-ready. <a 
+    href="DomReadyTemplate.html">DomReadyTemplate</a> is the best option for
+    client-side widgets. <a 
+    href="datetime/JQueryDatePicker.html">JQueryDatePicker</a> is an example 
+    implementation.</li>
+
+    
+  </ul>
 
 </body>
 </html>

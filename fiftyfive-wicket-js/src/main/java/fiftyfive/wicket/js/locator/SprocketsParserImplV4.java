@@ -33,10 +33,22 @@ import org.slf4j.LoggerFactory;
  * //= require library_name
  * //= require ./file_name</pre>
  * <p>
+ * Paths that begin with {@code ./} are considered to be relative to the current
+ * directory. If the path does not begin with {@code ./}, then it is considered
+ * a path to a "library", meaning the classpath will be searched for a matching
+ * JavaScript file.
+ * <p>
  * Note that paths can also be surrounded by quotes, but they are completely optional:
  * <pre class="example">
  * //= require "library_name"
  * //= require "./file_name"</pre>
+ * <p>
+ * For backwards-compatibility with {@link SprocketsParserImplV3},
+ * angle-brackets are also permitted.
+ * <pre class="example">
+ * //= require &lt;library_name&gt;</pre>
+ * <p>
+ * <em>SprocketsParserImplV4 is the default implementation for fiftyfive-wicket-js 4.0.</em>
  * 
  * @since 4.0
  */

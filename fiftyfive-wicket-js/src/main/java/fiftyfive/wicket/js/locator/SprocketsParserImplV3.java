@@ -32,6 +32,15 @@ import org.slf4j.LoggerFactory;
  * <pre class="example">
  * //= require &lt;library_name&gt;
  * //= require "file_name"</pre>
+ * <p>
+ * In this version of the syntax, angle-brackets indicate libraries that should be
+ * found by searching the classpath, and double-quotes indicate file paths relative to
+ * the current directory.
+ * <p>
+ * <em>This was the default implementation in fiftyfive-wicket-js 2.x and 3.x.</em>
+ * Starting with 4.0, the default is now {@link SprocketsParserImplV4}. To force
+ * V3 to be used, call
+ * {@link fiftyfive.wicket.js.JavaScriptDependencySettings#setSprocketsParser JavaScriptDependencySettings#setSprocketsParser(new SprocketsParserImplV3())}.
  * 
  * @since 2.0
  */
