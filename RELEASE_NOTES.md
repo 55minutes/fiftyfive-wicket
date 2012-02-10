@@ -4,7 +4,7 @@
 
 ### Major backwards-incompatible changes
 
-* **In fiftyfive-wicket-js 4.0, we have changed the syntax of JavaScript `//= require` dependency directives, in order to more closely mimic the latest behavior of the [Sprockets project][sprockets].** If you use `//= require` statements in your JavaScript, your application may break. Refer to [SprocketsParserImplV4][parser-v4] for more information on the exact changes. To ease the transition, you can instruct fiftyfive-wicket-js 4.0 to use the old 3.0 syntax instead (or turn of `//= require` dependency logic entirely) by calling [JavaScriptDependencySettings#setSprocketsParser()][set-parser].
+* **In fiftyfive-wicket-js 4.0, we have changed the syntax of JavaScript `//= require` dependency directives, in order to more closely mimic the latest behavior of the [Sprockets project][sprockets].** If you use `//= require` statements in your JavaScript, your application may break. Refer to [SprocketsParserImplV4][parser-v4] for more information on the exact changes. To ease the transition, you can instruct fiftyfive-wicket-js 4.0 to use the old 3.0 syntax instead (or turn off `//= require` dependency logic entirely) by calling [JavaScriptDependencySettings#setSprocketsParser()][set-parser].
 * **The filenames and locations of the JavaScript libraries and the Redmond jQuery UI theme that are bundled with `fiftyfive-wicket-js` have changed.** Most applications should not be affected. If your application does depend on the exact classpath locations for these files, refer to [the new layout on GitHub][4.0-js-layout].
 * **`fiftyfive-wicket-js` no longer includes minified versions of jQuery and jQuery UI.** We now recommend that developers adopt a solution like Apache `mod_deflate` for delivering compressed static resources.
 * **`fiftyfive-wicket-js` no longer includes Modernizr.**
@@ -13,7 +13,6 @@
 
 * jQuery upgraded to 1.7.1
 * jQuery UI upgraded to 1.8.17
-* Modernizr upgraded to  2.0.6
 * The fiftyfive JavaScript utils (e.g. `jquery.55_utils.js`) have been upgraded to 4.0 (note that the authoritative source of these files is now in [a separate GitHub repository][js-repo])
 * The fiftyfive-wicket repository itself has been reorganized to eliminate the messy Git submodule and symlinks, and instead uses a Ruby script to fetch external CSS and JS dependencies needed from other repositories
 
