@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 55 Minutes (http://www.55minutes.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@
 
 /*------------------------------------------------------------------------------
 | jquery.55_utils.js
-| 55 Minutes jQuery JS utilities v4.0
+| 55 Minutes JS utilities v5.0
 | Author(s): Richa Avasthi
 | Created: 2009-12-02
 |
@@ -29,11 +29,11 @@
 /*------------------------------------------------------------------------------
 | dimensions(element, options)
 |
-| Return the width and height of the given element. If the "includeAll" flag is 
-| set to true, then return the outer width and height (including padding, border 
-| and margin) of the element. The "includePaddingAndBorder" flag includes 
-| padding and border, but not margin. NOTE that this function operates on the 
-| first matched element, and returns not the jQuery object, but an object 
+| Return the width and height of the given element. If the "includeAll" flag is
+| set to true, then return the outer width and height (including padding, border
+| and margin) of the element. The "includePaddingAndBorder" flag includes
+| padding and border, but not margin. NOTE that this function operates on the
+| first matched element, and returns not the jQuery object, but an object
 | containing the dimensions of the element.
 ------------------------------------------------------------------------------*/
 jQuery.fn.dimensions = function(options) {
@@ -80,7 +80,7 @@ jQuery.fn.dimensions = function(options) {
 /*------------------------------------------------------------------------------
 | getPositionedParentOffset(element)
 |
-| Return the offset of the given element's nearest positioned ancestor, 
+| Return the offset of the given element's nearest positioned ancestor,
 | providing that the ancestor is not the body element. NOTE that this function
 | operates on the first matched element, and returns not the jQuery object, but
 | an object containing the offset of the element's nearest positioned parent.
@@ -89,7 +89,7 @@ jQuery.fn.dimensions = function(options) {
 jQuery.fn.getPositionedParentOffset = function() {
     var parentOffset = { left: 0, top: 0 };
     var parent = this.eq(0).offsetParent();
-    
+
     // If the given element exists and it's not the body element
     if(parent.length > 0 && parent.get(0).tagName.toLowerCase() != "body")
     {
@@ -152,8 +152,8 @@ function viewportCoordinates()
 | viewportOffset(element)
 |
 | Return the coordinates of four edges of the given element with respect to the
-| viewport. NOTE that this function operates on the first matching element and 
-| returns not the jQuery object but a dictionary containing the viewport offset 
+| viewport. NOTE that this function operates on the first matching element and
+| returns not the jQuery object but a dictionary containing the viewport offset
 | coordinates of the element.
 ------------------------------------------------------------------------------*/
 jQuery.fn.viewportOffset = function() {

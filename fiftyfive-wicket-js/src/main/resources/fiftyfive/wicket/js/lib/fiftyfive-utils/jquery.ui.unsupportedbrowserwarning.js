@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 55 Minutes (http://www.55minutes.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,7 +18,7 @@
 
 /*------------------------------------------------------------------------------
 | jquery.ui.unsupportedbrowserwarning.js
-| 55 Minutes JS utilities v4.0
+| 55 Minutes JS utilities v5.0
 | Author(s): Richa Avasthi
 | Created: 2011-11-02
 ------------------------------------------------------------------------------*/
@@ -42,7 +42,7 @@
 
         _create: function() {
             this.dismissLink = this.element.find("a.dismiss");
-            
+
             /*
             ** Set the dismissal cookie if the user clicks the dismiss link.
             */
@@ -51,7 +51,7 @@
                 setCookie(self.options.cookieName, true, self.options.duration);
                 self.element.fadeOut("slow");
             });
-            
+
             /*
             ** If the dismissal cookie is set, hide the warning.
             */

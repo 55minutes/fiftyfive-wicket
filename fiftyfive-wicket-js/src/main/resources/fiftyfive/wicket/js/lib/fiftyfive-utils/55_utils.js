@@ -16,7 +16,7 @@
 
 /*------------------------------------------------------------------------------
 | 55_utils.js
-| 55 Minutes JS utilities v4.0
+| 55 Minutes JS utilities v5.0
 | Author: Richa Avasthi
 | Created: 2010-01-26
 |

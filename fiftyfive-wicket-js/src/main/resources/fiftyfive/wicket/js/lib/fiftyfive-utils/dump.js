@@ -19,7 +19,7 @@ function dump(arr,level)
     for(var j=0;j<level+1;j++) level_padding += "    ";
 
     if(typeof(arr) == 'object')
-    { //Array/Hashes/Objects 
+    { //Array/Hashes/Objects
         for(var item in arr)
         {
             var value = arr[item];
