@@ -30,26 +30,42 @@ import org.slf4j.LoggerFactory;
  * <a href="http://getsprockets.org/">Sprockets</a> comments
  * like these:
  * <pre class="example">
- * //= require &lt;library_name&gt;
- * //= require "file_name"</pre>
+ * //= require library_name
+ * //= require ./file_name</pre>
+ * <p>
+ * Paths that begin with {@code ./} are considered to be relative to the current
+ * directory. If the path does not begin with {@code ./}, then it is considered
+ * a path to a "library", meaning the classpath will be searched for a matching
+ * JavaScript file.
+ * <p>
+ * Note that paths can also be surrounded by quotes, but they are completely optional:
+ * <pre class="example">
+ * //= require "library_name"
+ * //= require "./file_name"</pre>
+ * <p>
+ * For backwards-compatibility with {@link SprocketsParserImplV3},
+ * angle-brackets are also permitted.
+ * <pre class="example">
+ * //= require &lt;library_name&gt;</pre>
+ * <p>
+ * <em>SprocketsParserImplV4 is the default implementation for fiftyfive-wicket-js 4.0.</em>
  * 
- * @since 2.0
+ * @since 4.0
  */
-public class SprocketParser
+public class SprocketsParserImplV4 implements SprocketsParser
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
-        SprocketParser.class
+        SprocketsParserImplV4.class
     );
     
     static final String PREFIX = "^\\s*//=\\s*require\\s+";
-    static final Pattern REQ = Pattern.compile(PREFIX);
-    static final Pattern LIB = Pattern.compile(PREFIX + "<([^>]+)>");
-    static final Pattern FILE = Pattern.compile(PREFIX + "\"([^\"]+)\"");
+    static final Pattern[] PATTERNS = new Pattern[] {
+        Pattern.compile(PREFIX + "\"(.*)\"\\s*$"),
+        Pattern.compile(PREFIX + "'(.*)'\\s*$"),
+        Pattern.compile(PREFIX + "<(.*)>\\s*$"),
+        Pattern.compile(PREFIX + "(.*)\\s*$")
+    };
     
-    /**
-     * Parses the given JavaScript file and returns a list of sprocket
-     * dependencies that it finds. Does not close the Reader.
-     */
     public List<Sprocket> parseSprockets(BufferedReader javascript)
         throws IOException
     {
@@ -60,33 +76,18 @@ public class SprocketParser
             String line = javascript.readLine();
             if(null == line) break;
             
-            Matcher require = REQ.matcher(line);
-            if(!require.find()) continue;
-            
-            String name = findName(LIB, line);
-            if(name != null)
+            for(Pattern p : PATTERNS)
             {
-                LOGGER.debug("Found library: {}", name);
-                sprockets.add(new Sprocket(true, name));
-            }
-            else
-            {
-                name = findName(FILE, line);
-                if(name != null)
+                Matcher require = p.matcher(line);
+                if(require.find())
                 {
-                    LOGGER.debug("Found file: {}", name);
-                    sprockets.add(new Sprocket(false, name));
+                    String path = require.group(1);
+                    boolean isLibrary = !(path.startsWith("./") || path.startsWith("../"));
+                    sprockets.add(new Sprocket(isLibrary, path));
+                    break;
                 }
             }
         }
         return sprockets;
-    }
-    
-    private String findName(Pattern patt, String line)
-    {
-        Matcher m = patt.matcher(line);
-        if(!m.find()) return null;
-        
-        return m.group(1);
     }
 }

@@ -65,10 +65,12 @@ import org.apache.wicket.util.template.TextTemplate;
  * <p>
  * Other benefits:
  * <ul>
- * <li><a href="http://getsprockets.org/">Sprocket</a> syntax is supported
- *     for dependencies. Your associated JavaScript file can declare the
+ * <li>Dependency resolution is performed on the associated JavaScript file.
+ *     Your associated JavaScript file can declare the
  *     libraries and files it needs to function, and these dependencies will be
- *     included in the {@code <head>} automatically.</li>
+ *     included in the {@code <head>} automatically.
+ *     Refer to the <a href="package-summary.html#dependency-resolution">dependency
+ *     resolution guide</a> for more information.</li>
  * <li>Just like a subclass of a panel can override the HTML of its parent,
  *     a subclass of a panel using {@code DomReadyTemplate} can override the
  *     JavaScript. For example, if {@code MyPanel} is subclassed as
@@ -94,7 +96,7 @@ import org.apache.wicket.util.template.TextTemplate;
  * <pre class="example">
  * <b>// HelloPanel.js</b>
  * // Depends on jQuery
- * //= require &lt;jquery&gt;
+ * //= require jquery
  * jQuery("#${component.markupId}").text("Hello");</pre>
  * <p>
  * When this panel is used on a page, the {@code <head>} will automatically

@@ -43,7 +43,7 @@ public class WicketApplication extends FoundationSpringApplication
         super.init();
         
         // Tell fiftyfive-wicket-js where to find custom JS libs for this app
-        // (i.e. those that can be referenced via //= require <lib>).
+        // (i.e. those that can be referenced via //= require "lib").
         // This corresponds to src/main/resources/.../scripts.
         // Note: we configure JavaScriptDependencySettings before using MergedJavaScriptBuilder.
         JavaScriptDependencySettings.get().addLibraryPath(WicketApplication.class, "scripts");

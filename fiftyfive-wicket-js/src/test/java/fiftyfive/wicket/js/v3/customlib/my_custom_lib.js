@@ -1,5 +1,5 @@
-/**
- * Copyright 2012 55 Minutes (http://www.55minutes.com)
+/*
+ * Copyright 2010 55 Minutes (http://www.55minutes.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/**
- * Helps maintain clean separation of Java and JavaScript code, and
- * automatically keeps track of JavaScript dependencies using convenient
- * Sprocket-style declarations.
- */
-package fiftyfive.wicket.js;
+
+//= require <jquery-ui>
+//= require <jquery.55_utils>
+
+// An example custom lib that depends on jQuery UI

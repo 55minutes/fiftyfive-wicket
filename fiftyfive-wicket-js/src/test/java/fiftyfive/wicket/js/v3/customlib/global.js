@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 55 Minutes (http://www.55minutes.com)
+ * Copyright 2010 55 Minutes (http://www.55minutes.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//= require jquery-ui
-//= require strftime
 
-jQuery("#${component.markupId}").datepicker(
-    { showOn: "both"
-    , buttonImage: "${behavior.buttonImageUrl}"
-    , buttonImageOnly: true
-    , changeMonth: true
-    , changeYear: true
-    }
-);
+//= require <jquery>
+
+// Sample lib that depends on jQuery

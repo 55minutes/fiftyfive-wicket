@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-//= require <jquery>
+//= require jquery
 
 // Sample lib that depends on jQuery

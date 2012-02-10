@@ -37,17 +37,15 @@ import org.apache.wicket.util.lang.Args;
  * </ul>
  * <p>
  * In all cases, the JavaScript files that you specify will be scanned for
- * dependencies. If any of the files contain
- * <a href="http://getsprockets.org/">sprocket</a> {@code require}
- * statements, these requirements will be resolved and added to the
- * &lt;head&gt; as well, in the appropriate order.
+ * dependencies. Refer to the <a href="package-summary.html#dependency-resolution">dependency
+ * resolution guide</a> for more information.
  * <p>
  * For example, let's say you have {@code MyPanel} which contains custom
  * JavaScript in an accompanying {@code MyPanel.js} file. Your JavaScript
  * in turn depends on jQuery UI. In {@code MyPanel.js} you would add this
  * line:
  * <pre class="example">
- * //= require &lt;jquery-ui&gt;</pre>
+ * //= require jquery-ui</pre>
  * <p>
  * This informs fiftyfive-wicket-js of the dependency. Then in your Java code,
  * you just need to add {@code MyPanel.js} like this:

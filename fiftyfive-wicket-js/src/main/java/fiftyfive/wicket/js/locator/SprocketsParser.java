@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2012 55 Minutes (http://www.55minutes.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//= require jquery-ui
-//= require strftime
+package fiftyfive.wicket.js.locator;
 
-jQuery("#${component.markupId}").datepicker(
-    { showOn: "both"
-    , buttonImage: "${behavior.buttonImageUrl}"
-    , buttonImageOnly: true
-    , changeMonth: true
-    , changeYear: true
-    }
-);
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * @since 4.0
+ */
+public interface SprocketsParser
+{
+    /**
+     * Parses the given JavaScript file and returns a list of sprocket
+     * dependencies that are found. This method should <b>not</b> close the Reader.
+     */
+    List<Sprocket> parseSprockets(BufferedReader javascript) throws IOException;
+}
