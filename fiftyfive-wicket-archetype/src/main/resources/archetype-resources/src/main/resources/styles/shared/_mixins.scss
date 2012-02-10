@@ -1,0 +1,42 @@
+/*-----[ mixins ]---------------------------------------------------------------
+| Define mixins and reusable CSS rulesets here. An example:
+|
+|   $silver-sand: #c1c0be;
+|   $content-inner-bg: white;
+|
+|   @mixin content-inner-border
+|   {
+|     @include border-radius(5px);
+|   }
+|
+|   @mixin content-shadow
+|   {
+|     @include single-box-shadow($silver-sand, 0, 3px, 5px);
+|   }
+|
+|   @mixin content-inner-box
+|   {
+|     @include content-inner-border;
+|     @include content-shadow;
+|     background-color: $content-inner-bg;
+|   }
+*/
+
+/*
+** Also offer clearfix as a mixin for greater flexibility.
+** Clearfix style from <http://nicolasgallagher.com/micro-clearfix-hack/>
+*/
+@mixin clearfix
+{
+  &:before,
+  &:after
+  {
+    content: "";
+    display: table;
+  }
+
+  &:after
+  {
+    clear: both;
+  }
+}

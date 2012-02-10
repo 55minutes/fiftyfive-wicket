@@ -1,0 +1,10 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    vendorer (0.1.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  vendorer

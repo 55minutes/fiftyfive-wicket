@@ -1,0 +1,23 @@
+/*------------------------------------------------------------------------------
+| ie.css
+| application name v1.0
+| Author(s): Richa Avasthi
+| Created: 2010-09-03
+|
+| Internet Explorer-specific styles. Now that we're using JS to tag the specific
+| browser version in the body class name, we can combine all those separate
+| stylesheets into one, where the styles to target each version are qualified
+| by class names.
+|
+| See <paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/>
+| for details.
+------------------------------------------------------------------------------*/
+
+@import "cssgrid-1140-ie";
+
+/*-----[ general ]--------------------------------------------------------------
+*/
+.lte7 .group
+{
+  zoom: 1;
+}

@@ -1,0 +1,274 @@
+/*-----[ forms ]----------------------------------------------------------------
+| Global form and form element styles. Feature-specific form styles should be
+| co-located with other feature-specific styles.
+*/
+
+/*----------[ table of contents ]-----------------------------------------------
+| text and password fields, textareas
+| buttons and checkboxes
+| form layout
+| validation
+| datepicker
+*/
+
+/*----------[ text and password fields, textareas ]-----------------------------
+*/
+input[type=email],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=url],
+select,
+textarea
+{
+  margin: 0;
+  border: 0.1rem solid $stroke;
+  padding: ($body-text-line-height - $secondary-text-size - 0.2) / 2;
+  background-color: white;
+  font-family:  $body-text-family;
+  font-size: $secondary-text-size;
+  line-height: $secondary-text-size;
+}
+
+input[type=email][disabled],
+input[type=password][disabled],
+input[type=search][disabled],
+input[type=tel][disabled],
+input[type=text][disabled],
+input[type=url][disabled],
+select[disabled],
+textarea[disabled]
+{
+  border-color: $disabled-stroke !important;
+  color: $disabled-text-color !important;
+  cursor: default !important;
+}
+
+input[type=text].small
+{
+  width: 5rem;
+  margin-right: 0.33em;
+}
+
+/*----------[ buttons and checkboxes]-------------------------------------------
+*/
+$button-border-radius: 0.6rem;
+
+input[type=checkbox],
+input[type=radio]
+{
+  vertical-align: baseline;
+}
+
+input[type=checkbox]
+{
+  border: 0.1rem solid $grey;
+  background-color: white;
+}
+
+/*
+** Use the sassy-buttons gem to generate matte rounded-rectangle buttons with
+** gradients and hover styles, in the following colors:
+**    main buttons: orange,
+**    disabled buttons: grey,
+**    buttons for destructive actions: red
+**
+** See
+**    http://jaredhardy.com/sassy-buttons/ and
+**    https://github.com/jhardy/Sassy-Buttons
+** for more details.
+*/
+$button-border-width: 0.1rem;
+$button-line-height: $body-text-line-height - 2 * $button-border-width;
+$button-vertical-padding: ($body-text-line-height - $button-line-height - 2 * $button-border-width) / 2;
+
+input[type=submit],
+input[type=button],
+button,
+a.button
+{
+  $sb-base-color     : $button-base-bg;
+  $sb-second-color   : false;
+  $sb-border-radius  : $button-border-radius;
+  $sb-border-width   : $button-border-width;
+  $sb-padding        : $button-vertical-padding $column-width;
+  $sb-font-size      : $secondary-text-size;
+  $sb-line-height    : $button-line-height;
+  $sb-text-color     : $button-text-color;
+  $sb-text-style     : false;
+  $sb-gradient-style : "matte";
+  $sb-hover          : true;
+
+  @include sassy-button();
+
+  // For some reason, the color and line-height I set above get ignored. Set them manually.
+  color: $button-text-color;
+  line-height: $button-line-height;
+  font-family:  $body-text-family;
+  font-weight: bold;
+
+  &.destructive
+  {
+    $sb-base-color: $destructive-button-base-bg;
+    $sb-text-color: $destructive-button-text-color;
+
+    @include sassy-button();
+
+    // For some reason, the color and line-height I set above get ignored. Set them manually.
+    color: $destructive-button-text-color;
+    line-height: $button-line-height;
+  }
+
+  &[disabled]
+  {
+    $sb-base-color: $disabled-button-base-bg;
+    $sb-text-color: $disabled-button-text-color;
+    $sb-hover: false;
+
+    @include sassy-button();
+
+    // For some reason, the color and line-height I set above get ignored. Set them manually.
+    color: $disabled-button-text-color;
+    line-height: $button-line-height;
+    cursor: default !important;
+  }
+}
+
+.button-bar
+{
+  margin: $body-text-line-height 0;
+  padding: 0;
+}
+
+.button-bar input[type=submit],
+.button-bar input[type=button],
+.button-bar button,
+.button-bar > a
+{
+  float: left;
+  margin: 0;
+  margin-right: $column-width / 2;
+}
+
+.button-bar > a
+{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: $secondary-text-size;
+  line-height: $body-text-line-height;
+}
+
+/*----------[ form layout ]-----------------------------------------------------
+*/
+table.form
+{
+  margin-top: 0;
+
+  &, th, td
+  {
+    border-style: none;
+  }
+
+  .section-heading th
+  {
+    color: $subheading-text-color;
+  }
+
+  .field-label
+  {
+    padding-right: $column-width;
+    vertical-align: top;
+    text-align: right;
+    font-weight: normal;
+  }
+
+  .field, .button-bar
+  {
+    padding-left: 0;
+  }
+}
+
+.stacked,
+.radio-group,
+.checkbox-group
+{
+  label
+  {
+    display: block;
+  }
+}
+
+.stacked
+{
+  margin-left: -$horizontal-nudge;
+
+  .section-heading
+  {
+    font-weight: bold;
+    color: $subheading-text-color;
+  }
+
+  .field > label:first-of-type
+  {
+    margin-top: $body-text-line-height / 2;
+  }
+
+  .field, .section-heading, .button-bar
+  {
+    padding-left: $horizontal-nudge;
+  }
+}
+
+/*----------[ validation ]------------------------------------------------------
+*/
+.error, .feedbackPanelERROR
+{
+  &, td, th
+  {
+    background-color: lighten($error-feedback, 55);
+  }
+
+  label, .form-help
+  {
+    color: $error-feedback;
+  }
+
+  label
+  {
+    font-weight: bold;
+  }
+
+  input[type=email],
+  input[type=password],
+  input[type=search],
+  input[type=tel],
+  input[type=text],
+  input[type=url],
+  select,
+  textarea
+  {
+    border-color: darken($error-feedback, 5);
+  }
+
+  ul.error-explanation, ul.feedbackPanel
+  {
+    margin: 0;
+    margin-left: $column-width;
+    font-size: $secondary-text-size;
+    color: $error-feedback;
+  }
+}
+
+/*----------[ datepicker ]------------------------------------------------------
+*/
+input.date,
+img.ui-datepicker-trigger
+{
+  vertical-align: middle;
+}
+
+.ui-datepicker
+{
+  font-size: $secondary-text-size !important;
+}

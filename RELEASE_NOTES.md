@@ -1,5 +1,15 @@
 # fiftyfive-wicket Release Notes
 
+## 4.0
+
+* Upgrade to jQuery 1.7.1
+* Upgrade to jQuery UI 1.8.17
+* **`fiftyfive-wicket-js` no longer includes Modernizr.**
+* Upgrade JavaScript fiftyfive-utils to 4.0 (note that the authoritative source of these files is now in [a separate GitHub repository](https://github.com/55minutes/fiftyfive-util-js/))
+* Reorganize the fiftyfive-wicket repository to eliminate the messy Git submodule and symlinks, and instead use a Ruby script to fetch external CSS and JS dependencies needed from other repositories
+* **Reorganize and rename the JavaScript libraries and the Redmond jQuery UI theme CSS and images included in `fiftyfive-wicket-js`; if your application depends on exact classpath location for these files, it may break**
+* **`fiftyfive-wicket-js` no longer includes minified versions of jQuery, jQuery UI and Modernizr**
+
 ## 3.2
 
 * Introduce [SimpleCDN](http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/3.2-SNAPSHOT/fiftyfive/wicket/resource/SimpleCDN.html), a simple way to enable static resources of your Wicket application to be proxied by a CDN, for example by Amazon Cloudfront ([6dd4b13860](https://github.com/55minutes/fiftyfive-wicket/commit/6dd4b13860a5918db56689a966741e1d23ef12e4))
