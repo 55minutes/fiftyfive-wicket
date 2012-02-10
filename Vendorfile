@@ -1,0 +1,165 @@
+# This file declares external JS and CSS dependencies for this project
+# See https://github.com/grosser/vendorer
+
+JQUERY_VER = "1.7.1"
+JQUERY_UI_VER = "1.8.17"
+
+# Given a path to a jQuery UI CSS theme file, find all the images referenced
+# by the CSS and fetch them as vendor dependencies.
+#
+def fetch_jquery_theme_images(theme_css)
+  IO.readlines(theme_css).each do |line|
+    if (m = line.match /url\((images\/[^\)]+)\)/)
+      file m[1], "http://code.jquery.com/ui/#{JQUERY_UI_VER}/themes/redmond/#{m[1]}"
+    end
+  end
+end
+
+# External JavaScript libraries to be included with fiftyfive-wicket-js
+#
+folder "fiftyfive-wicket-js/src/main/resources/fiftyfive/wicket/js/lib" do
+
+  # 55 Minutes JavaScript utils (master)
+  #
+  folder "fiftyfive-utils", "git://github.com/55minutes/fiftyfive-util-js.git"
+
+  # Standard jQuery/UI dist
+  #
+  file "jquery.js",         "http://code.jquery.com/jquery-#{JQUERY_VER}.js"
+  file "jquery-ui.js",      "http://code.jquery.com/ui/#{JQUERY_UI_VER}/jquery-ui.js"
+
+  # jQuery UI Redmond theme CSS and images
+  folder "jquery-ui/themes/redmond" do
+    file "jquery-ui.redmond.css", "http://code.jquery.com/ui/#{JQUERY_UI_VER}/themes/redmond/jquery-ui.css" do |css|
+      fetch_jquery_theme_images(css)
+    end
+  end
+end
+
+
+# Helper method deletes all files in the specified directory except those
+# explicitly provided. If the file to retain is a directory, move the contents
+# of the directory up to the root level.
+#
+def retain_files(root_path, files)
+  Dir.chdir(root_path) do
+    Dir["*", ".gitignore"].each { |f| run "rm -rf '#{f}'" unless files.include? f }
+    files.each do |f|
+      if File.directory? f
+        `mv "#{f}/"* .`
+        `rm -r "#{f}"`
+      end
+    end
+  end
+end
+
+# Boilerplate from css3-foundation project to be included in fiftyfive-wicket-archetype.
+# The css3 project doesn't quite fit the structure we have in Wicket, so we need to
+# rearrange and in some cases edit the files.
+#
+folder "fiftyfive-wicket-archetype/src/main/resources/archetype-resources/src/main/resources" do
+
+  file "config.rb", "https://raw.github.com/55minutes/css3-foundation/master/config.rb"
+
+  # Clone the styles/ portion of css3-foundation under resources/styles/
+  #
+  folder "styles", "git://github.com/55minutes/css3-foundation" do |path|
+    retain_files(path, %w(styles))
+
+    # Delete _documentation.scss; add _server-error.scss
+    File.delete File.join(path, "_documentation.scss")
+    rewrite File.join(path, "application.scss") do |scss|
+      scss.sub(/@import "documentation";/, '@import "server-error";')
+    end
+
+    # Add Wicket-specific server-error styles
+    File.open File.join(path, "_server-error.scss"), "w" do |f|
+      f.write <<-SCSS.gsub(/^        /, '')
+        /*-----[ server errors ]--------------------------------------------------------
+        | Styles for the server error pages. See _feature-1.scss for more details on
+        | how feature-specific styles should be organized.
+        */
+        .server-error
+        {
+          #page
+          {
+            padding: $body-text-line-height $column-width;
+
+            p:last-of-type,
+            dl:last-of-type,
+            ol:last-of-type,
+            ul:last-of-type
+            {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        @media (min-width: 480px)
+        {
+          .server-error #page
+          {
+            max-width: 60rem;
+          }
+        }
+
+        @media (min-width: 768px)
+        {
+          .server-error #page
+          {
+            margin: 5rem auto;
+            border: 0.2rem solid $silver;
+            @include border-radius(1.5rem);
+          }
+        }
+      SCSS
+    end
+
+    # Modify selectors for validation to match Wicket markup
+    #
+    rewrite File.join(path, "shared", "_forms.scss") do |scss|
+      scss.sub!(/^(\s*\.error)\s*$/,               '\1, .feedbackPanelERROR')
+      scss.sub!(/^(\s*ul\.error-explanation)\s*$/, '\1, ul.feedbackPanel')
+    end
+    rewrite File.join(path, "shared", "_foundation.scss") do |scss|
+      scss.sub!(/^(\s*\.alerts)\s*$/,   '\1, \1 .feedbackPanel')
+      scss.sub!(/^(\s*\.message)\s*$/,  '\1, li')
+      scss.sub!(/^(\s*&\.success)\s*$/, '\1, &.feedbackPanelSUCCESS')
+      scss.sub!(/^(\s*&\.warning)\s*$/, '\1, &.feedbackPanelINFO, &.feedbackPanelWARNING')
+      scss.sub!(/^(\s*&\.error)\s*$/, '\1, &.feedbackPanelERROR, &.feedbackPanelFATAL')
+    end
+
+    # Add Wicket-specific header styles
+    File.open File.join(path, "shared", "_header.scss"), "a" do |f|
+      f.write <<-SCSS.gsub(/^        /, '')
+        .row > header
+        {
+          margin-top: 2 * $body-text-line-height;
+          margin-bottom: $body-text-line-height - 0.1rem;
+          border-bottom: 0.1rem solid $light-stroke;
+          padding-bottom: $body-text-line-height / 2;
+
+          nav.auth-status
+          {
+            float: right;
+          }
+        }
+
+        .row > footer
+        {
+          color: $secondary-text-color;
+          font-style: italic;
+        }
+      SCSS
+    end
+  end
+
+  # Clone the images/ portion of css3-foundation under resources/images/
+  #
+  folder "images", "git://github.com/55minutes/css3-foundation" do |path|
+    retain_files(path, %w(images favicon.ico favicon.png))
+    # Remove the compiled icon, since compass will recreate it at build time
+    `rm #{path}/icon-*.png`
+  end
+
+end

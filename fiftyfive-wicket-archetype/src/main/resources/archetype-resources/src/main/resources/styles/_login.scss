@@ -1,0 +1,51 @@
+/*-----[ login ]----------------------------------------------------------------
+| Styles for the login page. See _feature-1.scss for more details on how
+| feature-specific styles should be organized.
+*/
+#login #page
+{
+  padding: $body-text-line-height $column-width;
+
+  p:last-of-type,
+  dl:last-of-type,
+  ol:last-of-type,
+  ul:last-of-type,
+  {
+    margin-bottom: 0;
+  }
+
+  form
+  {
+    margin-bottom: $section-spacing;
+  }
+
+  input[type=email],
+  input[type=password]
+  {
+    width: 23rem;
+  }
+
+  footer
+  {
+    color: $secondary-text-color;
+    font-style: italic;
+  }
+}
+
+@media (min-width: 480px)
+{
+  #login #page
+  {
+    max-width: 25rem;
+  }
+}
+
+@media (min-width: 768px)
+{
+  #login #page
+  {
+    margin: 5rem auto;
+    border: 0.2rem solid $silver;
+    @include border-radius(1.5rem);
+  }
+}
