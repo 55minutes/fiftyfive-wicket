@@ -1,12 +1,12 @@
 /*
  * Copyright 2012 55 Minutes (http://www.55minutes.com)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-//= require ./modernizr-extras
+//= require ./feature-detect
 
 /*------------------------------------------------------------------------------
 | jquery.ui.forminputplaceholdertext.js
-| 55 Minutes JS utilities v4.0
+| 55 Minutes JS utilities v5.0
 | Author(s): Richa Avasthi
 | Created: 2011-03-21
 ------------------------------------------------------------------------------*/
@@ -30,7 +30,7 @@
     | A jQuery UI-based widget for supporting placeholder text inside text
     | inputs and textareas whether or not the browser supports the HTML5
     | placeholder attribute.
-    | 
+    |
     | To use: $("input[placeholder]").forminputplaceholdertextwidget();
     |         The widget will work on text inputs and textareas as well.
     |         Options may be specified by passing the options dictionary like so:
@@ -42,8 +42,7 @@
     |                 }
     |             }
     |         });
-    | Requirements: jquery-1.5+, jquery-ui-1.8.widget+, modernizr-1.6+, 
-    |               modernizr-extras
+    | Requirements: jquery-1.5+, jquery-ui-1.8.widget+, feature-detect
     --------------------------------------------------------------------------*/
     $.widget("ui.forminputplaceholdertextwidget", {
         // Set default options
@@ -61,15 +60,8 @@
             var opts = this.options;
 
             this.useJS = false;
-            if(this.element.is("input[type=text]"))
-            {
-                this.useJS = !Modernizr.input.placeholder;
-            }
-            else if(this.element.is("textarea"))
-            {
-                this.useJS = !Modernizr.textareaplaceholder;
-            }
-            
+            this.useJS = !(fiftyfive.featureDetect.placeholder());
+
             if(this.useJS)
             {
                 this.element.wrap("<div class=\"placeholder-wrapper\" />");
@@ -80,24 +72,24 @@
                     width: this.element.outerWidth(),
                     height: this.element.outerHeight()
                 });
-                
+
                 this.element.before(
                     "<label class=\"placeholder-text\">" +
-                    this.element.attr("placeholder") + 
+                    this.element.attr("placeholder") +
                     "</label>"
                 );
                 this.placeholderTextLabel = this.element.prev("label.placeholder-text");
-                
+
                 var borderWidth = this.element.css("border-width").replace(/px/, "") * 1;
                 this.placeholderTextLabel.css($.extend({
-                    top:  borderWidth + 
+                    top:  borderWidth +
                           this.element.css("padding-top").replace(/px/, "") * 1,
-                    left: borderWidth + 
+                    left: borderWidth +
                           this.element.css("padding-left").replace(/px/, "") * 1,
                     fontSize: this.element.css("font-size"),
                     lineHeight: this.element.css("line-height")
                 }, opts.customLabelStyle));
-                
+
                 if($.trim(this.element.val()) == "")
                 {
                     this.placeholderTextLabel.show();
@@ -106,7 +98,7 @@
                 {
                     this.placeholderTextLabel.hide();
                 }
-                
+
                 var self = this;
                 this.element.focus(function() {
                     self.placeholderTextLabel.hide();
@@ -116,7 +108,7 @@
                         self.placeholderTextLabel.show();
                     }
                 });
-                
+
                 this.placeholderTextLabel.click(function() {
                     self.element.focus();
                 });
