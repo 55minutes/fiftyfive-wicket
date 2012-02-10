@@ -16,6 +16,7 @@
 package fiftyfive.wicket.js.locator;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,23 +38,26 @@ import org.slf4j.LoggerFactory;
  * 
  * @since 2.0
  */
-public class SprocketDependencyCollector extends SprocketParser
+public class SprocketsDependencyCollector
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(
-        SprocketDependencyCollector.class
+        SprocketsDependencyCollector.class
     );
     
     private JavaScriptDependencyLocator locator;
+    private SprocketsParser parser;
     
     /**
      * Constructs a instance that will use the given
      * JavaScriptDependencyLocator for recursively loading JavaScript files
      * that are found as dependencies.
      */
-    public SprocketDependencyCollector(JavaScriptDependencyLocator locator)
+    public SprocketsDependencyCollector(JavaScriptDependencyLocator locator,
+                                        SprocketsParser parser)
     {
         super();
         this.locator = locator;
+        this.parser = parser;
     }
     
     /**
@@ -77,7 +81,7 @@ public class SprocketDependencyCollector extends SprocketParser
         
         // Parse the resource, looking for Sprocket dependency declarations
         LOGGER.debug("Parsing: {}", ref.getName());
-        List<Sprocket> sprockets = parseSprockets(stream);
+        List<Sprocket> sprockets = parseSprocketsFromStream(stream);
         
         // After parsing is complete, loop through what we found and
         // process their dependencies recursively.
@@ -103,13 +107,13 @@ public class SprocketDependencyCollector extends SprocketParser
      * Parse the given stream and translate any i/o exceptions into
      * WicketRuntimeException. Close the stream cleanly no matter what.
      */
-    private List<Sprocket> parseSprockets(IResourceStream stream)
+    private List<Sprocket> parseSprocketsFromStream(IResourceStream stream)
     {
         try
         {
             InputStream is = stream.getInputStream();
             String enc = JavaScriptDependencySettings.get().getEncoding();
-            return parseSprockets(
+            return this.parser.parseSprockets(
                 new BufferedReader(new InputStreamReader(is, enc))
             );
         }
@@ -132,6 +136,10 @@ public class SprocketDependencyCollector extends SprocketParser
      */
     private String concatPaths(String orig, String relative)
     {
+        if(relative.startsWith("./"))
+        {
+            relative = relative.substring(2);
+        }
         if(null == orig || orig.indexOf("/") == -1)
         {
             return relative;

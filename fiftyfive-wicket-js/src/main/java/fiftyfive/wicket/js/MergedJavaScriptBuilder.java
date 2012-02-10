@@ -35,6 +35,11 @@ import org.slf4j.LoggerFactory;
  * Instructs Wicket to merge a list of JavaScript resources into a single file. Consider using this
  * in your application as a performance optimization.
  * <p>
+ * Note that JavaScript resources included in this builder are scanned for depenencies. Dependencies
+ * will automatically be included, even if they aren't explicitly added to the builder.
+ * Refer to the <a href="package-summary.html#dependency-resolution">dependency
+ * resolution guide</a> for more information on how dependencies are handled.
+ * <p>
  * Example usage:
  * <pre class="example">
  * public class MyApplication extends WebApplication
@@ -87,9 +92,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     
     /**
      * Adds a JavaScript file to the list of merged resources. The
-     * dependencies of the script, if declared using
-     * <a href="http://getsprockets.org/">Sprockets</p> syntax within
-     * the JS file, will also be added automatically.
+     * dependencies of the script will also be added automatically.
+     * Refer to the <a href="package-summary.html#dependency-resolution">dependency
+     * resolution guide</a> for more information.
      *
      * @see JavaScriptDependencySettings
      */
@@ -101,9 +106,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     
     /**
      * Adds a JavaScript resource to the list of merged resources. The
-     * dependencies of the script, if declared using
-     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
-     * the JS file, will also be added automatically.
+     * dependencies of the script will also be added automatically.
+     * Refer to the <a href="package-summary.html#dependency-resolution">dependency
+     * resolution guide</a> for more information.
      *
      * @see JavaScriptDependencySettings
      */
@@ -125,9 +130,9 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      * addAssociatedScript(MyPanel.class);
      * addScript(MyPanel.class, "MyPanel.js");</pre>
      * <p>
-     * The dependencies of the script, if declared using
-     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
-     * the JS file, will also be added automatically.
+     * The dependencies of the script will also be added automatically.
+     * Refer to the <a href="package-summary.html#dependency-resolution">dependency
+     * resolution guide</a> for more information.
      *
      * @see JavaScriptDependencySettings
      */
@@ -161,10 +166,15 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     }
     
     /**
-     * Adds a JavaScript library to the list of merged resources. The
-     * dependencies of the script, if declared using
-     * <a href="http://getsprockets.org/">Sprockets</a> syntax within
-     * the JS file, will also be added automatically.
+     * Adds a JavaScript library to the list of merged resources.
+     * The classpath will be searched to find the JavaScript file
+     * matching {@code libraryName}. Dependencies of that file will
+     * also be added automatically.
+     * <p>
+     * Refer to the <a href="package-summary.html#dependency-resolution">dependency
+     * resolution guide</a> for more information on how fiftyfive-wicket-js
+     * searches the classpath for JavaScript libraries and how dependencies
+     * are handled.
      *
      * @see JavaScriptDependencySettings
      */

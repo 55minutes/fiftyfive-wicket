@@ -7,4 +7,4 @@ add(new JavaScriptDependency("mylib"));
 
 And your JS files can depend on it like this:
 
-//= require <mylib>
+//= require mylib

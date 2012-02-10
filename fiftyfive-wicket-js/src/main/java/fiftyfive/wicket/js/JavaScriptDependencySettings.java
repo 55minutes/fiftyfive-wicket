@@ -23,6 +23,8 @@ import java.util.List;
 import fiftyfive.wicket.js.locator.DefaultJavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.js.locator.SearchLocation;
+import fiftyfive.wicket.js.locator.SprocketsParser;
+import fiftyfive.wicket.js.locator.SprocketsParserImplV4;
 import org.apache.wicket.Application;
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.request.resource.PackageResourceReference;
@@ -35,9 +37,16 @@ import org.apache.wicket.util.time.Duration;
  * instance, use the static {@link #get get()} method.
  * <p>
  * Most applications using out-of-the-box JavaScript widgets will be served
- * well by the default settings. However there are three important scenarios
- * to consider:
+ * well by the default settings. Before changing the settings, review
+ * the <a href="package-summary.html#dependency-resolution">dependency
+ * resolution guide</a> to get a complete understanding of how
+ * fiftyfive-wicket-js loads JavaScript files and determines their
+ * dependencies.
+ * <p>
+ * Then consider these scenarios:
  * <ol>
+ * <li><b>If you want to disable dependency resolution entirely,
+ *     call {@link #setSprocketsParser setSprocketsParser(null)}.</b></li>
  * <li><b>If your application already has a mechanism for including jQuery
  *     and/or jQuery UI in the &lt;head&gt;</b> (e.g. via your base page),
  *     then you should take care that fiftyfive-wicket-js is not including its
@@ -50,7 +59,7 @@ import org.apache.wicket.util.time.Duration;
  * <li><b>If you have your own library of custom JavaScript files</b>,
  *     consider placing those files inside your classpath, and then use
  *     {@link #addLibraryPath addLibraryPath()} to make fiftyfive-wicket-js
- *     aware of them. Then you can use the angle-bracket dependency syntax
+ *     aware of them. Then you can use the {@code //=require} dependency syntax
  *     or the single argument constructor for
  *     {@link JavaScriptDependency JavaScriptDependency}, and those files will
  *     be found automatically.</li>
@@ -75,6 +84,7 @@ public class JavaScriptDependencySettings
     private Duration traversalCacheDuration;
     private String encoding;
     private JavaScriptDependencyLocator locator;
+    private SprocketsParser sprocketsParser;
     
     /**
      * Returns the JavaScriptDependencySettings associated with the current
@@ -110,6 +120,7 @@ public class JavaScriptDependencySettings
         super();
         this.app = app;
         this.locator = new DefaultJavaScriptDependencyLocator();
+        this.sprocketsParser = new SprocketsParserImplV4();
 
         this.locations = new ArrayList<SearchLocation>();
 
@@ -173,10 +184,10 @@ public class JavaScriptDependencySettings
      * precedence. The paths that you add will be consulted before the
      * defaults.
      * <p>
-     * Library paths are searched whenever you use the angle-bracket syntax
+     * Library paths are searched whenever you use the {@code //= require} syntax
      * for JavaScript dependencies, like this:
      * <pre class="example">
-     * //= require &lt;libraryname&gt;</pre>
+     * //= require libraryname</pre>
      * <p>
      * Or when you use
      * {@link JavaScriptDependency#JavaScriptDependency(String)} or
@@ -259,6 +270,38 @@ public class JavaScriptDependencySettings
     public JavaScriptDependencySettings setJQueryUICSSResource(ResourceReference r)
     {
         this.jQueryUICSSResource = r;
+        return this;
+    }
+    
+    /**
+     * Returns the strategy that will be used to parse Sprockets {@code //= require}
+     * directives. The default is {@link SprocketsParserImplV4}.
+     * @since 4.0
+     */
+    public SprocketsParser getSprocketsParser()
+    {
+        return this.sprocketsParser;
+    }
+    
+    /**
+     * Sets the strategy that will be used to parse Sprockets {@code //= require}
+     * directives. The default strategy changed in fiftyfive-wicket-js 4.0. Starting
+     * with 4.0 the default is {@link SprocketsParserImplV4}. If you would like to
+     * restore the Sprockets behavior of earlier versions, pass an instance of
+     * {@link fiftyfive.wicket.js.locator.SprocketsParserImplV3 SprocketsParserImplV3}.
+     * <p>
+     * The two versions differ in how they resolve paths specified in the
+     * {@code //= require} directive. Refer to the documentation for each implementation
+     * for further details.
+     * <p>
+     * Pass {@code null} to disable Sprockets parsing altogether.
+     * 
+     * @return {@code this} to allow chaining
+     * @since 4.0
+     */
+    public JavaScriptDependencySettings setSprocketsParser(SprocketsParser p)
+    {
+        this.sprocketsParser = p;
         return this;
     }
     

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2012 55 Minutes (http://www.55minutes.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-//= require jquery-ui
-//= require strftime
+package fiftyfive.wicket.js.v3;
 
-jQuery("#${component.markupId}").datepicker(
-    { showOn: "both"
-    , buttonImage: "${behavior.buttonImageUrl}"
-    , buttonImageOnly: true
-    , changeMonth: true
-    , changeYear: true
+import fiftyfive.wicket.js.DomReadyTemplate;
+import org.apache.wicket.markup.html.panel.Panel;
+
+public class IntegrationTestTemplatePanel extends Panel
+{
+    public IntegrationTestTemplatePanel(String id)
+    {
+        super(id);
+        add(new DomReadyTemplate(getClass()));
     }
-);
+}
