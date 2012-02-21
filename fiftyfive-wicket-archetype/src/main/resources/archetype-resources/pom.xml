@@ -157,8 +157,9 @@
       <resource>
         <directory>src/main/resources</directory>
         <excludes>
-          <exclude>**/styles/config.rb</exclude>
-          <exclude>**/styles/src/*</exclude>
+          <exclude>${package.replace('.','/')}/config.rb</exclude>
+          <exclude>${package.replace('.','/')}/styles/**</exclude>
+          <exclude>${package.replace('.','/')}/.sass-cache/**</exclude>
         </excludes>
       </resource>
       <resource>
