@@ -2,7 +2,7 @@
 # See https://github.com/grosser/vendorer
 
 JQUERY_VER = "1.7.1"
-JQUERY_UI_VER = "1.8.17"
+JQUERY_UI_VER = "1.8.18"
 
 # Given a path to a jQuery UI CSS theme file, find all the images referenced
 # by the CSS and fetch them as vendor dependencies.

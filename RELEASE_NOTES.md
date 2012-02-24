@@ -12,7 +12,7 @@
 ### Minor or behind-the-scenes changes
 
 * jQuery upgraded to 1.7.1
-* jQuery UI upgraded to 1.8.17
+* jQuery UI upgraded to 1.8.18
 * The fiftyfive JavaScript utils (e.g. `jquery.55_utils.js`) have been upgraded to 4.0 (note that the authoritative source of these files is now in [a separate GitHub repository][js-repo])
 * The fiftyfive-wicket repository itself has been reorganized to eliminate the messy Git submodule and symlinks, and instead uses a Ruby script to fetch external CSS and JS dependencies needed from other repositories
 
