@@ -149,6 +149,21 @@ pre
   background-color: #fff8f0;
 }
 
+sub, sup
+{
+  font-size: 80%;
+}
+
+sub
+{
+  vertical-align: sub;
+}
+
+sup
+{
+  vertical-align: super;
+}
+
 table
 {
   width: 100%;
