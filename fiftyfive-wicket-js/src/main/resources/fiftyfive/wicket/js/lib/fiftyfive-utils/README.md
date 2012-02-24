@@ -1,6 +1,6 @@
 # fiftyfive-util-js
 
-This project contains various JavaScript bits and pieces that we've authored and collected over the years to improve browser detection, cookie management, and debugging; and to fill in some gaps in jQuery, jQuery UI, and Modernizr.
+This project contains various JavaScript bits and pieces that we've authored and collected over the years to improve browser detection, cookie management, and debugging; and to fill in some gaps in jQuery and jQuery UI.
 
 ## Credits
 
