@@ -4,19 +4,19 @@
 <head>
   <title>Integration Test Page</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<link rel="stylesheet" type="text/css" href="wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery-ui/themes/redmond/jquery-ui.redmond.css" />
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery.js"></script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery-ui.js"></script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/fiftyfive-utils/jquery.55_utils.js"></script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.v3.IntegrationTest/customlib/my_custom_lib.js"></script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.v3.IntegrationTestPanel/another_file.js"></script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.v3.IntegrationTestPanel/IntegrationTestPanel.js"></script>
+<link rel="stylesheet" type="text/css" href="./wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery-ui/themes/redmond/jquery-ui.redmond.css" />
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/jquery-ui.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/fiftyfive-utils/jquery.55_utils.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.v3.IntegrationTest/customlib/my_custom_lib.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.v3.IntegrationTestPanel/another_file.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.v3.IntegrationTestPanel/IntegrationTestPanel.js"></script>
 <script type="text/javascript" >
 /*<![CDATA[*/
 jQuery(function(){alert('panel init');;});
 /*]]>*/
 </script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/fiftyfive-utils/strftime.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.JavaScriptDependencySettings/lib/fiftyfive-utils/strftime.js"></script>
 <script type="text/javascript" >
 /*<![CDATA[*/
 jQuery(function(){jQuery("#panel21").myfancyplugin();
@@ -29,7 +29,7 @@ jQuery(function(){
 
 jQuery("#date2").datepicker(
 { showOn: "both"
-, buttonImage: "wicket/resource/fiftyfive.wicket.js.datetime.JQueryDatePicker/calendar.png"
+, buttonImage: "./wicket/resource/fiftyfive.wicket.js.datetime.JQueryDatePicker/calendar.png"
 , buttonImageOnly: true
 , changeMonth: true
 , changeYear: true
@@ -37,7 +37,7 @@ jQuery("#date2").datepicker(
 );;});
 /*]]>*/
 </script>
-<script type="text/javascript" src="wicket/resource/fiftyfive.wicket.js.v3.IntegrationTest/customlib/global.js"></script>
+<script type="text/javascript" src="./wicket/resource/fiftyfive.wicket.js.v3.IntegrationTest/customlib/global.js"></script>
 <script type="text/javascript" >
 /*<![CDATA[*/
 jQuery(function(){alert('base page init');});
@@ -58,7 +58,7 @@ jQuery(function(){alert('page init');});
   <div wicket:id="panel2" id="panel21"><wicket:panel>
 </wicket:panel></div>
   
-  <form wicket:id="form" id="form3" method="post" action="?0-1.IFormSubmitListener-form"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden"><input type="hidden" name="form3_hf_0" id="form3_hf_0" /></div>
+  <form wicket:id="form" id="form3" method="post" action="./?0-1.IFormSubmitListener-form"><div style="width:0px;height:0px;position:absolute;left:-100px;top:-100px;overflow:hidden"><input type="hidden" name="form3_hf_0" id="form3_hf_0" /></div>
     <label>
       Date
       <input type="text" wicket:id="date" value="" name="date" id="date2"/>
