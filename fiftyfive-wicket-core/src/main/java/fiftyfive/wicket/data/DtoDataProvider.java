@@ -250,8 +250,12 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     protected R load()
     {
-        this.transientOffset = getPageableViewOffset();
-        this.transientRowsPerPage = getPageableRowsPerPage();
+        if (this.transientOffset == null) {
+            this.transientOffset = getPageableViewOffset();
+        }
+        if (this.transientAmount == null) {
+            this.transientAmount = getPageableRowsPerPage();
+        }
         return load(this.transientOffset, this.transientRowsPerPage);
     }
     
@@ -306,9 +310,11 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
         if(null == this.transientOffset || null == this.transientRowsPerPage)
         {
             // Data hasn't been loaded yet, so nothing has changed.
-        }
-        else if(this.transientOffset != offset || this.transientRowsPerPage < amount)
-        {
+            this.transientOffset = offset;
+            this.transientAmount = amount;
+        } else if (this.transientOffset != offset || this.transientAmount < amount) {
+            this.transientOffset = offset;
+            this.transientAmount = amount;
             changed = true;
         }
         return changed;
