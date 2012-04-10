@@ -102,7 +102,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
 {
     private transient R transientResult;
     private transient Integer transientOffset;
-    private transient Integer transientRowsPerPage;
+    private transient Integer transientAmount;
     
     private boolean loaded = false;
     private Integer cachedDataSize;
@@ -256,7 +256,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
         if (this.transientAmount == null) {
             this.transientAmount = getPageableRowsPerPage();
         }
-        return load(this.transientOffset, this.transientRowsPerPage);
+        return load(this.transientOffset, this.transientAmount);
     }
     
     /**
@@ -268,7 +268,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
         this.loaded = false;
         this.transientResult = null;
         this.transientOffset = null;
-        this.transientRowsPerPage = null;
+        this.transientAmount = null;
     }
     
     // Pageable reflection "magic"
@@ -307,7 +307,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     {
         boolean changed = false;
         
-        if(null == this.transientOffset || null == this.transientRowsPerPage)
+        if(null == this.transientOffset || null == this.transientAmount)
         {
             // Data hasn't been loaded yet, so nothing has changed.
             this.transientOffset = offset;
