@@ -47,4 +47,9 @@ public class DtoDataProviderTestPage extends WebPage
     {
         return this.provider.getLoadCount();
     }
+    
+    public BeanResultProvider getProvider()
+    {
+        return provider;
+    }
 }
