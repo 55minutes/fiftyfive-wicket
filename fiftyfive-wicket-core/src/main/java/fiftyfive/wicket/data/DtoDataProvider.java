@@ -104,7 +104,6 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     private transient Integer transientOffset;
     private transient Integer transientAmount;
     
-    private boolean loaded = false;
     private Integer cachedDataSize;
     private AbstractPageableView pageableView;
     
@@ -269,7 +268,6 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public void detach()
     {
-        this.loaded = false;
         this.transientResult = null;
         this.transientOffset = null;
         this.transientAmount = null;
