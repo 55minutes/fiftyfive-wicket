@@ -8,6 +8,7 @@
 * **The filenames and locations of the JavaScript libraries and the Redmond jQuery UI theme that are bundled with `fiftyfive-wicket-js` have changed.** Most applications should not be affected. If your application does depend on the exact classpath locations for these files, refer to [the new layout on GitHub][4.0-js-layout].
 * **`fiftyfive-wicket-js` no longer includes minified versions of jQuery and jQuery UI.** We now recommend that developers adopt a solution like Apache `mod_deflate` for delivering compressed static resources.
 * **`fiftyfive-wicket-js` no longer includes Modernizr.**
+* The public API of [DtoDataProvider][dto] has changed, in order to allow explicit ranges of data to be loaded. See [issue #30][issue-30].
 
 ### Minor or behind-the-scenes changes
 
@@ -19,6 +20,8 @@
 [sprockets]:https://github.com/sstephenson/sprockets#readme
 [parser-v4]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/4.0/fiftyfive/wicket/js/locator/SprocketsParserImplV4.html
 [set-parser]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/4.0/fiftyfive/wicket/js/JavaScriptDependencySettings.html#setSprocketsParser%28fiftyfive.wicket.js.locator.SprocketsParser%29
+[dto]:http://opensource.55minutes.com/apidocs/fiftyfive-wicket-all/4.0/fiftyfive/wicket/data/DtoDataProvider.html
+[issue-30]:https://github.com/55minutes/fiftyfive-wicket/issues/30
 [4.0-js-layout]:https://github.com/55minutes/fiftyfive-wicket/tree/v4.0/fiftyfive-wicket-js/src/main/resources/fiftyfive/wicket/js/lib
 [js-repo]:https://github.com/55minutes/fiftyfive-util-js/
 

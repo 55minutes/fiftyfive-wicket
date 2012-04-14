@@ -102,9 +102,8 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
 {
     private transient R transientResult;
     private transient Integer transientOffset;
-    private transient Integer transientRowsPerPage;
+    private transient Integer transientAmount;
     
-    private boolean loaded = false;
     private Integer cachedDataSize;
     private AbstractPageableView pageableView;
     
@@ -191,14 +190,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public Iterator<? extends E> iterator(int offset, int amount)
     {
-        // If requested offset and amount are different from when we last
-        // loaded from the backend, we need to detach to force a reload.
-        if(pageChanged(offset, amount))
-        {
-            detach();
-        }
-        
-        return iterator(getResult());
+        return iterator(getCachedResultOrLoad(offset, amount));
     }
     
     /**
@@ -211,16 +203,20 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     }
     
     /**
-     * Returns a cached value if possible. Otherwise loads the result DTO
-     * from the backend and delegates to the implementation of
-     * {@link #size(Object) size(R)}.
+     * Loads the result DTO from the back-end based on the current state
+     * of the page. A cached version of the DTO will be used if possible
+     * to reduce extra back-end calls.
+     * <p>
+     * Delegates to the implementation of
+     * {@link #size(Object) size(R)}, which subclasses must implement.
+     * <p>
+     * This result will be cached, and the cache used if possible.
      */
     public int size()
     {
         if(null == this.cachedDataSize)
         {
-            // Force load(), which will set cachedDataSize
-            getResult();
+            this.cachedDataSize = size(getCachedResultOrLoad());
         }
         return this.cachedDataSize;
     }
@@ -229,30 +225,45 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
     
     /**
      * Loads and returns the result DTO from the backend, or returns the
-     * cached copy if it has already been loaded. The cache is discarded when
+     * cached copy if it has already been loaded. The cache is discarded
+     * automatically if the cache is out of date (i.e. the offset and
+     * amount to load have changed). The cache is also discarded when
      * {@link #detach() detach()} is called.
+     * <p>
+     * This no-argument version infers the offset and amount to load based
+     * on the pageable view that is being used with this data provider.
+     * 
+     * @since 4.0
      */
-    public R getResult()
+    public R getCachedResultOrLoad()
     {
-        if(!this.loaded)
-        {
-            this.loaded = true;
-            this.transientResult = load();
-            this.cachedDataSize = size(this.transientResult);
-        }
-        return this.transientResult;
+        return getCachedResultOrLoad(getPageableViewOffset(), getPageableRowsPerPage());
     }
     
     /**
-     * Loads the result DTO from the backend, using the current view offset
-     * and rows per page information from the pageable view associated with
-     * this provider.
+     * Loads and returns the result DTO from the backend, or returns the
+     * cached copy if it has already been loaded. The cache is discarded
+     * automatically if the cache is out of date (i.e. the offset and
+     * amount to load have changed). The cache is also discarded when
+     * {@link #detach() detach()} is called.
+     * <p>
+     * The explicit offset and amount parameters indicate the items to be
+     * loaded. If the cache was for a different set of parameters, it will
+     * be discarded.
+     * 
+     * @since 4.0
      */
-    protected R load()
+    public R getCachedResultOrLoad(int offset, int amount)
     {
-        this.transientOffset = getPageableViewOffset();
-        this.transientRowsPerPage = getPageableRowsPerPage();
-        return load(this.transientOffset, this.transientRowsPerPage);
+        if(isCacheStale(offset, amount))
+        {
+            // Reset cached values by loading from the back-end
+            this.transientOffset = offset;
+            this.transientAmount = amount;
+            this.transientResult = load(offset, amount);
+        }
+        // Return the cached result
+        return this.transientResult;
     }
     
     /**
@@ -261,10 +272,9 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public void detach()
     {
-        this.loaded = false;
         this.transientResult = null;
         this.transientOffset = null;
-        this.transientRowsPerPage = null;
+        this.transientAmount = null;
     }
     
     // Pageable reflection "magic"
@@ -299,19 +309,19 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * Returns {@code true} if the desired {@code offset} and {@code amount}
      * are different than the previously cached values.
      */
-    private boolean pageChanged(int offset, int amount)
+    private boolean isCacheStale(int offset, int amount)
     {
-        boolean changed = false;
+        boolean stale = false;
         
-        if(null == this.transientOffset || null == this.transientRowsPerPage)
+        if(null == this.transientOffset || null == this.transientAmount)
         {
-            // Data hasn't been loaded yet, so nothing has changed.
+            stale = true;
         }
-        else if(this.transientOffset != offset || this.transientRowsPerPage < amount)
+        else if(this.transientOffset != offset || this.transientAmount < amount)
         {
-            changed = true;
+            stale = true;
         }
-        return changed;
+        return stale;
     }
     
     /**
