@@ -232,6 +232,8 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * <p>
      * This no-argument version infers the offset and amount to load based
      * on the pageable view that is being used with this data provider.
+     * 
+     * @since 4.0
      */
     public R getCachedResultOrLoad()
     {
@@ -248,6 +250,8 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * The explicit offset and amount parameters indicate the items to be
      * loaded. If the cache was for a different set of parameters, it will
      * be discarded.
+     * 
+     * @since 4.0
      */
     public R getCachedResultOrLoad(int offset, int amount)
     {
