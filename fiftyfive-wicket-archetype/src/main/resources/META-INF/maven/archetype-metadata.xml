@@ -24,6 +24,7 @@
       <directory></directory>
       <includes>
         <include>.gitignore</include>
+        <include>config.rb</include>
         <include>README.md</include>
       </includes>
     </fileSet>
