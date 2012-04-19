@@ -37,7 +37,9 @@
             // The name of the cookie to be saved.
             cookieName: "unsupportedBrowserWarningDismissed",
             // The number of days the cookie will remain valid.
-            duration: 1
+            duration: 1,
+            // The path for which the cookie applies
+            path: "/"
         },
 
         _create: function() {
@@ -48,7 +50,7 @@
             */
             var self = this;
             this.dismissLink.click(function(event) {
-                setCookie(self.options.cookieName, true, self.options.duration);
+                setCookie(self.options.cookieName, true, self.options.duration, self.options.path);
                 self.element.fadeOut("slow");
             });
 
