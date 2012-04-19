@@ -12,6 +12,7 @@
 
 ### Minor or behind-the-scenes changes
 
+* Wicket upgraded to 1.5.5
 * jQuery upgraded to 1.7.1
 * jQuery UI upgraded to 1.8.18
 * The fiftyfive JavaScript utils (e.g. `jquery.55_utils.js`) have been upgraded to 4.0 (note that the authoritative source of these files is now in [a separate GitHub repository][js-repo])
