@@ -271,7 +271,7 @@
                 <condition property="compass.executable" value="compass.bat">
                    <os family="windows"/>
                 </condition>
-                <exec executable="${compass.executable}" failonerror="true">
+                <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="compile"/>
                 </exec>
               </target>
@@ -289,7 +289,7 @@
                 <condition property="compass.executable" value="compass.bat">
                    <os family="windows"/>
                 </condition>
-                <exec executable="${compass.executable}" failonerror="true">
+                <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="clean"/>
                 </exec>
               </target>
