@@ -267,10 +267,10 @@
             </goals>
             <configuration>
               <target>
-                <property name="compass.executable" value="compass"/>
                 <condition property="compass.executable" value="compass.bat">
                    <os family="windows"/>
                 </condition>
+                <property name="compass.executable" value="compass"/>
                 <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="compile"/>
                 </exec>
@@ -285,10 +285,10 @@
             </goals>
             <configuration>
               <target>
-                <property name="compass.executable" value="compass"/>
                 <condition property="compass.executable" value="compass.bat">
                    <os family="windows"/>
                 </condition>
+                <property name="compass.executable" value="compass"/>
                 <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="clean"/>
                 </exec>
