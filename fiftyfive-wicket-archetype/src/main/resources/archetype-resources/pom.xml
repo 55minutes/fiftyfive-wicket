@@ -267,7 +267,11 @@
             </goals>
             <configuration>
               <target>
-                <exec executable="compass" failonerror="true">
+                <property name="compass.executable" value="compass"/>
+                <condition property="compass.executable" value="compass.bat">
+                   <os family="windows"/>
+                </condition>
+                <exec executable="${compass.executable}" failonerror="true">
                   <arg value="compile"/>
                 </exec>
               </target>
@@ -281,7 +285,11 @@
             </goals>
             <configuration>
               <target>
-                <exec executable="compass" failonerror="true">
+                <property name="compass.executable" value="compass"/>
+                <condition property="compass.executable" value="compass.bat">
+                   <os family="windows"/>
+                </condition>
+                <exec executable="${compass.executable}" failonerror="true">
                   <arg value="clean"/>
                 </exec>
               </target>
