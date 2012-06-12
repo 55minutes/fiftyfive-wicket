@@ -233,7 +233,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.6</version>
+        <version>1.7</version>
         <executions>
           <execution>
             <id>prep-settings</id>
@@ -267,7 +267,11 @@
             </goals>
             <configuration>
               <target>
-                <exec executable="compass" failonerror="true">
+                <condition property="compass.executable" value="compass.bat">
+                   <os family="windows"/>
+                </condition>
+                <property name="compass.executable" value="compass"/>
+                <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="compile"/>
                 </exec>
               </target>
@@ -281,7 +285,11 @@
             </goals>
             <configuration>
               <target>
-                <exec executable="compass" failonerror="true">
+                <condition property="compass.executable" value="compass.bat">
+                   <os family="windows"/>
+                </condition>
+                <property name="compass.executable" value="compass"/>
+                <exec executable="${symbol_dollar}{compass.executable}" failonerror="true">
                   <arg value="clean"/>
                 </exec>
               </target>
