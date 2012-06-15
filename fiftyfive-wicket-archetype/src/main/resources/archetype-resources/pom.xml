@@ -32,11 +32,11 @@
   <!-- ==================================================================== -->
 
   <properties>
-    <fiftyfive.version>4.0-SNAPSHOT</fiftyfive.version>
+    <fiftyfive.version>4.0.1</fiftyfive.version>
     <jetty.version>6.1.26</jetty.version>
     <slf4j.version>1.6.6</slf4j.version>
     <spring.version>3.1.1.RELEASE</spring.version>
-    <wicket.version>1.5-SNAPSHOT</wicket.version>
+    <wicket.version>1.5.7</wicket.version>
   </properties>
 
   <dependencies>
@@ -339,19 +339,6 @@
   <!-- ==================================================================== -->
 
   <repositories>
-    <repository>
-      <id>apache-snapshots</id>
-      <url>http://repository.apache.org/snapshots</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-    <repository>
-      <id>fiftyfive-opensource-snapshots</id>
-      <name>55 Minutes Open Source Maven Snapshots Repository</name>
-      <url>http://opensource.55minutes.com/maven-snapshots</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
-    </repository>
     <repository>
       <id>fiftyfive-opensource-releases</id>
       <name>55 Minutes Open Source Maven Releases Repository</name>
