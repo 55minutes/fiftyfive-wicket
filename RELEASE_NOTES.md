@@ -1,5 +1,14 @@
 # fiftyfive-wicket Release Notes
 
+## 4.0.1
+
+* Upgrade to Wicket 1.5.7
+* Upgrade to Spring 3.1.1
+* Upgrade to JUnit 4.10
+* Upgrade to SLF4J 1.6.6
+* Upgrade to Mockito 1.9.0
+* Improve archetype compatibility with Windows Maven environments
+
 ## 4.0
 
 ### Major backwards-incompatible changes
