@@ -8,6 +8,8 @@ available as open source to share with the Wicket community.
 [fiftyfive-wicket-2.x](https://github.com/55minutes/fiftyfive-wicket-2.x) project if you need an
 older release that can be used with Wicket 1.4.
 
+**Please note that this project is not compatible with Wicket 6.** Currently there is no ETA for Wicket 6 compatibility.
+
 ## Quick start
 
 The quickest way to get started with the 55 Minutes Wicket library is use our Maven archetype. This assumes that you have maven installed, preferably version 3.0.
