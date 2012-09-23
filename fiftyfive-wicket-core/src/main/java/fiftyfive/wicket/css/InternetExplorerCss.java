@@ -20,7 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.resource.ResourceReference;
 
 /**
@@ -94,7 +95,7 @@ public abstract class InternetExplorerCss extends Behavior
         return new InternetExplorerCss(condition, token) {
             protected void doLinkRender(IHeaderResponse response)
             {
-                response.renderCSSReference(cssReference, media);                
+                response.render(CssReferenceHeaderItem.forReference(cssReference, null, media, condition));                
             }
         };
     }
@@ -157,7 +158,7 @@ public abstract class InternetExplorerCss extends Behavior
         return new InternetExplorerCss(condition, token) {
             protected void doLinkRender(IHeaderResponse response)
             {
-                response.renderCSSReference(contextRelativeUri, media);                
+                response.render(CssReferenceHeaderItem.forUrl(contextRelativeUri, media, condition));                
             }
         };
     }
@@ -184,12 +185,7 @@ public abstract class InternetExplorerCss extends Behavior
     {
         if(!response.wasRendered(this.token))
         {
-            response.getResponse().write(String.format(
-                "<!--[if %s]>%n",
-                this.condition
-            ));
             doLinkRender(response);
-            response.getResponse().write(String.format("<![endif]-->%n"));
             response.markRendered(this.token);
         }
     }

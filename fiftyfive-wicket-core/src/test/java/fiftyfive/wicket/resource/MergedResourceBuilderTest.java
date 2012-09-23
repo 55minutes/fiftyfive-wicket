@@ -16,6 +16,7 @@
 package fiftyfive.wicket.resource;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -56,6 +57,9 @@ public abstract class MergedResourceBuilderTest
         for(String filename : files)
         {
             InputStream is = getClass().getResourceAsStream(filename);
+            if(is == null){
+                throw new FileNotFoundException("File not found: " + filename);
+            }
             try
             {
                 IOUtils.copy(is, expected);

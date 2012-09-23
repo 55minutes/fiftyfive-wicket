@@ -30,7 +30,7 @@ import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import org.apache.wicket.util.convert.ConversionException;
-import org.apache.wicket.util.lang.PropertyResolver;
+import org.apache.wicket.core.util.lang.PropertyResolver;
 
 /**
  * Applies the DRY principle to Wicket bookmarkable links and page parameters.

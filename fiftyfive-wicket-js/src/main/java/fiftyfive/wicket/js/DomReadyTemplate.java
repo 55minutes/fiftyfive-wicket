@@ -25,9 +25,9 @@ import org.apache.wicket.Component;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.javascript.DefaultJavaScriptCompressor;
 import org.apache.wicket.javascript.IJavaScriptCompressor;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.util.string.interpolator.PropertyVariableInterpolator;
+import org.apache.wicket.core.util.string.interpolator.PropertyVariableInterpolator;
 import org.apache.wicket.util.template.PackageTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
 
@@ -261,7 +261,7 @@ public class DomReadyTemplate extends AbstractJavaScriptContribution
         map.put("behavior", this);
         
         this.readyScript = getCompressor().compress(
-            PropertyVariableInterpolator.interpolate(tt.getString(), map)
+            new PropertyVariableInterpolator(tt.getString(), map).toString()
         );
     }
 }

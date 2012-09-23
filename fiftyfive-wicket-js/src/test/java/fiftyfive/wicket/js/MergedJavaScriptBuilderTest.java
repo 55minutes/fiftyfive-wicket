@@ -54,8 +54,8 @@ public class MergedJavaScriptBuilderTest extends MergedResourceBuilderTest
             "/fiftyfive/wicket/js/lib/fiftyfive-utils/strftime.js",
             "/fiftyfive/wicket/js/lib/fiftyfive-utils/55_utils.js",
             "/fiftyfive/wicket/js/lib/fiftyfive-utils/jquery.55_utils.js",
-            "/org/apache/wicket/markup/html/wicket-event.js",
-            "/org/apache/wicket/ajax/wicket-ajax.js");
+            "/org/apache/wicket/ajax/res/js/wicket-event-jquery.js",
+            "/org/apache/wicket/ajax/res/js/wicket-ajax-jquery.js");
     }
     
     /**

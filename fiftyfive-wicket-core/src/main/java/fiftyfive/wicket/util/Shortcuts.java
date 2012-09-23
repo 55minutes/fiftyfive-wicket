@@ -30,7 +30,8 @@ import org.apache.wicket.Component;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.Behavior;
 
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -414,9 +415,10 @@ public class Shortcuts
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(
+                response.render(
+                    CssReferenceHeaderItem.forReference(
                     new PackageResourceReference(scope, filename),
-                    media);
+                    media));
             }
         };
     }

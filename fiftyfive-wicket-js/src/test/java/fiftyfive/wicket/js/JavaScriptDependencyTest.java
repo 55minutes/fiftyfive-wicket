@@ -18,7 +18,9 @@ package fiftyfive.wicket.js;
 import fiftyfive.wicket.js.locator.DependencyCollection;
 import fiftyfive.wicket.js.locator.MockJavaScriptDependencyLocator;
 import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -58,12 +60,12 @@ public class JavaScriptDependencyTest extends BaseJSTest
         
         dep.renderHead(null, this.response);
 
-        verify(this.response).renderCSSReference(this.css);
+        verify(this.response).render(CssReferenceHeaderItem.forReference(this.css));
 
         InOrder inOrder = inOrder(this.response);
-        inOrder.verify(this.response).renderJavaScriptReference(this.script1);
-        inOrder.verify(this.response).renderJavaScriptReference(this.script2);
-        inOrder.verify(this.response).renderJavaScriptReference(this.script3);
+        inOrder.verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.script1));
+        inOrder.verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.script2));
+        inOrder.verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.script3));
         
         verifyNoMoreInteractions(this.response);
     }
@@ -79,7 +81,7 @@ public class JavaScriptDependencyTest extends BaseJSTest
         
         dep.renderHead(null, this.response);
 
-        verify(this.response).renderJavaScriptReference(this.script1);
+        verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.script1));
         verifyNoMoreInteractions(this.response);
     }
     
@@ -96,7 +98,7 @@ public class JavaScriptDependencyTest extends BaseJSTest
         
         dep.renderHead(null, this.response);
 
-        verify(this.response).renderJavaScriptReference(this.script1);
+        verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.script1));
         verifyNoMoreInteractions(this.response);
     }
     

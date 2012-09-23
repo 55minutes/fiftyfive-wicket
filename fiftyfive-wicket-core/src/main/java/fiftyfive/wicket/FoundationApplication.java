@@ -22,6 +22,7 @@ import fiftyfive.util.Version;
 import org.apache.wicket.protocol.http.RequestLogger;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.response.filter.AjaxServerAndClientTimeFilter;
+import org.apache.wicket.util.file.Path;
 import org.apache.wicket.util.time.Duration;
 import org.apache.wicket.util.time.Time;
 import org.slf4j.Logger;
@@ -170,8 +171,8 @@ public abstract class FoundationApplication extends WebApplication
         {
             htmlDir += "/";
         } 
-        getResourceSettings().addResourceFolder(htmlDir + "../java");
-        getResourceSettings().addResourceFolder(htmlDir + "../resources");
+        getResourceSettings().getResourceFinders().add(new Path(htmlDir + "../java"));
+        getResourceSettings().getResourceFinders().add(new Path(htmlDir + "../resources"));
     }
     
     /**
