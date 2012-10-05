@@ -32,8 +32,8 @@ import org.junit.Test;
 
 public class SimpleCDNTest
 {
-    static final String HOST = "//abc.cloudfront.net";
-    
+    static final String HOST = "http://abc.cloudfront.net";
+
     @Test
     public void testCDN() throws Exception
     {
@@ -41,7 +41,7 @@ public class SimpleCDNTest
         assertRendered(tester);
         assertResourcesDownload(tester);
     }
-    
+
     @Test
     public void testCDN_trailing_slash() throws Exception
     {
@@ -49,7 +49,7 @@ public class SimpleCDNTest
         assertRendered(tester);
         assertResourcesDownload(tester);
     }
-    
+
     /**
      * Verify that the SimpleCDNTestPage renders and rewrites the resource URLs
      * as expected.
@@ -61,7 +61,7 @@ public class SimpleCDNTest
         WicketTestUtils.assertValidMarkup(tester);
         tester.assertResultPage(SimpleCDNTestPage.class, "SimpleCDNTestPage-expected.html");
     }
-    
+
     /**
      * Verify that the rewritten resource URLs still work and download the expected binary data
      * once the CDN host is stripped off (as a reverse-proxy CDN would do).
@@ -84,16 +84,16 @@ public class SimpleCDNTest
             }
         }
     }
-    
+
     class CDNApp extends WebApplication
     {
         final String host;
-        
+
         CDNApp(String host)
         {
             this.host = host;
         }
-        
+
         @Override
         public Class<? extends WebPage> getHomePage()
         {
