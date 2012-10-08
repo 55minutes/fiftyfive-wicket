@@ -45,7 +45,7 @@ public abstract class MergedResourceBuilderTest
         WicketTestUtils.assertValidMarkup(tester);
         return tester;
     }
-    
+
     /**
      * Download the resource at the given URI and make sure its contents
      * are identical to a merged list of files from the test fixture.
@@ -63,6 +63,7 @@ public abstract class MergedResourceBuilderTest
             try
             {
                 IOUtils.copy(is, expected);
+	            expected.write("\n".getBytes());
             }
             finally
             {
@@ -71,7 +72,7 @@ public abstract class MergedResourceBuilderTest
         }
         WicketTestUtils.assertDownloadEquals(tester, uri, expected.toByteArray());
     }
-    
+
     protected abstract void onAppInit(WebApplication app);
 
     /**

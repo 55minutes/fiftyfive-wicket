@@ -15,11 +15,14 @@
  */
 package fiftyfive.wicket.resource;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.Cookie;
+
+import org.apache.wicket.WicketRuntimeException;
 
 import org.apache.wicket.request.IRequestCycle;
 import org.apache.wicket.request.IRequestHandler;
@@ -63,7 +66,7 @@ import org.apache.wicket.util.time.Time;
  *     resource in the list of resources to merge fails to respond for whatever reason, this will
  *     result in an incomplete merged response.</li>
  * </ol>
- * 
+ *
  * @since 3.0
  */
 public class MergedResourceRequestHandler implements IRequestHandler
@@ -71,7 +74,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
     private List<ResourceReference> resources;
     private PageParameters pageParameters;
     private Time lastModified;
-    
+
     public MergedResourceRequestHandler(List<ResourceReference> resources,
                                         PageParameters params,
                                         Time lastModified)
@@ -80,7 +83,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
         this.pageParameters = params;
         this.lastModified = lastModified;
     }
-    
+
     public void respond(IRequestCycle requestCycle)
     {
         WebRequest origRequest = (WebRequest) requestCycle.getRequest();
@@ -93,27 +96,31 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             origResponse.setLastModifiedTime(this.lastModified);
         }
-        
+
         try
         {
             // Make a special response object that merges the contributions of each resource,
             // but maintains a single set of headers.
             MergedResponse merged = new MergedResponse(origResponse);
             requestCycle.setResponse(merged);
-            
+
             // Make a special request object that tweaks the If-Modified-Since header to ensure
             // we don't end up in a situation where some resources respond 200 and others 304.
             // Yes, calling RequestCycle#setRequest() is frowned upon so this is a bit of a hack.
             ((RequestCycle)requestCycle).setRequest(new MergedRequest(origRequest));
-        
+
             for(ResourceReference ref : this.resources)
             {
                 ResourceRequestHandler handler = new ResourceRequestHandler(
                     ref.getResource(),
                     this.pageParameters);
                 handler.respond(requestCycle);
-            
-                // If first resource sent 304 Not Modified that means all will.
+
+	            // Minified js resources might not have a concluding semicolon.
+	            // Concatenating without a new line will break javascripts default semicolon insertion.
+	            writeNewline(merged);
+
+	            // If first resource sent 304 Not Modified that means all will.
                 // We can therefore skip the rest.
                 if(304 == merged.status)
                 {
@@ -128,14 +135,22 @@ public class MergedResourceRequestHandler implements IRequestHandler
             ((RequestCycle)requestCycle).setRequest(origRequest);
         }
     }
-    
-    public void detach(IRequestCycle requestCycle)
+
+	private void writeNewline(MergedResponse merged) {
+		try {
+			merged.getOutputStream().write("\n".getBytes());
+		} catch (IOException e) {
+			throw new WicketRuntimeException("Cannot write into merged response", e);
+		}
+	}
+
+	public void detach(IRequestCycle requestCycle)
     {
         this.resources = null;
         this.pageParameters = null;
         this.lastModified = null;
     }
-    
+
     /**
      * A WebResponse wrapper that allows data to accumulate, but only accepts the
      * headers of the first resource. Headers contributed by subsequent resources are
@@ -147,41 +162,41 @@ public class MergedResourceRequestHandler implements IRequestHandler
         private int status = 200;
         private WebResponse wrapped;
         private boolean headersOpen = true;
-        
+
         MergedResponse(WebResponse original)
         {
             this.wrapped = original;
         }
-        
+
         @Override
         public void close()
         {
             // ignore
         }
-        
+
         @Override
         public void reset()
         {
             this.headersOpen = true;
             this.wrapped.reset();
         }
-        
+
         @Override
         public void write(CharSequence sequence)
         {
             this.headersOpen = false;
             this.wrapped.write(sequence);
         }
-        
+
         @Override
         public void write(byte[] array)
         {
             this.headersOpen = false;
             this.wrapped.write(array);
         }
-        
+
         @Override
-        public void write(byte[] array, int offset, int length) 
+        public void write(byte[] array, int offset, int length)
         {
             this.headersOpen = false;
             this.wrapped.write(array, offset, length);
@@ -192,13 +207,13 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             return this.wrapped.encodeURL(url);
         }
-        
+
         @Override
         public Object getContainerResponse()
         {
             return this.wrapped.getContainerResponse();
         }
-        
+
         @Override
         public void addCookie(final Cookie cookie)
         {
@@ -210,13 +225,13 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             if(this.headersOpen) this.wrapped.clearCookie(cookie);
         }
-        
+
         @Override
         public void setHeader(String name, String value)
         {
             if(this.headersOpen) this.wrapped.setHeader(name, value);
         }
-        
+
         @Override
         public void addHeader(String name, String value)
         {
@@ -243,7 +258,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             if(this.headersOpen) this.wrapped.setContentType(mimeType);
         }
-        
+
         @Override
         public void setAttachmentHeader(final String filename)
         {
@@ -283,7 +298,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
         {
             return this.wrapped.isRedirect();
         }
-        
+
         @Override
         public String encodeRedirectURL(CharSequence url)
         {
@@ -296,7 +311,7 @@ public class MergedResourceRequestHandler implements IRequestHandler
             this.wrapped.flush();
         }
     }
-    
+
     /**
      * A WebRequest wrapper than allows all method calls to pass through to the wrapped request,
      * except for getDateHeader(). We need to take special action for the If-Modified-Since header
@@ -306,12 +321,12 @@ public class MergedResourceRequestHandler implements IRequestHandler
     private class MergedRequest extends WebRequest
     {
         private final WebRequest wrapped;
-        
+
         MergedRequest(WebRequest original)
         {
             this.wrapped = original;
         }
-        
+
         @Override
         public Url getUrl()
         {
