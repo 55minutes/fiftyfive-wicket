@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  *     protected void init()
  *     {
  *         super.init();
- * 
+ *
  *         new MergedJavaScriptBuilder()
  *             .setPath("/scripts/all.js")
  *             .addJQueryUI()
@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  *             .install(this);
  *     }
  * }</pre>
- * 
+ *
  * @since 2.0
  */
 public class MergedJavaScriptBuilder extends MergedResourceBuilder
@@ -69,12 +69,12 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     private static final Logger LOGGER = LoggerFactory.getLogger(
         MergedJavaScriptBuilder.class
     );
-    
+
     private DependencyCollection deps;
-    
+
     /**
      * Creates an empty builder object. See the
-     * {@link MergedJavaScriptBuilder class documentation} for 
+     * {@link MergedJavaScriptBuilder class documentation} for
      * example usage.
      */
     public MergedJavaScriptBuilder()
@@ -82,7 +82,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         super();
         this.deps = new DependencyCollection();
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -90,7 +90,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     {
         return (MergedJavaScriptBuilder) super.setPath(path);
     }
-    
+
     /**
      * Adds a JavaScript file to the list of merged resources. The
      * dependencies of the script will also be added automatically.
@@ -104,7 +104,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         getDependencyLocator().findResourceScripts(scope, path, this.deps);
         return this;
     }
-    
+
     /**
      * Adds a JavaScript resource to the list of merged resources. The
      * dependencies of the script will also be added automatically.
@@ -117,12 +117,12 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     {
         getDependencyLocator().findResourceScripts(
             ref.getScope(),
-            ref.getName(),
+            ref.getKey().getName(),
             this.deps
         );
         return this;
     }
-    
+
     /**
      * Adds a JavaScript resource of the same name and location of the given
      * class, except with the ".js" extension. These two statements are
@@ -152,7 +152,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
     {
         return addLibrary("jquery-ui");
     }
-    
+
     /**
      * Adds Wicket's wicket-event.js and wicket-ajax.js files to the list
      * of merged resources.
@@ -165,7 +165,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         addScript(WicketAjaxJQueryResourceReference.get());
         return this;
     }
-    
+
     /**
      * Adds a JavaScript library to the list of merged resources.
      * The classpath will be searched to find the JavaScript file
@@ -185,7 +185,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         getDependencyLocator().findLibraryScripts(libraryName, this.deps);
         return this;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -199,7 +199,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
         }
         super.assertRequiredOptionsAndFreeze();
     }
-    
+
     /**
      * {@inheritDoc}
      */
