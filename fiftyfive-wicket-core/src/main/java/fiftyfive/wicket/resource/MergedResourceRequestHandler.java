@@ -116,11 +116,11 @@ public class MergedResourceRequestHandler implements IRequestHandler
                     this.pageParameters);
                 handler.respond(requestCycle);
 
-	            // Minified js resources might not have a concluding semicolon.
-	            // Concatenating without a new line will break javascripts default semicolon insertion.
-	            writeNewline(merged);
+                // Minified js resources might not have a concluding semicolon.
+                // Concatenating without a new line will break javascripts default semicolon insertion.
+                writeNewline(merged);
 
-	            // If first resource sent 304 Not Modified that means all will.
+                // If first resource sent 304 Not Modified that means all will.
                 // We can therefore skip the rest.
                 if(304 == merged.status)
                 {
@@ -136,15 +136,19 @@ public class MergedResourceRequestHandler implements IRequestHandler
         }
     }
 
-	private void writeNewline(MergedResponse merged) {
-		try {
-			merged.getOutputStream().write("\n".getBytes());
-		} catch (IOException e) {
-			throw new WicketRuntimeException("Cannot write into merged response", e);
-		}
-	}
+    private void writeNewline(MergedResponse merged)
+    {
+        try
+        {
+            merged.getOutputStream().write("\n".getBytes());
+        }
+        catch (IOException e)
+        {
+            throw new WicketRuntimeException("Cannot write into merged response", e);
+        }
+    }
 
-	public void detach(IRequestCycle requestCycle)
+    public void detach(IRequestCycle requestCycle)
     {
         this.resources = null;
         this.pageParameters = null;

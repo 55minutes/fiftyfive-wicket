@@ -63,7 +63,7 @@ public abstract class MergedResourceBuilderTest
             try
             {
                 IOUtils.copy(is, expected);
-	            expected.write("\n".getBytes());
+                expected.write("\n".getBytes());
             }
             finally
             {
