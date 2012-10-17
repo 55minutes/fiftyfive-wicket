@@ -42,6 +42,6 @@ public class MergedJavaScriptBuilderWithCDNTest extends MergedJavaScriptBuilderT
     protected void onAppInit(WebApplication app)
     {
         super.onAppInit(app);
-        new SimpleCDN("//gh23g239adgah.cloudfront.net").install(app);
+        new SimpleCDN("http://gh23g239adgah.cloudfront.net").install(app);
     }
 }
