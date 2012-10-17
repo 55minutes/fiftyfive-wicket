@@ -72,7 +72,7 @@ public class SimpleCDN implements IRequestMapper
     private String baseUrl;
     private IRequestMapper delegate;
     private boolean delegated = false;
-    
+
     /**
      * Construct a {@code SimpleCDN} that will rewrite resource reference URLs by prepending
      * the given {@code baseUrl}.
@@ -83,7 +83,7 @@ public class SimpleCDN implements IRequestMapper
     {
         this.baseUrl = baseUrl;
     }
-    
+
     /**
      * Install this {@code SimpleCDN} into the given application. The {@code SimpleCDN} instance
      * will not have any effect unless it is installed.
@@ -93,7 +93,7 @@ public class SimpleCDN implements IRequestMapper
         this.delegate = app.getRootRequestMapperAsCompound();
         app.mount(this);
     }
-    
+
     /**
      * If the {@code requestHandler} is a {@link ResourceReferenceRequestHandler}, delegate to
      * Wicket's default mapper for creating an appropriate URL, and then prepend the CDN
@@ -106,10 +106,10 @@ public class SimpleCDN implements IRequestMapper
     {
         // CDN doesn't apply to non-resources
         if(!(requestHandler instanceof ResourceReferenceRequestHandler)) return null;
-        
+
         // Prevent infinite recursion in case this SimpleCDN is also contained within the delegate
         if(this.delegated) return null;
-        
+
         Url url = null;
         try
         {
@@ -126,7 +126,7 @@ public class SimpleCDN implements IRequestMapper
         }
         return url;
     }
-    
+
     /**
      * Always return {@code null}, since {@code SimpleCDN} does not play any part in handling requests
      * (they will be handled by Wicket's default mechanism).
@@ -135,7 +135,7 @@ public class SimpleCDN implements IRequestMapper
     {
         return null;
     }
-    
+
     /**
      * Always return {@code 0}, since {@code SimpleCDN} does not play any part in handling requests
      * (they will be handled by Wicket's default mechanism).
