@@ -58,15 +58,10 @@ import org.apache.wicket.util.string.Strings;
  *         // Enable CDN when in deployment mode
  *         if(usesDeploymentConfig())
  *         {
- *             new SimpleCDN("//age39p8hg23.cloudfront.net").install(this);
+ *             new SimpleCDN("http://age39p8hg23.cloudfront.net").install(this);
  *         }
  *     }
  * }</pre>
- * <p>
- * Notice in this example that we've used "//" instead of "http://" for the CDN URL.
- * This trick ensures that "http" or "https" will be automatically selected by the
- * browser based on the enclosing web page.
- * <p>
  * <em>For those familiar with Ruby on Rails, {@code SimpleCDN} is inspired by the Rails
  * {@code action_controller.asset_host} configuration setting.</em>
  *
