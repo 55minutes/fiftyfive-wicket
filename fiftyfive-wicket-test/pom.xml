@@ -28,7 +28,7 @@
   <parent>
     <groupId>com.55minutes</groupId>
     <artifactId>fiftyfive-wicket-parent</artifactId>
-    <version>4.0-SNAPSHOT</version>
+    <version>4.0.2</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>com.55minutes</groupId>
@@ -88,7 +88,7 @@
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-core</artifactId>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -102,14 +102,14 @@
       <groupId>nu.validator.htmlparser</groupId>
       <artifactId>htmlparser</artifactId>
     </dependency>
-    
+
     <!-- ==== Test dependencies =========================================== -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
     </dependency>
-    
+
   </dependencies>
 
 
@@ -148,6 +148,6 @@
       </plugin>
     </plugins>
   </build>
-  
+
 
 </project>

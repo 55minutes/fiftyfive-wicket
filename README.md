@@ -26,8 +26,8 @@ Then run the following command:
 mvn archetype:generate -U \
     -DarchetypeGroupId=com.55minutes \
     -DarchetypeArtifactId=fiftyfive-wicket-archetype \
-    -DarchetypeRepository=http://opensource.55minutes.com/maven-snapshots \
-    -DarchetypeVersion=4.0-SNAPSHOT
+    -DarchetypeRepository=http://opensource.55minutes.com/maven-releases \
+    -DarchetypeVersion=4.0.2
 ```
 
 This creates a project directory with all the Java, Maven POM and web.xml scaffolding you need for a
@@ -242,7 +242,7 @@ dependency:
 <dependency>
   <groupId>com.55minutes</groupId>
   <artifactId>fiftyfive-wicket-core</artifactId>
-  <version>4.0-SNAPSHOT</version>
+  <version>4.0.2</version>
 </dependency>
 ```
 
@@ -256,13 +256,6 @@ Note that since our artifacts aren't in the central maven repository, you'll nee
 following snippet:
 
 ```xml
-<repository>
-  <id>fiftyfive-opensource-snapshots</id>
-  <name>55 Minutes Open Source Maven Snapshots Repository</name>
-  <url>http://opensource.55minutes.com/maven-snapshots</url>
-  <releases><enabled>false</enabled></releases>
-  <snapshots><enabled>true</enabled></snapshots>
-</repository>
 <repository>
   <id>fiftyfive-opensource-releases</id>
   <name>55 Minutes Open Source Maven Releases Repository</name>
