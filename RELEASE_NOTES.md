@@ -1,5 +1,15 @@
 # fiftyfive-wicket Release Notes
 
+## 4.0.2
+
+* Upgrade to Wicket 1.5.9
+* Upgrade to Spring 3.1.3
+* Upgrade to Shiro 1.2.1
+* Upgrade to JUnit 4.10
+* Upgrade to SLF4J 1.7.2
+* Upgrade to Mockito 1.9.5
+* Change recommended usage of `SimpleCDN` to work better with the latest version of Wicket 1.5.x (see [#35](https://github.com/55minutes/fiftyfive-wicket/issues/35))
+
 ## 4.0.1
 
 * Upgrade to Wicket 1.5.7
