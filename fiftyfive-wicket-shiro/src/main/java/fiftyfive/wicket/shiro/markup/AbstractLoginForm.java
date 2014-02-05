@@ -80,10 +80,9 @@ public abstract class AbstractLoginForm extends StatelessForm<Void>
 
         if(loginShiro(email, password, remember()))
         {
-            if(!continueToOriginalDestination())
-            {
-                setResponsePage(getApplication().getHomePage());
-            }
+            continueToOriginalDestination();
+            // if we reach this line there was no intercept page, so go to home page
+            setResponsePage(getApplication().getHomePage());
         }
     }
     

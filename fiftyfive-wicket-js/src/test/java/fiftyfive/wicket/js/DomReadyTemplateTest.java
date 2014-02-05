@@ -16,7 +16,7 @@
 package fiftyfive.wicket.js;
 
 import org.apache.wicket.WicketRuntimeException;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mock;

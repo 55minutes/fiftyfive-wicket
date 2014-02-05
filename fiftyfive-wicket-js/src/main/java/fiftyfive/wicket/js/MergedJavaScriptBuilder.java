@@ -21,10 +21,11 @@ import fiftyfive.wicket.js.locator.JavaScriptDependencyLocator;
 import fiftyfive.wicket.resource.MergedResourceBuilder;
 
 import org.apache.wicket.Component;
-import org.apache.wicket.ajax.WicketAjaxReference;
+import org.apache.wicket.ajax.WicketAjaxJQueryResourceReference;
+import org.apache.wicket.ajax.WicketEventJQueryResourceReference;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
-import org.apache.wicket.markup.html.WicketEventReference;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.util.lang.Args;
 import org.slf4j.Logger;
@@ -160,8 +161,8 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
      */
     public MergedJavaScriptBuilder addWicketAjaxLibraries()
     {
-        addScript(WicketEventReference.INSTANCE);
-        addScript(WicketAjaxReference.INSTANCE);
+        addScript(WicketEventJQueryResourceReference.get());
+        addScript(WicketAjaxJQueryResourceReference.get());
         return this;
     }
     
@@ -208,7 +209,7 @@ public class MergedJavaScriptBuilder extends MergedResourceBuilder
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderJavaScriptReference(ref);
+                response.render(JavaScriptHeaderItem.forReference(ref));
             }
         };
     }

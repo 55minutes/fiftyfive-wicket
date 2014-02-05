@@ -17,7 +17,9 @@ package fiftyfive.wicket.resource;
 
 import static fiftyfive.wicket.util.Shortcuts.*;
 
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.PackageResourceReference;
 
@@ -30,10 +32,10 @@ public class SimpleCDNTestPage extends WebPage
     @Override
     public void renderHead(IHeaderResponse response)
     {
-        response.renderCSSReference(
-            new PackageResourceReference(SimpleCDNTestPage.class, "test.css"));
-        response.renderJavaScriptReference(
-            new PackageResourceReference(SimpleCDNTestPage.class, "test.js"));
+        response.render(CssReferenceHeaderItem.forReference(
+            new PackageResourceReference(SimpleCDNTestPage.class, "test.css")));
+        response.render(JavaScriptReferenceHeaderItem.forReference(
+            new PackageResourceReference(SimpleCDNTestPage.class, "test.js")));
 
         super.renderHead(response);
     }

@@ -59,14 +59,13 @@ import org.apache.wicket.request.cycle.RequestCycle;
 
 import org.apache.wicket.request.flow.ResetResponseException;
 
-import org.apache.wicket.request.handler.PageProvider;
-import org.apache.wicket.request.handler.RenderPageRequestHandler;
-import org.apache.wicket.request.handler.RenderPageRequestHandler.RedirectPolicy;
+import org.apache.wicket.core.request.handler.PageProvider;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler;
+import org.apache.wicket.core.request.handler.RenderPageRequestHandler.RedirectPolicy;
 
 import org.apache.wicket.request.http.WebRequest;
 
-import org.apache.wicket.request.mapper.MountedMapper;
-import org.apache.wicket.request.mapper.mount.MountMapper;
+import org.apache.wicket.core.request.mapper.MountedMapper;
 
 import org.apache.wicket.settings.ISecuritySettings;
 

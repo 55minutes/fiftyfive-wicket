@@ -18,7 +18,8 @@ package fiftyfive.wicket.css;
 import fiftyfive.wicket.resource.MergedResourceBuilder;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.request.resource.ResourceReference;
 
@@ -113,7 +114,7 @@ public class MergedCssBuilder extends MergedResourceBuilder
             @Override
             public void renderHead(Component comp, IHeaderResponse response)
             {
-                response.renderCSSReference(ref, MergedCssBuilder.this.media);
+                response.render(CssReferenceHeaderItem.forReference(ref, MergedCssBuilder.this.media));
             }
         };
     }

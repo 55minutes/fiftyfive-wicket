@@ -20,7 +20,11 @@ import org.apache.wicket.request.Request;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.behavior.Behavior;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssReferenceHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.request.http.WebRequest;
 
 /**
@@ -56,13 +60,13 @@ public abstract class AbstractJavaScriptContribution extends Behavior
                                       ResourceReference exclude)
     {
         ResourceReference css = dependencies.getCss();
-        if(css != null) response.renderCSSReference(css);
+        if(css != null) response.render(CssReferenceHeaderItem.forReference(css));
         
         for(ResourceReference ref : dependencies)
         {
             if(ref != null && (exclude == null || !ref.equals(exclude)))
             {
-                response.renderJavaScriptReference(ref);
+                response.render(JavaScriptReferenceHeaderItem.forReference(ref));
             }
         }
     }
@@ -89,18 +93,17 @@ public abstract class AbstractJavaScriptContribution extends Behavior
 
         // Ensure that jQuery is present
         ResourceReference jQuery = settings().getJQueryResource();
-        if(jQuery != null) response.renderJavaScriptReference(jQuery);
+        if(jQuery != null) response.render(JavaScriptReferenceHeaderItem.forReference(jQuery));
 
         Request request = request();
         if((request instanceof WebRequest) && ((WebRequest)request).isAjax())
         {
-            response.renderOnDomReadyJavaScript(script);
+            response.render(OnDomReadyHeaderItem.forScript(script));
         }
         else
         {
-            response.renderJavaScript(
-                String.format("jQuery(function(){%s;});", script), null
-            );
+            response.render(JavaScriptHeaderItem.forScript(
+                String.format("jQuery(function(){%s;});", script), null));
         }
         
         response.markRendered(script);

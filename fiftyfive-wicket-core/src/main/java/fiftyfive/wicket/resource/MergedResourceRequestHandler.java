@@ -181,6 +181,13 @@ public class MergedResourceRequestHandler implements IRequestHandler
         }
         
         @Override
+        public void write(byte[] array, int offset, int length) 
+        {
+            this.headersOpen = false;
+            this.wrapped.write(array, offset, length);
+        }
+
+        @Override
         public String encodeURL(CharSequence url)
         {
             return this.wrapped.encodeURL(url);

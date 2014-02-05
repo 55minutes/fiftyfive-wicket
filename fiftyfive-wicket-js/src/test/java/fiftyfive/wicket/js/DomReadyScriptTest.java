@@ -20,7 +20,10 @@ import java.util.regex.Pattern;
 import fiftyfive.wicket.test.WicketTestUtils;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.resource.ResourceReference;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.head.JavaScriptReferenceHeaderItem;
+import org.apache.wicket.markup.head.OnDomReadyHeaderItem;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.request.http.WebRequest;
 import org.junit.Test;
@@ -74,10 +77,10 @@ public class DomReadyScriptTest extends BaseJSTest
         mockedDomReadyScript(js).renderHead(null, this.response);
         
         InOrder inOrder = inOrder(this.response);
-        inOrder.verify(this.response).renderJavaScriptReference(this.jquery);
-        inOrder.verify(this.response).renderJavaScript(
+        inOrder.verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.jquery));
+        inOrder.verify(this.response).render(JavaScriptHeaderItem.forScript(
             "jQuery(function(){" + js + ";});", null
-        );
+        ));
         
         verify(this.response).wasRendered(js);
         verify(this.response).markRendered(js);
@@ -97,8 +100,8 @@ public class DomReadyScriptTest extends BaseJSTest
         mockedDomReadyScript(js).renderHead(null, this.response);
         
         InOrder inOrder = inOrder(this.response);
-        inOrder.verify(this.response).renderJavaScriptReference(this.jquery);
-        inOrder.verify(this.response).renderOnDomReadyJavaScript(js);
+        inOrder.verify(this.response).render(JavaScriptReferenceHeaderItem.forReference(this.jquery));
+        inOrder.verify(this.response).render(OnDomReadyHeaderItem.forScript(js));
 
         verify(this.response).wasRendered(js);
         verify(this.response).markRendered(js);

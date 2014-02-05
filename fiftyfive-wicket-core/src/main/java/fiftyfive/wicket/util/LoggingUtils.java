@@ -39,8 +39,8 @@ import org.apache.wicket.request.IRequestMapper;
 import org.apache.wicket.request.component.IRequestableComponent;
 import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.cycle.RequestCycle;
-import org.apache.wicket.request.handler.IComponentRequestHandler;
-import org.apache.wicket.request.handler.IPageClassRequestHandler;
+import org.apache.wicket.core.request.handler.IComponentRequestHandler;
+import org.apache.wicket.core.request.handler.IPageClassRequestHandler;
 
 import org.apache.wicket.util.lang.Args;
 import org.apache.wicket.util.lang.Bytes;

@@ -188,9 +188,9 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * Loads the result DTO from the backend if necessary, then delegates
      * to the implementation of {@link #iterator(Object) iterator(R)}.
      */
-    public Iterator<? extends E> iterator(int offset, int amount)
+    public Iterator<? extends E> iterator(long offset, long amount)
     {
-        return iterator(getCachedResultOrLoad(offset, amount));
+        return iterator(getCachedResultOrLoad((int)offset, (int)amount));
     }
     
     /**
@@ -212,7 +212,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * <p>
      * This result will be cached, and the cache used if possible.
      */
-    public int size()
+    public long size()
     {
         if(null == this.cachedDataSize)
         {
@@ -237,7 +237,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      */
     public R getCachedResultOrLoad()
     {
-        return getCachedResultOrLoad(getPageableViewOffset(), getPageableRowsPerPage());
+        return getCachedResultOrLoad((int)getPageableViewOffset(), (int)getPageableRowsPerPage());
     }
     
     /**
@@ -284,10 +284,10 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * get the {@code currentPage} private field from the pageable view and
      * multiplying it by the rows per page. 
      */
-    protected int getPageableViewOffset()
+    protected long getPageableViewOffset()
     {
         assertPageableView();
-        int page = (Integer) ReflectUtils.readField(
+        long page = (Long)ReflectUtils.readField(
             this.pageableView, "currentPage"
         );
         return page * getPageableRowsPerPage();
@@ -299,7 +299,7 @@ public abstract class DtoDataProvider<R,E> implements IDataProvider<E>
      * {@link AbstractPageableView#getItemsPerPage getItemsPerPage()}
      * method.
      */
-    protected int getPageableRowsPerPage()
+    protected long getPageableRowsPerPage()
     {
         assertPageableView();
         return this.pageableView.getItemsPerPage();
