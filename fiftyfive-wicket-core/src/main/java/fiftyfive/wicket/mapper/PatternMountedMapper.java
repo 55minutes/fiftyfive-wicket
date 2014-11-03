@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.component.IRequestablePage;
-import org.apache.wicket.request.mapper.MountedMapper;
+import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.request.mapper.parameter.IPageParametersEncoder;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.mapper.parameter.PageParametersEncoder;
